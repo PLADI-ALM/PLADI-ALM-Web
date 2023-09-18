@@ -1,23 +1,24 @@
-import logo from './logo.svg';
 import './App.css';
+import { Routes, Route, Outlet } from 'react-router-dom';
+import Sidebar from 'components/sidebar/Sidebar';
+import OfficeBooking from 'pages/booking/officeBooking/OfficeBooking'
 
 function App() {
+
+  const SidebarLayout = () => (
+    <>
+      <Sidebar />
+      <Outlet />
+    </>
+  );
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Routes>
+        <Route element={<SidebarLayout />}>
+          <Route path="/officeBooking" element={<OfficeBooking />} />
+        </Route>
+      </Routes>
     </div>
   );
 }
