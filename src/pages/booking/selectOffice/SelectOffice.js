@@ -1,5 +1,9 @@
 import React from "react";
-import styles from "./SelectOffice.module.css";
+import styled from "styled-components"
+
+export const Container = styled.div`
+    width: 1670px;
+`
 
 function SelectOffice() {
     return (
