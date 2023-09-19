@@ -1,30 +1,25 @@
 import './App.css';
 import { Routes, Route, Outlet } from 'react-router-dom';
+import styled  from 'styled-components';
 import Sidebar from 'components/sidebar/Sidebar';
-import OfficeInfo from 'components/officeInfo/OfficeInfo';
-import OfficeBooking from 'pages/booking/officeBooking/OfficeBooking'
-import SelectOffice from 'pages/booking/selectOffice/SelectOffice';
+import MainPage from 'pages/main/MainPage';
+
+
+export const Container = styled.div`
+  width: 100%;
+  height: 1080px;
+  display: flex;
+`
+
 
 
 
 function App() {
-
-  const SidebarLayout = () => (
-    <>
-      <Sidebar />
-      <Outlet />
-    </>
-  );
-
   return (
-    // <div className="App">
-    //   {/* <Routes>
-    //     <Route element={<SidebarLayout />}>
-    //       <Route path="/SelectOffice" element={<SelectOffice />} />
-    //     </Route>
-    //   </Routes> */}
-    // </div>
-    <OfficeInfo/>
+    <Container>
+      <Sidebar/>
+      <MainPage title="회의실 예약"/>
+    </Container>
   );
 }
 
