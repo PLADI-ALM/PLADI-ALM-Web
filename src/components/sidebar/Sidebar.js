@@ -1,12 +1,21 @@
 import React from 'react';
-import { NavLink, useLocation } from "react-router-dom";
-import './Sidebar.css'
+import { styled } from 'styled-components';
+
+
+export const Container = styled.div`
+    width: 13%;
+    height: 100%;
+    background: white;
+    display: flex;
+    flex-style: column;
+`
+
 
 function Sidebar() {
     return (
-        <div>
+        <Container>
             사이드바
-        </div>
+        </Container>
     );
 }
 
