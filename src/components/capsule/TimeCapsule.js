@@ -15,9 +15,10 @@ export const TimeButton = styled.text`
 
 
 function TimeCapsule() {
-    reutrn (
-        <>
-        </>
+    return (
+        <Container>
+
+        </Container>
     );
 }
 

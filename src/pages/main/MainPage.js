@@ -1,3 +1,4 @@
+import SearchBar from "components/searchBar/SearchBar";
 import React from "react";
 import styled from "styled-components"
 
@@ -33,7 +34,7 @@ function MainPage(props) {
             <TitleText>{props.title}</TitleText>
 
              <ContentContainer>
-               
+                <SearchBar/>
             </ContentContainer>
         </Container>
     );

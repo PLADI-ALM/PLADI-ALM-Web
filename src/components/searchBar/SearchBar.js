@@ -1,13 +1,17 @@
 import React from "react";
 import { styled } from "styled-components";
 import TimeCapsule from "components/capsule/TimeCapsule";
+import DateIcon from '../../assets/images/selectOffice/date.png'
+import SearchIcon from '../../assets/images/selectOffice/search.png'
+import ImageButton from "components/button/ImageButton";
 
 export const Container = styled.div`
-    width: 45%;
+    width: 100%;
     heigth: 49px;
     display: inline-flex;
     border-radius: 8px;
     border: 1px solid #E6E6E6;
+    align-items: center;  
 `
 
 export const TitleText = styled.text`
@@ -28,17 +32,9 @@ export const DateText = styled.text`
     line-height: 16px; /* 88.889% */
 `
 
-export const DateButton = styled.image`
-    width: 2.2%;
-    height: 16px;
-    flex-shrink: 0;
-`
-
-export const SearchButton = styled.image`
-    width: 30px;
-    height: 30px;
-    flex-shrink: 0;
-`
+function test() {
+    alert("123")
+}
 
 
 function SearchBar() {
@@ -46,11 +42,15 @@ function SearchBar() {
        <Container>
             <TitleText>예약 가능한 회의실 검색</TitleText>
             <DateText>0000-00-00</DateText>
-            <DateButton></DateButton>
+            <ImageButton image={DateIcon} width={"14px"} height={"16px"} click={test}/>
             <TimeCapsule></TimeCapsule>
-            <Text>~</Text>
+            ~
+            {/* <Text>~</Text> */}
             <TimeCapsule></TimeCapsule>
-            <SearchButton></SearchButton>
+            <ImageButton image={SearchIcon} width={"30px"} height={"30px"} click={test}/>
        </Container>
     );
 }
+
+
+export default SearchBar;
