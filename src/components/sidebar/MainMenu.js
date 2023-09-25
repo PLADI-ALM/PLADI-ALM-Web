@@ -22,7 +22,7 @@ function MainMenu(props) {
     return (
         <>
             {
-                props.isActive ?
+                props.active ?
                     <ActiveMainMenuLine to={props.info.path}>
                         <Icon src={props.info.icons[0]} />
                         {props.info.name}

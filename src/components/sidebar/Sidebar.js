@@ -8,6 +8,7 @@ import { MAIN_MENUS, MAIN_PATH } from "constants/Path";
 
 const Container = styled.div`
     width: 250px;
+    min-width: 250px;
     height: 100%;
     background: white;
     flex-style: column;
@@ -31,7 +32,7 @@ const LogoName = styled.h2`
 `
 
 const SubMenus = styled.div`
-    display: ${props => props.isActive ? 'block' : 'none'}
+    display: ${props => props.active ? 'block' : 'none'}
 `
 
 // 해당 상위 메뉴의 하위 메뉴 활성화 여부
@@ -59,14 +60,14 @@ function Sidebar() {
                 <LogoName>사내 관리 시스템</LogoName>
             </Logo>
 
-            <MainMenu info={MAIN_MENUS[0]} isActive={useIsSubMenuActive(MAIN_MENUS[0].subMenus)} />
-            <SubMenus isActive={useIsSubMenuActive(MAIN_MENUS[0].subMenus)}>
+            <MainMenu info={MAIN_MENUS[0]} active={useIsSubMenuActive(MAIN_MENUS[0].subMenus)} />
+            <SubMenus active={useIsSubMenuActive(MAIN_MENUS[0].subMenus)}>
                 {MAIN_MENUS[0].subMenus.map(sub => { return (<SubMenu path={sub.path} name={sub.name} />) })}
             </SubMenus>
 
-            <MainMenu info={MAIN_MENUS[1]} isActive={useIsMenuActive(MAIN_MENUS[1].path)} />
+            <MainMenu info={MAIN_MENUS[1]} active={useIsMenuActive(MAIN_MENUS[1].path)} />
 
-            <MainMenu info={MAIN_MENUS[2]} isActive={useIsMenuActive(MAIN_MENUS[2].path)} />
+            <MainMenu info={MAIN_MENUS[2]} active={useIsMenuActive(MAIN_MENUS[2].path)} />
         </Container>
     );
 }

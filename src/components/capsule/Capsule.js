@@ -1,46 +1,30 @@
 import React from "react";
 import styled from "styled-components"
 
-
-export const PurpleCapsule = styled.p`
-    min-width: 100px;
+const PurpleCapsule = styled.p`
     border-radius: 20px;
     background: #A263DE;
     text-align: center;
     color: #FFF;
-    font-family: NanumSquare_ac;
-    font-size: 20px;
-    font-style: normal;
-    font-weight: 400;
-    padding: 2px;
+    font-size: 18px;
+    padding: 5px 15px;
+    margin: 0 10px 0 0;
 `
 
-export const WhiteCapsule = styled.p`
-    min-width: 100px;
-    border-radius: 20px;
+const WhiteCapsule = styled(PurpleCapsule)`
     background: white;
     border: 1px solid #A263DE;
-    text-align: center;
     color: #A263DE;
-    font-family: NanumSquare_ac;
-    font-size: 20px;
-    font-style: normal;
-    font-weight: 400;
-    padding: 2px;
 `
 
-
-
 function Capsule(props) {
-    return(
+    return (
         <>
-            {props.color == "white" ? <WhiteCapsule>{props.text}</WhiteCapsule> : <PurpleCapsule>{props.text}</PurpleCapsule>}
+            {props.color === "white" ?
+                <WhiteCapsule>{props.text}</WhiteCapsule> :
+                <PurpleCapsule>{props.text}</PurpleCapsule>}
         </>
     );
 }
-
-
-
-
 
 export default Capsule;
