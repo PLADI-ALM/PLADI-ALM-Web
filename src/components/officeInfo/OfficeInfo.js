@@ -1,11 +1,11 @@
 import React from "react";
 import styled from "styled-components"
-
+import DateIcon from '../../assets/images/selectOffice/date.png'
 import Capsule from "components/capsule/Capsule";
 
-export const Container = styled.div`
-    width: 75%;
-    height: 343px;
+export const Container = styled.ul`
+    width: 95%;
+    height: 300px;
     background: white;
     flex-shrink: 0;
     border-radius: 8px;
@@ -14,7 +14,6 @@ export const Container = styled.div`
 
 export const OfficeNameContainer = styled.div`
     margin-top: 40px;
-    margin-left: 40px;
 `
 
 export const OfficeNameText = styled.text`
@@ -40,7 +39,7 @@ export const OfficeContainer = styled.div`
     display: flex;
 `
 
-export const OfficeImage = styled.image`
+export const OfficeImage = styled.img`
     width: 30%;
     height: 225px;
     flex-shrink: 0;
@@ -107,17 +106,16 @@ export const OfficeContentText = styled.p`
 
 
 
-function OfficeInfo() {
+function OfficeInfo(props) {
     return (
-        <Container>
+        <Container onClick={props.click}>
             <OfficeNameContainer>
                 <OfficeNameText>회의실1</OfficeNameText> 
                 <OfficeRoomText>401호</OfficeRoomText>
             </OfficeNameContainer>  {/* 회의실 + 호수 div */}
 
             <OfficeContainer>
-                <OfficeImage>
-                </OfficeImage>
+                <OfficeImage src={DateIcon}/>
 
                 <OfficeInfoContainer>
                     <OfficePeopleContainer>
