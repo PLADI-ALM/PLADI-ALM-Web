@@ -1,4 +1,5 @@
 import SearchBar from "components/searchBar/SearchBar";
+import OfficeInfo from "components/officeInfo/OfficeInfo";
 import React from "react";
 import styled from "styled-components"
 
@@ -28,13 +29,26 @@ export const ContentContainer = styled.div`
     margin-top: 20px;
 `
 
+export const OfficeInfoDiv = styled.div`
+    margin-left: 35px;
+    margin-right: 35px;
+`
+
+
+function click() {
+    alert("123123")
+}
+
 function MainPage(props) {
     return (
         <Container>
             <TitleText>{props.title}</TitleText>
-
              <ContentContainer>
                 <SearchBar/>
+                <OfficeInfoDiv>
+                    <OfficeInfo click={click}/>
+                    <OfficeInfo click={click}/>
+                </OfficeInfoDiv>
             </ContentContainer>
         </Container>
     );

@@ -12,6 +12,7 @@ export const PurpleCapsule = styled.p`
     font-size: 20px;
     font-style: normal;
     font-weight: 400;
+    padding: 2px;
 `
 
 export const WhiteCapsule = styled.p`
@@ -25,6 +26,7 @@ export const WhiteCapsule = styled.p`
     font-size: 20px;
     font-style: normal;
     font-weight: 400;
+    padding: 2px;
 `
 
 

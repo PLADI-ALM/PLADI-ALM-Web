@@ -12,7 +12,8 @@ export const Container = styled.div`
     border-radius: 8px;
     border: 1px solid #E6E6E6;
     align-items: center;  
-    margin: 35px;
+    margin-top: 35px;
+    margin-left: 35px;
 `
 
 export const TitleText = styled.text`
