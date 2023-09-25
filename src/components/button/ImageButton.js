@@ -6,6 +6,7 @@ function ImageButton(props) {
             style={{
                 background: "none",
                 border: "0px",
+                marginLeft: props.marginLeft
             }}
         >
             <img src={props.image}  
