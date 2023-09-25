@@ -1,5 +1,5 @@
 import './App.css';
-import { Routes, Route, Outlet } from 'react-router-dom';
+import { Routes, Route, Outlet, BrowserRouter } from 'react-router-dom';
 import styled  from 'styled-components';
 import Sidebar from 'components/sidebar/Sidebar';
 import MainPage from 'pages/main/MainPage';

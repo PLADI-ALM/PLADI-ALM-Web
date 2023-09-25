@@ -34,9 +34,8 @@ export const OfficeInfoDiv = styled.div`
     margin-right: 35px;
 `
 
-
 function click() {
-    alert("123123")
+    alert("1")
 }
 
 function MainPage(props) {
