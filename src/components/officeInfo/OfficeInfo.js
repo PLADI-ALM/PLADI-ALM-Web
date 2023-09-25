@@ -3,7 +3,7 @@ import styled from "styled-components"
 
 import Capsule from "components/capsule/Capsule";
 
-export const Container = styled.div`
+export const Container = styled.li`
     width: 75%;
     height: 343px;
     background: white;
