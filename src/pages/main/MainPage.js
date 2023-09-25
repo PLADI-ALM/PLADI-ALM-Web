@@ -32,8 +32,8 @@ function MainPage(props) {
         <Container>
             <TitleText>{props.title}</TitleText>
 
-            <ContentContainer>
-
+             <ContentContainer>
+               
             </ContentContainer>
         </Container>
     );
