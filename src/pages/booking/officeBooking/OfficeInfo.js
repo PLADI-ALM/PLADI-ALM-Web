@@ -2,9 +2,9 @@ import React from 'react';
 import styled from "styled-components"
 import Capsule from 'components/capsule/Capsule';
 
-import {SubTitleContainer, SubTitleTextContainer, SelectedSubTitleText, UnselectedSubTitleText} from 'components/officeBooking/SubTitleBar';
+import {SubTitleContainer, MainTextContainer, SubTextContainer, SelectedSubTitleText, UnselectedSubTitleText} from 'components/officeBooking/SubTitleBar';
 import {OfficeInfoContainer, OfficeImgsContainer, OfficeDetailContainer, OfficeDetailCapsuleContainer, OfficeDetailTextContainer, OfficeDetailText } from 'components/officeBooking/BookingOfficeInfo';
-import {BookingContentContainer, BookingTimeContainer, renderBookingTimeBar} from 'components/officeBooking/BookingTimeBar';
+import {BookingContentContainer, BookingTimeContainer, renderBookingTimeBar, BookingDateTextContainer} from 'components/officeBooking/BookingTimeBar';
 import {BookingPurposeContainer, BookingCapsuleContainer, BookingPurposeTextFieldContainer} from 'components/officeBooking/BookingPurpose';
 import {RequestBookingButton, requestBookingOffice} from 'components/officeBooking/BookingRequest';
 
@@ -43,12 +43,12 @@ function OfficeBooking() {
             <ContentContainer>
 
                 <SubTitleContainer>
-                    <SubTitleTextContainer>
+                    <MainTextContainer>
                         <SelectedSubTitleText>회의실명</SelectedSubTitleText>
-                    </SubTitleTextContainer>
-                    <SubTitleTextContainer>
+                    </MainTextContainer>
+                    <SubTextContainer>
                         <UnselectedSubTitleText>회의실 위치</UnselectedSubTitleText>
-                    </SubTitleTextContainer>
+                    </SubTextContainer>
                 </SubTitleContainer>
                 
 
@@ -61,9 +61,10 @@ function OfficeBooking() {
                         <OfficeDetailCapsuleContainer>
                         <Capsule color="purple" text="수용인원"/>
                         </OfficeDetailCapsuleContainer>
+                        
 
                         <OfficeDetailCapsuleContainer>
-                            <Capsule color="white" text="빔 포르젝터"/>
+                            <Capsule color="white" text="빔 프로젝터"/>
                         </OfficeDetailCapsuleContainer>
 
                         <OfficeDetailCapsuleContainer>
@@ -82,21 +83,18 @@ function OfficeBooking() {
 
 
                 {/* 예약일시 */} 
-                <div>
-                    <BookingContentContainer>
-                        {/* <BookingCapsuleContainer>
-                            <Capsule color="purple" text="예약일시"/>
-                        </BookingCapsuleContainer> */}
-
-                        {/* <OfficeDetailText>2023/09/25</OfficeDetailText> */}
-                        
-                    </BookingContentContainer>
-                        
+                <BookingContentContainer>
+                    <BookingCapsuleContainer>
+                        <Capsule color="purple" text="예약일시"/>
+                    </BookingCapsuleContainer>
+                    <BookingDateTextContainer>
+                        <OfficeDetailText>2023/09/25</OfficeDetailText>      
+                    </BookingDateTextContainer>
+                </BookingContentContainer>
                     
-                    <BookingTimeContainer>
-                        {renderBookingTimeBar()}
-                    </BookingTimeContainer>
-                </div>
+                <BookingTimeContainer>
+                    {renderBookingTimeBar()}
+                </BookingTimeContainer>
                 
 
                 {/* 예약목적 */}

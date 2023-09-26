@@ -7,13 +7,22 @@ var selectedCheckList = [
 ];
 
 export const BookingContentContainer = styled.div`
-    margin-left: 35px;
+    width: 100%;
+    margin-left: 40px;
+    float: left;
 `
+
+export const BookingDateTextContainer = styled.div`
+    width: 300px;
+    // margin-left: 40px;
+    backgroun: #D9D9D9;
+`
+
 
 export const BookingTimeContainer = styled.div`
     width: 94%;
     hegith: 60px;
-    margin-left: 45px;
+    margin-left: 35px;
 `
 
 export const FirstBookingTimeButton = styled.button`

@@ -7,9 +7,14 @@ export const SubTitleContainer = styled.div`
     background: #2A3042;
 `
 
-export const SubTitleTextContainer = styled.div`
-    margin-left: 10px;
-    margin-top: 15px;
+export const MainTextContainer = styled.div`
+    margin-left: 35px;
+    margin-top: 20px;
+    float: left;
+`
+export const SubTextContainer = styled.div`
+    margin-left: 20px;
+    margin-top: 22px;
     float: left;
 `
 
