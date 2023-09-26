@@ -1,9 +1,10 @@
 import React from 'react';
+import { useState } from 'react'
 import styled from "styled-components"
 
 var selectedCheckList = [
-    false, true, false, false, false, false, false, false, false, false, false, false, 
-    false, true, false, false, false, false, false, false, false, false, false, false, 
+    false, false, false, false, false, false, false, false, false, false, false, false, 
+    false, false, false, false, false, false, false, false, false, false, false, false, 
 ];
 
 export const BookingContentContainer = styled.div`
@@ -14,10 +15,8 @@ export const BookingContentContainer = styled.div`
 
 export const BookingDateTextContainer = styled.div`
     width: 300px;
-    // margin-left: 40px;
     backgroun: #D9D9D9;
 `
-
 
 export const BookingTimeContainer = styled.div`
     width: 94%;
@@ -28,7 +27,7 @@ export const BookingTimeContainer = styled.div`
 export const FirstBookingTimeButton = styled.button`
     width: 47px;
     height: 30px;
-    background-color: ${color => color};
+    background-color: ${selected => selected ? '#81c147' : '#D3D3D3'};
     margin-left: 2px;
     margin-right: 3px;
     border: none;
@@ -39,7 +38,7 @@ export const FirstBookingTimeButton = styled.button`
 export const LastBookingTimeButton = styled.button`
     width: 47px;
     height: 30px;
-    background-color: ${color => color};
+    background-color: ${selected => selected ? '#81c147' : '#D3D3D3'};
     margin-left: 3px;
     margin-right: 1px;
     border: none;
@@ -50,7 +49,7 @@ export const LastBookingTimeButton = styled.button`
 export const BookingTimeButton = styled.button`
     width: 47px;
     height: 30px;
-    background-color: ${color => color};
+    background-color: ${selected => selected ? '#81c147' : '#D3D3D3'};
     border: none;
     onClick = clickTimeBarItem(0);
 `
@@ -71,42 +70,44 @@ export const EndTimeTextContainer = styled.div`
     float: right;
 `
 
-function isSelectedTime(time) {
-    return selectedCheckList[time];
-}
+function RenderBookingTimeButtonItem(index) {
+    var [isSelected, setSelected] = useState(selectedCheckList[index]);
+    
 
-function renderBookingTimeButtonItem(index) {
+    const onClick = (index) => { 
+        selectedCheckList[index] = !selectedCheckList[index];
+        isSelected = selectedCheckList[index];
+        setSelected(isSelected); 
+        console.log('선택된 시간대 : ', index, '~', index+1);
+        console.log('** isSelected -> ', isSelected);
+        console.log('** selectedCheckList[index] -> ', selectedCheckList[index]);
+    }
+
     if (index == 0) {
         return <TimeButtonContainer>
-            <FirstBookingTimeButton color={isSelectedTime(index) ? '#81c147' : '#D3D3D3'} onClick={clickTimeBarItem(index)}/>
+            <FirstBookingTimeButton selected={isSelected} onClick={() => onClick(index)}/>
             <StartTimeTextContainer>{index}</StartTimeTextContainer>
         </TimeButtonContainer>
     } else if (index == 23) {
         return <TimeButtonContainer>
-            <LastBookingTimeButton color={isSelectedTime(index) ? '#81c147' : '#D3D3D3'} onClick={clickTimeBarItem(index)}/>
+            <LastBookingTimeButton selected={isSelected} onClick={() => onClick(index)}/>
             <StartTimeTextContainer>{index}</StartTimeTextContainer>
             <EndTimeTextContainer>{index+1}</EndTimeTextContainer>
         </TimeButtonContainer>
     } else {
         return <TimeButtonContainer>
-            <BookingTimeButton color={isSelectedTime(index) ? '#81c147' : '#D3D3D3'} onClick={clickTimeBarItem(index)}/>
+            <BookingTimeButton selected={isSelected} onClick={() => onClick(index)}/>
             <StartTimeTextContainer>{index}</StartTimeTextContainer>
         </TimeButtonContainer>
     }
 }
-
-function clickTimeBarItem(index) {
-    console.log('바뀌기 전 -> ', selectedCheckList[index]);
-    selectedCheckList[index] = !selectedCheckList[index];
-    console.log('바뀐 후 -> ', selectedCheckList[index]);
-}
+export default RenderBookingTimeButtonItem;
 
 function renderBookingTimeBar() {
     var items = [];
     for (var i = 0; i < 24; i++) {
-        items.push(renderBookingTimeButtonItem(i));
+        items.push(RenderBookingTimeButtonItem(i));
     }
     return items;
 }
-
 export {renderBookingTimeBar}
