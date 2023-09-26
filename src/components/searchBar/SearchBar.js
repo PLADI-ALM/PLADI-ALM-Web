@@ -30,21 +30,19 @@ export const DatePicker = styled.input`
     width: 140px;
 `
 
-function test() {
-    alert("123")
-}
+
 
 const timeOptionList = TimeList.map((time) => (<option>{time}</option>))
 
-function SearchBar() {
+function SearchBar(props) {
     return (
         <Container>
             <TitleText>예약 가능한 회의실 검색</TitleText>
-            <DatePicker type="date" />
-            <TimeCapsule items={timeOptionList} />
+            <DatePicker type="date" onChange={props.changeDate} />
+            <TimeCapsule items={timeOptionList} change={props.changeStart} />
             ~
-            <TimeCapsule items={timeOptionList} />
-            <ImageButton image={SearchButtonImg} width={"30px"} height={"30px"} click={test} />
+            <TimeCapsule items={timeOptionList} change={props.changeEnd} />
+            <ImageButton image={SearchButtonImg} width={"30px"} height={"30px"} click={props.search} />
         </Container>
     );
 }
