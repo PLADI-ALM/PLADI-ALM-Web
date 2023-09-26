@@ -1,17 +1,24 @@
 import React from "react";
-import styled from "styled-components"
+import SearchBar from "components/searchBar/SearchBar";
+import OfficeInfo from "components/officeInfo/OfficeInfo";
+import { RightContainer, WhiteContainer, TitleText } from "components/rightContainer/RightContainer";
 
-export const Container = styled.div`
-    width: 100%;
-    height: 100%;
-`
+function click() {
+    alert("1")
+}
 
-
-function SelectOffice() {
+function SelectOffice(props) {
     return (
-        <Container>
-            
-        </Container>
+        <RightContainer>
+            <TitleText>{props.title}</TitleText>
+            <WhiteContainer>
+                <SearchBar />
+                <div className="cardList">
+                    <OfficeInfo click={click} />
+                    <OfficeInfo click={click} />
+                </div>
+            </WhiteContainer>
+        </RightContainer>
     );
 }
 

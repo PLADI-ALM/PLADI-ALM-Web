@@ -1,7 +1,7 @@
 @font-face {
     font-family: "NanumSquare_ac";
     font-display: fallback;
-    font-style: normal;
+    font-style: lighter;
     font-weight: 300;
     src: local("NanumSquare"),
         url(./NanumSquare_acL.woff) format("woff");
@@ -28,7 +28,7 @@
 @font-face {
     font-family: "NanumSquare_ac";
     font-display: fallback;
-    font-style: bold;
+    font-style: bolder;
     font-weight: 800;
     src: local("NanumSquare"),
         url(./NanumSquare_acEB.woff) format("woff");
