@@ -8,15 +8,34 @@ import { useState } from "react";
 function SelectOffice(props) {
 
     const [offices, setOffices] = useState([]);
+    const [date, setDate] = useState("");
+    const [startTime, setStartTime] = useState("");
+    const [endTime, setEndTime] = useState("");
 
     const getOfficeList = () => {
         axios.get("http://13.124.122.173/offices")
             .then((Response)=>{setOffices(Response.data.data.content)})
             .catch((Error)=>{alert(Error)})
-
-        console.log(offices)
-        
     };
+
+
+    const changeDate = (e) => {
+        setDate(e.target.value)
+    }
+
+    const changeStart = (e) => {
+        setStartTime(e.target.value)
+    }
+
+    const changeEnd = (e) => {
+        setEndTime(e.target.value)
+    }
+
+    const searchOffice = () => {
+        axios.get("http://13.124.122.173/offices?date="+date+"&startTime="+startTime+"&endTime="+endTime)
+            .then((Response)=>{setOffices(Response.data.data.content)})
+            .catch((Error)=>{alert(Error)})
+    }    
 
     useEffect(()=> {
         getOfficeList();
@@ -27,9 +46,9 @@ function SelectOffice(props) {
         <RightContainer>
             <TitleText>{props.title}</TitleText>
             <WhiteContainer>
-                <SearchBar />
+                <SearchBar changeDate={changeDate} changeStart={changeStart} changeEnd={changeEnd} search={searchOffice} />
                 <div className="cardList">
-                    {offices.map((office) => <OfficeInfo key={office.name} 
+                    {offices.length == 0 ? <label>예약 가능한 회의실이 없습니다.</label>  : offices.map((office) => <OfficeInfo key={office.name} 
                                                          name={office.name}
                                                          location={office.location}
                                                          capacity={office.capacity}
