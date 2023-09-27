@@ -16,5 +16,4 @@ export const BookingCapsuleContainer = styled.div`
     display: flex;
     flex-direction: column; 
     align-items: flex-start;
-    background: #D9D9D9;
 `

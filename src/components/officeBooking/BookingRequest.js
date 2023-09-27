@@ -1,8 +1,16 @@
 import styled from "styled-components"
 
+export const RequestButtonContainer = styled.div`
+    width: 100%
+    height: 50px;
+    float: right;
+`
+
 export const RequestBookingButton = styled.button`
     borger: none;
     padding: 5px 10px;
+    margin-right: 60px;
+    margin-top: 15px;
     background-color: #A263DE;
     color: #FFF;
     width: 82px;

@@ -2,11 +2,12 @@ import React from 'react';
 import styled from "styled-components"
 import Capsule from 'components/capsule/Capsule';
 
+import OfficeInfo from "components/officeInfo/OfficeInfo";
 import {SubTitleContainer, MainTextContainer, SubTextContainer, SelectedSubTitleText, UnselectedSubTitleText} from 'components/officeBooking/SubTitleBar';
 import {OfficeInfoContainer, OfficeImgsContainer, OfficeDetailContainer, OfficeDetailCapsuleContainer, OfficeDetailTextContainer, OfficeDetailText } from 'components/officeBooking/BookingOfficeInfo';
 import {BookingContentContainer, BookingTimeContainer, renderBookingTimeBar, BookingDateTextContainer} from 'components/officeBooking/BookingTimeBar';
 import {BookingPurposeContainer, BookingCapsuleContainer, BookingPurposeTextFieldContainer} from 'components/officeBooking/BookingPurpose';
-import {RequestBookingButton, requestBookingOffice} from 'components/officeBooking/BookingRequest';
+import {RequestBookingButton, requestBookingOffice, RequestButtonContainer} from 'components/officeBooking/BookingRequest';
 
 
 export const Container = styled.div`
@@ -58,8 +59,8 @@ function OfficeBooking() {
 
                     <OfficeDetailContainer>
 
-                        <OfficeDetailCapsuleContainer>
-                        <Capsule color="purple" text="수용인원"/>
+                        {/* <OfficeDetailCapsuleContainer>
+                            <Capsule color="purple" text="수용인원"/>
                         </OfficeDetailCapsuleContainer>
                         
 
@@ -75,11 +76,25 @@ function OfficeBooking() {
                             <OfficeDetailText>
                             이 회의실은 최초로 영국에서 시작되어... 만약 당신이 이 회의실을 사용한다면 행운을 얻게 될 것이고, 이 회의실을 사용하지 않는다면... 각오하셔야 될 것입니다. 이 회의실은 최초로 영국에서 시작되어... 만약 당신이 이 회의실을 사용......
                             </OfficeDetailText>
-                        </OfficeDetailTextContainer>
+                        </OfficeDetailTextContainer> */}
                         
                     </OfficeDetailContainer>
                 </OfficeInfoContainer>
 
+                {/* <OfficeInfo key={office.name} 
+                            name={office.name}
+                            location={office.location}
+                            capacity={office.capacity}
+                            facilityList={office.facilityList}
+                            description={office.description}
+                            /> */}
+                {/* <OfficeInfo key='{office.name}' 
+                            name='{office.name}'
+                            location='{office.location}'
+                            capacity='{office.capacity}'
+                            facilityList='{office.facilityList}'
+                            description='{office.description}'
+                            /> */}
 
 
                 {/* 예약일시 */} 
@@ -109,7 +124,9 @@ function OfficeBooking() {
                 </BookingPurposeContainer>
                 
                 
-                <RequestBookingButton onClick={requestBookingOffice}>예약</RequestBookingButton>
+                <RequestButtonContainer>
+                    <RequestBookingButton onClick={requestBookingOffice}>예약</RequestBookingButton>
+                </RequestButtonContainer>
 
 
             </ContentContainer>
