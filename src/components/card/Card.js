@@ -7,7 +7,7 @@ export const Card = styled.ul`
     border-radius: 8px;
     border: 1px solid #E6E6E6;
     padding: 30px;
-    margin: 20px 0 0 0;
+    margin: 20px 20px 0 20px;
 `
 
 // 카드 내 텍스트

@@ -1,7 +1,11 @@
 import React from 'react';
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import styled from "styled-components"
 
+var bookingState = [
+    false, false, false, false, false, false, false, false, false, false, false, false, 
+    false, false, false, false, false, false, false, false, false, false, false, false, 
+];
 var selectedCheckList = [
     false, false, false, false, false, false, false, false, false, false, false, false, 
     false, false, false, false, false, false, false, false, false, false, false, false, 
@@ -25,10 +29,18 @@ export const BookingTimeContainer = styled.div`
     margin-left: 35px;
 `
 
+function getTimeBarItemBackColor(index, selected) {
+    if (!bookingState[index]) {
+        return selected ? '#81c147' : '#D3D3D3';
+    } else {
+        return '#D0B1EE';
+    }
+}
+
 export const FirstBookingTimeButton = styled.button`
     width: 47px;
     height: 30px;
-    background-color: ${props => props.selected ? '#81c147' : '#D3D3D3'};
+    background-color: ${props => getTimeBarItemBackColor(props.index, props.selected)}
     margin-left: 2px;
     margin-right: 2px;
     border: none;
@@ -39,7 +51,7 @@ export const FirstBookingTimeButton = styled.button`
 export const LastBookingTimeButton = styled.button`
     width: 47px;
     height: 30px;
-    background-color: ${props => props.selected ? '#81c147' : '#D3D3D3'};
+    background-color: ${props => getTimeBarItemBackColor(props.index, props.selected)};
     margin-left: 2px;
     margin-right: 1px;
     border: none;
@@ -50,7 +62,7 @@ export const LastBookingTimeButton = styled.button`
 export const BookingTimeButton = styled.button`
     width: 47px;
     height: 30px;
-    background-color: ${props => props.selected ? '#81c147' : '#D3D3D3'};
+    background-color: ${props => getTimeBarItemBackColor(props.index, props.selected)};
     border: none;
     onClick = clickTimeBarItem(0);
 `
@@ -76,6 +88,10 @@ const BookingTimeButtonItem = (index) => {
     const [isSelected, setSelected] = useState(false);
 
     const onClick = (index) => { 
+        if (bookingState[index]) {
+            alert('이미 선택된 시간입니다.')
+            return
+        }
         const updatedCheckList = [...selectedCheckList];
         updatedCheckList[index] = !updatedCheckList[index];
 
@@ -89,17 +105,21 @@ const BookingTimeButtonItem = (index) => {
         console.log('** selectedCheckList[index] -> ', updatedCheckList[index]);
     }
 
+    useEffect(()=> {
+        setBookingState();
+    }, []);
+
     if (index == 0) {
         return (
             <TimeButtonContainer>
-                <FirstBookingTimeButton selected={isSelected} onClick={() => onClick(index)}/>
+                <FirstBookingTimeButton index={index} selected={isSelected} onClick={() => onClick(index)}/>
                 <StartTimeTextContainer>{index}</StartTimeTextContainer>
             </TimeButtonContainer>
         );
     } else if (index == 23) {
         return (
             <TimeButtonContainer>
-                <LastBookingTimeButton selected={isSelected} onClick={() => onClick(index)}/>
+                <LastBookingTimeButton index={index} selected={isSelected} onClick={() => onClick(index)}/>
                 <StartTimeTextContainer>{index}</StartTimeTextContainer>
                 <EndTimeTextContainer>{index+1}</EndTimeTextContainer>
             </TimeButtonContainer>
@@ -107,7 +127,7 @@ const BookingTimeButtonItem = (index) => {
     } else {
         return (
             <TimeButtonContainer>
-                <BookingTimeButton selected={isSelected} onClick={() => onClick(index)}/>
+                <BookingTimeButton index={index} selected={isSelected} onClick={() => onClick(index)}/>
                 <StartTimeTextContainer>{index}</StartTimeTextContainer>
             </TimeButtonContainer>
         );
@@ -122,3 +142,13 @@ function renderBookingTimeBar() {
     return items;
 }
 export {renderBookingTimeBar}
+
+
+function setBookingState(startIdx, endIdx) {
+    console.log('setBookingState called');
+    for (var i=startIdx; i<endIdx; i++) {
+        selectedCheckList[i] = true;
+        bookingState[i] = true;
+    }
+}
+export {setBookingState}

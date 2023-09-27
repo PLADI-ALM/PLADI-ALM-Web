@@ -1,11 +1,13 @@
 import React from 'react';
 import styled from "styled-components"
+import axios from "axios";
+import { useState, useEffect } from "react";
 import Capsule from 'components/capsule/Capsule';
 
 import OfficeInfo from "components/officeInfo/OfficeInfo";
 import {SubTitleContainer, MainTextContainer, SubTextContainer, SelectedSubTitleText, UnselectedSubTitleText} from 'components/officeBooking/SubTitleBar';
 import {OfficeInfoContainer, OfficeImgsContainer, OfficeDetailContainer, OfficeDetailCapsuleContainer, OfficeDetailTextContainer, OfficeDetailText } from 'components/officeBooking/BookingOfficeInfo';
-import {BookingContentContainer, BookingTimeContainer, renderBookingTimeBar, BookingDateTextContainer} from 'components/officeBooking/BookingTimeBar';
+import {BookingContentContainer, BookingTimeContainer, renderBookingTimeBar, BookingDateTextContainer, setBookingState} from 'components/officeBooking/BookingTimeBar';
 import {BookingPurposeContainer, BookingCapsuleContainer, BookingPurposeTextFieldContainer} from 'components/officeBooking/BookingPurpose';
 import {RequestBookingButton, requestBookingOffice, RequestButtonContainer} from 'components/officeBooking/BookingRequest';
 
@@ -35,11 +37,49 @@ export const ContentContainer = styled.div`
     margin-top: 20px;
 `
 
+function getIndexValue(timeStr) {
+    console.log('getIndexValue called')
+
+    var temp = timeStr.substr(0, 2);
+    if (temp.substr(0,1) == '0') {
+        temp = temp.substr(1,1);
+    }
+    console.log('parseInt 전 --> ', temp);
+    return parseInt(temp);
+}
+
+function setBookingStates(bookingStateList) {
+    console.log('setBookingStates called')
+
+    for (var i=0; i<bookingStateList.length; i++) {
+        var startIdx = getIndexValue(bookingStateList[i].startTime);
+        var endIdx = getIndexValue(bookingStateList[i].endTime);
+        setBookingState(startIdx, endIdx)
+    }
+}
+
 
 function OfficeBooking() {
+
+    const [bookingStateList, setOffices] = useState([]);
+
+    const getBookingTimeState = () => {
+        axios.get("http://13.124.122.173/offices/1/booking-state?date=2023-09-25")
+        
+            .then((Response)=>{
+                setOffices(Response.data.data.bookedTimes)
+                setBookingStates(bookingStateList)
+            })
+            .catch((Error)=>{alert(Error)});
+    };
+
+    useEffect(()=> {
+        getBookingTimeState();
+    }, []);
+
     return (
         <Container>
-            <TitleText>회의실 예약</TitleText>
+            {/* <TitleText>회의실 예약</TitleText> */}
 
             <ContentContainer>
 
@@ -51,50 +91,14 @@ function OfficeBooking() {
                         <UnselectedSubTitleText>회의실 위치</UnselectedSubTitleText>
                     </SubTextContainer>
                 </SubTitleContainer>
-                
 
-                <OfficeInfoContainer>
-                    <OfficeImgsContainer>
-                    </OfficeImgsContainer>
-
-                    <OfficeDetailContainer>
-
-                        {/* <OfficeDetailCapsuleContainer>
-                            <Capsule color="purple" text="수용인원"/>
-                        </OfficeDetailCapsuleContainer>
-                        
-
-                        <OfficeDetailCapsuleContainer>
-                            <Capsule color="white" text="빔 프로젝터"/>
-                        </OfficeDetailCapsuleContainer>
-
-                        <OfficeDetailCapsuleContainer>
-                            <Capsule color="purple" text="설명"/>
-                        </OfficeDetailCapsuleContainer>
-
-                        <OfficeDetailTextContainer>
-                            <OfficeDetailText>
-                            이 회의실은 최초로 영국에서 시작되어... 만약 당신이 이 회의실을 사용한다면 행운을 얻게 될 것이고, 이 회의실을 사용하지 않는다면... 각오하셔야 될 것입니다. 이 회의실은 최초로 영국에서 시작되어... 만약 당신이 이 회의실을 사용......
-                            </OfficeDetailText>
-                        </OfficeDetailTextContainer> */}
-                        
-                    </OfficeDetailContainer>
-                </OfficeInfoContainer>
-
-                {/* <OfficeInfo key={office.name} 
-                            name={office.name}
-                            location={office.location}
-                            capacity={office.capacity}
-                            facilityList={office.facilityList}
-                            description={office.description}
-                            /> */}
-                {/* <OfficeInfo key='{office.name}' 
+                <OfficeInfo key='{office.name}' 
                             name='{office.name}'
                             location='{office.location}'
                             capacity='{office.capacity}'
-                            facilityList='{office.facilityList}'
+                            facilityList={['빔프로젝터']}
                             description='{office.description}'
-                            /> */}
+                            />
 
 
                 {/* 예약일시 */} 
