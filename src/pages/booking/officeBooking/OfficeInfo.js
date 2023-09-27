@@ -6,7 +6,7 @@ import Capsule from 'components/capsule/Capsule';
 
 import OfficeInfo from "components/officeInfo/OfficeInfo";
 import {SubTitleContainer, MainTextContainer, SubTextContainer, SelectedSubTitleText, UnselectedSubTitleText} from 'components/officeBooking/SubTitleBar';
-import {OfficeInfoContainer, OfficeImgsContainer, OfficeDetailContainer, OfficeDetailCapsuleContainer, OfficeDetailTextContainer, OfficeDetailText } from 'components/officeBooking/BookingOfficeInfo';
+import {OfficeDetailText} from 'components/officeBooking/BookingOfficeInfo';
 import {BookingContentContainer, BookingTimeContainer, renderBookingTimeBar, BookingDateTextContainer, setBookingState} from 'components/officeBooking/BookingTimeBar';
 import {BookingPurposeContainer, BookingCapsuleContainer, BookingPurposeTextFieldContainer} from 'components/officeBooking/BookingPurpose';
 import {RequestBookingButton, requestBookingOffice, RequestButtonContainer} from 'components/officeBooking/BookingRequest';
@@ -62,6 +62,7 @@ function setBookingStates(bookingStateList) {
 function OfficeBooking() {
 
     const [bookingStateList, setOffices] = useState([]);
+    const [officeInfo, setOfficeInfo] = useState([]);    
 
     const getBookingTimeState = () => {
         axios.get("http://13.124.122.173/offices/1/booking-state?date=2023-09-25")
@@ -73,7 +74,17 @@ function OfficeBooking() {
             .catch((Error)=>{alert(Error)});
     };
 
+    const getOfficeInfoForBooking = () => {
+        axios.get("http://13.124.122.173/offices/1")
+        
+        .then((Response)=>{
+            setOfficeInfo(Response.data.data)
+        })
+        .catch((Error)=>{alert(Error)});
+    };
+
     useEffect(()=> {
+        getOfficeInfoForBooking();
         getBookingTimeState();
     }, []);
 
@@ -85,21 +96,21 @@ function OfficeBooking() {
 
                 <SubTitleContainer>
                     <MainTextContainer>
-                        <SelectedSubTitleText>회의실명</SelectedSubTitleText>
+                        <SelectedSubTitleText>{officeInfo.name}</SelectedSubTitleText>
                     </MainTextContainer>
                     <SubTextContainer>
-                        <UnselectedSubTitleText>회의실 위치</UnselectedSubTitleText>
+                        <UnselectedSubTitleText>{officeInfo.location}</UnselectedSubTitleText>
                     </SubTextContainer>
                 </SubTitleContainer>
-
-                <OfficeInfo key='{office.name}' 
-                            name='{office.name}'
-                            location='{office.location}'
-                            capacity='{office.capacity}'
-                            facilityList={['빔프로젝터']}
-                            description='{office.description}'
+                
+                <OfficeInfo isHidden={true}
+                            key={officeInfo.name} 
+                            name={officeInfo.name}
+                            location={officeInfo.location}
+                            capacity={officeInfo.capacity}
+                            facilityList={officeInfo.facilityList}
+                            description={officeInfo.description}
                             />
-
 
                 {/* 예약일시 */} 
                 <BookingContentContainer>

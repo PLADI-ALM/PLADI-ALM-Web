@@ -22,7 +22,7 @@ const OfficeToolContainer = styled.div`
 function OfficeInfo(props) {
     return (
         <Card onClick={props.click}>
-            <TitleContainer>
+            <TitleContainer hidden={props.hidden}>
                 <NameText>{props.name}</NameText>
                 <CardText>{props.location}</CardText>
             </TitleContainer>
