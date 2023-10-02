@@ -4,6 +4,7 @@ import Sidebar from 'components/sidebar/Sidebar';
 import SelectOffice from 'pages/booking/selectOffice/SelectOffice';
 import BookedList from 'pages/booking/bookedList/BookedList';
 import MainPage from 'pages/main/MainPage';
+import SelectResource from 'pages/booking/selectResource/SelectResource';
 
 function App() {
 
@@ -23,6 +24,7 @@ function App() {
           <Route path="/" element={<SelectOffice title="회의실 예약" />} />
           <Route path="/officeBooking" element={<SelectOffice title="회의실 예약" />} />
           <Route path="/bookings" element={<BookedList title="예약 내역" />} />
+          <Route path='/resourceBooking' element={<SelectResource title="자원 예약" />} />
           {/* 나중에 요런식으로 활용하기 */}
           {/* <Route path="/reportManage/:recipeReportIdx" element={<ReportManageDetail />} /> */}
         </Route>
