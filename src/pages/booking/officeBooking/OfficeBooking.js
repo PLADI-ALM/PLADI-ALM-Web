@@ -20,16 +20,18 @@ export const Container = styled.div`
     width: 87%;
     heigth: 100%;
     margin-left: 80px;
-    margin-top: 73px;
+    margin-top: 70px;
 `
 
-export const TitleText = styled.text`
+export const TitleText = styled.p`
     color: #4C4C4C;
     font-family: NanumSquare_ac;
     font-size: 32px;
     font-style: normal;
     font-weight: 700;
-    line-height: 32px;
+    align: left;
+    width: 170px;
+    margin: 0;
 `
 
 export const ContentContainer = styled.div`
@@ -129,7 +131,7 @@ function OfficeBooking(props) {
 
     return (
         <Container>
-            {/* <TitleText>회의실 예약</TitleText> */}
+            <TitleText>{(props.isCheck == 'true') ? "예약 내역" : "회의실 예약"}</TitleText>
 
             <ContentContainer isCheck={props.isCheck}>
 
