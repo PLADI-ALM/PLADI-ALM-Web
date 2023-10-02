@@ -37,7 +37,7 @@ function OfficeInfo(props) {
                     </OfficePeopleContainer>
 
                     <OfficeToolContainer>
-                        {props.facilityList.map((facility) => <Capsule color="white" text={facility}/>)}
+                        {props.facilityList && props.facilityList.map((facility) => <Capsule color="white" text={facility}/>)}
                     </OfficeToolContainer>
 
                     <DescriptionContainer>

@@ -11,6 +11,7 @@ import {BookingContentContainer, BookingTimeContainer, renderBookingTimeBar, Boo
     RequestBookingButton, requestBookingOffice, RequestButtonContainer} from 'components/officeBooking/BookingTimeBar';
 import {BookingPurposeContainer, BookingCapsuleContainer, BookingPurposeTextFieldContainer} from 'components/officeBooking/BookingPurpose';
 
+var bookingDate = '';
 
 export const Container = styled.div`
     width: 87%;
@@ -62,12 +63,14 @@ function OfficeBooking() {
 
     const changeDate = (e) => {
         setDate(e.target.value)
+        bookingDate = e.target.value;
     }
 
     const getBookingTimeState = () => {
         if(date.length == 0) {
             const dateNow = new Date();
             date = dateNow.toISOString().slice(0, 10);
+            bookingDate = date;
         }
         axios.get("http://13.124.122.173/offices/1/booking-state?date="+date)
         
@@ -112,8 +115,7 @@ function OfficeBooking() {
                             name={officeInfo.name}
                             location={officeInfo.location}
                             capacity={officeInfo.capacity}
-                            // facilityList={officeInfo.facilityList}
-                            facilityList={[]}
+                            facilityList={officeInfo.facilityList}
                             description={officeInfo.description}
                             />
 
@@ -153,5 +155,29 @@ function OfficeBooking() {
         </Container>
     );
 }
-
 export default OfficeBooking;
+
+function setBookingInfo(bookingPurpose, startT, endT) {
+    console.log("예약일시 : ", bookingDate);
+    console.log("예약목적 : ", bookingPurpose);
+    console.log("시작시간 : ", startT);
+    console.log("마감시간 : ", endT);
+
+    axios.post("http://13.124.122.173/offices/1/booking", 
+        {
+            date: bookingDate,
+            startTime: startT,
+            endTime: endT,
+            memo: bookingPurpose
+        }
+    )
+    .then(function (response) { 
+        if (response.data.status == '200') {
+            alert('예약에 성공하였습니다!')
+        } else {
+            alert(response.data.message);
+        }
+    })
+    .catch(function (error) { console.log(error) });
+}
+export {setBookingInfo};
