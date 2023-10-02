@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState, useEffect } from 'react'
 import styled from "styled-components"
-import { setBookingInfo } from 'pages/booking/officeBooking/OfficeBooking';
+import { requestBooking } from 'pages/booking/officeBooking/OfficeBooking';
 
 var bookingState = [
     false, false, false, false, false, false, false, false, false, false, false, false, 
@@ -26,21 +26,20 @@ export const BookingDateTextContainer = styled.div`
 `
 
 export const BookingTimeContainer = styled.div`
-    margin: 0px 35px;
+    margin: 0px 0px 10px 35px;
     display: flex;
 `
 
-// 예약 버튼 관련
 export const RequestButtonContainer = styled.div`
     width: 100%
     height: 50px;
     float: right;
     margin-top: 15px;
-    display: flex;
+    display: ${props => (props.isCheck == 'true') ? 'none' : 'flex'};
 `
 
 export const RequestBookingButton = styled.button`
-    borger: none;
+    border: none;
     padding: 5px 10px;
     margin-right: 60px;
     margin-top: 15px;
@@ -60,9 +59,9 @@ export const RequestBookingButton = styled.button`
 `
 
 
-function getTimeBarItemBackColor(index, selected) {
+function getTimeBarItemBackColor(index, selected, isCheck) {
     if (bookingState[index]) {
-        return '#808080';   // TODO: 빗금으로 수정하기
+        return (isCheck == 'true') ? '#D0B1EE' : '#808080';   // TODO: #808080을 빗금으로 수정하기
     } else {
         return selected ? '#D0B1EE' : '#E9E9E9';
     }
@@ -71,7 +70,7 @@ function getTimeBarItemBackColor(index, selected) {
 export const FirstBookingTimeButton = styled.button`
     width: 47px;
     height: 30px;
-    background-color: ${props => getTimeBarItemBackColor(props.index, props.selected)}
+    background-color: ${props => getTimeBarItemBackColor(props.index, props.selected, props.isCheck)}
     margin-left: 2px;
     margin-right: 2px;
     border: none;
@@ -82,7 +81,7 @@ export const FirstBookingTimeButton = styled.button`
 export const LastBookingTimeButton = styled.button`
     width: 47px;
     height: 30px;
-    background-color: ${props => getTimeBarItemBackColor(props.index, props.selected)};
+    background-color: ${props => getTimeBarItemBackColor(props.index, props.selected, props.isCheck)};
     margin-left: 2px;
     margin-right: 1px;
     border: none;
@@ -93,13 +92,13 @@ export const LastBookingTimeButton = styled.button`
 export const BookingTimeButton = styled.button`
     width: 47px;
     height: 30px;
-    background-color: ${props => getTimeBarItemBackColor(props.index, props.selected)};
+    background-color: ${props => getTimeBarItemBackColor(props.index, props.selected, props.isCheck)};
     border: none;
     onClick = clickTimeBarItem(0);
 `
 
 export const TimeButtonContainer = styled.div`
-    width: 47px;
+    width: 49px;
     float: left;
     margin-left: 2px;
     margin-right: 2px;
@@ -114,7 +113,7 @@ export const EndTimeTextContainer = styled.div`
     float: right;
 `
 
-const BookingTimeButtonItem = (index) => {
+const BookingTimeButtonItem = (index, isCheck) => {
     const [selectedCheckList, setSelectedCheckList] = useState([]);
     const [isSelected, setSelected] = useState(false);
 
@@ -146,14 +145,14 @@ const BookingTimeButtonItem = (index) => {
     if (index == 0) {
         return (
             <TimeButtonContainer>
-                <FirstBookingTimeButton index={index} selected={isSelected} onClick={() => onClick(index)}/>
+                <FirstBookingTimeButton index={index} selected={isSelected} isCheck={isCheck} onClick={() => (isCheck == 'true') ? {} : onClick(index)}/>
                 <StartTimeTextContainer>{index}</StartTimeTextContainer>
             </TimeButtonContainer>
         );
     } else if (index == 23) {
         return (
             <TimeButtonContainer>
-                <LastBookingTimeButton index={index} selected={isSelected} onClick={() => onClick(index)}/>
+                <LastBookingTimeButton index={index} selected={isSelected} isCheck={isCheck} onClick={() => (isCheck == 'true') ? {} : onClick(index)}/>
                 <StartTimeTextContainer>{index}</StartTimeTextContainer>
                 <EndTimeTextContainer>{index+1}</EndTimeTextContainer>
             </TimeButtonContainer>
@@ -161,17 +160,17 @@ const BookingTimeButtonItem = (index) => {
     } else {
         return (
             <TimeButtonContainer>
-                <BookingTimeButton index={index} selected={isSelected} onClick={() => onClick(index)}/>
+                <BookingTimeButton index={index} selected={isSelected} isCheck={isCheck} onClick={() => (isCheck == 'true') ? {} : onClick(index)}/>
                 <StartTimeTextContainer>{index}</StartTimeTextContainer>
             </TimeButtonContainer>
         );
     }
 }
 
-function renderBookingTimeBar() {
+function renderBookingTimeBar(isCheck) {
     var items = [];
     for (var i = 0; i < 24; i++) {
-        items.push(BookingTimeButtonItem(i));
+        items.push(BookingTimeButtonItem(i, isCheck));
     }
     return items;
 }
@@ -193,6 +192,15 @@ function setBookingState(props) {
     }
 }
 export {setBookingState}
+
+function setBookingTime(startTime, endTime) {
+    var start = getIndexValue(startTime)
+    var end = getIndexValue(endTime)
+    for(var j=start; j<end; j++) {
+        bookingState[j] = true;
+    }
+}
+export {setBookingTime}
 
 
 // 예약 버튼 관련 함수
@@ -217,6 +225,6 @@ function getTimeStr(props) {
 
 function requestBookingOffice() {
     var bookingPurpose = document.getElementById("bookingPurpose").value;
-    setBookingInfo(bookingPurpose, getTimeStr(startT), getTimeStr(endT));
+    requestBooking(bookingPurpose, getTimeStr(startT), getTimeStr(endT));
 }
 export {requestBookingOffice}
