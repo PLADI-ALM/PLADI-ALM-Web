@@ -38,26 +38,9 @@ export const ContentContainer = styled.div`
     margin-top: 20px;
 `
 
-function getIndexValue(timeStr) {
-    var temp = timeStr.substr(0, 2);
-    if (temp.substr(0,1) == '0') {
-        temp = temp.substr(1,1);
-    }
-    return parseInt(temp);
-}
-
-function setBookingStates(bookingStateList) {
-    for (var i=0; i<bookingStateList.length; i++) {
-        var startIdx = getIndexValue(bookingStateList[i].startTime);
-        var endIdx = getIndexValue(bookingStateList[i].endTime);
-        setBookingState(startIdx, endIdx)
-    }
-}
-
-
 function OfficeBooking() {
 
-    const [bookingStateList, setOffices] = useState([]);
+    const [bookingStateList, setBookingInfo] = useState([]);
     const [officeInfo, setOfficeInfo] = useState([]);   
     var [date, setDate] = useState("");
 
@@ -75,8 +58,8 @@ function OfficeBooking() {
         axios.get("http://13.124.122.173/offices/1/booking-state?date="+date)
         
             .then((Response)=>{
-                setOffices(Response.data.data.bookedTimes)
-                setBookingStates(bookingStateList)
+                setBookingInfo(Response.data.data.bookedTimes)
+                setBookingState(Response.data.data.bookedTimes)
             })
             .catch((Error)=>{alert(Error)});
     };
@@ -158,10 +141,10 @@ function OfficeBooking() {
 export default OfficeBooking;
 
 function setBookingInfo(bookingPurpose, startT, endT) {
-    console.log("예약일시 : ", bookingDate);
-    console.log("예약목적 : ", bookingPurpose);
-    console.log("시작시간 : ", startT);
-    console.log("마감시간 : ", endT);
+    // console.log("예약일시 : ", bookingDate);
+    // console.log("예약목적 : ", bookingPurpose);
+    // console.log("시작시간 : ", startT);
+    // console.log("마감시간 : ", endT);
 
     axios.post("http://13.124.122.173/offices/1/booking", 
         {

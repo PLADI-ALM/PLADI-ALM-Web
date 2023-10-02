@@ -63,10 +63,10 @@ export const RequestBookingButton = styled.button`
 
 
 function getTimeBarItemBackColor(index, selected) {
-    if (!bookingState[index]) {
-        return selected ? '#D0B1EE' : '#E9E9E9';
+    if (bookingState[index]) {
+        return '#808080';   // TODO: 빗금으로 수정하기
     } else {
-        return '#008000';
+        return selected ? '#D0B1EE' : '#E9E9E9';
     }
 }
 
@@ -126,7 +126,7 @@ const BookingTimeButtonItem = (index) => {
             return
         }
         const updatedCheckList = [...selectedCheckList];
-
+        
         updatedCheckList[index] = !updatedCheckList[index];
         selectedCheckList[index] = !selectedCheckList[index];
 
@@ -134,11 +134,6 @@ const BookingTimeButtonItem = (index) => {
 
         setSelectedCheckList(updatedCheckList);
         setSelected(updatedIsSelected);
-
-        // console.log('선택된 시간대 : ', index, '~', index + 1);
-        // console.log('** isSelected -> ', updatedIsSelected);
-        // console.log('** updatedCheckList[index] -> ', updatedCheckList[index]);
-        // console.log('** selectedCheckList[index] -> ', selectedCheckList[index]);
 
         if(startT == -1) { startT = index }
         if(endT == -1) { endT = index + 1 }
@@ -187,12 +182,20 @@ function renderBookingTimeBar() {
 }
 export {renderBookingTimeBar}
 
+function getIndexValue(timeStr) {
+    var temp = timeStr.substr(0, 2);
+    if (temp.substr(0,1) == '0') { temp = temp.substr(1,1); }
+    return parseInt(temp);
+}
 
-function setBookingState(startIdx, endIdx) {
-    console.log('setBookingState called : startIdx -> ', startIdx);
-    for (var i=startIdx; i<endIdx; i++) {
-        selectedCheckList[i] = true;
-        bookingState[i] = true;
+function setBookingState(props) {
+    console.log('setBookingState called : props -> ', props)
+    for (var i=0; i<props.length; i++) {
+        var start = getIndexValue(props[i].startTime)
+        var end = getIndexValue(props[i].endTime)
+        for(var j=start; j<end; j++) {
+            bookingState[j] = true;
+        }
     }
 }
 export {setBookingState}
@@ -207,7 +210,7 @@ function getStartTime(props) {
 
 function getEndTime(props) {
     for(var i=23; i>-1; i--) {
-        if (props[i] && startT < i) { endT = i+1; }
+        if (props[i] && endT < i) { endT = i+1; }
     }
 }
 
@@ -220,12 +223,6 @@ function getTimeStr(props) {
 
 function requestBookingOffice() {
     var bookingPurpose = document.getElementById("bookingPurpose").value;
-
-    // console.log("예약목적 : ", bookingPurpose);
-    // console.log("시작시간 : ", getTimeStr(startT));
-    // console.log("마감시간 : ", getTimeStr(endT));
-
     setBookingInfo(bookingPurpose, getTimeStr(startT), getTimeStr(endT));
-
 }
 export {requestBookingOffice}
