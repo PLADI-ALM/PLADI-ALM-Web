@@ -19,11 +19,15 @@ const OfficeToolContainer = styled.div`
     margin-top: 10px;
 `
 
+function openBookingPage(officeId) { 
+    window.location.href = "/officeBooking/"+officeId
+}
+
 function OfficeInfo(props) {
     return (
-        <Card onClick={props.click}>
-            <TitleContainer>
-                <NameText>{props.name}</NameText>
+        <Card onClick={() => openBookingPage(props.officeId)}>
+            <TitleContainer hidden={props.hidden}>
+                <NameText href={"/officeBooking/"+props.officeId}>{props.name}</NameText>
                 <CardText>{props.location}</CardText>
             </TitleContainer>
 
@@ -37,7 +41,7 @@ function OfficeInfo(props) {
                     </OfficePeopleContainer>
 
                     <OfficeToolContainer>
-                        {props.facilityList.map((facility) => <Capsule color="white" text={facility}/>)}
+                        {props.facilityList && props.facilityList.map((facility) => <Capsule color="white" text={facility}/>)}
                     </OfficeToolContainer>
 
                     <DescriptionContainer>

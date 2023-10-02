@@ -2,13 +2,11 @@ import styled from "styled-components"
 
 export const BookingPurposeContainer = styled.div`
     width: 94%;
-    height: 100px;
-    margin: 3%; 
+    margin: 0px 40px;
 `
 
 export const BookingPurposeTextFieldContainer = styled.div`
-    margin-left: 20px;
-    float: left;
+    display: flex;
 `
 
 export const BookingCapsuleContainer = styled.div`
@@ -16,5 +14,4 @@ export const BookingCapsuleContainer = styled.div`
     display: flex;
     flex-direction: column; 
     align-items: flex-start;
-    background: #D9D9D9;
 `

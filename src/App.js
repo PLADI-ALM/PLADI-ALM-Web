@@ -4,6 +4,7 @@ import Sidebar from 'components/sidebar/Sidebar';
 import SelectOffice from 'pages/booking/selectOffice/SelectOffice';
 import BookedList from 'pages/booking/bookedList/BookedList';
 import MainPage from 'pages/main/MainPage';
+import OfficeBooking from 'pages/booking/officeBooking/OfficeBooking';
 import SelectResource from 'pages/booking/selectResource/SelectResource';
 
 function App() {
@@ -21,8 +22,8 @@ function App() {
         {/* 나중에 로그인 화면 생기면 활용하기 */}
         {/* <Route path="/" element={<Login />} /> */}
         <Route element={<SidebarLayout />}>
-          <Route path="/" element={<SelectOffice title="회의실 예약" />} />
           <Route path="/officeBooking" element={<SelectOffice title="회의실 예약" />} />
+          <Route path="/officeBooking/:officeId" element={<OfficeBooking />} /> 
           <Route path="/bookings" element={<BookedList title="예약 내역" />} />
           <Route path='/resourceBooking' element={<SelectResource title="자원 예약" />} />
           {/* 나중에 요런식으로 활용하기 */}
