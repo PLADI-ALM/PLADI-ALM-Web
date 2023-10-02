@@ -165,7 +165,8 @@ function OfficeBooking(props) {
                     </StatusContainer>
                 </SubTitleContainer>
                 
-                <OfficeInfo isHidden={true}
+                <OfficeInfo isDetailPage={true}
+                            isHidden={true}
                             key={officeInfo.name} 
                             name={officeInfo.name}
                             location={officeInfo.location}

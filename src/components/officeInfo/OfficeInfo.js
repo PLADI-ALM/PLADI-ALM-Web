@@ -25,7 +25,7 @@ function openBookingPage(officeId) {
 
 function OfficeInfo(props) {
     return (
-        <Card onClick={() => openBookingPage(props.officeId)}>
+        <Card onClick={() => (props.isDetailPage) ? {} : openBookingPage(props.officeId)}>
             <TitleContainer hidden={props.hidden}>
                 <NameText href={"/officeBooking/"+props.officeId}>{props.name}</NameText>
                 <CardText>{props.location}</CardText>
