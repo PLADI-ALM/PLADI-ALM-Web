@@ -26,6 +26,7 @@ export const StatusContainer = styled.div`
     background: #ECFDF3;
     border-radius: 12px;
     float: right;
+    display: ${props => (props.isCheck != 'true') ? 'none' : 'right'};
 `
 
 export const StatusText = styled.text`

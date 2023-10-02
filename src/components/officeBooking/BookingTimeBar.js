@@ -18,6 +18,7 @@ var endT = -1;
 export const BookingContentContainer = styled.div`
     width: 100%;
     margin: 25px 40px;
+    padding-top: 10px;
 `
 
 export const BookingDateTextContainer = styled.div`
@@ -43,7 +44,7 @@ export const RequestBookingButton = styled.button`
     padding: 5px 10px;
     margin-right: 60px;
     margin-top: 15px;
-    background-color: #A263DE;
+    background: #8741CB;
     color: #FFF;
     width: 82px;
     height: 38px;

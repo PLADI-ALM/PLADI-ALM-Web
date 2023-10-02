@@ -156,7 +156,7 @@ function OfficeBooking(props) {
                     <SubTextContainer>
                         <UnselectedSubTitleText>{props.isCheck ? "회의실위치" : officeInfo.location}</UnselectedSubTitleText>
                     </SubTextContainer>
-                    <StatusContainer>
+                    <StatusContainer isCheck={props.isCheck}>
                         {/* bookingStatus */}
                         <StatusText>•사용완료</StatusText>
                     </StatusContainer>

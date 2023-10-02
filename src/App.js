@@ -6,6 +6,7 @@ import BookedList from 'pages/booking/bookedList/BookedList';
 import MainPage from 'pages/main/MainPage';
 import OfficeBooking from 'pages/booking/officeBooking/OfficeBooking';
 import SelectResource from 'pages/booking/selectResource/SelectResource';
+import ResourceBooking from 'pages/booking/resourceBooking/ResourceBooking';
 
 function App() {
 
@@ -27,6 +28,8 @@ function App() {
           <Route path="/bookings" element={<BookedList title="예약 내역" />} />
           <Route path="/bookings/offices/:bookingId" element={<OfficeBooking isCheck='true'/>} /> 
           <Route path='/resourceBooking' element={<SelectResource title="자원 예약" />} />
+          <Route path='/resourceBooking/:resourcegId' element={<ResourceBooking/>} />
+          <Route path='/resourceBooking/resources/:bookingId' element={<ResourceBooking isCheck='true' />} />
           {/* 나중에 요런식으로 활용하기 */}
           {/* <Route path="/reportManage/:recipeReportIdx" element={<ReportManageDetail />} /> */}
         </Route>
