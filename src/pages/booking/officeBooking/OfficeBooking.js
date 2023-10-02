@@ -185,7 +185,7 @@ function OfficeBooking(props) {
                 </BookingContentContainer>
                     
                 <BookingTimeContainer>
-                    {renderBookingTimeBar()}
+                    {renderBookingTimeBar(props.isCheck)}
                 </BookingTimeContainer>
                 
 

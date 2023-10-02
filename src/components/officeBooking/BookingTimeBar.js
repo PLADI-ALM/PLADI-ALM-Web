@@ -61,7 +61,7 @@ export const RequestBookingButton = styled.button`
 
 function getTimeBarItemBackColor(index, selected, isCheck) {
     if (bookingState[index]) {
-        return isCheck ? '#D0B1EE' : '#808080';   // TODO: 빗금으로 수정하기
+        return (isCheck == 'true') ? '#D0B1EE' : '#808080';   // TODO: #808080을 빗금으로 수정하기
     } else {
         return selected ? '#D0B1EE' : '#E9E9E9';
     }
@@ -113,7 +113,7 @@ export const EndTimeTextContainer = styled.div`
     float: right;
 `
 
-const BookingTimeButtonItem = (index) => {
+const BookingTimeButtonItem = (index, isCheck) => {
     const [selectedCheckList, setSelectedCheckList] = useState([]);
     const [isSelected, setSelected] = useState(false);
 
@@ -145,14 +145,14 @@ const BookingTimeButtonItem = (index) => {
     if (index == 0) {
         return (
             <TimeButtonContainer>
-                <FirstBookingTimeButton index={index} selected={isSelected} onClick={() => onClick(index)}/>
+                <FirstBookingTimeButton index={index} selected={isSelected} isCheck={isCheck} onClick={() => (isCheck == 'true') ? {} : onClick(index)}/>
                 <StartTimeTextContainer>{index}</StartTimeTextContainer>
             </TimeButtonContainer>
         );
     } else if (index == 23) {
         return (
             <TimeButtonContainer>
-                <LastBookingTimeButton index={index} selected={isSelected} onClick={() => onClick(index)}/>
+                <LastBookingTimeButton index={index} selected={isSelected} isCheck={isCheck} onClick={() => (isCheck == 'true') ? {} : onClick(index)}/>
                 <StartTimeTextContainer>{index}</StartTimeTextContainer>
                 <EndTimeTextContainer>{index+1}</EndTimeTextContainer>
             </TimeButtonContainer>
@@ -160,17 +160,17 @@ const BookingTimeButtonItem = (index) => {
     } else {
         return (
             <TimeButtonContainer>
-                <BookingTimeButton index={index} selected={isSelected} onClick={() => onClick(index)}/>
+                <BookingTimeButton index={index} selected={isSelected} isCheck={isCheck} onClick={() => (isCheck == 'true') ? {} : onClick(index)}/>
                 <StartTimeTextContainer>{index}</StartTimeTextContainer>
             </TimeButtonContainer>
         );
     }
 }
 
-function renderBookingTimeBar() {
+function renderBookingTimeBar(isCheck) {
     var items = [];
     for (var i = 0; i < 24; i++) {
-        items.push(BookingTimeButtonItem(i));
+        items.push(BookingTimeButtonItem(i, isCheck));
     }
     return items;
 }
