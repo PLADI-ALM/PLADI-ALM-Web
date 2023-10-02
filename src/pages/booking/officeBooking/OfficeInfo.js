@@ -2,11 +2,11 @@ import React from 'react';
 import styled from "styled-components"
 import Capsule from 'components/capsule/Capsule';
 
-import {SubTitleContainer, MainTextContainer, SubTextContainer, SelectedSubTitleText, UnselectedSubTitleText} from 'components/officeBooking/SubTitleBar';
-import {OfficeInfoContainer, OfficeImgsContainer, OfficeDetailContainer, OfficeDetailCapsuleContainer, OfficeDetailTextContainer, OfficeDetailText } from 'components/officeBooking/BookingOfficeInfo';
-import {BookingContentContainer, BookingTimeContainer, renderBookingTimeBar, BookingDateTextContainer} from 'components/officeBooking/BookingTimeBar';
-import {BookingPurposeContainer, BookingCapsuleContainer, BookingPurposeTextFieldContainer} from 'components/officeBooking/BookingPurpose';
-import {RequestBookingButton, requestBookingOffice} from 'components/officeBooking/BookingRequest';
+import { SubTitleContainer, MainTextContainer, SubTextContainer, SelectedSubTitleText, UnselectedSubTitleText } from 'components/officeBooking/SubTitleBar';
+import { OfficeInfoContainer, OfficeImgsContainer, OfficeDetailContainer, OfficeDetailCapsuleContainer, OfficeDetailTextContainer, OfficeDetailText } from 'components/officeBooking/BookingOfficeInfo';
+import { BookingContentContainer, BookingTimeContainer, renderBookingTimeBar, BookingDateTextContainer } from 'components/officeBooking/BookingTimeBar';
+import { BookingPurposeContainer, BookingCapsuleContainer, BookingPurposeTextFieldContainer } from 'components/officeBooking/BookingPurpose';
+import { RequestBookingButton, requestBookingOffice } from 'components/officeBooking/BookingRequest';
 
 
 export const Container = styled.div`
@@ -50,7 +50,7 @@ function OfficeBooking() {
                         <UnselectedSubTitleText>회의실 위치</UnselectedSubTitleText>
                     </SubTextContainer>
                 </SubTitleContainer>
-                
+
 
                 <OfficeInfoContainer>
                     <OfficeImgsContainer>
@@ -59,56 +59,56 @@ function OfficeBooking() {
                     <OfficeDetailContainer>
 
                         <OfficeDetailCapsuleContainer>
-                        <Capsule color="purple" text="수용인원"/>
-                        </OfficeDetailCapsuleContainer>
-                        
-
-                        <OfficeDetailCapsuleContainer>
-                            <Capsule color="white" text="빔 프로젝터"/>
+                            <Capsule color="purple" text="수용인원" />
                         </OfficeDetailCapsuleContainer>
 
+
                         <OfficeDetailCapsuleContainer>
-                            <Capsule color="purple" text="설명"/>
+                            <Capsule color="white" text="빔 프로젝터" />
+                        </OfficeDetailCapsuleContainer>
+
+                        <OfficeDetailCapsuleContainer>
+                            <Capsule color="purple" text="설명" />
                         </OfficeDetailCapsuleContainer>
 
                         <OfficeDetailTextContainer>
                             <OfficeDetailText>
-                            이 회의실은 최초로 영국에서 시작되어... 만약 당신이 이 회의실을 사용한다면 행운을 얻게 될 것이고, 이 회의실을 사용하지 않는다면... 각오하셔야 될 것입니다. 이 회의실은 최초로 영국에서 시작되어... 만약 당신이 이 회의실을 사용......
+                                이 회의실은 최초로 영국에서 시작되어... 만약 당신이 이 회의실을 사용한다면 행운을 얻게 될 것이고, 이 회의실을 사용하지 않는다면... 각오하셔야 될 것입니다. 이 회의실은 최초로 영국에서 시작되어... 만약 당신이 이 회의실을 사용......
                             </OfficeDetailText>
                         </OfficeDetailTextContainer>
-                        
+
                     </OfficeDetailContainer>
                 </OfficeInfoContainer>
 
 
 
-                {/* 예약일시 */} 
+                {/* 예약일시 */}
                 <BookingContentContainer>
                     <BookingCapsuleContainer>
-                        <Capsule color="purple" text="예약일시"/>
+                        <Capsule color="purple" text="예약일시" />
                     </BookingCapsuleContainer>
                     <BookingDateTextContainer>
-                        <OfficeDetailText>2023/09/25</OfficeDetailText>      
+                        <OfficeDetailText>2023/09/25</OfficeDetailText>
                     </BookingDateTextContainer>
                 </BookingContentContainer>
-                    
+
                 <BookingTimeContainer>
                     {renderBookingTimeBar()}
                 </BookingTimeContainer>
-                
+
 
                 {/* 예약목적 */}
                 <BookingPurposeContainer>
                     <BookingCapsuleContainer>
-                        <Capsule color="purple" text="예약목적"/>
+                        <Capsule color="purple" text="예약목적" />
                     </BookingCapsuleContainer>
 
                     <BookingPurposeTextFieldContainer>
                         <textarea id='bookingPurpose' cols='135' rows='5' maxLength='100'></textarea>
                     </BookingPurposeTextFieldContainer>
                 </BookingPurposeContainer>
-                
-                
+
+
                 <RequestBookingButton onClick={requestBookingOffice}>예약</RequestBookingButton>
 
 

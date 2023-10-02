@@ -3,6 +3,7 @@ import styled from "styled-components"
 // 오른쪽 보라색 화면
 export const RightContainer = styled.div`
     max-height: 100vh;
+    width: 100%;
     padding: 40px;
     display: flex;
     flex-direction: column;
@@ -13,9 +14,11 @@ export const WhiteContainer = styled.div`
     border-radius: 12px;
     background: #FFF;
     box-shadow: 0px 4px 14px 0px rgba(0, 0, 0, 0.25);
-    padding: 30px;
     overflow-y: scroll;
     display: grid;
+    height: 100%;
+    width: 100%;
+    position: relative;
 `
 
 // 페이지 제목
