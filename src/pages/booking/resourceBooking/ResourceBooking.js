@@ -42,7 +42,6 @@ export const ContentContainer = styled.div`
 
 export const BookingDateText = styled.p`
     margin: 5px 0 0 0;
-    margin-left: 105px;
     padding-left: 10px;
     color: #575757;
     font-family: NanumSquare_ac;
@@ -95,7 +94,7 @@ function ResourceBooking(props) {
                         />
 
             {/* 예약일시 */} 
-            <BookingContentContainer>
+            <BookingContentContainer isCheck={'true'}>
                 <BookingCapsuleContainer>
                     <Capsule color="purple" text="예약일시"/>
                 </BookingCapsuleContainer>                 
@@ -106,7 +105,7 @@ function ResourceBooking(props) {
                 {renderBookingTimeBar(props.isCheck)}
             </BookingTimeContainer> */}
 
-            <BookingContentContainer>
+            <BookingContentContainer isCheck={props.isCheck}>
                 <BookingCapsuleContainer>
                     <Capsule color="purple" text="반납일자"/>
                 </BookingCapsuleContainer>                 
