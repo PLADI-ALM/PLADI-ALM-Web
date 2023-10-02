@@ -6,7 +6,7 @@ import { useState, useEffect } from "react";
 import Capsule from 'components/capsule/Capsule';
 
 import OfficeInfo from "components/officeInfo/OfficeInfo";
-import {SubTitleContainer, MainTextContainer, SubTextContainer, SelectedSubTitleText, UnselectedSubTitleText} from 'components/officeBooking/SubTitleBar';
+import {SubTitleContainer, MainTextContainer, SubTextContainer, SelectedSubTitleText, UnselectedSubTitleText, StatusContainer, StatusText} from 'components/officeBooking/SubTitleBar';
 import {DatePicker} from 'components/searchBar/SearchBar';
 import {BookingContentContainer, BookingTimeContainer, renderBookingTimeBar, BookingDateTextContainer, setBookingState, setBookingTime,
     RequestBookingButton, requestBookingOffice, RequestButtonContainer} from 'components/officeBooking/BookingTimeBar';
@@ -140,7 +140,10 @@ function OfficeBooking(props) {
                     <SubTextContainer>
                         <UnselectedSubTitleText>{props.isCheck ? "회의실위치" : officeInfo.location}</UnselectedSubTitleText>
                     </SubTextContainer>
-                    {/* TODO: 예약중, 사용중, 사용완료, 예약취소 div 추가*/}
+                    <StatusContainer>
+                        {/* bookingStatus */}
+                        <StatusText>•사용완료</StatusText>
+                    </StatusContainer>
                 </SubTitleContainer>
                 
                 <OfficeInfo isHidden={true}
