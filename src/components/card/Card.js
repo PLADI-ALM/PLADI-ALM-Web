@@ -10,10 +10,29 @@ export const Card = styled.ul`
     margin: 20px 20px 0 20px;
 `
 
+export const ResourceCard = styled.ul`
+    height: 150px;
+    background: white;
+    border-radius: 8px;
+    border: 1px solid #E6E6E6;
+    padding: 30px;
+    margin: 20px 20px 20px 20px;
+`
+
 // 카드 내 텍스트
 export const CardText = styled.text`
     color: #575757;
     font-size: 18px;
+`
+
+export const ResourceTitle = styled.text`
+    color: #8741CB;
+    font-family: NanumSquare_ac;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 16px; /* 66.667% */
+    margin-right: 30px;
 `
 
 // 카드 제목 컨테이너
@@ -39,6 +58,13 @@ export const DetailContainer = styled.div`
 export const CardImage = styled.img`
     width: 30%;
     height: 220px;
+    object-fit: contain;
+    margin-right: 20px;
+`
+// 자원 이미지
+export const ResourceCardImage = styled.img`
+    width: 30%;
+    height: 150px;
     object-fit: contain;
     margin-right: 20px;
 `

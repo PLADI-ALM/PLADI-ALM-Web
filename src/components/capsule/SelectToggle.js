@@ -10,6 +10,7 @@ export const Select = styled.select`
     font-size: 18px;
     color: #757575;
     padding: 5px;
+    height: 35px;
 `
 
 function SelectToggle(props) {
