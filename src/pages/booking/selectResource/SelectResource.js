@@ -16,7 +16,7 @@ export const SearchTitleContainer = styled.div`
     background: #FFF;
     align-items: center;
     justify-content: center;
-    margin: 0 10px 0 0;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
 `
 
 export const SearchTitleText = styled.text`
@@ -30,11 +30,13 @@ export const SearchTitleText = styled.text`
 `
 
 export const SearchTextInput = styled.input`
-    width: 50%;
+    width: 46%;
     height: 40px;
     flex-shrink: 0;
+    font-size: 16px;
     border-radius: 8px;
     border: 1px solid #FFF;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
     background: #FFF;
 `
 
@@ -47,6 +49,7 @@ export const SearchDateContainer = styled.div`
     background: #FFF;
     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
     display: flex;
+    align-items: center;
 `
 export const SearchDateInput = styled.input`
     background: none;
@@ -77,7 +80,7 @@ function SelectResource(props) {
                     <SearchDateInput type="date"/>
                 </SearchDateContainer>
 
-                <ImageButton image={SearchButtonImg} width={"49px"} height={"49px"} click={props.search} />
+                <ImageButton image={SearchButtonImg} width={"40px"} height={"40px"} click={props.search} />
             </ResourceSearchBar>
 
             <WhiteContainer>
