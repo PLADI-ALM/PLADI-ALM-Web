@@ -219,8 +219,10 @@ function getPurposeTextField(isCheck, content) {
 } 
 
 function getBookingDate(isCheck, info, changeDate) {
+    var date = info.date + " " + info.startTime + " ~ " + info.endTime;
+    date = date.replaceAll('-', '.');
     if (isCheck == 'true') {
-        return <BookingDateText>{info.date + " " + info.startTime + " ~ " + info.endTime}</BookingDateText>
+        return <BookingDateText>{date}</BookingDateText>
     } else {
         return <DatePicker type="date" onChange={changeDate} value={bookingDate} />
     }
