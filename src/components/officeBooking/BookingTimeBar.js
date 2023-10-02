@@ -36,11 +36,11 @@ export const RequestButtonContainer = styled.div`
     height: 50px;
     float: right;
     margin-top: 15px;
-    display: flex;
+    display: ${props => (props.isCheck == 'true') ? 'none' : 'flex'};
 `
 
 export const RequestBookingButton = styled.button`
-    borger: none;
+    border: none;
     padding: 5px 10px;
     margin-right: 60px;
     margin-top: 15px;
@@ -60,9 +60,9 @@ export const RequestBookingButton = styled.button`
 `
 
 
-function getTimeBarItemBackColor(index, selected) {
+function getTimeBarItemBackColor(index, selected, isCheck) {
     if (bookingState[index]) {
-        return '#808080';   // TODO: 빗금으로 수정하기
+        return isCheck ? '#D0B1EE' : '#808080';   // TODO: 빗금으로 수정하기
     } else {
         return selected ? '#D0B1EE' : '#E9E9E9';
     }
@@ -71,7 +71,7 @@ function getTimeBarItemBackColor(index, selected) {
 export const FirstBookingTimeButton = styled.button`
     width: 47px;
     height: 30px;
-    background-color: ${props => getTimeBarItemBackColor(props.index, props.selected)}
+    background-color: ${props => getTimeBarItemBackColor(props.index, props.selected, props.isCheck)}
     margin-left: 2px;
     margin-right: 2px;
     border: none;
@@ -82,7 +82,7 @@ export const FirstBookingTimeButton = styled.button`
 export const LastBookingTimeButton = styled.button`
     width: 47px;
     height: 30px;
-    background-color: ${props => getTimeBarItemBackColor(props.index, props.selected)};
+    background-color: ${props => getTimeBarItemBackColor(props.index, props.selected, props.isCheck)};
     margin-left: 2px;
     margin-right: 1px;
     border: none;
@@ -93,7 +93,7 @@ export const LastBookingTimeButton = styled.button`
 export const BookingTimeButton = styled.button`
     width: 47px;
     height: 30px;
-    background-color: ${props => getTimeBarItemBackColor(props.index, props.selected)};
+    background-color: ${props => getTimeBarItemBackColor(props.index, props.selected, props.isCheck)};
     border: none;
     onClick = clickTimeBarItem(0);
 `
@@ -193,6 +193,15 @@ function setBookingState(props) {
     }
 }
 export {setBookingState}
+
+function setBookingTime(startTime, endTime) {
+    var start = getIndexValue(startTime)
+    var end = getIndexValue(endTime)
+    for(var j=start; j<end; j++) {
+        bookingState[j] = true;
+    }
+}
+export {setBookingTime}
 
 
 // 예약 버튼 관련 함수

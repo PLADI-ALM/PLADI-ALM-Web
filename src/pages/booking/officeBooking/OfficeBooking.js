@@ -1,17 +1,19 @@
 import React from 'react';
 import styled from "styled-components"
 import axios from "axios";
+import { OfficesAxios, BookingsAxios } from 'api/AxiosApi';
 import { useState, useEffect } from "react";
 import Capsule from 'components/capsule/Capsule';
 
 import OfficeInfo from "components/officeInfo/OfficeInfo";
 import {SubTitleContainer, MainTextContainer, SubTextContainer, SelectedSubTitleText, UnselectedSubTitleText} from 'components/officeBooking/SubTitleBar';
 import {DatePicker} from 'components/searchBar/SearchBar';
-import {BookingContentContainer, BookingTimeContainer, renderBookingTimeBar, BookingDateTextContainer, setBookingState,
+import {BookingContentContainer, BookingTimeContainer, renderBookingTimeBar, BookingDateTextContainer, setBookingState, setBookingTime,
     RequestBookingButton, requestBookingOffice, RequestButtonContainer} from 'components/officeBooking/BookingTimeBar';
 import {BookingPurposeContainer, BookingCapsuleContainer, BookingPurposeTextFieldContainer} from 'components/officeBooking/BookingPurpose';
 
 var bookingDate = '';
+var bookingId = 1;
 var officeId = 1;
 
 export const Container = styled.div`
@@ -32,21 +34,38 @@ export const TitleText = styled.text`
 
 export const ContentContainer = styled.div`
     width: 90%;
-    height: 85%;
+    height: ${props => (props.isCheck == 'true') ? '80%' : '85%'};;
     border-radius: 12px;
     background: #FFF;
     box-shadow: 0px 4px 14px 0px rgba(0, 0, 0, 0.25);
     margin-top: 20px;
 `
-function setOfficeId() {
-    officeId = window.location.href.substring(36,)  // TODO: 수정할 예정
+
+export const BookingDateText = styled.p`
+    margin: 6px 0 0 0;
+    color: #575757;
+    font-family: NanumSquare_ac;
+    font-size: 22px;
+    font-weight: 400;
+    line-height: 16px;
+    letter-spacing: 0em;
+    text-align: left;
+`
+
+function setId(isCheck) {
+    if(isCheck) {
+        bookingId = window.location.href.substring(39,)  // TODO: 수정할 예정
+    } else {
+        officeId = window.location.href.substring(36,)  // TODO: 수정할 예정
+    }
 }
 
-function OfficeBooking() {
-    setOfficeId();
 
-    const [bookingStateList, setBookingInfo] = useState([]);
-    const [officeInfo, setOfficeInfo] = useState([]);   
+function OfficeBooking(props) {
+    setId(props.isCheck);
+
+    const [officeInfo, setOfficeInfo] = useState([]);  
+    const [bookingInfo, setBookingDetail] = useState([]);  
     var [date, setDate] = useState("");
 
     const changeDate = (e) => {
@@ -61,8 +80,23 @@ function OfficeBooking() {
             date = dateNow.toISOString().slice(0, 10);
             bookingDate = date;
         }
-        axios.get("http://13.124.122.173/offices/"+officeId+"/booking-state?date="+bookingDate)
+
+        if (props.isCheck == 'true') {
+            BookingsAxios.get("offices/"+bookingId)
         
+            .then((Response)=>{
+                setBookingDetail(Response.data.data)
+                bookingDate = Response.data.data.date
+                setBookingTime(Response.data.data.startTime, Response.data.data.endTime)
+            })
+            .catch((Error)=>{ 
+                console.log('Error -> ', Error)
+                window.alert("예약 정보를 불러올 수 없습니댜.") 
+                // window.history.back()
+            });
+
+        } else {
+            OfficesAxios.get(officeId+"/booking-state?date="+bookingDate)
             .then((Response)=>{
                 setBookingInfo(Response.data.data.bookedTimes)
                 setBookingState(Response.data.data.bookedTimes)
@@ -72,19 +106,20 @@ function OfficeBooking() {
                 window.alert("정보를 불러올 수 없습니댜.") 
                 // window.history.back()
             });
+        }
+        
     };
 
     const getOfficeInfoForBooking = () => {
-        axios.get("http://13.124.122.173/offices/"+officeId)
-        
-        .then((Response)=>{
-            setOfficeInfo(Response.data.data)
-        })
-        .catch((Error)=>{ 
-            console.log(Error)
-            window.alert("정보를 불러올 수 없습니댜.") 
-            // window.history.back()
-        });
+        // OfficesAxios.get(officeId)
+        //     .then((Response)=>{
+        //         setOfficeInfo(Response.data.data)
+        //     })
+        //     .catch((Error)=>{ 
+        //         console.log(Error)
+        //         window.alert("정보를 불러올 수 없습니댜.") 
+        //         // window.history.back()
+        //     });        
     };
 
     useEffect(()=> {
@@ -96,15 +131,16 @@ function OfficeBooking() {
         <Container>
             {/* <TitleText>회의실 예약</TitleText> */}
 
-            <ContentContainer>
+            <ContentContainer isCheck={props.isCheck}>
 
                 <SubTitleContainer>
                     <MainTextContainer>
-                        <SelectedSubTitleText>{officeInfo.name}</SelectedSubTitleText>
+                        <SelectedSubTitleText>{props.isCheck ? "회의실명" : officeInfo.name}</SelectedSubTitleText>
                     </MainTextContainer>
                     <SubTextContainer>
-                        <UnselectedSubTitleText>{officeInfo.location}</UnselectedSubTitleText>
+                        <UnselectedSubTitleText>{props.isCheck ? "회의실위치" : officeInfo.location}</UnselectedSubTitleText>
                     </SubTextContainer>
+                    {/* TODO: 예약중, 사용중, 사용완료, 예약취소 div 추가*/}
                 </SubTitleContainer>
                 
                 <OfficeInfo isHidden={true}
@@ -122,7 +158,7 @@ function OfficeBooking() {
                         <Capsule color="purple" text="예약일시"/>
                     </BookingCapsuleContainer>
                     <BookingDateTextContainer>
-                        <DatePicker type="date" onChange={changeDate} value={bookingDate} />
+                        {getBookingDate(props.isCheck, bookingInfo, changeDate)}
                     </BookingDateTextContainer>                    
                 </BookingContentContainer>
                     
@@ -138,12 +174,12 @@ function OfficeBooking() {
                     </BookingCapsuleContainer>
 
                     <BookingPurposeTextFieldContainer>
-                        <textarea id='bookingPurpose' cols='135' rows='5' maxLength='100'></textarea>
+                        {getPurposeTextField(props.isCheck, bookingInfo.memo)}
                     </BookingPurposeTextFieldContainer>
                 </BookingPurposeContainer>
                 
                 
-                <RequestButtonContainer>
+                <RequestButtonContainer isCheck={props.isCheck}>
                     <RequestBookingButton onClick={requestBookingOffice}>예약</RequestBookingButton>
                 </RequestButtonContainer>
 
@@ -154,12 +190,28 @@ function OfficeBooking() {
 }
 export default OfficeBooking;
 
+function getPurposeTextField(isCheck, content) {
+    if (isCheck == 'true') {
+        return <textarea id='bookingPurpose' cols='135' rows='5' maxLength='100' value={content} readOnly="readOnly" disabled></textarea>
+    } else {
+        return <textarea id='bookingPurpose' cols='135' rows='5' maxLength='100'></textarea>
+    }
+} 
+
+function getBookingDate(isCheck, info, changeDate) {
+    if (isCheck == 'true') {
+        return <BookingDateText>{info.date + " " + info.startTime + " ~ " + info.endTime}</BookingDateText>
+    } else {
+        return <DatePicker type="date" onChange={changeDate} value={bookingDate} />
+    }
+}
+
 
 function setBookingInfo(bookingPurpose, startT, endT) {
-    console.log("예약일시 : ", bookingDate);
-    console.log("예약목적 : ", bookingPurpose);
-    console.log("시작시간 : ", startT);
-    console.log("마감시간 : ", endT);
+    // console.log("예약일시 : ", bookingDate);
+    // console.log("예약목적 : ", bookingPurpose);
+    // console.log("시작시간 : ", startT);
+    // console.log("마감시간 : ", endT);
 
     if (window.confirm("예약하시겠습니까?")) {
         axios.post("http://13.124.122.173/offices/1/booking", 
@@ -171,11 +223,8 @@ function setBookingInfo(bookingPurpose, startT, endT) {
             }
         )
         .then(function (response) { 
-            if (response.data.status == '200') {
-                alert('예약에 성공하였습니다!')
-            } else {
-                alert(response.data.message);
-            }
+            if (response.data.status == '200') { alert('예약에 성공하였습니다!') } 
+            else { alert(response.data.message); }
         })
         .catch(function (error) { console.log(error) });
     }
