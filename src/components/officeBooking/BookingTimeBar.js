@@ -13,27 +13,56 @@ var selectedCheckList = [
 
 export const BookingContentContainer = styled.div`
     width: 100%;
-    margin-left: 40px;
-    margin-bottom: 15px;
-    float: left;
+    margin: 25px 40px;
 `
 
 export const BookingDateTextContainer = styled.div`
-    width: 250px;
-    backgroun: #D9D9D9;
+    flaot: right;
+    display: flex;
 `
 
 export const BookingTimeContainer = styled.div`
     width: 94%;
     hegith: 60px;
-    margin-left: 35px;
+    margin: 0px 35px;
+    display: flex;
 `
+
+// 예약 버튼 관련
+export const RequestButtonContainer = styled.div`
+    width: 100%
+    height: 50px;
+    float: right;
+    margin-top: 15px;
+    display: flex;
+`
+
+export const RequestBookingButton = styled.button`
+    borger: none;
+    padding: 5px 10px;
+    margin-right: 60px;
+    margin-top: 15px;
+    background-color: #A263DE;
+    color: #FFF;
+    width: 82px;
+    height: 38px;
+    border: none;
+    border-radius: 20px;
+
+    font-family: NanumSquare_ac;
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 16px;
+    letter-spacing: 0em;
+    text-align: center;
+`
+
 
 function getTimeBarItemBackColor(index, selected) {
     if (!bookingState[index]) {
-        return selected ? '#81c147' : '#D3D3D3';
+        return selected ? '#D0B1EE' : '#E9E9E9';
     } else {
-        return '#D0B1EE';
+        return '#008000';
     }
 }
 
@@ -94,6 +123,7 @@ const BookingTimeButtonItem = (index) => {
         }
         const updatedCheckList = [...selectedCheckList];
         updatedCheckList[index] = !updatedCheckList[index];
+        selectedCheckList[index] = !selectedCheckList[index];
 
         const updatedIsSelected = updatedCheckList[index];
 
@@ -102,7 +132,8 @@ const BookingTimeButtonItem = (index) => {
 
         console.log('선택된 시간대 : ', index, '~', index + 1);
         console.log('** isSelected -> ', updatedIsSelected);
-        console.log('** selectedCheckList[index] -> ', updatedCheckList[index]);
+        console.log('** updatedCheckList[index] -> ', updatedCheckList[index]);
+        console.log('** selectedCheckList[index] -> ', selectedCheckList[index]);
     }
 
     useEffect(()=> {
@@ -145,10 +176,69 @@ export {renderBookingTimeBar}
 
 
 function setBookingState(startIdx, endIdx) {
-    console.log('setBookingState called');
+    console.log('setBookingState called : startIdx -> ', startIdx);
     for (var i=startIdx; i<endIdx; i++) {
         selectedCheckList[i] = true;
         bookingState[i] = true;
     }
 }
 export {setBookingState}
+
+
+// 예약 버튼 관련 함수
+function getStartTime() {
+    for(var i=0; i<24; i++) {
+        console.log('아니 웨,,', i, '-> ', selectedCheckList[i])
+    }
+
+    var temp = '';
+    for(var i=0; i<24; i++) {
+        if (selectedCheckList[i]) {
+            if(i<10) { temp += '0' }
+            temp += i.toString() + ':00'
+        }
+        console.log('getStartTime :: temp -> ', temp)
+        return temp
+    }
+    
+}
+
+function getEndTime() {
+    var temp = '';
+    for(var i=23; i>-1; i--) {
+        if (selectedCheckList[i]) {
+            if(i<10) { temp += '0' }
+            temp += i.toString() + ':00'
+        }
+        console.log('getEndTime :: temp -> ', temp)
+        return temp
+    }
+}
+
+function requestBookingOffice() {
+    var bookingPurpose = document.getElementById("bookingPurpose").value;
+
+    console.log("예약목적 : ", bookingPurpose);
+
+    console.log("시작시간 : ", getStartTime());
+    console.log("마감시간 : ", getEndTime());
+
+
+    // axios.post("http://13.124.122.173/offices/1/booking", 
+    //     {
+    //         date: '2023-09-28',
+    //         startTime: '10:00',
+    //         endTime: '13:00',
+    //         memo: bookingPurpose
+    //     }
+    // )
+    // .then(function (response) { 
+    //     if (response.data.status == '200') {
+    //         alert('예약에 성공하였습니다!')
+    //         return 
+    //     }
+    // })
+    // .catch(function (error) { alert(response.data.message); });
+
+}
+export {requestBookingOffice}

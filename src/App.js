@@ -3,6 +3,7 @@ import { Routes, Route, Outlet } from 'react-router-dom';
 import Sidebar from 'components/sidebar/Sidebar';
 import SelectOffice from 'pages/booking/selectOffice/SelectOffice';
 import MainPage from 'pages/main/MainPage';
+import OfficeBooking from 'pages/booking/officeBooking/OfficeInfo';
 
 function App() {
 
@@ -20,7 +21,7 @@ function App() {
         {/* <Route path="/" element={<Login />} /> */}
         <Route element={<SidebarLayout />}>
           <Route path="/" element={<SelectOffice title="회의실 예약" />} />
-          <Route path="/officeBooking" element={<SelectOffice title="회의실 예약" />} />
+          <Route path="/officeBooking/1" element={<OfficeBooking></OfficeBooking>} />   {/* 삭제 예정 */}
           {/* 나중에 요런식으로 활용하기 */}
           {/* <Route path="/reportManage/:recipeReportIdx" element={<ReportManageDetail />} /> */}
         </Route>

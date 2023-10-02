@@ -6,10 +6,10 @@ import Capsule from 'components/capsule/Capsule';
 
 import OfficeInfo from "components/officeInfo/OfficeInfo";
 import {SubTitleContainer, MainTextContainer, SubTextContainer, SelectedSubTitleText, UnselectedSubTitleText} from 'components/officeBooking/SubTitleBar';
-import {OfficeDetailText} from 'components/officeBooking/BookingOfficeInfo';
-import {BookingContentContainer, BookingTimeContainer, renderBookingTimeBar, BookingDateTextContainer, setBookingState} from 'components/officeBooking/BookingTimeBar';
+import {DatePicker} from 'components/searchBar/SearchBar';
+import {BookingContentContainer, BookingTimeContainer, renderBookingTimeBar, BookingDateTextContainer, setBookingState,
+    RequestBookingButton, requestBookingOffice, RequestButtonContainer} from 'components/officeBooking/BookingTimeBar';
 import {BookingPurposeContainer, BookingCapsuleContainer, BookingPurposeTextFieldContainer} from 'components/officeBooking/BookingPurpose';
-import {RequestBookingButton, requestBookingOffice, RequestButtonContainer} from 'components/officeBooking/BookingRequest';
 
 
 export const Container = styled.div`
@@ -30,7 +30,7 @@ export const TitleText = styled.text`
 
 export const ContentContainer = styled.div`
     width: 90%;
-    height: 80%;
+    height: 85%;
     border-radius: 12px;
     background: #FFF;
     box-shadow: 0px 4px 14px 0px rgba(0, 0, 0, 0.25);
@@ -38,19 +38,14 @@ export const ContentContainer = styled.div`
 `
 
 function getIndexValue(timeStr) {
-    console.log('getIndexValue called')
-
     var temp = timeStr.substr(0, 2);
     if (temp.substr(0,1) == '0') {
         temp = temp.substr(1,1);
     }
-    console.log('parseInt 전 --> ', temp);
     return parseInt(temp);
 }
 
 function setBookingStates(bookingStateList) {
-    console.log('setBookingStates called')
-
     for (var i=0; i<bookingStateList.length; i++) {
         var startIdx = getIndexValue(bookingStateList[i].startTime);
         var endIdx = getIndexValue(bookingStateList[i].endTime);
@@ -62,10 +57,19 @@ function setBookingStates(bookingStateList) {
 function OfficeBooking() {
 
     const [bookingStateList, setOffices] = useState([]);
-    const [officeInfo, setOfficeInfo] = useState([]);    
+    const [officeInfo, setOfficeInfo] = useState([]);   
+    var [date, setDate] = useState("");
+
+    const changeDate = (e) => {
+        setDate(e.target.value)
+    }
 
     const getBookingTimeState = () => {
-        axios.get("http://13.124.122.173/offices/1/booking-state?date=2023-09-25")
+        if(date.length == 0) {
+            const dateNow = new Date();
+            date = dateNow.toISOString().slice(0, 10);
+        }
+        axios.get("http://13.124.122.173/offices/1/booking-state?date="+date)
         
             .then((Response)=>{
                 setOffices(Response.data.data.bookedTimes)
@@ -108,7 +112,8 @@ function OfficeBooking() {
                             name={officeInfo.name}
                             location={officeInfo.location}
                             capacity={officeInfo.capacity}
-                            facilityList={officeInfo.facilityList}
+                            // facilityList={officeInfo.facilityList}
+                            facilityList={[]}
                             description={officeInfo.description}
                             />
 
@@ -118,8 +123,8 @@ function OfficeBooking() {
                         <Capsule color="purple" text="예약일시"/>
                     </BookingCapsuleContainer>
                     <BookingDateTextContainer>
-                        <OfficeDetailText>2023/09/25</OfficeDetailText>      
-                    </BookingDateTextContainer>
+                        <DatePicker type="date" onChange={changeDate} />
+                    </BookingDateTextContainer>                    
                 </BookingContentContainer>
                     
                 <BookingTimeContainer>
