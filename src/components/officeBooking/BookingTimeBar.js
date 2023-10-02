@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState, useEffect } from 'react'
 import styled from "styled-components"
-import { setBookingInfo } from 'pages/booking/officeBooking/OfficeBooking';
+import { requestBooking } from 'pages/booking/officeBooking/OfficeBooking';
 
 var bookingState = [
     false, false, false, false, false, false, false, false, false, false, false, false, 
@@ -225,6 +225,6 @@ function getTimeStr(props) {
 
 function requestBookingOffice() {
     var bookingPurpose = document.getElementById("bookingPurpose").value;
-    setBookingInfo(bookingPurpose, getTimeStr(startT), getTimeStr(endT));
+    requestBooking(bookingPurpose, getTimeStr(startT), getTimeStr(endT));
 }
 export {requestBookingOffice}

@@ -72,11 +72,9 @@ export const PurposeTextarea = styled.textarea`
 `
 
 function setId(isCheck) {
-    if(isCheck) {
-        bookingId = window.location.href.substring(39,)  // TODO: 수정할 예정
-    } else {
-        officeId = window.location.href.substring(36,)  // TODO: 수정할 예정
-    }
+    // TODO: 수정할 예정
+    if(isCheck) { bookingId = window.location.href.substring(39,) } 
+    else { officeId = window.location.href.substring(36,) }
 }
 
 
@@ -111,19 +109,18 @@ function OfficeBooking(props) {
             .catch((Error)=>{ 
                 console.log('Error -> ', Error)
                 window.alert("예약 정보를 불러올 수 없습니댜.") 
-                // window.history.back()
+                window.history.back()
             });
 
         } else {
             OfficesAxios.get(officeId+"/booking-state?date="+bookingDate)
             .then((Response)=>{
-                setBookingInfo(Response.data.data.bookedTimes)
                 setBookingState(Response.data.data.bookedTimes)
             })
             .catch((Error)=>{ 
                 console.log(Error)
                 window.alert("정보를 불러올 수 없습니댜.") 
-                // window.history.back()
+                window.history.back()
             });
         }
         
@@ -230,14 +227,14 @@ function getBookingDate(isCheck, info, changeDate) {
 }
 
 
-function setBookingInfo(bookingPurpose, startT, endT) {
+function requestBooking(bookingPurpose, startT, endT) {
     // console.log("예약일시 : ", bookingDate);
     // console.log("예약목적 : ", bookingPurpose);
     // console.log("시작시간 : ", startT);
     // console.log("마감시간 : ", endT);
 
     if (window.confirm("예약하시겠습니까?")) {
-        axios.post("http://13.124.122.173/offices/1/booking", 
+        axios.post("http://13.124.122.173/offices/"+officeId+"/booking", 
             {
                 date: bookingDate,
                 startTime: startT,
@@ -252,4 +249,4 @@ function setBookingInfo(bookingPurpose, startT, endT) {
         .catch(function (error) { console.log(error) });
     }
 } 
-export {setBookingInfo};
+export {requestBooking};
