@@ -121,10 +121,7 @@ const BookingTimeButtonItem = (index) => {
     const [isSelected, setSelected] = useState(false);
 
     const onClick = (index) => { 
-        if (bookingState[index]) {
-            alert('이미 선택된 시간입니다.')
-            return
-        }
+        if (bookingState[index]) { alert('이미 선택된 시간입니다.'); return; }
         const updatedCheckList = [...selectedCheckList];
         
         updatedCheckList[index] = !updatedCheckList[index];
@@ -189,7 +186,6 @@ function getIndexValue(timeStr) {
 }
 
 function setBookingState(props) {
-    console.log('setBookingState called : props -> ', props)
     for (var i=0; i<props.length; i++) {
         var start = getIndexValue(props[i].startTime)
         var end = getIndexValue(props[i].endTime)
