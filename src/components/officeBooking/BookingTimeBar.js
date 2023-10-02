@@ -26,11 +26,10 @@ export const BookingDateTextContainer = styled.div`
 `
 
 export const BookingTimeContainer = styled.div`
-    margin: 0px 35px;
+    margin: 0px 0px 10px 35px;
     display: flex;
 `
 
-// 예약 버튼 관련
 export const RequestButtonContainer = styled.div`
     width: 100%
     height: 50px;
@@ -99,7 +98,7 @@ export const BookingTimeButton = styled.button`
 `
 
 export const TimeButtonContainer = styled.div`
-    width: 47px;
+    width: 49px;
     float: left;
     margin-left: 2px;
     margin-right: 2px;

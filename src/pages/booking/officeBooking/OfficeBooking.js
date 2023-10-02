@@ -21,6 +21,7 @@ export const Container = styled.div`
     heigth: 100%;
     margin-left: 80px;
     margin-top: 70px;
+    margin-bottom: -70px;
 `
 
 export const TitleText = styled.p`
@@ -52,6 +53,22 @@ export const BookingDateText = styled.p`
     line-height: 16px;
     letter-spacing: 0em;
     text-align: left;
+`
+
+export const PurposeTextarea = styled.textarea`
+    padding: 6px 0 0 18px;
+    border-radius: 12px;
+    border-width:1;
+    border-style:solid;
+    border-color:black;
+    background-color: #ffffff;
+    font-family: NanumSquare_ac;
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 25px;
+    letter-spacing: 0em;
+    text-align: left;
+    margin: 0 10px 0 10px;
 `
 
 function setId(isCheck) {
@@ -197,9 +214,9 @@ export default OfficeBooking;
 
 function getPurposeTextField(isCheck, content) {
     if (isCheck == 'true') {
-        return <textarea id='bookingPurpose' cols='135' rows='5' maxLength='100' value={content} readOnly="readOnly" disabled></textarea>
+        return <PurposeTextarea id='bookingPurpose' cols='135' rows='5' maxLength='100' value={content} readOnly="readOnly" disabled></PurposeTextarea>
     } else {
-        return <textarea id='bookingPurpose' cols='135' rows='5' maxLength='100'></textarea>
+        return <PurposeTextarea id='bookingPurpose' cols='135' rows='5' maxLength='100'></PurposeTextarea>
     }
 } 
 
