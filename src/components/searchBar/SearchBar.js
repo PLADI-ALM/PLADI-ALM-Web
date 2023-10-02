@@ -38,7 +38,7 @@ function SearchBar(props) {
     return (
         <Container>
             <TitleText>예약 가능한 회의실 검색</TitleText>
-            <DatePicker type="date" onChange={props.changeDate} />
+            <DatePicker type="date" onChange={props.changeDate} value={props.value}/>
             <TimeCapsule items={timeOptionList} change={props.changeStart} />
             ~
             <TimeCapsule items={timeOptionList} change={props.changeEnd} />

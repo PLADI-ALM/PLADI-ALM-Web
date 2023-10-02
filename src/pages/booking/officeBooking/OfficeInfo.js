@@ -45,6 +45,7 @@ function OfficeBooking() {
     var [date, setDate] = useState("");
 
     const changeDate = (e) => {
+        if(bookingDate == '') { bookingDate = new Date().toISOString().slice(0, 10) }
         setDate(e.target.value)
         bookingDate = e.target.value;
     }
@@ -116,7 +117,7 @@ function OfficeBooking() {
                         <Capsule color="purple" text="예약일시"/>
                     </BookingCapsuleContainer>
                     <BookingDateTextContainer>
-                        <DatePicker type="date" onChange={changeDate} />
+                        <DatePicker type="date" onChange={changeDate} value={bookingDate} />
                     </BookingDateTextContainer>                    
                 </BookingContentContainer>
                     
@@ -148,6 +149,7 @@ function OfficeBooking() {
 }
 export default OfficeBooking;
 
+
 function setBookingInfo(bookingPurpose, startT, endT) {
     console.log("예약일시 : ", bookingDate);
     console.log("예약목적 : ", bookingPurpose);
@@ -155,7 +157,6 @@ function setBookingInfo(bookingPurpose, startT, endT) {
     console.log("마감시간 : ", endT);
 
     if (window.confirm("예약하시겠습니까?")) {
-        // alert("확인(예)을 누르셨습니다.");
         axios.post("http://13.124.122.173/offices/1/booking", 
             {
                 date: bookingDate,
