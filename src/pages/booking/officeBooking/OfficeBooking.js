@@ -38,14 +38,12 @@ export const ContentContainer = styled.div`
     box-shadow: 0px 4px 14px 0px rgba(0, 0, 0, 0.25);
     margin-top: 20px;
 `
-
-function setOfficeId(id) { 
-    officeId = id 
-    console.log('officeId -> ', officeId)
+function setOfficeId() {
+    officeId = window.location.href.substring(36,)  // TODO: 수정할 예정
 }
-export {setOfficeId};
 
 function OfficeBooking() {
+    setOfficeId();
 
     const [bookingStateList, setBookingInfo] = useState([]);
     const [officeInfo, setOfficeInfo] = useState([]);   

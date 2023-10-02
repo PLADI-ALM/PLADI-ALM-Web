@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState, useEffect } from 'react'
 import styled from "styled-components"
-import { setBookingInfo } from 'pages/booking/officeBooking/OfficeInfo';
+import { setBookingInfo } from 'pages/booking/officeBooking/OfficeBooking';
 
 var bookingState = [
     false, false, false, false, false, false, false, false, false, false, false, false, 
