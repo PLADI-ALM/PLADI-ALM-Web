@@ -3,10 +3,14 @@ import styled from "styled-components"
 import { ResourcesAxios, BookingsAxios } from 'api/AxiosApi';
 import { useState, useEffect } from "react";
 import Capsule from 'components/capsule/Capsule';
-import {SubTitleContainer, MainTextContainer, SubTextContainer, SelectedSubTitleText, UnselectedSubTitleText, StatusContainer, StatusText} from 'components/officeBooking/SubTitleBar';
-import {BookingPurposeContainer, BookingCapsuleContainer, BookingPurposeTextFieldContainer} from 'components/officeBooking/BookingPurpose';
+import { SubTitleContainer, MainTextContainer, SubTextContainer, SelectedSubTitleText, UnselectedSubTitleText } from 'components/officeBooking/SubTitleBar';
+import { BookingPurposeContainer, BookingCapsuleContainer, BookingPurposeTextFieldContainer } from 'components/officeBooking/BookingPurpose';
 import ResourceInfo from 'components/resourceInfo/ResourceInfo';
 import { BookingContentContainer, RequestButtonContainer, RequestBookingButton } from 'components/officeBooking/BookingTimeBar';
+import { StatusText, StatusContainer, StatusCircle } from 'components/booking/StatusTag';
+
+var startDate = '2023.10.01'
+var endDate = '2023.10.15'
 
 export const Container = styled.div`
     width: 87%;
@@ -127,13 +131,15 @@ function ResourceBooking(props) {
                     <StatusText>{"•"+bookingInfo.status}</StatusText>
                 </StatusContainer>
             </SubTitleContainer>
-            
+
 
             <ResourceInfo isTItleHidden={true}
-                        description={resourceInfo.description}
+                        title={"title"}
+                        category={"category"}
+                        description={"description"}
                         />
 
-            {/* 예약일시 */} 
+            {/* 예약일시 */}
             <BookingContentContainer isCheck={'true'}>
                 <BookingCapsuleContainer>
                     <Capsule color="purple" text="예약일시"/>
@@ -147,20 +153,20 @@ function ResourceBooking(props) {
                 </BookingCapsuleContainer>                 
                 <BookingDateText>{getReturnDateStr(bookingInfo.returnDateTime)}</BookingDateText> 
             </BookingContentContainer>
-            
+
 
             {/* 예약목적 */}
             <BookingPurposeContainer>
                 <BookingCapsuleContainer>
-                    <Capsule color="purple" text="예약목적"/>
+                    <Capsule color="purple" text="예약목적" />
                 </BookingCapsuleContainer>
 
                 <BookingPurposeTextFieldContainer>
                     {getPurposeTextField(props.isCheck, bookingInfo.memo)}
                 </BookingPurposeTextFieldContainer>
             </BookingPurposeContainer>
-            
-            
+
+
             <RequestButtonContainer isCheck={props.isCheck}>
                 <RequestBookingButton onClick={requestBookingOffice}>예약</RequestBookingButton>
             </RequestButtonContainer>
@@ -181,7 +187,7 @@ function getPurposeTextField(isCheck, content) {
     } else {
         return <PurposeTextarea id='bookingPurpose' cols='135' rows='5' maxLength='100'></PurposeTextarea>
     }
-} 
+}
 
 
 function requestBookingOffice() {

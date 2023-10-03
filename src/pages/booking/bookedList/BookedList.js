@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import styled from "styled-components"
-import axios from "axios";
 import BookedLine from './BookedLine';
 import { RightContainer, WhiteContainer, TitleText } from "components/rightContainer/RightContainer";
 import { BookingsAxios } from 'api/AxiosApi';
 import SelectToggle from 'components/capsule/SelectToggle';
 import { BookingCategoryList } from 'constants/ToggleList';
+import { BookingCategoryPathList, getBookingCategoryPath } from 'constants/Path';
 
 const TitleContainer = styled.div`
     display: flex;
@@ -50,26 +50,28 @@ export const BookedLineTr = styled.tr`
     height: 60px;
     border-bottom: #E1E0E2 solid 1px;
 `
+
 const optionList = BookingCategoryList.map((category) => (<option>{category}</option>))
 
 function BookedList(props) {
 
-    const [bookings, setBookingList] = useState([]);
-    const [category, setCategory] = useState("회의실");
+    const [bookings, setBookingList] = useState([])
+    const [category, setCategory] = useState(BookingCategoryList[0])
+    const [categoryPath, setCategoryPath] = useState(BookingCategoryPathList[0])
 
     // 회의실 예약내역
     const getOfficeBookingList = () => {
-        BookingsAxios.get("")
+        BookingsAxios.get("?category=office")
             .then((response) => { setBookingList(response.data.data.content) })
-            .catch((error) => { alert(error) })
+            .catch((error) => { alert(error.response.data.code) })
     }
 
     // 자원 예약내역
     const getResourceBookingList = () => {
         setBookingList([])
-        // BookingsAxios.get("")
-        //     .then((response) => { setBookingList(response.data.data.content) })
-        //     .catch((error) => { alert(error) })
+        BookingsAxios.get("?category=resource")
+            .then((response) => { setBookingList(response.data.data.content) })
+            .catch((error) => { alert(error.response.data.code) })
     }
 
     useEffect(() => {
@@ -86,6 +88,7 @@ function BookedList(props) {
 
     const changeCategory = (e) => {
         setCategory(e.target.value)
+        setCategoryPath(getBookingCategoryPath(e.target.value))
     }
 
     return (
@@ -115,10 +118,11 @@ function BookedList(props) {
                                     <BookedLine key={index}
                                         id={booking.id}
                                         name={booking.name}
-                                        info={booking.location}
+                                        info={booking.detailInfo}
                                         start={booking.startDateTime}
                                         end={booking.endDateTime}
                                         status={booking.status}
+                                        type={categoryPath}
                                     />)}
                         </tbody>
                     </BookedTable>

@@ -14,6 +14,7 @@ const Container = styled.div`
     border: 1px solid #E6E6E6;
     align-items: center;
     padding: 0 20px;
+    margin: 20px 0 0 20px;
 `
 
 const TitleText = styled.text`
@@ -30,15 +31,13 @@ export const DatePicker = styled.input`
     width: 140px;
 `
 
-
-
 const timeOptionList = TimeList.map((time) => (<option>{time}</option>))
 
 function SearchBar(props) {
     return (
         <Container>
             <TitleText>예약 가능한 회의실 검색</TitleText>
-            <DatePicker type="date" onChange={props.changeDate} value={props.value}/>
+            <DatePicker type="date" onChange={props.changeDate} value={props.value} />
             <TimeCapsule items={timeOptionList} change={props.changeStart} />
             ~
             <TimeCapsule items={timeOptionList} change={props.changeEnd} />
