@@ -3,7 +3,7 @@ import styled from "styled-components"
 export const BookingPurposeContainer = styled.div`
     width: 94%;
     margin: 0px 40px;
-    padding-top: 15px;
+    padding: 15px 0 50px 0;
 `
 
 export const BookingPurposeTextFieldContainer = styled.div`

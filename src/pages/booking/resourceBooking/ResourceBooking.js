@@ -15,10 +15,8 @@ var endDate = '2023.10.15'
 
 export const Container = styled.div`
     width: 87%;
-    heigth: 100%;
     margin-left: 80px;
     margin-top: 70px;
-    margin-bottom: -70px;
 `
 
 export const TitleText = styled.p`
@@ -34,7 +32,6 @@ export const TitleText = styled.p`
 
 export const ContentContainer = styled.div`
     width: 90%;
-    height: ${props => (props.isCheck == 'true') ? '80%' : '85%'};;
     border-radius: 12px;
     background: #FFF;
     box-shadow: 0px 4px 14px 0px rgba(0, 0, 0, 0.25);
