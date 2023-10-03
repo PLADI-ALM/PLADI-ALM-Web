@@ -71,7 +71,7 @@ var resourceId = 1;
 
 function setId(isCheck) {
     // TODO: 수정할 예정
-    if(isCheck == 'true') { bookingId = window.location.href.substring(48,) } 
+    if(isCheck == 'true') { bookingId = window.location.href.substring(41,) } 
     else { resourceId = window.location.href.substring(38,) }
 }
 
