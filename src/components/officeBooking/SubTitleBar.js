@@ -18,26 +18,6 @@ export const SubTextContainer = styled.div`
     float: left;
 `
 
-export const StatusContainer = styled.div`
-    width: 100px;
-    margin-top: 12px;
-    margin-right: 12px;
-    padding: 8px;
-    background: #ECFDF3;
-    border-radius: 12px;
-    float: right;
-    display: ${props => (props.isCheck != 'true') ? 'none' : 'right'};
-`
-
-export const StatusText = styled.text`
-    font-family: Inter;
-    font-size: 20px;
-    font-weight: 500;
-    letter-spacing: 0em;
-    text-align: center;
-    color: #027A48;
-`
-
 export const SelectedSubTitleText = styled.text`
     font-family: NanumSquare_ac;
     font-size: 24px;
