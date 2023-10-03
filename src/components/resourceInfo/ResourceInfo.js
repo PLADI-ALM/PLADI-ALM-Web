@@ -7,7 +7,7 @@ import { ResourceCard, CardText, TitleContainer, NameText, DetailContainer, Reso
 // 자원명 컨테이너
 const ResourceTitleContainer = styled.div`
     height: 20px;
-    display: inline-flex;
+    display: ${props => props.isHidden ? 'none' : 'inline-flex'};
     align-items: center;
 `
 
@@ -19,7 +19,7 @@ function ResourceInfo(props) {
                 <ResourceCardImage src={Example} />
 
                 <InfoContainer>
-                    <ResourceTitleContainer>
+                    <ResourceTitleContainer isHidden={props.isTItleHidden}>
                         <ResourceTitle>{props.title}</ResourceTitle>
                         <CardText>{props.category}</CardText>
                     </ResourceTitleContainer>
