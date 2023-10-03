@@ -2,7 +2,7 @@ import styled from "styled-components"
 
 // 카드 박스
 export const Card = styled.ul`
-    height: 300px;
+    // height: 300px;
     background: white;
     border-radius: 8px;
     border: 1px solid #E6E6E6;
@@ -38,7 +38,7 @@ export const ResourceTitle = styled.text`
 // 카드 제목 컨테이너
 export const TitleContainer = styled.div`
     margin-bottom: 20px;
-    display: flex;
+    display: ${props => props.hidden ? 'none' : 'flex'};
     align-items: center;
 `
 
