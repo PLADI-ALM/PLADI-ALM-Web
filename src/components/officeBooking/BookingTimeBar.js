@@ -28,16 +28,15 @@ export const BookingDateTextContainer = styled.div`
 `
 
 export const BookingTimeContainer = styled.div`
+    width: 94%;
     margin: 0px 0px 10px 35px;
     display: flex;
 `
 
 export const RequestButtonContainer = styled.div`
-    width: 100%
-    height: 50px;
-    float: right;
-    margin-top: 15px;
+    padding: 0 10px 40px 0;
     display: ${props => (props.isCheck == 'true') ? 'none' : 'flex'};
+    justify-content: flex-end;
 `
 
 export const RequestBookingButton = styled.button`
@@ -60,51 +59,35 @@ export const RequestBookingButton = styled.button`
     text-align: center;
 `
 
-
-function getTimeBarItemBackColor(index, selected, isCheck) {
-    if (bookingState[index]) {
-        return (isCheck == 'true') ? '#D0B1EE' : '#808080';   // TODO: #808080을 빗금으로 수정하기
-    } else {
-        return selected ? '#D0B1EE' : '#E9E9E9';
-    }
-}
-
 export const FirstBookingTimeButton = styled.button`
-    width: 47px;
+    width: 100%;
     height: 30px;
     background-color: ${props => getTimeBarItemBackColor(props.index, props.selected, props.isCheck)}
     margin-left: 2px;
     margin-right: 2px;
     border: none;
     border-radius: 15px 0px 0px 15px; 
-    onClick = clickTimeBarItem(0);
 `
 
 export const LastBookingTimeButton = styled.button`
-    width: 47px;
+    width: 110%;
     height: 30px;
     background-color: ${props => getTimeBarItemBackColor(props.index, props.selected, props.isCheck)};
-    margin-left: 2px;
     margin-right: 1px;
     border: none;
-    border-radius:  0px 15px 15px 0px; 
-    onClick = clickTimeBarItem(0);
+    border-radius: 0px 15px 15px 0px; 
 `
 
 export const BookingTimeButton = styled.button`
-    width: 47px;
+    width: 100%;
     height: 30px;
     background-color: ${props => getTimeBarItemBackColor(props.index, props.selected, props.isCheck)};
     border: none;
-    onClick = clickTimeBarItem(0);
 `
 
 export const TimeButtonContainer = styled.div`
-    width: 49px;
-    float: left;
-    margin-left: 2px;
-    margin-right: 2px;
-    margin-bottom: 30px;
+    width: 100%;
+    padding: 0 2px 30px 2px;
 `
 
 export const StartTimeTextContainer = styled.div`
@@ -114,6 +97,14 @@ export const StartTimeTextContainer = styled.div`
 export const EndTimeTextContainer = styled.div`
     float: right;
 `
+
+function getTimeBarItemBackColor(index, selected, isCheck) {
+    if (bookingState[index]) {
+        return (isCheck == 'true') ? '#D0B1EE' : '#808080';   // TODO: #808080을 빗금으로 수정하기
+    } else {
+        return selected ? '#D0B1EE' : '#E9E9E9';
+    }
+}
 
 const BookingTimeButtonItem = (index, isCheck) => {
     const [selectedCheckList, setSelectedCheckList] = useState([]);
