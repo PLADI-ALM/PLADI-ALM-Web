@@ -8,6 +8,7 @@ import { BookingPurposeContainer, BookingCapsuleContainer, BookingPurposeTextFie
 import ResourceInfo from 'components/resourceInfo/ResourceInfo';
 import { BookingContentContainer, RequestButtonContainer, RequestBookingButton } from 'components/officeBooking/BookingTimeBar';
 import { StatusText, StatusContainer, StatusCircle } from 'components/booking/StatusTag';
+import { findStatus } from 'constants/BookingStatus';
 
 var startDate = '2023.10.01'
 var endDate = '2023.10.15'
@@ -66,6 +67,12 @@ export const PurposeTextarea = styled.textarea`
     text-align: left;
     margin: 0 10px 0 10px;
 `
+const MyStatusContainer = styled(StatusContainer)`
+    margin-top: 12px;
+    margin-right: 12px;
+    float: right;
+`
+
 var bookingId = 1;
 var resourceId = 1;
 
@@ -80,6 +87,7 @@ function ResourceBooking(props) {
 
     const [resourceInfo, setResourceInfo] = useState([]);  
     const [bookingInfo, setBookingDetail] = useState([]); 
+    const [bookingStatus, setStatus] = useState([]);
 
     const getResourceInfoForBooking = () => {
         ResourcesAxios.get(""+resourceId)
@@ -95,8 +103,8 @@ function ResourceBooking(props) {
         if (props.isCheck == 'true') {
             BookingsAxios.get("resources/"+bookingId)
             .then((Response)=>{ 
-                // console.log(Response.data.data)
                 setBookingDetail(Response.data.data)
+                setStatus(findStatus(Response.data.data.status))
                 resourceId = Response.data.data.resourceId 
             })
             .catch((Error)=>{ 
@@ -115,6 +123,7 @@ function ResourceBooking(props) {
         getBookingTimeState();
     }, []);
 
+    console.log("status -> ", bookingStatus)
     return <Container>
         <TitleText>{(props.isCheck == 'true') ? "예약 내역" : "자원 예약"}</TitleText>
 
@@ -127,9 +136,10 @@ function ResourceBooking(props) {
                 <SubTextContainer>
                     <UnselectedSubTitleText>{resourceInfo.category}</UnselectedSubTitleText>
                 </SubTextContainer>
-                <StatusContainer isCheck={props.isCheck}>
-                    <StatusText>{"•"+bookingInfo.status}</StatusText>
-                </StatusContainer>
+                <MyStatusContainer isCheck={props.isCheck} background={bookingStatus.background}>
+                    <StatusCircle color={bookingStatus.color} />
+                    <StatusText color={bookingStatus.color}>{bookingStatus.name}</StatusText>
+                </MyStatusContainer>
             </SubTitleContainer>
 
 

@@ -89,11 +89,11 @@ function setId(isCheck) {
 
 
 function OfficeBooking(props) {
-    var status = findStatus(props.bookingStatus)
     setId(props.isCheck);
 
     const [officeInfo, setOfficeInfo] = useState([]);
     const [bookingInfo, setBookingDetail] = useState([]);
+    const [bookingStatus, setStatus] = useState([]);
     var [date, setDate] = useState("");
     var [officeId, setOfficeId] = useState(1);
 
@@ -115,6 +115,7 @@ function OfficeBooking(props) {
 
                 .then((Response) => {
                     setBookingDetail(Response.data.data)
+                    setStatus(findStatus(Response.data.data.bookingStatus))
                     bookingDate = Response.data.data.date
                     setOfficeId(Response.data.data.officeId)
                     setBookingTime(Response.data.data.startTime, Response.data.data.endTime)
@@ -170,9 +171,9 @@ function OfficeBooking(props) {
                     <SubTextContainer>
                         <UnselectedSubTitleText>{officeInfo.location}</UnselectedSubTitleText>
                     </SubTextContainer>
-                    <MyStatusContainer isCheck={props.isCheck} background={status.background}>
-                        <StatusCircle color={status.color} />
-                        <StatusText color={status.color}>{bookingInfo.bookingStatus}</StatusText>
+                    <MyStatusContainer isCheck={props.isCheck} background={bookingStatus.background}>
+                        <StatusCircle color={bookingStatus.color} />
+                        <StatusText color={bookingStatus.color}>{bookingStatus.name}</StatusText>
                     </MyStatusContainer>
                 </SubTitleContainer>
 
