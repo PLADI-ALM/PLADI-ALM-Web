@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from "styled-components"
-import axios from "axios";
-import { BookingsAxios } from 'api/AxiosApi';
+import { ResourcesAxios, BookingsAxios } from 'api/AxiosApi';
 import { useState, useEffect } from "react";
 import Capsule from 'components/capsule/Capsule';
 import {SubTitleContainer, MainTextContainer, SubTextContainer, SelectedSubTitleText, UnselectedSubTitleText, StatusContainer, StatusText} from 'components/officeBooking/SubTitleBar';
@@ -63,19 +62,38 @@ export const PurposeTextarea = styled.textarea`
     text-align: left;
     margin: 0 10px 0 10px;
 `
-var bookingId = 2;
+var bookingId = 1;
 var resourceId = 1;
 
+function setId(isCheck) {
+    // TODO: 수정할 예정
+    if(isCheck == 'true') { bookingId = window.location.href.substring(48,) } 
+    else { resourceId = window.location.href.substring(38,) }
+}
+
 function ResourceBooking(props) {
+    setId(props.isCheck);
+
+    const [resourceInfo, setResourceInfo] = useState([]);  
     const [bookingInfo, setBookingDetail] = useState([]); 
+
+    const getResourceInfoForBooking = () => {
+        ResourcesAxios.get(""+resourceId)
+        .then((Response)=>{ setResourceInfo(Response.data.data) })
+        .catch((Error)=>{ 
+            console.log(Error)
+            window.alert("정보를 불러올 수 없습니댜.") 
+            window.history.back()
+        });        
+    };
     const getBookingTimeState = () => {
 
         if (props.isCheck == 'true') {
             BookingsAxios.get("resources/"+bookingId)
-        
-            .then((Response)=>{
-                console.log(Response.data.data)
+            .then((Response)=>{ 
+                // console.log(Response.data.data)
                 setBookingDetail(Response.data.data)
+                resourceId = Response.data.data.resourceId 
             })
             .catch((Error)=>{ 
                 console.log('Error -> ', Error)
@@ -89,6 +107,7 @@ function ResourceBooking(props) {
     };
 
     useEffect(()=> {
+        getResourceInfoForBooking();
         getBookingTimeState();
     }, []);
 
@@ -99,10 +118,10 @@ function ResourceBooking(props) {
 
             <SubTitleContainer>
                 <MainTextContainer>
-                    <SelectedSubTitleText>{"resourceInfo.title"}</SelectedSubTitleText>
+                    <SelectedSubTitleText>{resourceInfo.name}</SelectedSubTitleText>
                 </MainTextContainer>
                 <SubTextContainer>
-                    <UnselectedSubTitleText>{"resourceInfo.category"}</UnselectedSubTitleText>
+                    <UnselectedSubTitleText>{resourceInfo.category}</UnselectedSubTitleText>
                 </SubTextContainer>
                 <StatusContainer isCheck={props.isCheck}>
                     <StatusText>{"•"+bookingInfo.status}</StatusText>
@@ -111,9 +130,7 @@ function ResourceBooking(props) {
             
 
             <ResourceInfo isTItleHidden={true}
-                        title={"title"}
-                        category={"category"}
-                        description={"description"}
+                        description={resourceInfo.description}
                         />
 
             {/* 예약일시 */} 
@@ -155,8 +172,7 @@ function ResourceBooking(props) {
 export default ResourceBooking;
 
 function getReturnDateStr(returnDateTime) {
-    if (returnDateTime==null) { return "미반납"}
-    else { return returnDateTime }
+return (returnDateTime==null) ? "미반납" : returnDateTime
 }
 
 function getPurposeTextField(isCheck, content) {

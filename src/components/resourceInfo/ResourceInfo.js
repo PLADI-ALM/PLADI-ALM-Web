@@ -1,11 +1,8 @@
 import React from "react";
 import styled from "styled-components"
-import axios from "axios";
-import { OfficesAxios, BookingsAxios } from 'api/AxiosApi';
-import { useState, useEffect } from "react";
 import Example from '../../assets/images/example.png'
 import Capsule from "components/capsule/Capsule";
-import { ResourceCard, CardText, TitleContainer, NameText, DetailContainer, ResourceCardImage, InfoContainer, DescriptionContainer, OfficeContentText, ResourceTitle } from "components/card/Card";
+import { ResourceCard, CardText, DetailContainer, ResourceCardImage, InfoContainer, DescriptionContainer, OfficeContentText, ResourceTitle } from "components/card/Card";
 
 // 자원명 컨테이너
 const ResourceTitleContainer = styled.div`
