@@ -7,11 +7,20 @@ import { BookedLineTr } from './BookedList';
 import { BookingCategoryPathList } from 'constants/Path';
 import { StatusText, StatusContainer, StatusCircle } from 'components/booking/StatusTag';
 
-function cancelBooking(bookingId, name, info, start, end) {
+function cancelBooking(bookingId, name, info, start, end, type) {
     if (window.confirm(`${name}(${info}) ${start} ~ ${end}\n예약을 취소하시겠습니까?`)) {
-        BookingsAxios.patch(`offices/${bookingId}`)
+        BookingsAxios.patch(`${type}/${bookingId}/cancel`)
             .catch((error) => { alert(error) })
-        alert("취소되었습니다.");
+        alert("취소되었습니다.")
+        window.location.reload()
+    }
+}
+
+function returnBooking(bookingId, name, info, start, end) {
+    if (window.confirm(`${name}(${info}) ${start} ~ ${end}\n자원을 반납하시겠습니까?`)) {
+        BookingsAxios.patch(`resources/${bookingId}/return`)
+            .catch((error) => { alert(error) })
+        alert("반납되었습니다.")
         window.location.reload()
     }
 }
@@ -33,16 +42,16 @@ function BookedLine(props) {
                         // 회의실
                         ((status === BOOKED) || (props.status === USING)) ?
                             <td width="10%"><SmallButton click={() =>
-                                cancelBooking(props.id, props.name, props.info, props.start, props.end)} name={'취소'} /></td>
+                                cancelBooking(props.id, props.name, props.info, props.start, props.end, props.type)} name={'취소'} /></td>
                             : null
                         :
                         // 자원
                         ((status === WAITING) || (status === BOOKED)) ?
                             <td width="10%"><SmallButton click={() =>
-                                cancelBooking(props.id, props.name, props.info, props.start, props.end)} name={'취소'} /></td>
+                                cancelBooking(props.id, props.name, props.info, props.start, props.end, props.type)} name={'취소'} /></td>
                             : (status === USING) ?
                                 <td width="10%"><SmallButton click={() =>
-                                    cancelBooking(props.id, props.name, props.info, props.start, props.end)} name={'반납'} /></td>
+                                    returnBooking(props.id, props.name, props.info, props.start, props.end)} name={'반납'} /></td>
                                 : null
                 }
             </BookedLineTr>
