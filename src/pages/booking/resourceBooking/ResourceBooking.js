@@ -9,9 +9,6 @@ import {BookingPurposeContainer, BookingCapsuleContainer, BookingPurposeTextFiel
 import ResourceInfo from 'components/resourceInfo/ResourceInfo';
 import { BookingContentContainer, RequestButtonContainer, RequestBookingButton } from 'components/officeBooking/BookingTimeBar';
 
-var startDate = '2023.10.01'
-var endDate = '2023.10.15'
-
 export const Container = styled.div`
     width: 87%;
     heigth: 100%;
@@ -66,8 +63,35 @@ export const PurposeTextarea = styled.textarea`
     text-align: left;
     margin: 0 10px 0 10px;
 `
+var bookingId = 2;
+var resourceId = 1;
 
 function ResourceBooking(props) {
+    const [bookingInfo, setBookingDetail] = useState([]); 
+    const getBookingTimeState = () => {
+
+        if (props.isCheck == 'true') {
+            BookingsAxios.get("resources/"+bookingId)
+        
+            .then((Response)=>{
+                console.log(Response.data.data)
+                setBookingDetail(Response.data.data)
+            })
+            .catch((Error)=>{ 
+                console.log('Error -> ', Error)
+                window.alert("예약 정보를 불러올 수 없습니댜.") 
+                window.history.back()
+            });
+
+        } else {
+            // TODO: 자원 예약 화면 -> 자원 개별 조회 API 연결
+        }  
+    };
+
+    useEffect(()=> {
+        getBookingTimeState();
+    }, []);
+
     return <Container>
         <TitleText>{(props.isCheck == 'true') ? "예약 내역" : "자원 예약"}</TitleText>
 
@@ -75,14 +99,13 @@ function ResourceBooking(props) {
 
             <SubTitleContainer>
                 <MainTextContainer>
-                    <SelectedSubTitleText>{props.isCheck ? "자원명" : "resourceInfo.title"}</SelectedSubTitleText>
+                    <SelectedSubTitleText>{"resourceInfo.title"}</SelectedSubTitleText>
                 </MainTextContainer>
                 <SubTextContainer>
-                    <UnselectedSubTitleText>{props.isCheck ? "카테고리" : "resourceInfo.category"}</UnselectedSubTitleText>
+                    <UnselectedSubTitleText>{"resourceInfo.category"}</UnselectedSubTitleText>
                 </SubTextContainer>
                 <StatusContainer isCheck={props.isCheck}>
-                    {/* bookingStatus */}
-                    <StatusText>•사용완료</StatusText>
+                    <StatusText>{"•"+bookingInfo.status}</StatusText>
                 </StatusContainer>
             </SubTitleContainer>
             
@@ -98,18 +121,14 @@ function ResourceBooking(props) {
                 <BookingCapsuleContainer>
                     <Capsule color="purple" text="예약일시"/>
                 </BookingCapsuleContainer>                 
-                <BookingDateText>{startDate + " ~ " + endDate}</BookingDateText>
+                <BookingDateText>{bookingInfo.startDate + " ~ " + bookingInfo.endDate}</BookingDateText>
             </BookingContentContainer>
-                
-            {/* <BookingTimeContainer>
-                {renderBookingTimeBar(props.isCheck)}
-            </BookingTimeContainer> */}
 
             <BookingContentContainer isCheck={props.isCheck}>
                 <BookingCapsuleContainer>
                     <Capsule color="purple" text="반납일자"/>
                 </BookingCapsuleContainer>                 
-                <BookingDateText>{"2023-10-09 09:14"}</BookingDateText>
+                <BookingDateText>{getReturnDateStr(bookingInfo.returnDateTime)}</BookingDateText> 
             </BookingContentContainer>
             
 
@@ -120,7 +139,7 @@ function ResourceBooking(props) {
                 </BookingCapsuleContainer>
 
                 <BookingPurposeTextFieldContainer>
-                    {getPurposeTextField(props.isCheck, "bookingInfo.memo")}
+                    {getPurposeTextField(props.isCheck, bookingInfo.memo)}
                 </BookingPurposeTextFieldContainer>
             </BookingPurposeContainer>
             
@@ -135,6 +154,11 @@ function ResourceBooking(props) {
 }
 export default ResourceBooking;
 
+function getReturnDateStr(returnDateTime) {
+    if (returnDateTime==null) { return "미반납"}
+    else { return returnDateTime }
+}
+
 function getPurposeTextField(isCheck, content) {
     if (isCheck == 'true') {
         return <PurposeTextarea id='bookingPurpose' cols='135' rows='5' maxLength='100' value={content} readOnly="readOnly" disabled></PurposeTextarea>
@@ -146,4 +170,5 @@ function getPurposeTextField(isCheck, content) {
 
 function requestBookingOffice() {
     alert("자원을 예약하시겠습니까?")
+    // TODO: 자원 예약 API 연결
 }
