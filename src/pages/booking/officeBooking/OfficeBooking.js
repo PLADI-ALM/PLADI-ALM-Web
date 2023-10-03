@@ -84,6 +84,7 @@ function OfficeBooking(props) {
     const [officeInfo, setOfficeInfo] = useState([]);  
     const [bookingInfo, setBookingDetail] = useState([]);  
     var [date, setDate] = useState("");
+    var [officeId, setOfficeId] = useState(1);
 
     const changeDate = (e) => {
         if(bookingDate == '') { bookingDate = new Date().toISOString().slice(0, 10) }
@@ -104,6 +105,7 @@ function OfficeBooking(props) {
             .then((Response)=>{
                 setBookingDetail(Response.data.data)
                 bookingDate = Response.data.data.date
+                setOfficeId(Response.data.data.officeId)
                 setBookingTime(Response.data.data.startTime, Response.data.data.endTime)
             })
             .catch((Error)=>{ 
@@ -127,20 +129,21 @@ function OfficeBooking(props) {
     };
 
     const getOfficeInfoForBooking = () => {
-        // OfficesAxios.get(officeId)
-        //     .then((Response)=>{
-        //         setOfficeInfo(Response.data.data)
-        //     })
-        //     .catch((Error)=>{ 
-        //         console.log(Error)
-        //         window.alert("정보를 불러올 수 없습니댜.") 
-        //         // window.history.back()
-        //     });        
+        OfficesAxios.get(""+officeId)
+            .then((Response)=>{
+                console.log(Response.data.data)
+                setOfficeInfo(Response.data.data)
+            })
+            .catch((Error)=>{ 
+                console.log(Error)
+                window.alert("정보를 불러올 수 없습니댜.") 
+                window.history.back()
+            });        
     };
 
     useEffect(()=> {
-        getOfficeInfoForBooking();
         getBookingTimeState();
+        getOfficeInfoForBooking();
     }, []);
 
     return (
@@ -151,19 +154,18 @@ function OfficeBooking(props) {
 
                 <SubTitleContainer>
                     <MainTextContainer>
-                        <SelectedSubTitleText>{props.isCheck ? "회의실명" : officeInfo.name}</SelectedSubTitleText>
+                        <SelectedSubTitleText>{officeInfo.name}</SelectedSubTitleText>
                     </MainTextContainer>
                     <SubTextContainer>
-                        <UnselectedSubTitleText>{props.isCheck ? "회의실위치" : officeInfo.location}</UnselectedSubTitleText>
+                        <UnselectedSubTitleText>{officeInfo.location}</UnselectedSubTitleText>
                     </SubTextContainer>
                     <StatusContainer isCheck={props.isCheck}>
-                        {/* bookingStatus */}
-                        <StatusText>•사용완료</StatusText>
+                        <StatusText>•{bookingInfo.bookingStatus}</StatusText>
                     </StatusContainer>
                 </SubTitleContainer>
                 
                 <OfficeInfo isDetailPage={true}
-                            isHidden={true}
+                            hidden={props.isCheck}
                             key={officeInfo.name} 
                             name={officeInfo.name}
                             location={officeInfo.location}
@@ -173,7 +175,7 @@ function OfficeBooking(props) {
                             />
 
                 {/* 예약일시 */} 
-                <BookingContentContainer>
+                <BookingContentContainer isCheck={'true'}>
                     <BookingCapsuleContainer>
                         <Capsule color="purple" text="예약일시"/>
                     </BookingCapsuleContainer>
