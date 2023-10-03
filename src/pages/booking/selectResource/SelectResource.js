@@ -1,10 +1,10 @@
 import ImageButton from "components/button/ImageButton";
 import { ResourceSearchBar, RightContainer, TitleText, WhiteContainer } from "components/rightContainer/RightContainer";
 import SearchButtonImg from '../../../assets/images/button/searchButton.png'
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import ResourceInfo from "components/resourceInfo/ResourceInfo";
-import { DatePicker } from "components/searchBar/SearchBar";
+import axios from "axios";
 
 
 export const SearchTitleContainer = styled.div`
@@ -63,7 +63,63 @@ export const SearchDateInput = styled.input`
 
 
 
+
+
+
 function SelectResource(props) {
+
+    const [resourceList, setResourceList] = useState([]);
+    const [resourceName, setResourceName] = useState("");
+    const [startDate, setStartDate] = useState("");
+    const [endDate, setEndDate] = useState("");
+
+    const getResourceList = () => {
+        axios.get("http://13.124.122.173/resources")
+            .then((Response)=>{setResourceList(Response.data.data.content)})
+            .catch((Error)=>{alert(Error)})
+    };
+
+
+    useEffect(() => {
+        getResourceList();
+    }, []);
+
+    const changeResourceName = (e) => {
+        setResourceName(e.target.value)
+    }
+
+    const changeStartDate = (e) => {
+        setStartDate(e.target.value)
+    }
+
+    const changeEndDate = (e) => {
+        setEndDate(e.target.value)
+    }
+
+    const searchResource = () => {
+        if(resourceName == "") {
+            alert("자원명을 입력해주세요.")
+            return
+        }
+
+        if(startDate == "") {
+            alert("예약 날짜를 입력해주세요.")
+            return
+        }
+
+        if(endDate == "") {
+            alert("반납 날짜를 입력해주세요.")
+            return
+        }
+
+
+
+        axios.get("http://13.124.122.173/resources?resourceName="+resourceName+"&startDate="+startDate+"&endDate="+endDate)
+            .then((Response)=>{setResourceList(Response.data.data.content)})
+            .catch((Error)=>{alert("오류 발생")})
+    }
+    
+    
     return(
         <RightContainer>
             <TitleText>{props.title}</TitleText>
@@ -72,31 +128,20 @@ function SelectResource(props) {
                     <SearchTitleText>예약 가능 자원 검색</SearchTitleText>
                 </SearchTitleContainer>
 
-                <SearchTextInput type="text" placeholder="자원명 검색"/>
+                <SearchTextInput type="text" placeholder="자원명 검색" onChange={changeResourceName}/>
                 
                 <SearchDateContainer>
-                    <SearchDateInput type="date"/>
+                    <SearchDateInput type="date" onChange={changeStartDate}/>
                     ~
-                    <SearchDateInput type="date"/>
+                    <SearchDateInput type="date" onChange={changeEndDate}/>
                 </SearchDateContainer>
 
-                <ImageButton image={SearchButtonImg} width={"40px"} height={"40px"} click={props.search} />
+                <ImageButton image={SearchButtonImg} width={"40px"} height={"40px"} click={searchResource} />
             </ResourceSearchBar>
 
             <WhiteContainer>
                 <div className="cardList">
-                    {/* {offices.length == 0 ? <label>예약 가능한 회의실이 없습니다.</label>  : offices.map((office) => <OfficeInfo key={office.name} 
-                                                         name={office.name}
-                                                         location={office.location}
-                                                         capacity={office.capacity}
-                                                         facilityList={office.facilityList}
-                                                         description={office.description}
-                                                         />)} */}
-
-                    <ResourceInfo title="자원명"  category="카테고리" description="이 회의실은 최초로 영국에서 시작되어... 만약 당신이 이 회의실을 사용한다면 행운을 얻게 될 것이고, 이 회의실을 사용하지 않는다면... 각오하셔야 될 것입니다. 이 회의실은 최초로 영국에서 시작되어... 만약 당신이 이 회의실을 사용......" />
-                    <ResourceInfo title="자원명"  category="카테고리" description="이 회의실은 최초로 영국에서 시작되어... 만약 당신이 이 회의실을 사용한다면 행운을 얻게 될 것이고, 이 회의실을 사용하지 않는다면... 각오하셔야 될 것입니다. 이 회의실은 최초로 영국에서 시작되어... 만약 당신이 이 회의실을 사용......" />
-                    <ResourceInfo title="자원명"  category="카테고리" description="이 회의실은 최초로 영국에서 시작되어... 만약 당신이 이 회의실을 사용한다면 행운을 얻게 될 것이고, 이 회의실을 사용하지 않는다면... 각오하셔야 될 것입니다. 이 회의실은 최초로 영국에서 시작되어... 만약 당신이 이 회의실을 사용......" />
-                    <ResourceInfo title="자원명"  category="카테고리" description="이 회의실은 최초로 영국에서 시작되어... 만약 당신이 이 회의실을 사용한다면 행운을 얻게 될 것이고, 이 회의실을 사용하지 않는다면... 각오하셔야 될 것입니다. 이 회의실은 최초로 영국에서 시작되어... 만약 당신이 이 회의실을 사용......" />
+                    {resourceList.length == 0 ? <label>예약 가능한 자원이 없습니다.</label> : resourceList.map((resource) => <ResourceInfo name={resource.name} category={resource.category} description={resource.description}  /> )}
                 </div>
             </WhiteContainer>
         </RightContainer>

@@ -20,7 +20,7 @@ function ResourceInfo(props) {
 
                 <InfoContainer>
                     <ResourceTitleContainer isHidden={props.isTItleHidden}>
-                        <ResourceTitle>{props.title}</ResourceTitle>
+                        <ResourceTitle>{props.name}</ResourceTitle>
                         <CardText>{props.category}</CardText>
                     </ResourceTitleContainer>
 
