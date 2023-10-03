@@ -4,6 +4,63 @@ import SearchButtonImg from '../../../assets/images/button/searchButton.png'
 import React from "react";
 import styled from "styled-components";
 import ResourceInfo from "components/resourceInfo/ResourceInfo";
+import { DatePicker } from "components/searchBar/SearchBar";
+
+
+export const SearchTitleContainer = styled.div`
+    width: 15%;
+    height: 40px;
+    display: flex;
+    border-radius: 8px;
+    border: 1px solid #FFF;
+    background: #FFF;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+`
+
+export const SearchTitleText = styled.text`
+    color: #000;
+    font-family: Manrope;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 16px; 
+    text-align: center;
+`
+
+export const SearchTextInput = styled.input`
+    width: 46%;
+    height: 40px;
+    flex-shrink: 0;
+    font-size: 16px;
+    border-radius: 8px;
+    border: 1px solid #FFF;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    background: #FFF;
+`
+
+export const SearchDateContainer = styled.div`
+    width: 30%;
+    height: 40px;
+    flex-shrink: 0;
+    border-radius: 8px;
+    border: 1px solid #FFF;
+    background: #FFF;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    display: flex;
+    align-items: center;
+`
+export const SearchDateInput = styled.input`
+    background: none;
+    font-family: NanumSquare_ac;
+    font-size: 18px;
+    padding: 0 10px;
+    border: none;
+    width: 45%;
+`
+
+
 
 
 function SelectResource(props) {
@@ -11,19 +68,19 @@ function SelectResource(props) {
         <RightContainer>
             <TitleText>{props.title}</TitleText>
             <ResourceSearchBar>
-                <div>
-                    예약 가능 자원 검색
-                </div>
+                <SearchTitleContainer>
+                    <SearchTitleText>예약 가능 자원 검색</SearchTitleText>
+                </SearchTitleContainer>
 
-                <input type="text" placeholder="자원명 검색"/>
+                <SearchTextInput type="text" placeholder="자원명 검색"/>
                 
-                <div>
-                    <input type="date"/>
+                <SearchDateContainer>
+                    <SearchDateInput type="date"/>
                     ~
-                    <input type="date"/>
-                </div>
+                    <SearchDateInput type="date"/>
+                </SearchDateContainer>
 
-                <ImageButton image={SearchButtonImg} width={"49px"} height={"49px"} click={props.search} />
+                <ImageButton image={SearchButtonImg} width={"40px"} height={"40px"} click={props.search} />
             </ResourceSearchBar>
 
             <WhiteContainer>
