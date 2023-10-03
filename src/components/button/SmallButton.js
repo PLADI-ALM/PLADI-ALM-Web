@@ -11,6 +11,7 @@ const Button = styled.button`
     box-shadow: 0px 4px 4px 0px #00000040;
     padding: 0px 20px;
     height: 35px;
+    cursor: pointer;
 `
 
 function SmallButton(props) {

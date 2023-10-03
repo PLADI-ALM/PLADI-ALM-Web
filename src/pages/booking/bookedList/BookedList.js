@@ -68,7 +68,6 @@ function BookedList(props) {
 
     // 자원 예약내역
     const getResourceBookingList = () => {
-        setBookingList([])
         BookingsAxios.get("?category=resource")
             .then((response) => { setBookingList(response.data.data.content) })
             .catch((error) => { alert(error.response.data.code) })
