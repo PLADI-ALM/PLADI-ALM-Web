@@ -92,7 +92,6 @@ function OfficeBooking(props) {
     const [bookingInfo, setBookingDetail] = useState([]);
     const [bookingStatus, setStatus] = useState([]);
     var [date, setDate] = useState("");
-    var [officeId, setOfficeId] = useState(1);
 
     const changeDate = (e) => {
         if (bookingDate == '') { bookingDate = new Date().toISOString().slice(0, 10) }
@@ -114,7 +113,8 @@ function OfficeBooking(props) {
                     setBookingDetail(Response.data.data)
                     setStatus(findStatus(Response.data.data.bookingStatus))
                     bookingDate = Response.data.data.date
-                    setOfficeId(Response.data.data.officeId)
+                    officeId = Response.data.data.officeId
+                    getOfficeInfoForBooking(officeId)
                     setBookingTime(Response.data.data.startTime, Response.data.data.endTime)
                 })
                 .catch((Error) => {
@@ -137,7 +137,8 @@ function OfficeBooking(props) {
 
     };
 
-    const getOfficeInfoForBooking = () => {
+    const getOfficeInfoForBooking = (id) => {
+        console.log("officeId -> ", officeId)
         OfficesAxios.get("" + officeId)
             .then((Response) => {
                 console.log(Response.data.data)
