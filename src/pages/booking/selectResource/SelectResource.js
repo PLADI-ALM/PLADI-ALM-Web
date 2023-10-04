@@ -21,7 +21,6 @@ export const SearchTitleContainer = styled.div`
 
 export const SearchTitleText = styled.text`
     color: #000;
-    font-family: Manrope;
     font-size: 16px;
     font-style: normal;
     font-weight: 400;
@@ -38,6 +37,7 @@ export const SearchTextInput = styled.input`
     border: 1px solid #FFF;
     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
     background: #FFF;
+    padding-left: 10px;
 `
 
 export const SearchDateContainer = styled.div`
@@ -97,26 +97,9 @@ function SelectResource(props) {
     }
 
     const searchResource = () => {
-        if(resourceName == "") {
-            alert("자원명을 입력해주세요.")
-            return
-        }
-
-        if(startDate == "") {
-            alert("예약 날짜를 입력해주세요.")
-            return
-        }
-
-        if(endDate == "") {
-            alert("반납 날짜를 입력해주세요.")
-            return
-        }
-
-
-
         axios.get("http://13.124.122.173/resources?resourceName="+resourceName+"&startDate="+startDate+"&endDate="+endDate)
             .then((Response)=>{setResourceList(Response.data.data.content)})
-            .catch((Error)=>{alert("오류 발생")})
+            .catch((Error)=>{alert(Error.response.data.message)})
     }
     
     
@@ -141,7 +124,7 @@ function SelectResource(props) {
 
             <WhiteContainer>
                 <div className="cardList">
-                    {resourceList.length == 0 ? <label>예약 가능한 자원이 없습니다.</label> : resourceList.map((resource) => <ResourceInfo name={resource.name} category={resource.category} description={resource.description}  /> )}
+                    {resourceList.length == 0 ? <label>예약 가능한 자원이 없습니다.</label> : resourceList.map((resource) => <ResourceInfo key={resource.resourceId} name={resource.name} image={resource.imgUrl} category={resource.category} description={resource.description}  /> )}
                 </div>
             </WhiteContainer>
         </RightContainer>
