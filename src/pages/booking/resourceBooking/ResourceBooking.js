@@ -103,6 +103,7 @@ function ResourceBooking(props) {
                 setBookingDetail(Response.data.data)
                 setStatus(findStatus(Response.data.data.status))
                 resourceId = Response.data.data.resourceId 
+                getResourceInfoForBooking(resourceId)
             })
             .catch((Error)=>{ 
                 console.log('Error -> ', Error)
