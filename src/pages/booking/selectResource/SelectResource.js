@@ -21,7 +21,6 @@ export const SearchTitleContainer = styled.div`
 
 export const SearchTitleText = styled.text`
     color: #000;
-    font-family: Manrope;
     font-size: 16px;
     font-style: normal;
     font-weight: 400;
@@ -38,6 +37,7 @@ export const SearchTextInput = styled.input`
     border: 1px solid #FFF;
     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
     background: #FFF;
+    padding-left: 10px;
 `
 
 export const SearchDateContainer = styled.div`
