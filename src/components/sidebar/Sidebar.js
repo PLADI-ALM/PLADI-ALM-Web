@@ -1,7 +1,7 @@
 import React from 'react';
 import { styled } from 'styled-components';
 import { useLocation, Link } from "react-router-dom";
-import logo from 'assets/images/fullNameLogo.svg';
+import logo from 'assets/images/imgNameLogo.svg';
 import MainMenu from "components/sidebar/MainMenu";
 import SubMenu from "components/sidebar/SubMenu";
 import { MAIN_MENUS, MAIN_PATH, MANAGER_MAIN_MENUS } from "constants/Path";
@@ -32,9 +32,9 @@ const LogoImg = styled.img.attrs({ src: `${logo}` })`
     height: 52px;
 `
 
-const LogoName = styled.h2`
+export const LogoName = styled.h2`
     margin-top: 10px;
-    color: #8741CB;
+    color: #640FAF;
     text-align: center;
 `
 
