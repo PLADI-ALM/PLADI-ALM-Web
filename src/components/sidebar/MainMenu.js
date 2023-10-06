@@ -1,8 +1,8 @@
 import React from 'react';
 import { styled } from 'styled-components';
-import ToggleActiveIcon from 'assets/images/sidebarIcon/toggleActive.png'
-import ToggleInactiveIcon from 'assets/images/sidebarIcon/toggleInactive.png'
-import { InActiveMenuLine, ActiveMenuLine } from './MenuLineStyle';
+import ToggleActiveIcon from 'assets/images/sidebarIcon/toggleActive.svg'
+import ToggleInactiveIcon from 'assets/images/sidebarIcon/toggleInactive.svg'
+import { InactiveMenuLine, ActiveMenuLine } from './MenuLineStyle';
 
 
 const ActiveMainMenuLine = styled(ActiveMenuLine)`
@@ -11,11 +11,15 @@ const ActiveMainMenuLine = styled(ActiveMenuLine)`
 
 const Icon = styled.img`
     margin-right: 10px;
+    width: 20px;
+    height: 20px;
 `
 
 const ToggleIcon = styled.img`
     margin-left: auto;
     display: block;
+    width: 20px;
+    height: 20px;
 `
 
 function MainMenu(props) {
@@ -26,14 +30,14 @@ function MainMenu(props) {
                     <ActiveMainMenuLine to={props.info.path}>
                         <Icon src={props.info.icons[0]} />
                         {props.info.name}
-                        <ToggleIcon src={props.info.subMenus !== null ? ToggleActiveIcon : null} />
+                        {props.info.subMenus !== null ? <ToggleIcon src={ToggleActiveIcon} /> : null}
                     </ActiveMainMenuLine>
                     :
-                    <InActiveMenuLine to={props.info.path}>
+                    <InactiveMenuLine to={props.info.path}>
                         <Icon src={props.info.icons[1]} />
                         {props.info.name}
-                        <ToggleIcon src={props.info.subMenus !== null ? ToggleInactiveIcon : null} />
-                    </InActiveMenuLine>
+                        {props.info.subMenus !== null ? <ToggleIcon src={ToggleInactiveIcon} /> : null}
+                    </InactiveMenuLine>
             }
         </>
     );
