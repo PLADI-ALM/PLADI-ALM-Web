@@ -4,6 +4,7 @@ import axios from "axios";
 import { RightContainer, TitleText, WhiteContainer } from "components/rightContainer/RightContainer";
 import { Bar, BookedTable, BookedThead, TableContainer } from "../bookedList/BookedList";
 import OfficeManageTableCell from "./OfficeManageTableCell";
+import ManageSearchBar from "components/searchBar/ManageSearchBar";
 
 
 function OfficeManage(props) {
@@ -12,6 +13,7 @@ function OfficeManage(props) {
     return (
        <RightContainer>
             <TitleText>{props.title}</TitleText>
+            <ManageSearchBar buttonTitle="자원 추가"/>
 
             <WhiteContainer>
                 <Bar />
