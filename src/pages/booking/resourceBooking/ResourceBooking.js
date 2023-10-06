@@ -1,5 +1,8 @@
 import React from 'react';
 import styled from "styled-components"
+import Calendar from 'react-calendar';
+import 'react-calendar/dist/Calendar.css';
+import moment, { locale } from 'moment';
 import { ResourcesAxios, BookingsAxios } from 'api/AxiosApi';
 import { useState, useEffect } from "react";
 import Capsule from 'components/capsule/Capsule';
@@ -9,15 +12,12 @@ import ResourceInfo from 'components/resourceInfo/ResourceInfo';
 import { BookingContentContainer, RequestButtonContainer, RequestBookingButton } from 'components/officeBooking/BookingTimeBar';
 import { StatusText, StatusContainer, StatusCircle } from 'components/booking/StatusTag';
 import { findStatus } from 'constants/BookingStatus';
+import { RightContainer } from 'components/rightContainer/RightContainer';
+import 'react-calendar/dist/Calendar.css';
 
-var startDate = '2023.10.01'
-var endDate = '2023.10.15'
-
-export const Container = styled.div`
-    width: 87%;
-    margin-left: 80px;
-    margin-top: 70px;
-`
+var isStartDateSelect = false;
+var startDate = '';
+var endDate = '';
 
 export const TitleText = styled.p`
     color: #4C4C4C;
@@ -38,10 +38,11 @@ export const ContentContainer = styled.div`
     margin-top: 20px;
 `
 
-export const BookingDateText = styled.p`
+export const BookingDateText = styled.text`
     margin: 5px 0 0 0;
     padding-left: 10px;
     color: #575757;
+    background-color: ${props => props.isSelected != 'true' ? 'red' : 'white'}
     font-family: NanumSquare_ac;
     font-size: 22px;
     font-weight: 400;
@@ -70,6 +71,29 @@ const MyStatusContainer = styled(StatusContainer)`
     float: right;
 `
 
+const BookingDateContainer = styled.div`
+    padding-top: 5%;
+    display: flex;
+`
+
+const DateContainer = styled.div`
+    float: left;
+    padding-left: 1%;
+`
+
+const BookingDateInput = styled.input`
+    width: 125px;
+    margin: 5px 0 0 0;
+    padding-left: 10px;
+    color: #575757;
+    background-color: ${props => props.isSelected != 'true' ? 'red' : 'white'}
+    font-family: NanumSquare_ac;
+    font-size: 22px;
+    font-weight: 400;
+    letter-spacing: 0em;
+    text-align: left;
+`
+
 var bookingId = 1;
 var resourceId = 1;
 
@@ -85,6 +109,9 @@ function ResourceBooking(props) {
     const [resourceInfo, setResourceInfo] = useState([]);  
     const [bookingInfo, setBookingDetail] = useState([]); 
     const [bookingStatus, setStatus] = useState([]);
+
+    var [start, setStartDate] = useState();
+    var [end, setEndDate] = useState();
 
     const getResourceInfoForBooking = () => {
         ResourcesAxios.get(""+resourceId)
@@ -103,6 +130,8 @@ function ResourceBooking(props) {
                 setBookingDetail(Response.data.data)
                 setStatus(findStatus(Response.data.data.status))
                 resourceId = Response.data.data.resourceId 
+                startDate = bookingInfo.startDate
+                endDate = bookingInfo.endDate
                 getResourceInfoForBooking(resourceId)
             })
             .catch((Error)=>{ 
@@ -111,10 +140,19 @@ function ResourceBooking(props) {
                 window.history.back()
             });
 
-        } else {
-            // TODO: 자원 예약 화면 -> 자원 개별 조회 API 연결
-        }  
+        } 
     };
+
+    const changeDate = e => {
+        const startDateFormat = moment(e[0]).format("YYYY-MM-DD");
+        const endDateFormat = moment(e[1]).format("YYYY-MM-DD");
+
+        setStartDate(startDateFormat);
+        setEndDate(endDateFormat);
+
+        startDate = startDateFormat;
+        endDate = endDateFormat;
+      };
 
     useEffect(()=> {
         getResourceInfoForBooking();
@@ -122,7 +160,7 @@ function ResourceBooking(props) {
     }, []);
 
     console.log("status -> ", bookingStatus)
-    return <Container>
+    return <RightContainer>
         <TitleText>{(props.isCheck == 'true') ? "예약 내역" : "자원 예약"}</TitleText>
 
         <ContentContainer isCheck={props.isCheck}>
@@ -151,8 +189,19 @@ function ResourceBooking(props) {
             <BookingContentContainer isCheck={'true'}>
                 <BookingCapsuleContainer>
                     <Capsule color="purple" text="예약일시"/>
-                </BookingCapsuleContainer>                 
-                <BookingDateText>{bookingInfo.startDate + " ~ " + bookingInfo.endDate}</BookingDateText>
+                </BookingCapsuleContainer>  
+                <DateContainer>
+                    <BookingDateText>{start || "시작일"}</BookingDateText>
+                    <BookingDateText> ~ </BookingDateText>
+                    <BookingDateText>{end || "마감일"}</BookingDateText>
+
+                    <BookingDateContainer>
+                        <Calendar onChange={changeDate}
+                                selectRange={true}
+                                formatDay={(loacale, date) => moment(date).format("DD")}
+                        />                  
+                    </BookingDateContainer>
+                </DateContainer>               
             </BookingContentContainer>
 
             <BookingContentContainer isCheck={props.isCheck}>
@@ -181,7 +230,7 @@ function ResourceBooking(props) {
 
 
         </ContentContainer>
-    </Container>
+    </RightContainer>
 }
 export default ResourceBooking;
 
@@ -199,6 +248,13 @@ function getPurposeTextField(isCheck, content) {
 
 
 function requestBookingOffice() {
-    alert("자원을 예약하시겠습니까?")
-    // TODO: 자원 예약 API 연결
+    var bookingPurpose = document.getElementById("bookingPurpose").value;
+
+    if (window.confirm("예약하시겠습니까?")) {
+        // TODO: 자원 예약 API 연결
+
+        console.log('start date : ', startDate)
+        console.log('end date : ', endDate)
+        console.log('예약목적 : ', bookingPurpose)
+    }
 }

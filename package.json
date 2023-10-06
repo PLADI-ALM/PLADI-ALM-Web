@@ -8,6 +8,7 @@
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.5.0",
     "create-react-app": "^5.0.1",
+    "moment": "^2.29.4",
     "react": "^18.2.0",
     "react-calendar": "^4.6.0",
     "react-datepicker": "^4.18.0",
