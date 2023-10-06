@@ -23,6 +23,7 @@ function App() {
         {/* 나중에 로그인 화면 생기면 활용하기 */}
         {/* <Route path="/" element={<Login />} /> */}
         <Route element={<SidebarLayout />}>
+          <Route path="/" element={<SelectOffice title="회의실 예약" />} />
           <Route path="/officeBooking" element={<SelectOffice title="회의실 예약" />} />
           <Route path="/officeBooking/:officeId" element={<OfficeBooking isCheck='false'/>} /> 
           <Route path="/bookings" element={<BookedList title="예약 내역" />} />
