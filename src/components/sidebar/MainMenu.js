@@ -9,7 +9,7 @@ const ActiveMainMenuLine = styled(ActiveMenuLine)`
     border-left: 5px solid #8741CB;
 `
 
-const Icon = styled.img`
+export const Icon = styled.img`
     margin-right: 10px;
     width: 20px;
     height: 20px;
