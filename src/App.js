@@ -15,7 +15,7 @@ function App() {
       <Sidebar />
       <Outlet />
     </>
-  );
+  )
 
   return (
     <div className="App">
@@ -24,18 +24,18 @@ function App() {
         {/* <Route path="/" element={<Login />} /> */}
         <Route element={<SidebarLayout />}>
           <Route path="/officeBooking" element={<SelectOffice title="회의실 예약" />} />
-          <Route path="/officeBooking/:officeId" element={<OfficeBooking isCheck='false'/>} /> 
+          <Route path="/officeBooking/:officeId" element={<OfficeBooking isCheck='false' />} />
           <Route path="/bookings" element={<BookedList title="예약 내역" />} />
-          <Route path="/bookings/offices/:bookingId" element={<OfficeBooking isCheck='true'/>} /> 
+          <Route path="/bookings/offices/:bookingId" element={<OfficeBooking isCheck='true' />} />
           <Route path='/bookings/resources/:bookingId' element={<ResourceBooking isCheck='true' />} />
           <Route path='/resourceBooking' element={<SelectResource title="자원 예약" />} />
-          <Route path='/resourceBooking/:resourceId' element={<ResourceBooking/>} />
+          <Route path='/resourceBooking/:resourceId' element={<ResourceBooking />} />
           {/* 나중에 요런식으로 활용하기 */}
           {/* <Route path="/reportManage/:recipeReportIdx" element={<ReportManageDetail />} /> */}
         </Route>
       </Routes>
     </div>
-  );
+  )
 }
 
 export default App;
