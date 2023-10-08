@@ -29,7 +29,9 @@ function ResourceBookingManage(props) {
                             </tr>
                         </BookedThead>
                         <tbody>
-                            <ResourceBookingManageCell name="Macbook Air"  detailInfo="전자기기" startDateTime="2023.10.01" endDate="2023.10.02" human="김초원(대리)" status="예약대기"  description="허가 | 반려 | 상세보기"/>
+                            <ResourceBookingManageCell name="Macbook Air"  detailInfo="전자기기" startDateTime="2023.10.01" endDate="2023.10.02" human="김초원(대리)" status="예약대기" />
+                            <ResourceBookingManageCell name="Macbook Air"  detailInfo="전자기기" startDateTime="2023.10.01" endDate="2023.10.02" human="김초원(대리)" status="예약취소" />
+                            <ResourceBookingManageCell name="Macbook Air"  detailInfo="전자기기" startDateTime="2023.10.01" endDate="2023.10.02" human="김초원(대리)" status="사용중" />
                         </tbody>
                     </BookedTable>
                 </TableContainer>
