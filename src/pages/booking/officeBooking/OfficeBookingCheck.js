@@ -1,5 +1,4 @@
 import React from 'react';
-import styled from "styled-components"
 import axios from "axios";
 import { OfficesAxios, BookingsAxios } from 'api/AxiosApi';
 import { useState, useEffect } from "react";
@@ -12,13 +11,14 @@ import { BookingContentContainer, BookingTimeContainer, renderBookingTimeBar, Bo
 import { BookingPurposeContainer, BookingCapsuleContainer, BookingPurposeTextFieldContainer } from 'components/officeBooking/BookingPurpose';
 import { findStatus } from 'constants/BookingStatus';
 import { Container, TitleText, ContentContainer, MyStatusContainer, BookingDateText, PurposeTextarea } from './OfficeBooking';
+import { RightContainer } from 'components/rightContainer/RightContainer';
 
 var bookingDate = '';
 var bookingId = 1;
 var officeId = 1;
 
 function OfficeBookingCheck(props) {
-    bookingId = window.location.href.substring(39,)
+    bookingId = window.location.href.substring(43,)
 
     const [officeInfo, setOfficeInfo] = useState([]);
     const [bookingInfo, setBookingDetail] = useState([]);
@@ -44,7 +44,7 @@ function OfficeBookingCheck(props) {
         .catch((Error) => {
             console.log('Error -> ', Error)
             window.alert("예약 정보를 불러올 수 없습니댜.")
-            window.history.back()
+            // window.history.back()
         });
     };
 
@@ -68,7 +68,7 @@ function OfficeBookingCheck(props) {
     }, []);
 
     return (
-        <Container>
+        <RightContainer>
             <TitleText>{props.title}</TitleText>
 
             <ContentContainer>
@@ -87,10 +87,7 @@ function OfficeBookingCheck(props) {
                 </SubTitleContainer>
 
                 <OfficeInfo isDetailPage={true}
-                    hidden={props.isCheck}
                     key={officeInfo.name}
-                    name={officeInfo.name}
-                    location={officeInfo.location}
                     capacity={officeInfo.capacity}
                     facilityList={officeInfo.facilityList}
                     description={officeInfo.description}
@@ -107,7 +104,7 @@ function OfficeBookingCheck(props) {
                 </BookingContentContainer>
 
                 <BookingTimeContainer>
-                    {renderBookingTimeBar(props.isCheck)}
+                    {renderBookingTimeBar(true)}
                 </BookingTimeContainer>
 
 
@@ -123,7 +120,7 @@ function OfficeBookingCheck(props) {
                 </BookingPurposeContainer> 
 
             </ContentContainer>
-        </Container>
+        </RightContainer>
     );
 }
 export default OfficeBookingCheck;

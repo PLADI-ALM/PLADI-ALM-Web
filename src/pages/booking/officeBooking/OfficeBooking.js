@@ -165,12 +165,12 @@ function OfficeBooking(props) {
                         <Capsule color="purple" text="예약일시" />
                     </BookingCapsuleContainer>
                     <BookingDateTextContainer>
-                        {getBookingDate(props.isCheck, bookingInfo, changeDate)}
+                        {getBookingDate(false, bookingInfo, changeDate)}
                     </BookingDateTextContainer>
                 </BookingContentContainer>
 
                 <BookingTimeContainer>
-                    {renderBookingTimeBar(props.isCheck)}
+                    {renderBookingTimeBar(false)}
                 </BookingTimeContainer>
 
 
