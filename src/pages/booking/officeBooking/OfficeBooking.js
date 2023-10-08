@@ -33,7 +33,7 @@ export const TitleText = styled.p`
     font-style: normal;
     font-weight: 700;
     align: left;
-    width: 170px;
+    display: flex;
     margin: 0;
 `
 
@@ -120,7 +120,7 @@ function OfficeBooking(props) {
                 .catch((Error) => {
                     console.log('Error -> ', Error)
                     window.alert("예약 정보를 불러올 수 없습니댜.")
-                    window.history.back()
+                    // window.history.back()
                 });
 
         } else {
@@ -131,7 +131,7 @@ function OfficeBooking(props) {
                 .catch((Error) => {
                     console.log(Error)
                     window.alert("정보를 불러올 수 없습니댜.")
-                    window.history.back()
+                    // window.history.back()
                 });
         }
 
@@ -147,7 +147,7 @@ function OfficeBooking(props) {
             .catch((Error) => {
                 console.log(Error)
                 window.alert("정보를 불러올 수 없습니댜.")
-                window.history.back()
+                // window.history.back()
             });
     };
 
@@ -158,7 +158,7 @@ function OfficeBooking(props) {
 
     return (
         <Container>
-            <TitleText>{(props.isCheck === 'true') ? "예약 내역" : "회의실 예약"}</TitleText>
+            <TitleText>{props.title}</TitleText>
 
             <ContentContainer isCheck={props.isCheck}>
 
