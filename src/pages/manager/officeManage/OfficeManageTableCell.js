@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { BookedLineTr } from '../bookedList/BookedList';
+import { BookedLineTr } from '../../booking/bookedList/BookedList';
 
 
 
