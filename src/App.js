@@ -1,6 +1,7 @@
 import 'App.css';
 import { Routes, Route, Outlet } from 'react-router-dom';
 import Sidebar from 'components/sidebar/Sidebar';
+import Login from 'pages/user/Login';
 import SelectOffice from 'pages/booking/selectOffice/SelectOffice';
 import BookedList from 'pages/booking/bookedList/BookedList';
 import MainPage from 'pages/main/MainPage';
@@ -20,8 +21,7 @@ function App() {
   return (
     <div className="App">
       <Routes>
-        {/* 나중에 로그인 화면 생기면 활용하기 */}
-        {/* <Route path="/" element={<Login />} /> */}
+        <Route path="/" element={<Login />} />
         <Route element={<SidebarLayout />}>
           <Route path="/officeBooking" element={<SelectOffice title="회의실 예약" />} />
           <Route path="/officeBooking/:officeId" element={<OfficeBooking isCheck='false' />} />
