@@ -114,6 +114,18 @@ function Sidebar() {
         getUserInfo()
     }, [])
 
+    // 관리자 메뉴
+    const managerMenus =
+        <>
+            <MainMenu info={MANAGER_MAIN_MENUS[0]} active={useIsMenuActive(MANAGER_MAIN_MENUS[0].path)} />
+            <MainMenu info={MANAGER_MAIN_MENUS[1]} active={useIsMenuActive(MANAGER_MAIN_MENUS[1].path)} />
+            <MainMenu info={MANAGER_MAIN_MENUS[2]} active={useIsMenuActive(MANAGER_MAIN_MENUS[2].path)} />
+            <MainMenu info={MANAGER_MAIN_MENUS[3]} active={useIsMenuActive(MANAGER_MAIN_MENUS[3].path)} />
+            <SubMenus active={useIsSubMenuActive(MANAGER_MAIN_MENUS[3].subMenus)}>
+                {MANAGER_MAIN_MENUS[3].subMenus.map(sub => { return (<SubMenu path={sub.path} name={sub.name} />) })}
+            </SubMenus>
+        </>
+
     return (
         <Container>
             <div>
@@ -131,13 +143,8 @@ function Sidebar() {
                 <MainMenu info={MAIN_MENUS[2]} active={useIsMenuActive(MAIN_MENUS[2].path)} />
 
                 {/* 관리자 메뉴 */}
-                <MainMenu info={MANAGER_MAIN_MENUS[0]} active={useIsMenuActive(MANAGER_MAIN_MENUS[0].path)} />
-                <MainMenu info={MANAGER_MAIN_MENUS[1]} active={useIsMenuActive(MANAGER_MAIN_MENUS[1].path)} />
-                <MainMenu info={MANAGER_MAIN_MENUS[2]} active={useIsMenuActive(MANAGER_MAIN_MENUS[2].path)} />
-                <MainMenu info={MANAGER_MAIN_MENUS[3]} active={useIsMenuActive(MANAGER_MAIN_MENUS[3].path)} />
-                <SubMenus active={useIsSubMenuActive(MANAGER_MAIN_MENUS[3].subMenus)}>
-                    {MANAGER_MAIN_MENUS[3].subMenus.map(sub => { return (<SubMenu path={sub.path} name={sub.name} />) })}
-                </SubMenus>
+                {isManager() ? managerMenus : null}
+
             </div>
 
             <MyBox>

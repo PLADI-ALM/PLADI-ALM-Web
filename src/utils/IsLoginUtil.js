@@ -11,7 +11,7 @@ export function isLogin() {
 export function isManager() {
     var role = getCookie('Role')
     if (role == null) return false
-    return getCookie('Role') === 'MANAGER'
+    return getCookie('Role') === 'ADMIN'
 }
 
 export function navigateToLogin() {
