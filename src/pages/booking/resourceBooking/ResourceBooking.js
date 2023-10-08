@@ -10,8 +10,8 @@ import { BookingContentContainer, RequestButtonContainer, RequestBookingButton }
 import { StatusText, StatusContainer, StatusCircle } from 'components/booking/StatusTag';
 import { findStatus } from 'constants/BookingStatus';
 
-var startDate = '2023.10.01'
-var endDate = '2023.10.15'
+// var startDate = '2023.10.01'
+// var endDate = '2023.10.15'
 
 export const Container = styled.div`
     width: 87%;
@@ -75,55 +75,55 @@ var resourceId = 1;
 
 function setId(isCheck) {
     // TODO: 수정할 예정
-    if(isCheck == 'true') { bookingId = window.location.href.substring(41,) } 
+    if (isCheck === 'true') { bookingId = window.location.href.substring(41,) }
     else { resourceId = window.location.href.substring(38,) }
 }
 
 function ResourceBooking(props) {
     setId(props.isCheck);
 
-    const [resourceInfo, setResourceInfo] = useState([]);  
-    const [bookingInfo, setBookingDetail] = useState([]); 
+    const [resourceInfo, setResourceInfo] = useState([]);
+    const [bookingInfo, setBookingDetail] = useState([]);
     const [bookingStatus, setStatus] = useState([]);
 
     const getResourceInfoForBooking = () => {
-        ResourcesAxios.get(""+resourceId)
-        .then((Response)=>{ setResourceInfo(Response.data.data) })
-        .catch((Error)=>{ 
-            console.log(Error)
-            window.alert("정보를 불러올 수 없습니댜.") 
-            window.history.back()
-        });        
+        ResourcesAxios.get("" + resourceId)
+            .then((Response) => { setResourceInfo(Response.data.data) })
+            .catch((Error) => {
+                console.log(Error)
+                window.alert("정보를 불러올 수 없습니댜.")
+                window.history.back()
+            });
     };
     const getBookingTimeState = () => {
 
-        if (props.isCheck == 'true') {
-            BookingsAxios.get("resources/"+bookingId)
-            .then((Response)=>{ 
-                setBookingDetail(Response.data.data)
-                setStatus(findStatus(Response.data.data.status))
-                resourceId = Response.data.data.resourceId 
-                getResourceInfoForBooking(resourceId)
-            })
-            .catch((Error)=>{ 
-                console.log('Error -> ', Error)
-                window.alert("예약 정보를 불러올 수 없습니댜.") 
-                window.history.back()
-            });
+        if (props.isCheck === 'true') {
+            BookingsAxios.get("resources/" + bookingId)
+                .then((Response) => {
+                    setBookingDetail(Response.data.data)
+                    setStatus(findStatus(Response.data.data.status))
+                    resourceId = Response.data.data.resourceId
+                    getResourceInfoForBooking(resourceId)
+                })
+                .catch((Error) => {
+                    console.log('Error -> ', Error)
+                    window.alert("예약 정보를 불러올 수 없습니댜.")
+                    window.history.back()
+                });
 
         } else {
             // TODO: 자원 예약 화면 -> 자원 개별 조회 API 연결
-        }  
+        }
     };
 
-    useEffect(()=> {
+    useEffect(() => {
         getResourceInfoForBooking();
         getBookingTimeState();
     }, []);
 
     console.log("status -> ", bookingStatus)
     return <Container>
-        <TitleText>{(props.isCheck == 'true') ? "예약 내역" : "자원 예약"}</TitleText>
+        <TitleText>{(props.isCheck === 'true') ? "예약 내역" : "자원 예약"}</TitleText>
 
         <ContentContainer isCheck={props.isCheck}>
 
@@ -142,24 +142,24 @@ function ResourceBooking(props) {
 
 
             <ResourceInfo isTItleHidden={true}
-                        title={"title"}
-                        category={"category"}
-                        description={"description"}
-                        />
+                title={"title"}
+                category={"category"}
+                description={"description"}
+            />
 
             {/* 예약일시 */}
             <BookingContentContainer isCheck={'true'}>
                 <BookingCapsuleContainer>
-                    <Capsule color="purple" text="예약일시"/>
-                </BookingCapsuleContainer>                 
+                    <Capsule color="purple" text="예약일시" />
+                </BookingCapsuleContainer>
                 <BookingDateText>{bookingInfo.startDate + " ~ " + bookingInfo.endDate}</BookingDateText>
             </BookingContentContainer>
 
             <BookingContentContainer isCheck={props.isCheck}>
                 <BookingCapsuleContainer>
-                    <Capsule color="purple" text="반납일자"/>
-                </BookingCapsuleContainer>                 
-                <BookingDateText>{getReturnDateStr(bookingInfo.returnDateTime)}</BookingDateText> 
+                    <Capsule color="purple" text="반납일자" />
+                </BookingCapsuleContainer>
+                <BookingDateText>{getReturnDateStr(bookingInfo.returnDateTime)}</BookingDateText>
             </BookingContentContainer>
 
 
@@ -186,11 +186,11 @@ function ResourceBooking(props) {
 export default ResourceBooking;
 
 function getReturnDateStr(returnDateTime) {
-return (returnDateTime==null) ? "미반납" : returnDateTime
+    return (returnDateTime == null) ? "미반납" : returnDateTime
 }
 
 function getPurposeTextField(isCheck, content) {
-    if (isCheck == 'true') {
+    if (isCheck === 'true') {
         return <PurposeTextarea id='bookingPurpose' cols='135' rows='5' maxLength='100' value={content} readOnly="readOnly" disabled></PurposeTextarea>
     } else {
         return <PurposeTextarea id='bookingPurpose' cols='135' rows='5' maxLength='100'></PurposeTextarea>
