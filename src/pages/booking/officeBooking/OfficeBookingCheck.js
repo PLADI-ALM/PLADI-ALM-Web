@@ -1,6 +1,5 @@
 import React from 'react';
-import axios from "axios";
-import { OfficesAxios, BookingsAxios } from 'api/AxiosApi';
+import { AdminBookingAxios, BookingsAxios, OfficesAxios } from 'api/AxiosApi';
 import { useState, useEffect } from "react";
 import Capsule from 'components/capsule/Capsule';
 
@@ -10,7 +9,7 @@ import { StatusText, StatusCircle } from 'components/booking/StatusTag';
 import { BookingContentContainer, BookingTimeContainer, renderBookingTimeBar, BookingDateTextContainer, setBookingTime } from 'components/officeBooking/BookingTimeBar';
 import { BookingPurposeContainer, BookingCapsuleContainer, BookingPurposeTextFieldContainer } from 'components/officeBooking/BookingPurpose';
 import { findStatus } from 'constants/BookingStatus';
-import { Container, TitleText, ContentContainer, MyStatusContainer, BookingDateText, PurposeTextarea } from './OfficeBooking';
+import { TitleText, ContentContainer, MyStatusContainer, BookingDateText, PurposeTextarea } from './OfficeBooking';
 import { RightContainer } from 'components/rightContainer/RightContainer';
 
 var bookingDate = '';
@@ -18,27 +17,31 @@ var bookingId = 1;
 var officeId = 1;
 
 function OfficeBookingCheck(props) {
-    bookingId = window.location.href.substring(43,)
+    bookingId = props.isAdmin 
+                ? window.location.href.substring(43,) 
+                : window.location.href.substring(39,)
 
     const [officeInfo, setOfficeInfo] = useState([]);
     const [bookingInfo, setBookingDetail] = useState([]);
     const [bookingStatus, setStatus] = useState([]);
     var [date, setDate] = useState("");
 
-    const getBookingTimeState = () => {
+    const getBookingInfo = () => {
         if (date.length == 0) {
             const dateNow = new Date();
             date = dateNow.toISOString().slice(0, 10);
             bookingDate = date;
         }
 
-        BookingsAxios.get("offices/" + bookingId)
+        (props.isAdmin 
+        ? AdminBookingAxios.get("offices/"+bookingId)
+        : BookingsAxios.get("offices/" + bookingId))
         .then((Response) => {
             setBookingDetail(Response.data.data)
             setStatus(findStatus(Response.data.data.bookingStatus))
             bookingDate = Response.data.data.date
             officeId = Response.data.data.officeId
-            getOfficeInfoForBooking(officeId)
+            getOfficeInfo(officeId)
             setBookingTime(Response.data.data.startTime, Response.data.data.endTime)
         })
         .catch((Error) => {
@@ -48,8 +51,7 @@ function OfficeBookingCheck(props) {
         });
     };
 
-    const getOfficeInfoForBooking = (id) => {
-        console.log("officeId -> ", officeId)
+    const getOfficeInfo = (id) => {
         OfficesAxios.get("" + officeId)
             .then((Response) => {
                 console.log(Response.data.data)
@@ -63,13 +65,13 @@ function OfficeBookingCheck(props) {
     };
 
     useEffect(() => {
-        getBookingTimeState();
-        getOfficeInfoForBooking();
+        getBookingInfo();
+        getOfficeInfo();
     }, []);
 
     return (
         <RightContainer>
-            <TitleText>{props.title}</TitleText>
+            <TitleText>{props.isAdmin ? "회의실 예약 내역" : "예약 내역"}</TitleText>
 
             <ContentContainer>
 
@@ -80,7 +82,7 @@ function OfficeBookingCheck(props) {
                     <SubTextContainer>
                         <UnselectedSubTitleText>{officeInfo.location}</UnselectedSubTitleText>
                     </SubTextContainer>
-                    <MyStatusContainer isCheck={true} background={bookingStatus.background}>
+                    <MyStatusContainer isCheck={'true'} background={bookingStatus.background}>
                         <StatusCircle color={bookingStatus.color} />
                         <StatusText color={bookingStatus.color}>{bookingStatus.name}</StatusText>
                     </MyStatusContainer>
@@ -93,7 +95,6 @@ function OfficeBookingCheck(props) {
                     description={officeInfo.description}
                 />
 
-                {/* 예약일시 */}
                 <BookingContentContainer isCheck={'true'}>
                     <BookingCapsuleContainer>
                         <Capsule color="purple" text="예약일시" />
@@ -104,18 +105,22 @@ function OfficeBookingCheck(props) {
                 </BookingContentContainer>
 
                 <BookingTimeContainer>
-                    {renderBookingTimeBar(true)}
+                    {renderBookingTimeBar('true')}
                 </BookingTimeContainer>
 
 
-                {/* 예약목적 */}
                 <BookingPurposeContainer>
                     <BookingCapsuleContainer>
                         <Capsule color="purple" text="예약목적" />
                     </BookingCapsuleContainer>
 
                     <BookingPurposeTextFieldContainer>
-                        <PurposeTextarea id='bookingPurpose' cols='135' rows='5' maxLength='100' value={bookingInfo.memo} readOnly="readOnly" disabled></PurposeTextarea>
+                        <PurposeTextarea id='bookingPurpose' 
+                                        cols='135' rows='5' 
+                                        maxLength='100' 
+                                        value={bookingInfo.memo} 
+                                        readOnly="readOnly" 
+                                        disabled></PurposeTextarea>
                     </BookingPurposeTextFieldContainer>
                 </BookingPurposeContainer> 
 
