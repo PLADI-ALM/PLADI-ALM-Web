@@ -84,6 +84,7 @@ function ResourceBooking(props) {
     const [dates, setBookedDates] = useState([]);
     var [start, setStartDate] = useState();
     var [end, setEndDate] = useState();
+    const [changed, setCurrentMonth] = useState();
 
     const getResourceInfo = () => {
         ResourcesAxios.get(""+resourceId)
@@ -91,7 +92,7 @@ function ResourceBooking(props) {
         .catch((Error)=>{ 
             console.log(Error)
             window.alert("자원 정보를 불러올 수 없습니댜.") 
-            // window.history.back()
+            window.history.back()
         });        
     };
 
@@ -102,12 +103,11 @@ function ResourceBooking(props) {
             var temp = [];  
             Response.data.data.map(function(date) { temp.push(new Date(date)) })
             setBookedDates(temp)
-            console.log('temp -> ', temp)
         })
         .catch((Error)=>{ 
             console.log(Error)
             window.alert("예약 현황 정보를 불러올 수 없습니댜.") 
-            // window.history.back()
+            window.history.back()
         }); 
     }
 
@@ -120,7 +120,14 @@ function ResourceBooking(props) {
 
         startDate = startDateFormat;
         endDate = endDateFormat;
-      };
+    };
+
+    const onActiveStartDateChange = (e) => {
+        const changed = moment(e.activeStartDate).format("YYYY-MM")
+        setCurrentMonth(changed)
+        currentMonth = changed
+        getBookedDates()
+    }
 
     useEffect(()=> {
         getResourceInfo()
@@ -171,6 +178,8 @@ function ResourceBooking(props) {
                                     date.getMonth() === disabledDate.getMonth() &&
                                     date.getDate() === disabledDate.getDate()
                                 )}
+                                onActiveStartDateChange={onActiveStartDateChange}
+
                         />                  
                     </BookingDateContainer>
                 </DateContainer>               
