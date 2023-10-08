@@ -48,7 +48,7 @@ function SelectOffice(props) {
             <WhiteContainer>
                 <SearchBar changeDate={changeDate} changeStart={changeStart} changeEnd={changeEnd} search={searchOffice} />
                 <div className="cardList">
-                    {offices.length == 0 ? <label>예약 가능한 회의실이 없습니다.</label>  : offices.map((office) => <OfficeInfo key={office.name} 
+                    {offices.length == 0 ? <label>예약 가능한 회의실이 없습니다.</label>  : offices.map((office) => <OfficeInfo key={office.officeId} 
                                                          officeId={office.officeId}
                                                          name={office.name}
                                                          location={office.location}
