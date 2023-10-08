@@ -65,12 +65,10 @@ export const PurposeTextarea = styled.textarea`
 `
 
 export const BookingDateContainer = styled.div`
-    padding-top: 5%;
-    display: flex;
+    padding-top: 7%;
 `
 
 export const DateContainer = styled.div`
-    float: left;
     padding-left: 1%;
 `
 
