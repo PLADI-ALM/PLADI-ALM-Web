@@ -3,7 +3,7 @@ import styled from "styled-components"
 import { Link } from 'react-router-dom';
 import CNameImg from "assets/images/kor_nameLogo.svg"
 import LogoImg from "assets/images/imgLogo.svg"
-import { UsersAxios } from 'api/AxiosApi';
+// import { UsersAxios } from 'api/AxiosApi';
 
 const Container = styled.div`
     height: fit-content;
