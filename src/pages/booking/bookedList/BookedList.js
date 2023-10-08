@@ -13,7 +13,7 @@ const TitleContainer = styled.div`
 `
 
 // 표 있는 페이지의 네이비 바
-const Bar = styled.div`
+export const Bar = styled.div`
     border-radius: 12px;
     height: 60px;
     width: 100%;
@@ -24,18 +24,18 @@ const Bar = styled.div`
 `
 
 // 네이비 바 밑의 테이블의 컨테이너
-const TableContainer = styled.div`
+export const TableContainer = styled.div`
     overflow-y: scroll;
 `
 
-const BookedTable = styled.table`
+export const BookedTable = styled.table`
     border-collapse: collapse;
     height: fit-content;
     width: 100%;
     font-size: 18px;
 `
 
-const BookedThead = styled.thead`
+export const BookedThead = styled.thead`
     position: sticky;
     top: 0;
     border-radius: 12px;

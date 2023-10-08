@@ -86,15 +86,15 @@ var resourceId = 1;
 
 function setId(isCheck) {
     // TODO: 수정할 예정
-    if(isCheck == 'true') { bookingId = window.location.href.substring(41,) } 
+    if (isCheck === 'true') { bookingId = window.location.href.substring(41,) }
     else { resourceId = window.location.href.substring(38,) }
 }
 
 function ResourceBooking(props) {
     setId(props.isCheck);
 
-    const [resourceInfo, setResourceInfo] = useState([]);  
-    const [bookingInfo, setBookingDetail] = useState([]); 
+    const [resourceInfo, setResourceInfo] = useState([]);
+    const [bookingInfo, setBookingDetail] = useState([]);
     const [bookingStatus, setStatus] = useState([]);
 
     var [start, setStartDate] = useState();
@@ -111,7 +111,7 @@ function ResourceBooking(props) {
     };
     const getBookingTimeState = () => {
 
-        if (props.isCheck == 'true') {
+        if (props.isCheck === 'true') {
             BookingsAxios.get("resources/"+bookingId)
             .then((Response)=>{ 
                 setBookingDetail(Response.data.data)
@@ -148,7 +148,7 @@ function ResourceBooking(props) {
 
     // console.log("status -> ", bookingStatus)
     return <RightContainer>
-        <TitleText>{(props.isCheck == 'true') ? "예약 내역" : "자원 예약"}</TitleText>
+        <TitleText>{(props.isCheck === 'true') ? "예약 내역" : "자원 예약"}</TitleText>
 
         <ContentContainer isCheck={props.isCheck}>
 
@@ -167,10 +167,10 @@ function ResourceBooking(props) {
 
 
             <ResourceInfo isTItleHidden={true}
-                        title={"title"}
-                        category={"category"}
-                        description={"description"}
-                        />
+                title={"title"}
+                category={"category"}
+                description={"description"}
+            />
 
             {/* 예약일시 */}
             <BookingContentContainer isCheck={'true'}>
@@ -208,9 +208,9 @@ function ResourceBooking(props) {
 
             <BookingContentContainer isCheck={props.isCheck}>
                 <BookingCapsuleContainer>
-                    <Capsule color="purple" text="반납일자"/>
-                </BookingCapsuleContainer>                 
-                <BookingDateText>{getReturnDateStr(bookingInfo.returnDateTime)}</BookingDateText> 
+                    <Capsule color="purple" text="반납일자" />
+                </BookingCapsuleContainer>
+                <BookingDateText>{getReturnDateStr(bookingInfo.returnDateTime)}</BookingDateText>
             </BookingContentContainer>
 
 
@@ -237,11 +237,11 @@ function ResourceBooking(props) {
 export default ResourceBooking;
 
 function getReturnDateStr(returnDateTime) {
-return (returnDateTime==null) ? "미반납" : returnDateTime
+    return (returnDateTime == null) ? "미반납" : returnDateTime
 }
 
 function getPurposeTextField(isCheck, content) {
-    if (isCheck == 'true') {
+    if (isCheck === 'true') {
         return <PurposeTextarea id='bookingPurpose' cols='135' rows='5' maxLength='100' value={content} readOnly="readOnly" disabled></PurposeTextarea>
     } else {
         return <PurposeTextarea id='bookingPurpose' cols='135' rows='5' maxLength='100'></PurposeTextarea>

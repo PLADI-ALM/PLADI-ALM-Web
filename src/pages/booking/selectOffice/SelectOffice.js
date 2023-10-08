@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import SearchBar from "components/searchBar/SearchBar";
 import OfficeInfo from "components/officeInfo/OfficeInfo";
 import { RightContainer, WhiteContainer, TitleText } from "components/rightContainer/RightContainer";
-import axios from "axios";
+import { OfficesAxios } from "api/AxiosApi";
 import { useState } from "react";
 
 function SelectOffice(props) {
@@ -13,9 +13,9 @@ function SelectOffice(props) {
     const [endTime, setEndTime] = useState("");
 
     const getOfficeList = () => {
-        axios.get("http://13.124.122.173/offices")
-            .then((Response)=>{setOffices(Response.data.data.content)})
-            .catch((Error)=>{alert(Error)})
+        OfficesAxios.get("")
+            .then((Response) => { setOffices(Response.data.data.content) })
+            .catch((Error) => { alert(Error) })
     };
 
 
@@ -32,12 +32,12 @@ function SelectOffice(props) {
     }
 
     const searchOffice = () => {
-        axios.get("http://13.124.122.173/offices?date="+date+"&startTime="+startTime+"&endTime="+endTime)
-            .then((Response)=>{setOffices(Response.data.data.content)})
-            .catch((Error)=>{alert(Error)})
-    }    
+        OfficesAxios.get("?date=" + date + "&startTime=" + startTime + "&endTime=" + endTime)
+            .then((Response) => { setOffices(Response.data.data.content) })
+            .catch((Error) => { alert(Error) })
+    }
 
-    useEffect(()=> {
+    useEffect(() => {
         getOfficeList();
     }, []);
 
@@ -48,14 +48,14 @@ function SelectOffice(props) {
             <WhiteContainer>
                 <SearchBar changeDate={changeDate} changeStart={changeStart} changeEnd={changeEnd} search={searchOffice} />
                 <div className="cardList">
-                    {offices.length == 0 ? <label>예약 가능한 회의실이 없습니다.</label>  : offices.map((office) => <OfficeInfo key={office.name} 
-                                                         officeId={office.officeId}
-                                                         name={office.name}
-                                                         location={office.location}
-                                                         capacity={office.capacity}
-                                                         facilityList={office.facilityList}
-                                                         description={office.description}
-                                                         />)}
+                    {offices.length === 0 ? <label>예약 가능한 회의실이 없습니다.</label> : offices.map((office) => <OfficeInfo key={office.officeId}
+                        officeId={office.officeId}
+                        name={office.name}
+                        location={office.location}
+                        capacity={office.capacity}
+                        facilityList={office.facilityList}
+                        description={office.description}
+                    />)}
                 </div>
             </WhiteContainer>
         </RightContainer>
