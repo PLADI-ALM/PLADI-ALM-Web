@@ -10,8 +10,6 @@ import { SubTitleContainer, MainTextContainer, SubTextContainer, SelectedSubTitl
 import { BookingPurposeContainer, BookingCapsuleContainer, BookingPurposeTextFieldContainer } from 'components/officeBooking/BookingPurpose';
 import ResourceInfo from 'components/resourceInfo/ResourceInfo';
 import { BookingContentContainer, RequestButtonContainer, RequestBookingButton } from 'components/officeBooking/BookingTimeBar';
-import { StatusText, StatusContainer, StatusCircle } from 'components/booking/StatusTag';
-import { findStatus } from 'constants/BookingStatus';
 import { RightContainer } from 'components/rightContainer/RightContainer';
 import 'react-calendar/dist/Calendar.css';
 import styles from "../resourceBooking/CustomCalendar.css";
@@ -65,42 +63,37 @@ export const PurposeTextarea = styled.textarea`
     text-align: left;
     margin: 0 10px 0 10px;
 `
-const MyStatusContainer = styled(StatusContainer)`
-    margin-top: 12px;
-    margin-right: 12px;
-    float: right;
-`
 
-const BookingDateContainer = styled.div`
+export const BookingDateContainer = styled.div`
     padding-top: 5%;
     display: flex;
 `
 
-const DateContainer = styled.div`
+export const DateContainer = styled.div`
     float: left;
     padding-left: 1%;
 `
 
-var bookingId = 1;
 var resourceId = 1;
 
-function setId(isCheck) {
-    // TODO: 수정할 예정
-    if (isCheck === 'true') { bookingId = window.location.href.substring(41,) }
-    else { resourceId = window.location.href.substring(38,) }
-}
+const bookedDates = [
+    new Date('2023-10-10'),
+    new Date('2023-10-13'),
+    new Date('2023-10-20'),
+    new Date('2023-10-26'),
+    new Date('2023-10-27'),
+    new Date('2023-10-28'),
+];
 
 function ResourceBooking(props) {
-    setId(props.isCheck);
+    resourceId = window.location.href.substring(38,);
 
     const [resourceInfo, setResourceInfo] = useState([]);
-    const [bookingInfo, setBookingDetail] = useState([]);
-    const [bookingStatus, setStatus] = useState([]);
 
     var [start, setStartDate] = useState();
     var [end, setEndDate] = useState();
 
-    const getResourceInfoForBooking = () => {
+    const getResourceInfo = () => {
         ResourcesAxios.get(""+resourceId)
         .then((Response)=>{ setResourceInfo(Response.data.data) })
         .catch((Error)=>{ 
@@ -108,26 +101,6 @@ function ResourceBooking(props) {
             window.alert("정보를 불러올 수 없습니댜.") 
             // window.history.back()
         });        
-    };
-    const getBookingTimeState = () => {
-
-        if (props.isCheck === 'true') {
-            BookingsAxios.get("resources/"+bookingId)
-            .then((Response)=>{ 
-                setBookingDetail(Response.data.data)
-                setStatus(findStatus(Response.data.data.status))
-                resourceId = Response.data.data.resourceId 
-                startDate = bookingInfo.startDate
-                endDate = bookingInfo.endDate
-                getResourceInfoForBooking(resourceId)
-            })
-            .catch((Error)=>{ 
-                console.log('Error -> ', Error)
-                window.alert("예약 정보를 불러올 수 없습니댜.") 
-                // window.history.back()
-            });
-
-        } 
     };
 
     const changeDate = e => {
@@ -142,15 +115,14 @@ function ResourceBooking(props) {
       };
 
     useEffect(()=> {
-        getResourceInfoForBooking();
-        getBookingTimeState();
+        getResourceInfo();
+        // getBookingTimeState();
     }, []);
 
-    // console.log("status -> ", bookingStatus)
     return <RightContainer>
-        <TitleText>{(props.isCheck === 'true') ? "예약 내역" : "자원 예약"}</TitleText>
+        <TitleText>자원 예약</TitleText>
 
-        <ContentContainer isCheck={props.isCheck}>
+        <ContentContainer>
 
             <SubTitleContainer>
                 <MainTextContainer>
@@ -159,10 +131,10 @@ function ResourceBooking(props) {
                 <SubTextContainer>
                     <UnselectedSubTitleText>{resourceInfo.category}</UnselectedSubTitleText>
                 </SubTextContainer>
-                <MyStatusContainer isCheck={props.isCheck} background={bookingStatus.background}>
+                {/* <MyStatusContainer background={bookingStatus.background}>
                     <StatusCircle color={bookingStatus.color} />
                     <StatusText color={bookingStatus.color}>{bookingStatus.name}</StatusText>
-                </MyStatusContainer>
+                </MyStatusContainer> */}
             </SubTitleContainer>
 
 
@@ -206,12 +178,12 @@ function ResourceBooking(props) {
                 </DateContainer>               
             </BookingContentContainer>
 
-            <BookingContentContainer isCheck={props.isCheck}>
+            {/* <BookingContentContainer>
                 <BookingCapsuleContainer>
                     <Capsule color="purple" text="반납일자" />
                 </BookingCapsuleContainer>
                 <BookingDateText>{getReturnDateStr(bookingInfo.returnDateTime)}</BookingDateText>
-            </BookingContentContainer>
+            </BookingContentContainer> */}
 
 
             {/* 예약목적 */}
@@ -221,7 +193,10 @@ function ResourceBooking(props) {
                 </BookingCapsuleContainer>
 
                 <BookingPurposeTextFieldContainer>
-                    {getPurposeTextField(props.isCheck, bookingInfo.memo)}
+                    <PurposeTextarea id='bookingPurpose' 
+                                    cols='135' 
+                                    rows='5' 
+                                    maxLength='100' />
                 </BookingPurposeTextFieldContainer>
             </BookingPurposeContainer>
 
@@ -236,18 +211,6 @@ function ResourceBooking(props) {
 }
 export default ResourceBooking;
 
-function getReturnDateStr(returnDateTime) {
-    return (returnDateTime == null) ? "미반납" : returnDateTime
-}
-
-function getPurposeTextField(isCheck, content) {
-    if (isCheck === 'true') {
-        return <PurposeTextarea id='bookingPurpose' cols='135' rows='5' maxLength='100' value={content} readOnly="readOnly" disabled></PurposeTextarea>
-    } else {
-        return <PurposeTextarea id='bookingPurpose' cols='135' rows='5' maxLength='100'></PurposeTextarea>
-    }
-}
-
 
 function requestBookingOffice() {
     var bookingPurpose = document.getElementById("bookingPurpose").value;
@@ -261,11 +224,4 @@ function requestBookingOffice() {
     }
 }
 
-const bookedDates = [
-    new Date('2023-10-10'),
-    new Date('2023-10-13'),
-    new Date('2023-10-20'),
-    new Date('2023-10-26'),
-    new Date('2023-10-27'),
-    new Date('2023-10-28'),
-];
+
