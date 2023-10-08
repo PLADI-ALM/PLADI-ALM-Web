@@ -23,9 +23,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Login />} />
         <Route element={<SidebarLayout />}>
-          {/* <Route element={<PrivateRoute />}> */}
           <Route path="/officeBooking" element={<SelectOffice title="회의실 예약" />} />
-          {/* </Route> */}
           <Route path="/officeBooking/:officeId" element={<OfficeBooking isCheck='false' />} />
           <Route path="/bookings" element={<BookedList title="예약 내역" />} />
           <Route path="/bookings/offices/:bookingId" element={<OfficeBooking isCheck='true' />} />
