@@ -34,7 +34,7 @@ export const BookingTimeContainer = styled.div`
 `
 
 export const RequestButtonContainer = styled.div`
-    padding: 0 10px 40px 0;
+    padding-bottom: 25px;
     display: ${props => (props.isCheck == 'true') ? 'none' : 'flex'};
     justify-content: flex-end;
 `
@@ -42,7 +42,7 @@ export const RequestButtonContainer = styled.div`
 export const RequestBookingButton = styled.button`
     border: none;
     padding: 5px 10px;
-    margin-right: 60px;
+    margin-right: 45px;
     margin-top: 15px;
     background: #8741CB;
     color: #FFF;
