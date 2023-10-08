@@ -1,9 +1,9 @@
 import React from 'react';
 import { styled } from 'styled-components';
 import { useLocation } from "react-router-dom";
-import { InActiveMenuLine, ActiveMenuLine } from './MenuLineStyle';
+import { InactiveMenuLine, ActiveMenuLine } from './MenuLineStyle';
 
-const SubMenuLine = styled(InActiveMenuLine)`
+const SubMenuLine = styled(InactiveMenuLine)`
     margin-left: 30px;
 `
 
@@ -12,8 +12,7 @@ const ActiveSubMenuLine = styled(ActiveMenuLine)`
 `
 
 function useIsMenuActive(path) {
-    if (useLocation().pathname === path)
-        return true
+    return useLocation().pathname.startsWith(path)
 }
 
 function MainMenu(props) {

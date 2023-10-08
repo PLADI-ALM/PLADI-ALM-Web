@@ -7,7 +7,7 @@ const PurpleCapsule = styled.p`
     text-align: center;
     color: #FFF;
     font-size: 18px;
-    padding: 5px 15px;
+    padding: 7px 15px;
     margin: 0 10px 0 0;
 `
 
