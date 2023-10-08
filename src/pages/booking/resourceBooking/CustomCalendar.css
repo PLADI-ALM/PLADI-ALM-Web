@@ -1,6 +1,6 @@
 
 .react-calendar { 
-    width: 330px;
+    /* width: 330px; */
     max-width: 100%;
     background-color: #fff;
     color: #222;
@@ -17,6 +17,8 @@
     background: white;
     height: 25px;
 }
+
+
 
 .react-calendar__navigation button:disabled {
     background-color: white;
