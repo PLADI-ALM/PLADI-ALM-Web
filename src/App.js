@@ -7,7 +7,8 @@ import BookedList from 'pages/booking/bookedList/BookedList';
 import OfficeBooking from 'pages/booking/officeBooking/OfficeBooking';
 import SelectResource from 'pages/booking/selectResource/SelectResource';
 import ResourceBooking from 'pages/booking/resourceBooking/ResourceBooking';
-import OfficeManage from 'pages/booking/officeManage/OfficeManage';
+import OfficeManage from 'pages/manager/officeManage/OfficeManage';
+import ResourceBookingManage from 'pages/manager/resourceBookingManage/ResourceBookingManage';
 
 function App() {
 
@@ -31,6 +32,7 @@ function App() {
           <Route path='/resourceBooking' element={<SelectResource title="자원 예약" />} />
           <Route path='/resourceBooking/:resourceId' element={<ResourceBooking />} />
           <Route path='/manage/office' element={<OfficeManage title="회의실 관리" />} />
+          <Route path='/manage/bookings/resources' element={<ResourceBookingManage title="자원 예약 내역" />} />
           {/* 나중에 요런식으로 활용하기 */}
           {/* <Route path="/reportManage/:recipeReportIdx" element={<ReportManageDetail />} /> */}
         </Route>
