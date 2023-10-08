@@ -14,8 +14,8 @@ import { StatusText, StatusContainer, StatusCircle } from 'components/booking/St
 import { findStatus } from 'constants/BookingStatus';
 import { RightContainer } from 'components/rightContainer/RightContainer';
 import 'react-calendar/dist/Calendar.css';
+import styles from "../resourceBooking/CustomCalendar.css";
 
-var isStartDateSelect = false;
 var startDate = '';
 var endDate = '';
 
@@ -81,19 +81,6 @@ const DateContainer = styled.div`
     padding-left: 1%;
 `
 
-const BookingDateInput = styled.input`
-    width: 125px;
-    margin: 5px 0 0 0;
-    padding-left: 10px;
-    color: #575757;
-    background-color: ${props => props.isSelected != 'true' ? 'red' : 'white'}
-    font-family: NanumSquare_ac;
-    font-size: 22px;
-    font-weight: 400;
-    letter-spacing: 0em;
-    text-align: left;
-`
-
 var bookingId = 1;
 var resourceId = 1;
 
@@ -119,7 +106,7 @@ function ResourceBooking(props) {
         .catch((Error)=>{ 
             console.log(Error)
             window.alert("정보를 불러올 수 없습니댜.") 
-            window.history.back()
+            // window.history.back()
         });        
     };
     const getBookingTimeState = () => {
@@ -137,7 +124,7 @@ function ResourceBooking(props) {
             .catch((Error)=>{ 
                 console.log('Error -> ', Error)
                 window.alert("예약 정보를 불러올 수 없습니댜.") 
-                window.history.back()
+                // window.history.back()
             });
 
         } 
@@ -159,7 +146,7 @@ function ResourceBooking(props) {
         getBookingTimeState();
     }, []);
 
-    console.log("status -> ", bookingStatus)
+    // console.log("status -> ", bookingStatus)
     return <RightContainer>
         <TitleText>{(props.isCheck == 'true') ? "예약 내역" : "자원 예약"}</TitleText>
 
@@ -196,9 +183,24 @@ function ResourceBooking(props) {
                     <BookingDateText>{end || "마감일"}</BookingDateText>
 
                     <BookingDateContainer>
-                        <Calendar onChange={changeDate}
+                        <Calendar className={styles} 
+                                onChange={changeDate}
                                 selectRange={true}
-                                formatDay={(loacale, date) => moment(date).format("DD")}
+                                formatDay={(locale, date) => moment(date).format("D")}
+                                minDate={new Date()}
+                                showNeighboringMonth={false}
+                                next2Label={null}
+                                prev2Label={null}
+                                formatShortWeekday={(locale, date) =>
+                                    ["S", "M", "T", "W", "T", "F", "S"][date.getDay()]
+                                }
+                                tileDisabled={({date, view}) =>
+                                    (view === 'month') &&
+                                    bookedDates.some(disabledDate =>
+                                    date.getFullYear() === disabledDate.getFullYear() &&
+                                    date.getMonth() === disabledDate.getMonth() &&
+                                    date.getDate() === disabledDate.getDate()
+                                )}
                         />                  
                     </BookingDateContainer>
                 </DateContainer>               
@@ -258,3 +260,12 @@ function requestBookingOffice() {
         console.log('예약목적 : ', bookingPurpose)
     }
 }
+
+const bookedDates = [
+    new Date('2023-10-10'),
+    new Date('2023-10-13'),
+    new Date('2023-10-20'),
+    new Date('2023-10-26'),
+    new Date('2023-10-27'),
+    new Date('2023-10-28'),
+];
