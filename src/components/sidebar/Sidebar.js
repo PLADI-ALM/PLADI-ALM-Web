@@ -8,7 +8,7 @@ import { MAIN_MENUS, MAIN_PATH, MANAGER_MAIN_MENUS } from "constants/Path";
 import { Icon } from 'components/sidebar/MainMenu';
 import MyInfoIcon from 'assets/images/sidebarIcon/myInfoIcon.svg'
 import LogoutIcon from 'assets/images/sidebarIcon/logoutIcon.svg'
-import { UsersAxios } from 'api/AxiosApi';
+// import { UsersAxios } from 'api/AxiosApi';
 
 const Container = styled.div`
     width: 250px;

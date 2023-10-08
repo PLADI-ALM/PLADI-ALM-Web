@@ -2,7 +2,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { RightContainer, TitleText, WhiteContainer } from "components/rightContainer/RightContainer";
-import { Bar, BookedTable, BookedThead, TableContainer } from "../bookedList/BookedList";
+import { Bar, BookedTable, BookedThead, TableContainer } from "../../booking/bookedList/BookedList";
 import OfficeManageTableCell from "./OfficeManageTableCell";
 import ManageSearchBar from "components/searchBar/ManageSearchBar";
 

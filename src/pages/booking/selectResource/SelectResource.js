@@ -4,7 +4,7 @@ import SearchButtonImg from '../../../assets/images/button/searchButton.png'
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import ResourceInfo from "components/resourceInfo/ResourceInfo";
-import axios from "axios";
+import { ResourcesAxios } from "api/AxiosApi";
 
 
 export const SearchTitleContainer = styled.div`
@@ -60,12 +60,6 @@ export const SearchDateInput = styled.input`
     width: 45%;
 `
 
-
-
-
-
-
-
 function SelectResource(props) {
 
     const [resourceList, setResourceList] = useState([]);
@@ -74,9 +68,9 @@ function SelectResource(props) {
     const [endDate, setEndDate] = useState("");
 
     const getResourceList = () => {
-        axios.get("http://13.124.122.173/resources")
-            .then((Response)=>{setResourceList(Response.data.data.content)})
-            .catch((Error)=>{alert(Error)})
+        ResourcesAxios.get("")
+            .then((Response) => { setResourceList(Response.data.data.content) })
+            .catch((Error) => { alert(Error) })
     };
 
 
@@ -97,13 +91,13 @@ function SelectResource(props) {
     }
 
     const searchResource = () => {
-        axios.get("http://13.124.122.173/resources?resourceName="+resourceName+"&startDate="+startDate+"&endDate="+endDate)
-            .then((Response)=>{setResourceList(Response.data.data.content)})
-            .catch((Error)=>{alert(Error.response.data.message)})
+        ResourcesAxios.get("?resourceName=" + resourceName + "&startDate=" + startDate + "&endDate=" + endDate)
+            .then((Response) => { setResourceList(Response.data.data.content) })
+            .catch((Error) => { alert(Error.response.data.message) })
     }
-    
-    
-    return(
+
+
+    return (
         <RightContainer>
             <TitleText>{props.title}</TitleText>
             <ResourceSearchBar>
@@ -111,12 +105,12 @@ function SelectResource(props) {
                     <SearchTitleText>예약 가능 자원 검색</SearchTitleText>
                 </SearchTitleContainer>
 
-                <SearchTextInput type="text" placeholder="자원명 검색" onChange={changeResourceName}/>
-                
+                <SearchTextInput type="text" placeholder="자원명 검색" onChange={changeResourceName} />
+
                 <SearchDateContainer>
-                    <SearchDateInput type="date" onChange={changeStartDate}/>
+                    <SearchDateInput type="date" onChange={changeStartDate} />
                     ~
-                    <SearchDateInput type="date" onChange={changeEndDate}/>
+                    <SearchDateInput type="date" onChange={changeEndDate} />
                 </SearchDateContainer>
 
                 <ImageButton image={SearchButtonImg} width={"40px"} height={"40px"} click={searchResource} />
@@ -124,7 +118,7 @@ function SelectResource(props) {
 
             <WhiteContainer>
                 <div className="cardList">
-                    {resourceList.length == 0 ? <label>예약 가능한 자원이 없습니다.</label> : resourceList.map((resource) => <ResourceInfo key={resource.resourceId} name={resource.name} image={resource.imgUrl} category={resource.category} description={resource.description}  /> )}
+                    {resourceList.length === 0 ? <label>예약 가능한 자원이 없습니다.</label> : resourceList.map((resource) => <ResourceInfo key={resource.resourceId} name={resource.name} image={resource.imgUrl} category={resource.category} description={resource.description} />)}
                 </div>
             </WhiteContainer>
         </RightContainer>

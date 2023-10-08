@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from "styled-components"
-import axios from "axios";
 import { OfficesAxios, BookingsAxios } from 'api/AxiosApi';
 import { useState, useEffect } from "react";
 import Capsule from 'components/capsule/Capsule';
@@ -88,13 +87,13 @@ function OfficeBooking(props) {
     var [date, setDate] = useState("");
 
     const changeDate = (e) => {
-        if (bookingDate == '') { bookingDate = new Date().toISOString().slice(0, 10) }
+        if (bookingDate === '') { bookingDate = new Date().toISOString().slice(0, 10) }
         setDate(e.target.value)
         bookingDate = e.target.value;
     }
 
     const getBookingTimeState = () => {
-        if (date.length == 0) {
+        if (date.length === 0) {
             const dateNow = new Date();
             date = dateNow.toISOString().slice(0, 10);
             bookingDate = date;
@@ -197,7 +196,6 @@ function OfficeBooking(props) {
 }
 export default OfficeBooking;
 
-
 function getBookingDate(info, changeDate) {
     var date = info.date + " " + info.startTime + " ~ " + info.endTime;
     date = date.replaceAll('-', '.');
@@ -212,7 +210,7 @@ function requestBooking(bookingPurpose, startT, endT) {
     // console.log("마감시간 : ", endT);
 
     if (window.confirm("예약하시겠습니까?")) {
-        axios.post("http://13.124.122.173/offices/" + officeId + "/booking",
+        OfficesAxios.post(officeId + "/booking",
             {
                 date: bookingDate,
                 startTime: startT,
@@ -221,7 +219,7 @@ function requestBooking(bookingPurpose, startT, endT) {
             }
         )
             .then(function (response) {
-                if (response.data.status == '200') { alert('예약에 성공하였습니다!') }
+                if (response.data.status === '200') { alert('예약에 성공하였습니다!') }
                 else { alert(response.data.message); }
             })
             .catch(function (error) { console.log(error) });
