@@ -36,7 +36,7 @@ function ResourceBookingCheck(props) {
         .then((Response)=>{ setResourceInfo(Response.data.data) })
         .catch((Error)=>{ 
             console.log(Error)
-            window.alert("정보를 불러올 수 없습니댜.") 
+            window.alert("자원 정보를 불러올 수 없습니댜.") 
             window.history.back()
         });        
     };
@@ -52,7 +52,7 @@ function ResourceBookingCheck(props) {
         })
         .catch((Error)=>{ 
             console.log('Error -> ', Error)
-            window.alert("예약 정보를 불러올 수 없습니댜.") 
+            window.alert("자원 예약 정보를 불러올 수 없습니댜.") 
             window.history.back()
         });
     };
@@ -88,7 +88,7 @@ function ResourceBookingCheck(props) {
             />
 
             {/* 예약일시 */}
-            <BookingContentContainer isCheck={'true'}>
+            <BookingContentContainer>
                 <BookingCapsuleContainer>
                     <Capsule color="purple" text="예약일시"/>
                 </BookingCapsuleContainer>  

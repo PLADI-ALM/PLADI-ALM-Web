@@ -74,22 +74,14 @@ export const DateContainer = styled.div`
     padding-left: 1%;
 `
 
-var resourceId = 1;
-
-const bookedDates = [
-    new Date('2023-10-10'),
-    new Date('2023-10-13'),
-    new Date('2023-10-20'),
-    new Date('2023-10-26'),
-    new Date('2023-10-27'),
-    new Date('2023-10-28'),
-];
+var resourceId = 1
+var currentMonth = moment(new Date()).format('YYYY-MM')
 
 function ResourceBooking(props) {
     resourceId = window.location.href.substring(38,);
 
     const [resourceInfo, setResourceInfo] = useState([]);
-
+    const [dates, setBookedDates] = useState([]);
     var [start, setStartDate] = useState();
     var [end, setEndDate] = useState();
 
@@ -98,10 +90,26 @@ function ResourceBooking(props) {
         .then((Response)=>{ setResourceInfo(Response.data.data) })
         .catch((Error)=>{ 
             console.log(Error)
-            window.alert("정보를 불러올 수 없습니댜.") 
+            window.alert("자원 정보를 불러올 수 없습니댜.") 
             // window.history.back()
         });        
     };
+
+    const getBookedDates = () => {
+        const params = { month: currentMonth };
+        ResourcesAxios.get(resourceId+"/booking-state", {params})
+        .then((Response)=>{     
+            var temp = [];  
+            Response.data.data.map(function(date) { temp.push(new Date(date)) })
+            setBookedDates(temp)
+            console.log('temp -> ', temp)
+        })
+        .catch((Error)=>{ 
+            console.log(Error)
+            window.alert("예약 현황 정보를 불러올 수 없습니댜.") 
+            // window.history.back()
+        }); 
+    }
 
     const changeDate = e => {
         const startDateFormat = moment(e[0]).format("YYYY-MM-DD");
@@ -115,8 +123,8 @@ function ResourceBooking(props) {
       };
 
     useEffect(()=> {
-        getResourceInfo();
-        // getBookingTimeState();
+        getResourceInfo()
+        getBookedDates()
     }, []);
 
     return <RightContainer>
@@ -131,21 +139,11 @@ function ResourceBooking(props) {
                 <SubTextContainer>
                     <UnselectedSubTitleText>{resourceInfo.category}</UnselectedSubTitleText>
                 </SubTextContainer>
-                {/* <MyStatusContainer background={bookingStatus.background}>
-                    <StatusCircle color={bookingStatus.color} />
-                    <StatusText color={bookingStatus.color}>{bookingStatus.name}</StatusText>
-                </MyStatusContainer> */}
             </SubTitleContainer>
 
+            <ResourceInfo description={resourceInfo.description}/>
 
-            <ResourceInfo isTItleHidden={true}
-                title={"title"}
-                category={"category"}
-                description={"description"}
-            />
-
-            {/* 예약일시 */}
-            <BookingContentContainer isCheck={'true'}>
+            <BookingContentContainer>
                 <BookingCapsuleContainer>
                     <Capsule color="purple" text="예약일시"/>
                 </BookingCapsuleContainer>  
@@ -167,8 +165,8 @@ function ResourceBooking(props) {
                                     ["S", "M", "T", "W", "T", "F", "S"][date.getDay()]
                                 }
                                 tileDisabled={({date, view}) =>
-                                    (view === 'month') &&
-                                    bookedDates.some(disabledDate =>
+                                    (view === 'month') && 
+                                    dates.some(disabledDate =>
                                     date.getFullYear() === disabledDate.getFullYear() &&
                                     date.getMonth() === disabledDate.getMonth() &&
                                     date.getDate() === disabledDate.getDate()
@@ -178,15 +176,6 @@ function ResourceBooking(props) {
                 </DateContainer>               
             </BookingContentContainer>
 
-            {/* <BookingContentContainer>
-                <BookingCapsuleContainer>
-                    <Capsule color="purple" text="반납일자" />
-                </BookingCapsuleContainer>
-                <BookingDateText>{getReturnDateStr(bookingInfo.returnDateTime)}</BookingDateText>
-            </BookingContentContainer> */}
-
-
-            {/* 예약목적 */}
             <BookingPurposeContainer>
                 <BookingCapsuleContainer>
                     <Capsule color="purple" text="예약목적" />

@@ -19,7 +19,7 @@ export const BookingContentContainer = styled.div`
     width: 100%;
     margin: 25px 40px;
     padding-top: 10px;
-    display: ${props => props.isCheck !== 'true' ? 'none' : 'flex'}
+    display: flex;
 `
 
 export const BookingDateTextContainer = styled.div`
