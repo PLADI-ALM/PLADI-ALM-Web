@@ -214,7 +214,23 @@ function requestBookingOffice() {
     var bookingPurpose = document.getElementById("bookingPurpose").value;
 
     if (window.confirm("예약하시겠습니까?")) {
-        // TODO: 자원 예약 API 연결
+        ResourcesAxios.post(""+resourceId,
+            {
+                "endDate": endDate,
+                "memo": bookingPurpose,
+                "startDate": startDate
+            }
+        )
+        .then(function (response) {
+            if (response.data.status === '200') { alert('예약에 성공하였습니다!') }
+            else { alert(response.data.message); }
+            window.location.reload()
+        })
+        .catch(function (error) { 
+            console.log(error) 
+            window.alert("자원 예약에 실패하였습니다. \n",error.response.data.message) 
+            window.history.back()
+        });
 
         console.log('start date : ', startDate)
         console.log('end date : ', endDate)
