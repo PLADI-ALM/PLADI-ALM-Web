@@ -1,5 +1,9 @@
 import { getCookie } from 'utils/CookiesUtil';
 
+export function getToken() {
+    return getCookie('Authorization')
+}
+
 export function isLogin() {
     return getCookie('Authorization') != null
 }

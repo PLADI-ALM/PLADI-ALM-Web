@@ -78,10 +78,11 @@ function Login() {
         const inputEmail = e.target.email.value
         const inputPw = e.target.password.value
         e.preventDefault()
-        UsersAxios.post("/login", {
+        UsersAxios.post("login", {
             email: inputEmail,
             password: inputPw
         }).then((res) => {
+            console.log(res.data.data.accessToken)
             setCookie('Authorization', res.data.data.accessToken)
             setCookie('Role', res.data.data.role)
             window.location.replace('/officeBooking')
