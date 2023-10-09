@@ -3,7 +3,9 @@ import styled from "styled-components"
 import { Link } from 'react-router-dom';
 import CNameImg from "assets/images/kor_nameLogo.svg"
 import LogoImg from "assets/images/imgLogo.svg"
-// import { UsersAxios } from 'api/AxiosApi';
+import { UsersAxios } from 'api/AxiosApi';
+import { setCookie } from 'utils/CookiesUtil'
+import { isLogin } from 'utils/IsLoginUtil';
 
 const Container = styled.div`
     height: fit-content;
@@ -72,27 +74,25 @@ const PWReset = styled(Link)`
 `
 
 function Login() {
-    // const movePage = useNavigate();
-
-    // submit
     const onSubmitHandler = (e) => {
-        // const inputEmail = e.target.email.value;
-        // const inputPw = e.target.password.value;
-        // e.preventDefault();
-        // UsersAxios.post("/login", {
-        //     email: inputEmail,
-        //     password: inputPw
-        // }).then((res) => {
-        //     const accessToken = res.data.data.accessToken
-        //     setCookie('Authorization', accessToken);
-        //     console.log(accessToken);
-        //     movePage('/officeBooking');
-        // }).catch((error) => {
-        //     alert("로그인에 실패했습니다. 정보를 다시 한 번 더 입력해주세요.")
-        // });
+        const inputEmail = e.target.email.value
+        const inputPw = e.target.password.value
+        e.preventDefault()
+        UsersAxios.post("/login", {
+            email: inputEmail,
+            password: inputPw
+        }).then((res) => {
+            setCookie('Authorization', res.data.data.accessToken)
+            setCookie('Role', res.data.data.role)
+            window.location.replace('/officeBooking')
+        }).catch((error) => {
+            alert(error.response.data.message)
+        })
     }
 
-    return (
+    if (isLogin())
+        window.location.replace('/officeBooking')
+    else return (
         <Container>
             <TitleBox>
                 <Logo />

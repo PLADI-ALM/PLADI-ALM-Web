@@ -9,6 +9,8 @@ import { Icon } from 'components/sidebar/MainMenu';
 import MyInfoIcon from 'assets/images/sidebarIcon/myInfoIcon.svg'
 import LogoutIcon from 'assets/images/sidebarIcon/logoutIcon.svg'
 // import { UsersAxios } from 'api/AxiosApi';
+import { removeAllCookies } from 'utils/CookiesUtil';
+import { isManager, navigateToLogin } from 'utils/IsLoginUtil';
 
 const Container = styled.div`
     width: 250px;
@@ -78,13 +80,16 @@ function useIsMenuActive(path) {
 }
 
 function logout() {
-    alert("로그아웃")
+    removeAllCookies()
+    navigateToLogin()
     // UsersAxios.patch("logout")
     //     .then((response) => {  })
     //     .catch((error) => { alert(error.response.data.code) })
 }
 
 function Sidebar() {
+    // todo: 다음에 제대로 적용
+    navigateToLogin()
     return (
         <Container>
             <div>
@@ -117,7 +122,7 @@ function Sidebar() {
                 {/* 로그아웃 */}
                 <Logout onClick={logout}><Icon src={LogoutIcon} />로그아웃</Logout>
             </MyBox>
-        </Container>
+        </Container >
     )
 }
 
