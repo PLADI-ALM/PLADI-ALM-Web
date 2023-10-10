@@ -24,7 +24,7 @@ export const TitleText = styled.p`
     font-style: normal;
     font-weight: 700;
     align: left;
-    width: 170px;
+    width: 200px;
     margin: 0;
 `
 
