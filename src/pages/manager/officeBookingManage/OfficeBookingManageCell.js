@@ -5,6 +5,7 @@ import { USING, findStatus, BOOKED } from 'constants/BookingStatus';
 import { AdminBookingAxios } from 'api/AxiosApi';
 import styled from 'styled-components';
 import { getToken } from 'utils/IsLoginUtil';
+import { Link } from 'react-router-dom';
 
 const SettingButtonContainer = styled.div`
     display: flex;
@@ -26,11 +27,12 @@ const SettingButton = styled.button`
 
 
 
+
 function OfficeBookingManageCell(props) {
     const rejectResource = () => {
         if (window.confirm(`${props.name}의 예약을 반려하시겠습니까?`))
         {
-            AdminBookingAxios.patch(`offices/${props.id}/cancel`, {
+            AdminBookingAxios.patch(`offices/${props.id}/cancel`, null, {
                 headers: {
                     Authorization: getToken()
                 }
@@ -53,11 +55,25 @@ function OfficeBookingManageCell(props) {
     var status = findStatus(props.status)
     var cancelButton = (
     <SettingButtonContainer>
-        <SettingButton>상세보기</SettingButton>    
+        <SettingButton><Link style={{
+              color: "#8741CB",
+              fontSize: "20px",
+              fontStyle: "normal",
+              fontWeight: "400",
+              lineHeight: "22px", 
+        }} 
+        to={`/manage/officeBooking/${props.id}`}>상세보기</Link></SettingButton>    
     </SettingButtonContainer>)
     var usingButton = (
     <SettingButtonContainer>
-        <SettingButton onClick={rejectResource}>반려</SettingButton> | <SettingButton>상세보기</SettingButton>    
+        <SettingButton onClick={rejectResource}>반려</SettingButton> | <SettingButton><Link to={`/manage/officeBooking/${props.id}`} 
+        style={{
+              color: "#8741CB",
+              fontSize: "20px",
+              fontStyle: "normal",
+              fontWeight: "400",
+              lineHeight: "22px", 
+        }}>상세보기</Link></SettingButton> 
     </SettingButtonContainer>)
 
     return (
