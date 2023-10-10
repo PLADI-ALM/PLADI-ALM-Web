@@ -9,7 +9,7 @@ import { StatusText, StatusContainer, StatusCircle } from 'components/booking/St
 
 function cancelBooking(bookingId, name, info, start, end, type) {
     if (window.confirm(`${name}(${info}) ${start} ~ ${end}\n예약을 취소하시겠습니까?`)) {
-        BookingsAxios.patch(`${type}/${bookingId}/cancel`)
+        BookingsAxios.patch(`/${type}/${bookingId}/cancel`)
             .catch((error) => { alert(error) })
         alert("취소되었습니다.")
         window.location.reload()
@@ -18,7 +18,7 @@ function cancelBooking(bookingId, name, info, start, end, type) {
 
 function returnBooking(bookingId, name, info, start, end) {
     if (window.confirm(`${name}(${info}) ${start} ~ ${end}\n자원을 반납하시겠습니까?`)) {
-        BookingsAxios.patch(`resources/${bookingId}/return`)
+        BookingsAxios.patch(`/resources/${bookingId}/return`)
             .catch((error) => { alert(error) })
         alert("반납되었습니다.")
         window.location.reload()

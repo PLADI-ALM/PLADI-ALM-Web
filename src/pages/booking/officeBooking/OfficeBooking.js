@@ -99,20 +99,20 @@ function OfficeBooking(props) {
             bookingDate = date;
         }
 
-        OfficesAxios.get(officeId + "/booking-state?date=" + bookingDate)
-        .then((Response) => {
-            setBookingState(Response.data.data.bookedTimes)
-        })
-        .catch((Error) => {
-            console.log(Error)
-            window.alert("정보를 불러올 수 없습니댜.")
-            window.history.back()
-        });
+        OfficesAxios.get(`/${officeId}/booking-state?date=${bookingDate}`)
+            .then((Response) => {
+                setBookingState(Response.data.data.bookedTimes)
+            })
+            .catch((Error) => {
+                console.log(Error)
+                window.alert("정보를 불러올 수 없습니댜.")
+                window.history.back()
+            });
     };
 
     const getOfficeInfoForBooking = (id) => {
         console.log("officeId -> ", officeId)
-        OfficesAxios.get("" + officeId)
+        OfficesAxios.get(`/${officeId}`)
             .then((Response) => {
                 console.log(Response.data.data)
                 setOfficeInfo(Response.data.data)
@@ -210,7 +210,7 @@ function requestBooking(bookingPurpose, startT, endT) {
     // console.log("마감시간 : ", endT);
 
     if (window.confirm("예약하시겠습니까?")) {
-        OfficesAxios.post(officeId + "/booking",
+        OfficesAxios.post(`/${officeId}/booking`,
             {
                 date: bookingDate,
                 startTime: startT,

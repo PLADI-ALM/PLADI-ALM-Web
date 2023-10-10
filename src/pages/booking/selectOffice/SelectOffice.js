@@ -13,7 +13,7 @@ function SelectOffice(props) {
     const [endTime, setEndTime] = useState("");
 
     const getOfficeList = () => {
-        OfficesAxios.get("")
+        OfficesAxios.get()
             .then((Response) => { setOffices(Response.data.data.content) })
             .catch((Error) => { alert(Error) })
     };
@@ -32,7 +32,7 @@ function SelectOffice(props) {
     }
 
     const searchOffice = () => {
-        OfficesAxios.get("?date=" + date + "&startTime=" + startTime + "&endTime=" + endTime)
+        OfficesAxios.get(`?date=${date}&startTime=${startTime}&endTime=${endTime}`)
             .then((Response) => { setOffices(Response.data.data.content) })
             .catch((Error) => { alert(Error) })
     }

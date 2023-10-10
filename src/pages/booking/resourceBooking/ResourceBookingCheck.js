@@ -32,32 +32,32 @@ function ResourceBookingCheck(props) {
     const [bookingStatus, setStatus] = useState([]);
 
     const getResourceInfo = () => {
-        ResourcesAxios.get(""+resourceId)
-        .then((Response)=>{ setResourceInfo(Response.data.data) })
-        .catch((Error)=>{ 
-            console.log(Error)
-            window.alert("자원 정보를 불러올 수 없습니댜.") 
-            window.history.back()
-        });        
+        ResourcesAxios.get(`/${resourceId}`)
+            .then((Response) => { setResourceInfo(Response.data.data) })
+            .catch((Error) => {
+                console.log(Error)
+                window.alert("자원 정보를 불러올 수 없습니댜.")
+                window.history.back()
+            });
     };
     const getBookingInfo = () => {
-        BookingsAxios.get("resources/"+bookingId)
-        .then((Response)=>{ 
-            setBookingDetail(Response.data.data)
-            setStatus(findStatus(Response.data.data.status))
-            resourceId = Response.data.data.resourceId 
-            startDate = bookingInfo.startDate
-            endDate = bookingInfo.endDate
-            getResourceInfo(resourceId)
-        })
-        .catch((Error)=>{ 
-            console.log('Error -> ', Error)
-            window.alert("자원 예약 정보를 불러올 수 없습니댜.") 
-            window.history.back()
-        });
+        BookingsAxios.get(`/resources/${bookingId}`)
+            .then((Response) => {
+                setBookingDetail(Response.data.data)
+                setStatus(findStatus(Response.data.data.status))
+                resourceId = Response.data.data.resourceId
+                startDate = bookingInfo.startDate
+                endDate = bookingInfo.endDate
+                getResourceInfo(resourceId)
+            })
+            .catch((Error) => {
+                console.log('Error -> ', Error)
+                window.alert("자원 예약 정보를 불러올 수 없습니댜.")
+                window.history.back()
+            });
     };
 
-    useEffect(()=> {
+    useEffect(() => {
         getResourceInfo();
         getBookingInfo();
     }, []);
@@ -90,14 +90,14 @@ function ResourceBookingCheck(props) {
             {/* 예약일시 */}
             <BookingContentContainer>
                 <BookingCapsuleContainer>
-                    <Capsule color="purple" text="예약일시"/>
-                </BookingCapsuleContainer>  
+                    <Capsule color="purple" text="예약일시" />
+                </BookingCapsuleContainer>
                 <DateContainer>
                     <BookingDateText>{startDate || "시작일"}</BookingDateText>
                     <BookingDateText> ~ </BookingDateText>
                     <BookingDateText>{endDate || "마감일"}</BookingDateText>
 
-                </DateContainer>               
+                </DateContainer>
             </BookingContentContainer>
 
             <BookingContentContainer isCheck={props.isCheck}>
@@ -115,12 +115,12 @@ function ResourceBookingCheck(props) {
                 </BookingCapsuleContainer>
 
                 <BookingPurposeTextFieldContainer>
-                <PurposeTextarea id='bookingPurpose'
-                                cols='135' rows='5' 
-                                maxLength='100' 
-                                value={bookingInfo.memo} 
-                                readOnly="readOnly" 
-                                disabled />
+                    <PurposeTextarea id='bookingPurpose'
+                        cols='135' rows='5'
+                        maxLength='100'
+                        value={bookingInfo.memo}
+                        readOnly="readOnly"
+                        disabled />
                 </BookingPurposeTextFieldContainer>
             </BookingPurposeContainer>
 

@@ -17,14 +17,14 @@ function ResourceBookingManage(props) {
     }, [])
 
     const getResourceBooking = () => {
-        AdminBookingResourceAxios.get("")
-        .then((Response) => { SetBookingResources(Response.data.data.content) })
-        .catch((Error) => { alert (Error.response.data.message) })
+        AdminBookingResourceAxios.get()
+            .then((Response) => { SetBookingResources(Response.data.data.content) })
+            .catch((Error) => { alert(Error.response.data.message) })
     }
 
 
     return (
-       <RightContainer>
+        <RightContainer>
             <TitleText>{props.title}</TitleText>
 
             <WhiteContainer>
@@ -42,21 +42,21 @@ function ResourceBookingManage(props) {
                             </tr>
                         </BookedThead>
                         <tbody>
-                            {bookingResources.map((bookingResource) => 
-                                <ResourceBookingManageCell 
-                                    key={bookingResource.id} 
-                                    name={bookingResource.name}  
-                                    category={bookingResource.category} 
-                                    startDateTime={bookingResource.startDateTime} 
-                                    endDateTime={bookingResource.endDateTime} 
-                                    requester={bookingResource.endDateTime} 
+                            {bookingResources.map((bookingResource) =>
+                                <ResourceBookingManageCell
+                                    key={bookingResource.id}
+                                    name={bookingResource.name}
+                                    category={bookingResource.category}
+                                    startDateTime={bookingResource.startDateTime}
+                                    endDateTime={bookingResource.endDateTime}
+                                    requester={bookingResource.endDateTime}
                                     status={bookingResource.status} />
                             )}
                         </tbody>
                     </BookedTable>
                 </TableContainer>
             </WhiteContainer>
-       </RightContainer>
+        </RightContainer>
     );
 }
 
