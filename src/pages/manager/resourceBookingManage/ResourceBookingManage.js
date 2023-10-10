@@ -13,13 +13,13 @@ function ResourceBookingManage(props) {
     const [bookingResources, SetBookingResources] = useState([]);
 
     useEffect(() => {
-
-    }, [])
+        getResourceBooking();
+    }, []);
 
     const getResourceBooking = () => {
         AdminBookingResourceAxios.get("")
         .then((Response) => { SetBookingResources(Response.data.data.content) })
-        .catch((Error) => { alert(Error.response.data.message) })
+        .catch((Error) => { alert (Error.response.data.message) })
     }
 
 
