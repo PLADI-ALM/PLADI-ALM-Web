@@ -6,11 +6,11 @@ import Capsule from 'components/capsule/Capsule';
 import { SubTitleContainer, MainTextContainer, SubTextContainer, SelectedSubTitleText, UnselectedSubTitleText } from 'components/officeBooking/SubTitleBar';
 import { BookingPurposeContainer, BookingCapsuleContainer, BookingPurposeTextFieldContainer } from 'components/officeBooking/BookingPurpose';
 import ResourceInfo from 'components/resourceInfo/ResourceInfo';
-import { BookingContentContainer, RequestButtonContainer, RequestBookingButton } from 'components/officeBooking/BookingTimeBar';
+import { BookingContentContainer } from 'components/officeBooking/BookingTimeBar';
 import { StatusText, StatusContainer, StatusCircle } from 'components/booking/StatusTag';
 import { findStatus } from 'constants/BookingStatus';
-import { RightContainer } from 'components/rightContainer/RightContainer';
-import { TitleText, ContentContainer, BookingDateText, PurposeTextarea, DateContainer } from './ResourceBooking';
+import { RightContainer, WhiteContainer } from 'components/rightContainer/RightContainer';
+import { TitleText, BookingDateText, PurposeTextarea } from './ResourceBooking';
 import { getToken } from 'utils/IsLoginUtil';
 
 const MyStatusContainer = styled(StatusContainer)`
@@ -19,11 +19,12 @@ const MyStatusContainer = styled(StatusContainer)`
     float: right;
 `
 
+const CustomWhiteContainer = styled(WhiteContainer)`
+    display: block;
+`
+
 var bookingId = 1;
 var resourceId = 1;
-
-var startDate = '';
-var endDate = '';
 
 function ResourceBookingCheck(props) {
     bookingId = props.isAdmin 
@@ -55,8 +56,6 @@ function ResourceBookingCheck(props) {
             setBookingDetail(Response.data.data)
             setStatus(findStatus(Response.data.data.status))
             resourceId = Response.data.data.resourceId 
-            startDate = bookingInfo.startDate
-            endDate = bookingInfo.endDate
             getResourceInfo(resourceId)
         })
         .catch((Error)=>{ 
@@ -74,7 +73,7 @@ function ResourceBookingCheck(props) {
     return <RightContainer>
         <TitleText>{props.isAdmin ? "자원 예약 내역" : "예약 내역"}</TitleText>
 
-        <ContentContainer isCheck={props.isCheck}>
+        <CustomWhiteContainer>
             <SubTitleContainer>
                 <MainTextContainer>
                     <SelectedSubTitleText>{resourceInfo.name}</SelectedSubTitleText>
@@ -98,7 +97,6 @@ function ResourceBookingCheck(props) {
                     <BookingDateText>{bookingInfo.startDate || "시작일"}</BookingDateText>
                     <BookingDateText> ~ </BookingDateText>
                     <BookingDateText>{bookingInfo.endDate || "마감일"}</BookingDateText>
-
                 </div>
             </BookingContentContainer>
 
@@ -124,8 +122,7 @@ function ResourceBookingCheck(props) {
                 </BookingPurposeTextFieldContainer>
             </BookingPurposeContainer>
 
-
-        </ContentContainer>
+        </CustomWhiteContainer>
     </RightContainer>
 }
 export default ResourceBookingCheck;

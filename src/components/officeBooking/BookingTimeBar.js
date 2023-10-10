@@ -7,17 +7,13 @@ var bookingState = [
     false, false, false, false, false, false, false, false, false, false, false, false,
     false, false, false, false, false, false, false, false, false, false, false, false,
 ];
-// var selectedCheckList = [
-//     false, false, false, false, false, false, false, false, false, false, false, false, 
-//     false, false, false, false, false, false, false, false, false, false, false, false, 
-// ];
 
 var startT = -1;
 var endT = -1;
 
 export const BookingContentContainer = styled.div`
-    margin: 25px 40px;
-    padding-top: 10px;
+    margin-left: 40px;
+    padding: 40px 0 0 0;
     display: flex;
 `
 

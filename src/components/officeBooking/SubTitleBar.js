@@ -1,7 +1,6 @@
 import styled from "styled-components"
 
 export const SubTitleContainer = styled.div`
-    width: 100%;
     height: 64px;
     border-radius: 12px;
     background: #2A3042;

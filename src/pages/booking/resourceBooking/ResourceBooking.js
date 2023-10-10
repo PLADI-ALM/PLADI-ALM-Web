@@ -25,7 +25,7 @@ export const TitleText = styled.p`
     font-weight: 700;
     align: left;
     width: 200px;
-    margin: 0;
+    margin-bottom: 10px;
 `
 
 export const ContentContainer = styled.div`
@@ -49,6 +49,7 @@ export const BookingDateText = styled.text`
 `
 
 export const PurposeTextarea = styled.textarea`
+    width: 100%;   
     padding: 6px 0 0 18px;
     border-radius: 12px;
     border-width:1;
@@ -61,7 +62,7 @@ export const PurposeTextarea = styled.textarea`
     line-height: 25px;
     letter-spacing: 0em;
     text-align: left;
-    margin: 0 10px 0 10px;
+    margin: 0 10px;
 `
 
 export const BookingDateContainer = styled.div`
