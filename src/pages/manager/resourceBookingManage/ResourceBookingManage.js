@@ -17,10 +17,11 @@ function ResourceBookingManage(props) {
     }, [])
 
     const getResourceBooking = () => {
-        AdminBookingResourceAxios.get("")
+        AdminBookingResourceAxios.get("resources?size=100")
         .then((Response) => { SetBookingResources(Response.data.data.content) })
         .catch((Error) => { alert (Error.response.data.message) })
     }
+    
 
 
     return (
@@ -42,15 +43,17 @@ function ResourceBookingManage(props) {
                             </tr>
                         </BookedThead>
                         <tbody>
-                            {bookingResources.map((bookingResource) => 
+                            {bookingResources.map((bookingResource, index) => 
                                 <ResourceBookingManageCell 
-                                    key={bookingResource.id} 
+                                    key={index} 
+                                    id={bookingResource.id}
                                     name={bookingResource.name}  
                                     category={bookingResource.category} 
                                     startDateTime={bookingResource.startDateTime} 
                                     endDateTime={bookingResource.endDateTime} 
-                                    requester={bookingResource.endDateTime} 
-                                    status={bookingResource.status} />
+                                    requester={bookingResource.requester} 
+                                    status={bookingResource.status}
+                                    refresh={getResourceBooking} />
                             )}
                         </tbody>
                     </BookedTable>
