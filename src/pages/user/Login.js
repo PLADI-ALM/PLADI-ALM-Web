@@ -74,11 +74,12 @@ const PWReset = styled(Link)`
 `
 
 function Login() {
+    console.log(process.env.REACT_APP_DEV_HOST)
     const onSubmitHandler = (e) => {
         const inputEmail = e.target.email.value
         const inputPw = e.target.password.value
         e.preventDefault()
-      
+
         UsersAxios.post("login", {
             email: inputEmail,
             password: inputPw
