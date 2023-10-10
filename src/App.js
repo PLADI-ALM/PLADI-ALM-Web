@@ -34,8 +34,9 @@ function App() {
           <Route path='/resourceBooking' element={<SelectResource title="자원 예약" />} />
           <Route path='/resourceBooking/:resourceId' element={<ResourceBooking />} />
           <Route path='/manage/offices' element={<OfficeManage title="회의실 관리" />} />
-          <Route path='/manage/officeBooking/:officeId' element={<OfficeBookingCheck isAdmin={true} />} />
+          <Route path='/manage/officeBooking/:bookingId' element={<OfficeBookingCheck isAdmin={true}/>} />
           <Route path='/manage/resourceBooking' element={<ResourceBookingManage title="자원 예약 관리" />} />
+          <Route path='/manage/resourcesBooking/:bookingId' element={<ResourceBookingCheck isAdmin={true}/>} />
         </Route>
       </Routes>
     </div>
