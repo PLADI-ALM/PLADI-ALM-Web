@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { BookedLineTr } from '../../booking/bookedList/BookedList';
 import { StatusCircle, StatusContainer, StatusText } from 'components/booking/StatusTag';
 import { CANCELED, USING, WAITING, findStatus } from 'constants/BookingStatus';
+import { AdminBookingAxios } from 'api/AxiosApi';
 import styled from 'styled-components';
 
 const SettingButtonContainer = styled.div`
@@ -26,10 +27,51 @@ const SettingButton = styled.button`
 
 
 function ResourceBookingManageCell(props) {
+    const allowResource = () => {
+        if (window.confirm(`${props.name}의 예약을 허가하시겠습니까?`))
+        {
+            AdminBookingAxios.patch(`resources/${props.id}/allow`)
+            .then((Response) => { 
+                alert(Response.data.message)
+                window.location.reload()
+             })
+            .catch((Error) => { console.log(Error.response.data.message) })
+
+            props.refresh()
+        }
+        else
+        {
+            alert("예약 허가를 취소하셨습니다.")
+        }
+
+       
+    };
+
+    const rejectResource = () => {
+        if (window.confirm(`${props.name}의 예약을 반려하시겠습니까?`))
+        {
+            AdminBookingAxios.patch(`resources/${props.id}/reject`)
+            .then((Response) => { 
+                alert(Response.data.message)
+                window.location.reload()
+             })
+            .catch((Error) => { console.log(Error.response.data.message) })
+
+            props.refresh()
+        }
+        else
+        {
+            alert("예약 반려를 취소하셨습니다.")
+        }
+    };
+
+
+
+
     var status = findStatus(props.status)
     var watingButton = (
     <SettingButtonContainer>
-        <SettingButton>허가</SettingButton> | <SettingButton>반려</SettingButton> | <SettingButton>상세보기</SettingButton>    
+        <SettingButton onClick={allowResource}>허가</SettingButton> | <SettingButton onClick={rejectResource}>반려</SettingButton> | <SettingButton>상세보기</SettingButton>    
     </SettingButtonContainer>)
     var cancelButton = (
     <SettingButtonContainer>
