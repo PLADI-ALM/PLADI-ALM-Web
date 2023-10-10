@@ -74,13 +74,13 @@ const PWReset = styled(Link)`
 `
 
 function Login() {
-    console.log(process.env.REACT_APP_DEV_HOST)
+
     const onSubmitHandler = (e) => {
         const inputEmail = e.target.email.value
         const inputPw = e.target.password.value
         e.preventDefault()
 
-        UsersAxios.post("login", {
+        UsersAxios.post("/login", {
             email: inputEmail,
             password: inputPw
         }).then((res) => {
@@ -89,7 +89,9 @@ function Login() {
             setCookie('Role', res.data.data.role)
             window.location.replace('/officeBooking')
         }).catch((error) => {
-            alert(error.response.data.message)
+            if (error.response.data.message != null)
+                alert(error.response.data.message)
+            else console.log(error)
         })
     }
 

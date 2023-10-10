@@ -63,14 +63,22 @@ function BookedList(props) {
     const getOfficeBookingList = () => {
         BookingsAxios.get("?category=office")
             .then((response) => { setBookingList(response.data.data.content) })
-            .catch((error) => { alert(error.response.data.code) })
+            .catch((error) => {
+                if (error.response.data.message != null)
+                    alert(error.response.data.message)
+                else console.log(error)
+            })
     }
 
     // 자원 예약내역
     const getResourceBookingList = () => {
         BookingsAxios.get("?category=resource")
             .then((response) => { setBookingList(response.data.data.content) })
-            .catch((error) => { alert(error.response.data.code) })
+            .catch((error) => {
+                if (error.response.data.message != null)
+                    alert(error.response.data.message)
+                else console.log(error)
+            })
     }
 
     useEffect(() => {

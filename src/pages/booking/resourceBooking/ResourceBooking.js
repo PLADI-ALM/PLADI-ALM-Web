@@ -85,28 +85,28 @@ function ResourceBooking(props) {
     const [changed, setCurrentMonth] = useState();
 
     const getResourceInfo = () => {
-        ResourcesAxios.get(""+resourceId)
-        .then((Response)=>{ setResourceInfo(Response.data.data) })
-        .catch((Error)=>{ 
-            console.log(Error)
-            window.alert("자원 정보를 불러올 수 없습니댜.") 
-            window.history.back()
-        });        
+        ResourcesAxios.get(`/${resourceId}`)
+            .then((Response) => { setResourceInfo(Response.data.data) })
+            .catch((Error) => {
+                console.log(Error)
+                window.alert("자원 정보를 불러올 수 없습니댜.")
+                window.history.back()
+            });
     };
 
     const getBookedDates = () => {
         const params = { month: currentMonth };
-        ResourcesAxios.get(resourceId+"/booking-state", {params})
-        .then((Response)=>{     
-            var temp = [];  
-            Response.data.data.map(function(date) { temp.push(new Date(date)) })
-            setBookedDates(temp)
-        })
-        .catch((Error)=>{ 
-            console.log(Error)
-            window.alert("예약 현황 정보를 불러올 수 없습니댜.") 
-            window.history.back()
-        }); 
+        ResourcesAxios.get(`/${resourceId}/booking-state`, { params })
+            .then((Response) => {
+                var temp = [];
+                Response.data.data.map(function (date) { temp.push(new Date(date)) })
+                setBookedDates(temp)
+            })
+            .catch((Error) => {
+                console.log(Error)
+                window.alert("예약 현황 정보를 불러올 수 없습니댜.")
+                window.history.back()
+            });
     }
 
     const changeDate = e => {
@@ -127,7 +127,7 @@ function ResourceBooking(props) {
         getBookedDates()
     }
 
-    useEffect(()=> {
+    useEffect(() => {
         getResourceInfo()
         getBookedDates()
     }, []);
@@ -146,41 +146,41 @@ function ResourceBooking(props) {
                 </SubTextContainer>
             </SubTitleContainer>
 
-            <ResourceInfo description={resourceInfo.description}/>
+            <ResourceInfo description={resourceInfo.description} />
 
             <BookingContentContainer>
                 <BookingCapsuleContainer>
-                    <Capsule color="purple" text="예약일시"/>
-                </BookingCapsuleContainer>  
+                    <Capsule color="purple" text="예약일시" />
+                </BookingCapsuleContainer>
                 <DateContainer>
                     <BookingDateText>{start || "시작일"}</BookingDateText>
                     <BookingDateText> ~ </BookingDateText>
                     <BookingDateText>{end || "마감일"}</BookingDateText>
 
                     <BookingDateContainer>
-                        <Calendar className={styles} 
-                                onChange={changeDate}
-                                selectRange={true}
-                                formatDay={(locale, date) => moment(date).format("D")}
-                                minDate={new Date()}
-                                showNeighboringMonth={false}
-                                next2Label={null}
-                                prev2Label={null}
-                                formatShortWeekday={(locale, date) =>
-                                    ["S", "M", "T", "W", "T", "F", "S"][date.getDay()]
-                                }
-                                tileDisabled={({date, view}) =>
-                                    (view === 'month') && 
-                                    dates.some(disabledDate =>
+                        <Calendar className={styles}
+                            onChange={changeDate}
+                            selectRange={true}
+                            formatDay={(locale, date) => moment(date).format("D")}
+                            minDate={new Date()}
+                            showNeighboringMonth={false}
+                            next2Label={null}
+                            prev2Label={null}
+                            formatShortWeekday={(locale, date) =>
+                                ["S", "M", "T", "W", "T", "F", "S"][date.getDay()]
+                            }
+                            tileDisabled={({ date, view }) =>
+                                (view === 'month') &&
+                                dates.some(disabledDate =>
                                     date.getFullYear() === disabledDate.getFullYear() &&
                                     date.getMonth() === disabledDate.getMonth() &&
                                     date.getDate() === disabledDate.getDate()
                                 )}
-                                onActiveStartDateChange={onActiveStartDateChange}
+                            onActiveStartDateChange={onActiveStartDateChange}
 
-                        />                  
+                        />
                     </BookingDateContainer>
-                </DateContainer>               
+                </DateContainer>
             </BookingContentContainer>
 
             <BookingPurposeContainer>
@@ -189,10 +189,10 @@ function ResourceBooking(props) {
                 </BookingCapsuleContainer>
 
                 <BookingPurposeTextFieldContainer>
-                    <PurposeTextarea id='bookingPurpose' 
-                                    cols='135' 
-                                    rows='5' 
-                                    maxLength='100' />
+                    <PurposeTextarea id='bookingPurpose'
+                        cols='135'
+                        rows='5'
+                        maxLength='100' />
                 </BookingPurposeTextFieldContainer>
             </BookingPurposeContainer>
 
@@ -212,23 +212,23 @@ function requestBookingOffice() {
     var bookingPurpose = document.getElementById("bookingPurpose").value;
 
     if (window.confirm("예약하시겠습니까?")) {
-        ResourcesAxios.post(""+resourceId,
+        ResourcesAxios.post(`/${resourceId}`,
             {
                 "endDate": endDate,
                 "memo": bookingPurpose,
                 "startDate": startDate
             }
         )
-        .then(function (response) {
-            if (response.data.status === '200') { alert('예약에 성공하였습니다!') }
-            else { alert(response.data.message); }
-            window.location.reload()
-        })
-        .catch(function (error) { 
-            console.log(error) 
-            window.alert("자원 예약에 실패하였습니다. \n",error.response.data.message) 
-            window.history.back()
-        });
+            .then(function (response) {
+                if (response.data.status === '200') { alert('예약에 성공하였습니다!') }
+                else { alert(response.data.message); }
+                window.location.reload()
+            })
+            .catch(function (error) {
+                console.log(error)
+                window.alert("자원 예약에 실패하였습니다. \n", error.response.data.message)
+                window.history.back()
+            });
 
         console.log('start date : ', startDate)
         console.log('end date : ', endDate)

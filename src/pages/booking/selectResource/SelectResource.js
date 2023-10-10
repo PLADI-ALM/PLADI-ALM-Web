@@ -68,7 +68,7 @@ function SelectResource(props) {
     const [endDate, setEndDate] = useState("");
 
     const getResourceList = () => {
-        ResourcesAxios.get("")
+        ResourcesAxios.get()
             .then((Response) => { setResourceList(Response.data.data.content) })
             .catch((Error) => { alert(Error) })
     };
@@ -91,7 +91,7 @@ function SelectResource(props) {
     }
 
     const searchResource = () => {
-        ResourcesAxios.get("?resourceName=" + resourceName + "&startDate=" + startDate + "&endDate=" + endDate)
+        ResourcesAxios.get(`?resourceName=${resourceName}&startDate=${startDate}&endDate=${endDate}`)
             .then((Response) => { setResourceList(Response.data.data.content) })
             .catch((Error) => { alert(Error.response.data.message) })
     }

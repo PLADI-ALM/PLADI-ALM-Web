@@ -25,7 +25,7 @@ function ResourceBookingManage(props) {
 
 
     return (
-       <RightContainer>
+        <RightContainer>
             <TitleText>{props.title}</TitleText>
 
             <WhiteContainer>
@@ -59,7 +59,7 @@ function ResourceBookingManage(props) {
                     </BookedTable>
                 </TableContainer>
             </WhiteContainer>
-       </RightContainer>
+        </RightContainer>
     );
 }
 

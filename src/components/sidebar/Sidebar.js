@@ -96,7 +96,7 @@ function Sidebar() {
 
     // 이름, 직급
     const getUserInfo = () => {
-        UsersAxios.get("position", {
+        UsersAxios.get("/position", {
             headers: {
                 Authorization: getToken()
             }

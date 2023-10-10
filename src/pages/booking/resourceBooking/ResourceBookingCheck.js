@@ -34,7 +34,7 @@ function ResourceBookingCheck(props) {
     const [bookingStatus, setStatus] = useState([]);
 
     const getResourceInfo = () => {
-        ResourcesAxios.get(""+resourceId)
+        ResourcesAxios.get(`/${resourceId}`)
         .then((Response)=>{ setResourceInfo(Response.data.data) })
         .catch((Error)=>{ 
             console.log(Error)
@@ -44,8 +44,8 @@ function ResourceBookingCheck(props) {
     };
     const getBookingInfo = () => {
         (props.isAdmin 
-            ? AdminBookingAxios.get("resources/"+bookingId)
-            : BookingsAxios.get("resources/"+bookingId))
+            ? AdminBookingAxios.get(`/resources/${bookingId}`)
+            : BookingsAxios.get(`/resources/${bookingId}`))
         .then((Response)=>{ 
             setBookingDetail(Response.data.data)
             setStatus(findStatus(Response.data.data.status))
@@ -61,7 +61,7 @@ function ResourceBookingCheck(props) {
         });
     };
 
-    useEffect(()=> {
+    useEffect(() => {
         getResourceInfo();
         getBookingInfo();
     }, []);
@@ -94,14 +94,14 @@ function ResourceBookingCheck(props) {
             {/* 예약일시 */}
             <BookingContentContainer>
                 <BookingCapsuleContainer>
-                    <Capsule color="purple" text="예약일시"/>
-                </BookingCapsuleContainer>  
+                    <Capsule color="purple" text="예약일시" />
+                </BookingCapsuleContainer>
                 <DateContainer>
                     <BookingDateText>{startDate || "시작일"}</BookingDateText>
                     <BookingDateText> ~ </BookingDateText>
                     <BookingDateText>{endDate || "마감일"}</BookingDateText>
 
-                </DateContainer>               
+                </DateContainer>
             </BookingContentContainer>
 
             <BookingContentContainer isCheck={props.isCheck}>
@@ -119,12 +119,12 @@ function ResourceBookingCheck(props) {
                 </BookingCapsuleContainer>
 
                 <BookingPurposeTextFieldContainer>
-                <PurposeTextarea id='bookingPurpose'
-                                cols='135' rows='5' 
-                                maxLength='100' 
-                                value={bookingInfo.memo} 
-                                readOnly="readOnly" 
-                                disabled />
+                    <PurposeTextarea id='bookingPurpose'
+                        cols='135' rows='5'
+                        maxLength='100'
+                        value={bookingInfo.memo}
+                        readOnly="readOnly"
+                        disabled />
                 </BookingPurposeTextFieldContainer>
             </BookingPurposeContainer>
 

@@ -17,9 +17,9 @@ var bookingId = 1;
 var officeId = 1;
 
 function OfficeBookingCheck(props) {
-    bookingId = props.isAdmin 
-                ? window.location.href.substring(43,) 
-                : window.location.href.substring(39,)
+    bookingId = props.isAdmin
+        ? window.location.href.substring(43,)
+        : window.location.href.substring(39,)
 
     const [officeInfo, setOfficeInfo] = useState([]);
     const [bookingInfo, setBookingDetail] = useState([]);
@@ -33,26 +33,26 @@ function OfficeBookingCheck(props) {
             bookingDate = date;
         }
 
-        (props.isAdmin 
-        ? AdminBookingAxios.get("offices/"+bookingId)
-        : BookingsAxios.get("offices/" + bookingId))
-        .then((Response) => {
-            setBookingDetail(Response.data.data)
-            setStatus(findStatus(Response.data.data.bookingStatus))
-            bookingDate = Response.data.data.date
-            officeId = Response.data.data.officeId
-            getOfficeInfo(officeId)
-            setBookingTime(Response.data.data.startTime, Response.data.data.endTime)
-        })
-        .catch((Error) => {
-            console.log('Error -> ', Error)
-            window.alert("예약 정보를 불러올 수 없습니댜.")
-            // window.history.back()
-        });
+        (props.isAdmin
+            ? AdminBookingAxios.get(`/offices/${bookingId}`)
+            : BookingsAxios.get(`/offices/${bookingId}`))
+            .then((Response) => {
+                setBookingDetail(Response.data.data)
+                setStatus(findStatus(Response.data.data.bookingStatus))
+                bookingDate = Response.data.data.date
+                officeId = Response.data.data.officeId
+                getOfficeInfo(officeId)
+                setBookingTime(Response.data.data.startTime, Response.data.data.endTime)
+            })
+            .catch((Error) => {
+                console.log('Error -> ', Error)
+                window.alert("예약 정보를 불러올 수 없습니댜.")
+                // window.history.back()
+            });
     };
 
     const getOfficeInfo = (id) => {
-        OfficesAxios.get("" + officeId)
+        OfficesAxios.get(`/${officeId}`)
             .then((Response) => {
                 console.log(Response.data.data)
                 setOfficeInfo(Response.data.data)
@@ -115,14 +115,14 @@ function OfficeBookingCheck(props) {
                     </BookingCapsuleContainer>
 
                     <BookingPurposeTextFieldContainer>
-                        <PurposeTextarea id='bookingPurpose' 
-                                        cols='135' rows='5' 
-                                        maxLength='100' 
-                                        value={bookingInfo.memo} 
-                                        readOnly="readOnly" 
-                                        disabled></PurposeTextarea>
+                        <PurposeTextarea id='bookingPurpose'
+                            cols='135' rows='5'
+                            maxLength='100'
+                            value={bookingInfo.memo}
+                            readOnly="readOnly"
+                            disabled></PurposeTextarea>
                     </BookingPurposeTextFieldContainer>
-                </BookingPurposeContainer> 
+                </BookingPurposeContainer>
 
             </ContentContainer>
         </RightContainer>
