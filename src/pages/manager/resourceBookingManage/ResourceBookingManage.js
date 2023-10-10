@@ -5,9 +5,22 @@ import { RightContainer, TitleText, WhiteContainer } from "components/rightConta
 import { Bar, BookedTable, BookedThead, TableContainer } from "../../booking/bookedList/BookedList";
 import ManageSearchBar from "components/searchBar/ManageSearchBar";
 import ResourceBookingManageCell from "./ResourceBookingManageCell";
+import { AdminBookingResourceAxios } from "api/AxiosApi";
 
 
 function ResourceBookingManage(props) {
+
+    const [bookingResources, SetBookingResources] = useState([]);
+
+    useEffect(() => {
+        getResourceBooking();
+    }, []);
+
+    const getResourceBooking = () => {
+        AdminBookingResourceAxios.get("")
+        .then((Response) => { SetBookingResources(Response.data.data.content) })
+        .catch((Error) => { alert (Error.response.data.message) })
+    }
 
 
     return (
@@ -29,9 +42,16 @@ function ResourceBookingManage(props) {
                             </tr>
                         </BookedThead>
                         <tbody>
-                            <ResourceBookingManageCell name="Macbook Air"  detailInfo="전자기기" startDateTime="2023.10.01" endDate="2023.10.02" human="김초원(대리)" status="예약대기" />
-                            <ResourceBookingManageCell name="Macbook Air"  detailInfo="전자기기" startDateTime="2023.10.01" endDate="2023.10.02" human="김초원(대리)" status="예약취소" />
-                            <ResourceBookingManageCell name="Macbook Air"  detailInfo="전자기기" startDateTime="2023.10.01" endDate="2023.10.02" human="김초원(대리)" status="사용중" />
+                            {bookingResources.map((bookingResource) => {
+                                <ResourceBookingManageCell 
+                                    key={bookingResource.id} 
+                                    name={bookingResource.name}  
+                                    category={bookingResource.category} 
+                                    startDateTime={bookingResource.startDateTime} 
+                                    endDateTime={bookingResource.endDateTime} 
+                                    requester={bookingResource.endDateTime} 
+                                    status={bookingResource.status} />
+                            })}
                         </tbody>
                     </BookedTable>
                 </TableContainer>
