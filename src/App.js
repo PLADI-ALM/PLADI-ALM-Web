@@ -7,7 +7,7 @@ import BookedList from 'pages/booking/bookedList/BookedList';
 import OfficeBooking from 'pages/booking/officeBooking/OfficeBooking';
 import SelectResource from 'pages/booking/selectResource/SelectResource';
 import ResourceBooking from 'pages/booking/resourceBooking/ResourceBooking';
-import OfficeManage from 'pages/booking/officeManage/OfficeManage';
+import OfficeManage from 'pages/manager/officeManage/OfficeManage';
 import OfficeBookingCheck from 'pages/booking/officeBooking/OfficeBookingCheck';
 import ResourceBookingManage from 'pages/manager/resourceBookingManage/ResourceBookingManage';
 import ResourceBookingCheck from 'pages/booking/resourceBooking/ResourceBookingCheck'
