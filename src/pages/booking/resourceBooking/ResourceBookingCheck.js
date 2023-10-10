@@ -11,6 +11,8 @@ import { StatusText, StatusContainer, StatusCircle } from 'components/booking/St
 import { findStatus } from 'constants/BookingStatus';
 import { RightContainer } from 'components/rightContainer/RightContainer';
 import { TitleText, ContentContainer, BookingDateText, PurposeTextarea, DateContainer } from './ResourceBooking';
+import { getToken } from 'utils/IsLoginUtil';
+import { removeAllCookies } from 'utils/CookiesUtil';
 
 const MyStatusContainer = styled(StatusContainer)`
     margin-top: 12px;
@@ -44,7 +46,11 @@ function ResourceBookingCheck(props) {
     };
     const getBookingInfo = () => {
         (props.isAdmin 
-            ? AdminBookingAxios.get(`/resources/${bookingId}`)
+            ? AdminBookingAxios.get(`/resources/${bookingId}`, {
+                headers: {
+                    Authorization: getToken()
+                }
+            })
             : BookingsAxios.get(`/resources/${bookingId}`))
         .then((Response)=>{ 
             setBookingDetail(Response.data.data)
