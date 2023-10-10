@@ -23,8 +23,8 @@ export const BookingDateTextContainer = styled.div`
 `
 
 export const BookingTimeContainer = styled.div`
-    width: 94%;
-    margin: 0px 0px 10px 35px;
+    width: 93%;
+    margin: 25px 0px 10px 35px;
     display: flex;
 `
 

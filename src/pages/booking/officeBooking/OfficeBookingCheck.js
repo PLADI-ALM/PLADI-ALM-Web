@@ -1,4 +1,5 @@
 import React from 'react';
+import styled from "styled-components"
 import { AdminBookingAxios, BookingsAxios, OfficesAxios } from 'api/AxiosApi';
 import { useState, useEffect } from "react";
 import Capsule from 'components/capsule/Capsule';
@@ -9,13 +10,16 @@ import { StatusText, StatusCircle } from 'components/booking/StatusTag';
 import { BookingContentContainer, BookingTimeContainer, renderBookingTimeBar, BookingDateTextContainer, setBookingTime } from 'components/officeBooking/BookingTimeBar';
 import { BookingPurposeContainer, BookingCapsuleContainer, BookingPurposeTextFieldContainer } from 'components/officeBooking/BookingPurpose';
 import { findStatus } from 'constants/BookingStatus';
-import { TitleText, ContentContainer, MyStatusContainer, BookingDateText, PurposeTextarea } from './OfficeBooking';
-import { RightContainer } from 'components/rightContainer/RightContainer';
+import { TitleText, MyStatusContainer, BookingDateText, PurposeTextarea } from './OfficeBooking';
+import { RightContainer, WhiteContainer } from 'components/rightContainer/RightContainer';
 import { getToken } from 'utils/IsLoginUtil';
 
-var bookingDate = '';
 var bookingId = 1;
 var officeId = 1;
+
+const CustomWhiteContainer = styled(WhiteContainer)`
+    display: block;
+`
 
 function OfficeBookingCheck(props) {
     bookingId = props.isAdmin
@@ -31,7 +35,6 @@ function OfficeBookingCheck(props) {
         if (date.length == 0) {
             const dateNow = new Date();
             date = dateNow.toISOString().slice(0, 10);
-            bookingDate = date;
         }
 
         (props.isAdmin
@@ -44,7 +47,6 @@ function OfficeBookingCheck(props) {
             .then((Response) => {
                 setBookingDetail(Response.data.data)
                 setStatus(findStatus(Response.data.data.bookingStatus))
-                bookingDate = Response.data.data.date
                 officeId = Response.data.data.officeId
                 getOfficeInfo(officeId)
                 setBookingTime(Response.data.data.startTime, Response.data.data.endTime)
@@ -52,7 +54,7 @@ function OfficeBookingCheck(props) {
             .catch((Error) => {
                 console.log('Error -> ', Error)
                 window.alert("예약 정보를 불러올 수 없습니댜.")
-                // window.history.back()
+                window.history.back()
             });
     };
 
@@ -65,7 +67,7 @@ function OfficeBookingCheck(props) {
             .catch((Error) => {
                 console.log(Error)
                 window.alert("정보를 불러올 수 없습니댜.")
-                // window.history.back()
+                window.history.back()
             });
     };
 
@@ -78,7 +80,7 @@ function OfficeBookingCheck(props) {
         <RightContainer>
             <TitleText>{props.isAdmin ? "회의실 예약 내역" : "예약 내역"}</TitleText>
 
-            <ContentContainer>
+            <CustomWhiteContainer>
 
                 <SubTitleContainer>
                     <MainTextContainer>
@@ -129,7 +131,7 @@ function OfficeBookingCheck(props) {
                     </BookingPurposeTextFieldContainer>
                 </BookingPurposeContainer>
 
-            </ContentContainer>
+            </CustomWhiteContainer>
         </RightContainer>
     );
 }
