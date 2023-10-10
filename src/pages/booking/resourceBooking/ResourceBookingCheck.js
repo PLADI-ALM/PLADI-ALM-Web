@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from "styled-components"
-import { ResourcesAxios, BookingsAxios } from 'api/AxiosApi';
+import { AdminBookingAxios, ResourcesAxios, BookingsAxios } from 'api/AxiosApi';
 import { useState, useEffect } from "react";
 import Capsule from 'components/capsule/Capsule';
 import { SubTitleContainer, MainTextContainer, SubTextContainer, SelectedSubTitleText, UnselectedSubTitleText } from 'components/officeBooking/SubTitleBar';
@@ -25,7 +25,9 @@ var startDate = '';
 var endDate = '';
 
 function ResourceBookingCheck(props) {
-    bookingId = window.location.href.substring(41,)
+    bookingId = props.isAdmin 
+                ? window.location.href.substring(46,) 
+                : window.location.href.substring(41,)
 
     const [resourceInfo, setResourceInfo] = useState([]);
     const [bookingInfo, setBookingDetail] = useState([]);
@@ -33,28 +35,30 @@ function ResourceBookingCheck(props) {
 
     const getResourceInfo = () => {
         ResourcesAxios.get(`/${resourceId}`)
-            .then((Response) => { setResourceInfo(Response.data.data) })
-            .catch((Error) => {
-                console.log(Error)
-                window.alert("자원 정보를 불러올 수 없습니댜.")
-                window.history.back()
-            });
+        .then((Response)=>{ setResourceInfo(Response.data.data) })
+        .catch((Error)=>{ 
+            console.log(Error)
+            window.alert("자원 정보를 불러올 수 없습니댜.") 
+            // window.history.back()
+        });        
     };
     const getBookingInfo = () => {
-        BookingsAxios.get(`/resources/${bookingId}`)
-            .then((Response) => {
-                setBookingDetail(Response.data.data)
-                setStatus(findStatus(Response.data.data.status))
-                resourceId = Response.data.data.resourceId
-                startDate = bookingInfo.startDate
-                endDate = bookingInfo.endDate
-                getResourceInfo(resourceId)
-            })
-            .catch((Error) => {
-                console.log('Error -> ', Error)
-                window.alert("자원 예약 정보를 불러올 수 없습니댜.")
-                window.history.back()
-            });
+        (props.isAdmin 
+            ? AdminBookingAxios.get(`/resources/${bookingId}`)
+            : BookingsAxios.get(`/resources/${bookingId}`))
+        .then((Response)=>{ 
+            setBookingDetail(Response.data.data)
+            setStatus(findStatus(Response.data.data.status))
+            resourceId = Response.data.data.resourceId 
+            startDate = bookingInfo.startDate
+            endDate = bookingInfo.endDate
+            getResourceInfo(resourceId)
+        })
+        .catch((Error)=>{ 
+            console.log('Error -> ', Error)
+            window.alert("자원 예약 정보를 불러올 수 없습니댜.") 
+            // window.history.back()
+        });
     };
 
     useEffect(() => {
@@ -63,7 +67,7 @@ function ResourceBookingCheck(props) {
     }, []);
 
     return <RightContainer>
-        <TitleText>예약 내역</TitleText>
+        <TitleText>{props.isAdmin ? "자원 예약 내역" : "예약 내역"}</TitleText>
 
         <ContentContainer isCheck={props.isCheck}>
 
