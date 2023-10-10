@@ -26,7 +26,7 @@ var endDate = '';
 
 function ResourceBookingCheck(props) {
     bookingId = props.isAdmin 
-                ? window.location.href.substring(46,) 
+                ? window.location.href.substring(45,) 
                 : window.location.href.substring(41,)
 
     const [resourceInfo, setResourceInfo] = useState([]);
