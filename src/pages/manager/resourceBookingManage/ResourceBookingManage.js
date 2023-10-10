@@ -5,7 +5,7 @@ import { RightContainer, TitleText, WhiteContainer } from "components/rightConta
 import { Bar, BookedTable, BookedThead, TableContainer } from "../../booking/bookedList/BookedList";
 import ManageSearchBar from "components/searchBar/ManageSearchBar";
 import ResourceBookingManageCell from "./ResourceBookingManageCell";
-import { AdminBookingResourceAxios } from "api/AxiosApi";
+import { AdminBookingAxios } from "api/AxiosApi";
 
 
 function ResourceBookingManage(props) {
@@ -17,7 +17,7 @@ function ResourceBookingManage(props) {
     }, [])
 
     const getResourceBooking = () => {
-        AdminBookingResourceAxios.get("resources?size=100")
+        AdminBookingAxios.get("resources?size=100")
         .then((Response) => { SetBookingResources(Response.data.data.content) })
         .catch((Error) => { alert (Error.response.data.message) })
     }
