@@ -18,7 +18,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - name: Create env file
         run: |
-          echo REACT_APP_DEV_HOST=${{ secrets.REACT_APP_DEV_HOST }} >> .env
+          echo REACT_APP_DEV_HOST=${{ secrets.REACT_APP_DEV_HOST }} > .env
           cat .env
       - name: Npm Install
         run: |
