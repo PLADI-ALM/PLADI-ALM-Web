@@ -31,5 +31,5 @@ export const AdminBookingAxios = axios.create({
 });
 
 export const AdminBookingResourceAxios = axios.create({
-    baseURL: `${host}/admin//api/admin/resources/resources`,
+    baseURL: `${host}/admin/resources/resources`,
 });
