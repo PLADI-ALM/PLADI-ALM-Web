@@ -14,7 +14,7 @@ function ResourceBookingManage(props) {
 
     useEffect(() => {
         getResourceBooking();
-    }, []);
+    }, [])
 
     const getResourceBooking = () => {
         AdminBookingResourceAxios.get("")
@@ -42,7 +42,7 @@ function ResourceBookingManage(props) {
                             </tr>
                         </BookedThead>
                         <tbody>
-                            {bookingResources.map((bookingResource) => {
+                            {bookingResources.map((bookingResource) => 
                                 <ResourceBookingManageCell 
                                     key={bookingResource.id} 
                                     name={bookingResource.name}  
@@ -51,7 +51,7 @@ function ResourceBookingManage(props) {
                                     endDateTime={bookingResource.endDateTime} 
                                     requester={bookingResource.endDateTime} 
                                     status={bookingResource.status} />
-                            })}
+                            )}
                         </tbody>
                     </BookedTable>
                 </TableContainer>
