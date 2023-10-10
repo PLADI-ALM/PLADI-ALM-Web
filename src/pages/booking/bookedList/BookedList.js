@@ -6,6 +6,7 @@ import { BookingsAxios } from 'api/AxiosApi';
 import SelectToggle from 'components/capsule/SelectToggle';
 import { BookingCategoryList } from 'constants/ToggleList';
 import { BookingCategoryPathList, getBookingCategoryPath } from 'constants/Path';
+import { getToken } from 'utils/IsLoginUtil';
 
 const TitleContainer = styled.div`
     display: flex;
@@ -61,7 +62,11 @@ function BookedList(props) {
 
     // 회의실 예약내역
     const getOfficeBookingList = () => {
-        BookingsAxios.get("?category=office")
+        BookingsAxios.get("?category=office", {
+            headers: {
+                Authorization: getToken()
+            }
+        })
             .then((response) => { setBookingList(response.data.data.content) })
             .catch((error) => {
                 if (error.response.data.message != null)
@@ -72,7 +77,11 @@ function BookedList(props) {
 
     // 자원 예약내역
     const getResourceBookingList = () => {
-        BookingsAxios.get("?category=resource")
+        BookingsAxios.get("?category=resource", {
+            headers: {
+                Authorization: getToken()
+            }
+        })
             .then((response) => { setBookingList(response.data.data.content) })
             .catch((error) => {
                 if (error.response.data.message != null)
