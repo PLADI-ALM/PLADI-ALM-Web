@@ -11,6 +11,7 @@ import { BookingPurposeContainer, BookingCapsuleContainer, BookingPurposeTextFie
 import { findStatus } from 'constants/BookingStatus';
 import { TitleText, ContentContainer, MyStatusContainer, BookingDateText, PurposeTextarea } from './OfficeBooking';
 import { RightContainer } from 'components/rightContainer/RightContainer';
+import { getToken } from 'utils/IsLoginUtil';
 
 var bookingDate = '';
 var bookingId = 1;
@@ -34,7 +35,11 @@ function OfficeBookingCheck(props) {
         }
 
         (props.isAdmin
-            ? AdminBookingAxios.get(`/offices/${bookingId}`)
+            ? AdminBookingAxios.get(`/offices/${bookingId}`, {
+                headers: {
+                    Authorization: getToken()
+                }
+            })
             : BookingsAxios.get(`/offices/${bookingId}`))
             .then((Response) => {
                 setBookingDetail(Response.data.data)
