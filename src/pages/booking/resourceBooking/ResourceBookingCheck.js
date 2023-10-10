@@ -12,7 +12,6 @@ import { findStatus } from 'constants/BookingStatus';
 import { RightContainer } from 'components/rightContainer/RightContainer';
 import { TitleText, ContentContainer, BookingDateText, PurposeTextarea, DateContainer } from './ResourceBooking';
 import { getToken } from 'utils/IsLoginUtil';
-import { removeAllCookies } from 'utils/CookiesUtil';
 
 const MyStatusContainer = styled(StatusContainer)`
     margin-top: 12px;
@@ -41,7 +40,7 @@ function ResourceBookingCheck(props) {
         .catch((Error)=>{ 
             console.log(Error)
             window.alert("자원 정보를 불러올 수 없습니댜.") 
-            // window.history.back()
+            window.history.back()
         });        
     };
     const getBookingInfo = () => {
@@ -63,7 +62,7 @@ function ResourceBookingCheck(props) {
         .catch((Error)=>{ 
             console.log('Error -> ', Error)
             window.alert("자원 예약 정보를 불러올 수 없습니댜.") 
-            // window.history.back()
+            window.history.back()
         });
     };
 
@@ -76,7 +75,6 @@ function ResourceBookingCheck(props) {
         <TitleText>{props.isAdmin ? "자원 예약 내역" : "예약 내역"}</TitleText>
 
         <ContentContainer isCheck={props.isCheck}>
-
             <SubTitleContainer>
                 <MainTextContainer>
                     <SelectedSubTitleText>{resourceInfo.name}</SelectedSubTitleText>
@@ -84,30 +82,24 @@ function ResourceBookingCheck(props) {
                 <SubTextContainer>
                     <UnselectedSubTitleText>{resourceInfo.category}</UnselectedSubTitleText>
                 </SubTextContainer>
-                <MyStatusContainer isCheck={props.isCheck} background={bookingStatus.background}>
+                <MyStatusContainer isCheck={'true'} background={bookingStatus.background}>
                     <StatusCircle color={bookingStatus.color} />
                     <StatusText color={bookingStatus.color}>{bookingStatus.name}</StatusText>
                 </MyStatusContainer>
             </SubTitleContainer>
 
+            <ResourceInfo description={resourceInfo.description} />
 
-            <ResourceInfo isTItleHidden={true}
-                title={"title"}
-                category={"category"}
-                description={"description"}
-            />
-
-            {/* 예약일시 */}
             <BookingContentContainer>
                 <BookingCapsuleContainer>
                     <Capsule color="purple" text="예약일시" />
                 </BookingCapsuleContainer>
-                <DateContainer>
-                    <BookingDateText>{startDate || "시작일"}</BookingDateText>
+                <div>
+                    <BookingDateText>{bookingInfo.startDate || "시작일"}</BookingDateText>
                     <BookingDateText> ~ </BookingDateText>
-                    <BookingDateText>{endDate || "마감일"}</BookingDateText>
+                    <BookingDateText>{bookingInfo.endDate || "마감일"}</BookingDateText>
 
-                </DateContainer>
+                </div>
             </BookingContentContainer>
 
             <BookingContentContainer isCheck={props.isCheck}>
@@ -117,8 +109,6 @@ function ResourceBookingCheck(props) {
                 <BookingDateText>{getReturnDateStr(bookingInfo.returnDateTime)}</BookingDateText>
             </BookingContentContainer>
 
-
-            {/* 예약목적 */}
             <BookingPurposeContainer>
                 <BookingCapsuleContainer>
                     <Capsule color="purple" text="예약목적" />
