@@ -11,6 +11,7 @@ import OfficeManage from 'pages/manager/officeManage/OfficeManage';
 import OfficeBookingCheck from 'pages/booking/officeBooking/OfficeBookingCheck';
 import ResourceBookingManage from 'pages/manager/resourceBookingManage/ResourceBookingManage';
 import ResourceBookingCheck from 'pages/booking/resourceBooking/ResourceBookingCheck'
+import OfficeBookingManage from 'pages/manager/officeBookingManage/OfficeBookingManage';
 
 function App() {
 
@@ -34,6 +35,7 @@ function App() {
           <Route path='/resourceBooking' element={<SelectResource title="자원 예약" />} />
           <Route path='/resourceBooking/:resourceId' element={<ResourceBooking />} />
           <Route path='/manage/offices' element={<OfficeManage title="회의실 관리" />} />
+          <Route path='/manage/officeBooking' element={<OfficeBookingManage title="회의실 예약 내역"/>} />
           <Route path='/manage/officeBooking/:bookingId' element={<OfficeBookingCheck isAdmin={true}/>} />
           <Route path='/manage/resourceBooking' element={<ResourceBookingManage title="자원 예약 관리" />} />
           <Route path='/manage/resourceBooking/:bookingId' element={<ResourceBookingCheck isAdmin={true}/>} />
