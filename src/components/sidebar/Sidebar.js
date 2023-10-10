@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { styled } from 'styled-components';
 import { useLocation, Link } from "react-router-dom";
 import logo from 'assets/images/imgNameLogo.svg';
@@ -8,7 +8,9 @@ import { MAIN_MENUS, MAIN_PATH, MANAGER_MAIN_MENUS } from "constants/Path";
 import { Icon } from 'components/sidebar/MainMenu';
 import MyInfoIcon from 'assets/images/sidebarIcon/myInfoIcon.svg'
 import LogoutIcon from 'assets/images/sidebarIcon/logoutIcon.svg'
-// import { UsersAxios } from 'api/AxiosApi';
+import { removeAllCookies } from 'utils/CookiesUtil';
+import { getToken, isManager, navigateToLogin } from 'utils/IsLoginUtil';
+import { UsersAxios } from 'api/AxiosApi';
 
 const Container = styled.div`
     width: 250px;
@@ -78,13 +80,52 @@ function useIsMenuActive(path) {
 }
 
 function logout() {
-    alert("로그아웃")
+    removeAllCookies()
+    navigateToLogin()
     // UsersAxios.patch("logout")
     //     .then((response) => {  })
     //     .catch((error) => { alert(error.response.data.code) })
 }
 
 function Sidebar() {
+    // todo: 다음에 제대로 적용
+    navigateToLogin()
+
+    const [userName, setUserName] = useState("")
+    const [info, setInfo] = useState("")
+
+    // 이름, 직급
+    const getUserInfo = () => {
+        UsersAxios.get("position", {
+            headers: {
+                Authorization: getToken()
+            }
+        })
+            .then((response) => {
+                setUserName(response.data.data.name)
+                setInfo(response.data.data.position)
+            })
+            .catch((error) => {
+                alert(error.response.data.message)
+            })
+    }
+
+    useEffect(() => {
+        getUserInfo()
+    }, [])
+
+    // 관리자 메뉴
+    const managerMenus =
+        <>
+            <MainMenu info={MANAGER_MAIN_MENUS[0]} active={useIsMenuActive(MANAGER_MAIN_MENUS[0].path)} />
+            <MainMenu info={MANAGER_MAIN_MENUS[1]} active={useIsMenuActive(MANAGER_MAIN_MENUS[1].path)} />
+            <MainMenu info={MANAGER_MAIN_MENUS[2]} active={useIsMenuActive(MANAGER_MAIN_MENUS[2].path)} />
+            <MainMenu info={MANAGER_MAIN_MENUS[3]} active={useIsMenuActive(MANAGER_MAIN_MENUS[3].path)} />
+            <SubMenus active={useIsSubMenuActive(MANAGER_MAIN_MENUS[3].subMenus)}>
+                {MANAGER_MAIN_MENUS[3].subMenus.map(sub => { return (<SubMenu path={sub.path} name={sub.name} />) })}
+            </SubMenus>
+        </>
+
     return (
         <Container>
             <div>
@@ -102,22 +143,17 @@ function Sidebar() {
                 <MainMenu info={MAIN_MENUS[2]} active={useIsMenuActive(MAIN_MENUS[2].path)} />
 
                 {/* 관리자 메뉴 */}
-                <MainMenu info={MANAGER_MAIN_MENUS[0]} active={useIsMenuActive(MANAGER_MAIN_MENUS[0].path)} />
-                <MainMenu info={MANAGER_MAIN_MENUS[1]} active={useIsMenuActive(MANAGER_MAIN_MENUS[1].path)} />
-                <MainMenu info={MANAGER_MAIN_MENUS[2]} active={useIsMenuActive(MANAGER_MAIN_MENUS[2].path)} />
-                <MainMenu info={MANAGER_MAIN_MENUS[3]} active={useIsMenuActive(MANAGER_MAIN_MENUS[3].path)} />
-                <SubMenus active={useIsSubMenuActive(MANAGER_MAIN_MENUS[3].subMenus)}>
-                    {MANAGER_MAIN_MENUS[3].subMenus.map(sub => { return (<SubMenu path={sub.path} name={sub.name} />) })}
-                </SubMenus>
+                {isManager() ? managerMenus : null}
+
             </div>
 
             <MyBox>
                 {/* 사원 정보 */}
-                <MyInfo><Icon src={MyInfoIcon} />직원명 직급</MyInfo>
+                <MyInfo><Icon src={MyInfoIcon} />{userName} {info}</MyInfo>
                 {/* 로그아웃 */}
                 <Logout onClick={logout}><Icon src={LogoutIcon} />로그아웃</Logout>
             </MyBox>
-        </Container>
+        </Container >
     )
 }
 

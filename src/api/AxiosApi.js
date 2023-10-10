@@ -29,3 +29,7 @@ export const ArchivingssAxios = axios.create({
 export const AdminBookingAxios = axios.create({
     baseURL: `${host}/admin/bookings/`,
 });
+
+export const AdminBookingResourceAxios = axios.create({
+    baseURL: `${host}/admin/resources/resources`,
+});
