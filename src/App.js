@@ -7,7 +7,7 @@ import BookedList from 'pages/booking/bookedList/BookedList';
 import OfficeBooking from 'pages/booking/officeBooking/OfficeBooking';
 import SelectResource from 'pages/booking/selectResource/SelectResource';
 import ResourceBooking from 'pages/booking/resourceBooking/ResourceBooking';
-import OfficeManage from 'pages/booking/officeManage/OfficeManage';
+import OfficeManage from 'pages/manager/officeManage/OfficeManage';
 import OfficeBookingCheck from 'pages/booking/officeBooking/OfficeBookingCheck';
 import ResourceBookingManage from 'pages/manager/resourceBookingManage/ResourceBookingManage';
 import ResourceBookingCheck from 'pages/booking/resourceBooking/ResourceBookingCheck'
@@ -33,9 +33,9 @@ function App() {
           <Route path='/bookings/resources/:bookingId' element={<ResourceBookingCheck />} />
           <Route path='/resourceBooking' element={<SelectResource title="자원 예약" />} />
           <Route path='/resourceBooking/:resourceId' element={<ResourceBooking />} />
-          <Route path='/manage/office' element={<OfficeManage title="회의실 관리" />} />
-          <Route path='/manage/officeBooking/:officeId' element={<OfficeBookingCheck isAdmin={true}/>} />
-          <Route path='/manage/booking/resources' element={<ResourceBookingManage title="자원 예약 관리" />} />
+          <Route path='/manage/offices' element={<OfficeManage title="회의실 관리" />} />
+          <Route path='/manage/officeBooking/:officeId' element={<OfficeBookingCheck isAdmin={true} />} />
+          <Route path='/manage/resourceBooking' element={<ResourceBookingManage title="자원 예약 관리" />} />
         </Route>
       </Routes>
     </div>
