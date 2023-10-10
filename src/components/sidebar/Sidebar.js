@@ -80,11 +80,21 @@ function useIsMenuActive(path) {
 }
 
 function logout() {
-    removeAllCookies()
-    navigateToLogin()
-    // UsersAxios.patch("logout")
-    //     .then((response) => {  })
-    //     .catch((error) => { alert(error.response.data.code) })
+
+    UsersAxios.post("/logout", null, {
+        headers: {
+            Authorization: getToken()
+        }
+    })
+        .then((response) => {
+            removeAllCookies()
+            navigateToLogin()
+        })
+        .catch((error) => {
+            if (error.response.data.message != null)
+                alert(error.response.data.message)
+            else console.log(error)
+        })
 }
 
 function Sidebar() {
