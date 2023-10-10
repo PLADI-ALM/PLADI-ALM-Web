@@ -78,6 +78,7 @@ function Login() {
         const inputEmail = e.target.email.value
         const inputPw = e.target.password.value
         e.preventDefault()
+      
         UsersAxios.post("login", {
             email: inputEmail,
             password: inputPw

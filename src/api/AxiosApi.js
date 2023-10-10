@@ -25,3 +25,7 @@ export const EquipmentsAxios = axios.create({
 export const ArchivingssAxios = axios.create({
     baseURL: `${host}/archivings/`,
 });
+
+export const AdminBookingAxios = axios.create({
+    baseURL: `${host}/admin/bookings/`,
+});

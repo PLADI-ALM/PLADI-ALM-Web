@@ -109,8 +109,8 @@ const BookingTimeButtonItem = (index, isCheck) => {
     const [selectedCheckList, setSelectedCheckList] = useState([]);
     const [isSelected, setSelected] = useState(false);
 
-    const onClick = (index) => {
-        if (bookingState[index]) { alert('이미 선택된 시간입니다.'); return; }
+    const onClick = (index) => { 
+        if(isCheck || bookingState[index]) { return }
         const updatedCheckList = [...selectedCheckList];
 
         updatedCheckList[index] = !updatedCheckList[index];
@@ -130,21 +130,17 @@ const BookingTimeButtonItem = (index, isCheck) => {
         console.log('endT -> ', endT);
     }
 
-    // useEffect(()=> {
-    //     setBookingState();
-    // }, []);
-
-    if (index === 0) {
+    if (index == 0) {
         return (
             <TimeButtonContainer>
-                <FirstBookingTimeButton index={index} selected={isSelected} isCheck={isCheck} onClick={() => (isCheck === 'true') ? {} : onClick(index)} />
+                <FirstBookingTimeButton index={index} selected={isSelected} isCheck={true} onClick={() => (isCheck == 'true') ? {} : onClick(index)}/>
                 <StartTimeTextContainer>{index}</StartTimeTextContainer>
             </TimeButtonContainer>
         );
     } else if (index === 23) {
         return (
             <TimeButtonContainer>
-                <LastBookingTimeButton index={index} selected={isSelected} isCheck={isCheck} onClick={() => (isCheck === 'true') ? {} : onClick(index)} />
+                <LastBookingTimeButton index={index} selected={isSelected} isCheck={true} onClick={() => (isCheck == 'true') ? {} : onClick(index)}/>
                 <StartTimeTextContainer>{index}</StartTimeTextContainer>
                 <EndTimeTextContainer>{index + 1}</EndTimeTextContainer>
             </TimeButtonContainer>

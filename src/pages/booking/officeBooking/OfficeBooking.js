@@ -32,7 +32,7 @@ export const TitleText = styled.p`
     font-style: normal;
     font-weight: 700;
     align: left;
-    width: 170px;
+    display: flex;
     margin: 0;
 `
 
@@ -71,21 +71,15 @@ export const PurposeTextarea = styled.textarea`
     margin: 0 10px 0 10px;
 `
 
-const MyStatusContainer = styled(StatusContainer)`
+export const MyStatusContainer = styled(StatusContainer)`
     margin-top: 12px;
     margin-right: 12px;
     float: right;
 `
 
-function setId(isCheck) {
-    // TODO: 수정할 예정
-    if (isCheck) { bookingId = window.location.href.substring(39,) }
-    else { officeId = window.location.href.substring(36,) }
-}
-
 
 function OfficeBooking(props) {
-    setId(props.isCheck);
+    officeId = window.location.href.substring(36,)
 
     const [officeInfo, setOfficeInfo] = useState([]);
     const [bookingInfo, setBookingDetail] = useState([]);
@@ -105,35 +99,15 @@ function OfficeBooking(props) {
             bookingDate = date;
         }
 
-        if (props.isCheck === 'true') {
-            BookingsAxios.get("offices/" + bookingId)
-
-                .then((Response) => {
-                    setBookingDetail(Response.data.data)
-                    setStatus(findStatus(Response.data.data.bookingStatus))
-                    bookingDate = Response.data.data.date
-                    officeId = Response.data.data.officeId
-                    getOfficeInfoForBooking(officeId)
-                    setBookingTime(Response.data.data.startTime, Response.data.data.endTime)
-                })
-                .catch((Error) => {
-                    console.log('Error -> ', Error)
-                    window.alert("예약 정보를 불러올 수 없습니댜.")
-                    window.history.back()
-                });
-
-        } else {
-            OfficesAxios.get(officeId + "/booking-state?date=" + bookingDate)
-                .then((Response) => {
-                    setBookingState(Response.data.data.bookedTimes)
-                })
-                .catch((Error) => {
-                    console.log(Error)
-                    window.alert("정보를 불러올 수 없습니댜.")
-                    window.history.back()
-                });
-        }
-
+        OfficesAxios.get(officeId + "/booking-state?date=" + bookingDate)
+        .then((Response) => {
+            setBookingState(Response.data.data.bookedTimes)
+        })
+        .catch((Error) => {
+            console.log(Error)
+            window.alert("정보를 불러올 수 없습니댜.")
+            window.history.back()
+        });
     };
 
     const getOfficeInfoForBooking = (id) => {
@@ -146,7 +120,7 @@ function OfficeBooking(props) {
             .catch((Error) => {
                 console.log(Error)
                 window.alert("정보를 불러올 수 없습니댜.")
-                window.history.back()
+                // window.history.back()
             });
     };
 
@@ -157,7 +131,7 @@ function OfficeBooking(props) {
 
     return (
         <Container>
-            <TitleText>{(props.isCheck === 'true') ? "예약 내역" : "회의실 예약"}</TitleText>
+            <TitleText>{props.title}</TitleText>
 
             <ContentContainer isCheck={props.isCheck}>
 
@@ -190,12 +164,12 @@ function OfficeBooking(props) {
                         <Capsule color="purple" text="예약일시" />
                     </BookingCapsuleContainer>
                     <BookingDateTextContainer>
-                        {getBookingDate(props.isCheck, bookingInfo, changeDate)}
+                        {getBookingDate(false, bookingInfo, changeDate)}
                     </BookingDateTextContainer>
                 </BookingContentContainer>
 
                 <BookingTimeContainer>
-                    {renderBookingTimeBar(props.isCheck)}
+                    {renderBookingTimeBar(false)}
                 </BookingTimeContainer>
 
 
@@ -206,7 +180,7 @@ function OfficeBooking(props) {
                     </BookingCapsuleContainer>
 
                     <BookingPurposeTextFieldContainer>
-                        {getPurposeTextField(props.isCheck, bookingInfo.memo)}
+                        <PurposeTextarea id='bookingPurpose' cols='135' rows='5' maxLength='100'></PurposeTextarea>
                     </BookingPurposeTextFieldContainer>
                 </BookingPurposeContainer>
 
@@ -222,22 +196,10 @@ function OfficeBooking(props) {
 }
 export default OfficeBooking;
 
-function getPurposeTextField(isCheck, content) {
-    if (isCheck === 'true') {
-        return <PurposeTextarea id='bookingPurpose' cols='135' rows='5' maxLength='100' value={content} readOnly="readOnly" disabled></PurposeTextarea>
-    } else {
-        return <PurposeTextarea id='bookingPurpose' cols='135' rows='5' maxLength='100'></PurposeTextarea>
-    }
-}
-
-function getBookingDate(isCheck, info, changeDate) {
+function getBookingDate(info, changeDate) {
     var date = info.date + " " + info.startTime + " ~ " + info.endTime;
     date = date.replaceAll('-', '.');
-    if (isCheck === 'true') {
-        return <BookingDateText>{date}</BookingDateText>
-    } else {
-        return <DatePicker type="date" onChange={changeDate} value={bookingDate} />
-    }
+    return <DatePicker type="date" onChange={changeDate} value={bookingDate} />
 }
 
 
