@@ -5,7 +5,7 @@ import { USING, findStatus, BOOKED } from 'constants/BookingStatus';
 import { AdminBookingAxios } from 'api/AxiosApi';
 import styled from 'styled-components';
 import { getToken } from 'utils/IsLoginUtil';
-import { Link } from 'react-router-dom';
+import { basicError } from 'utils/ErrorHandlerUtil';
 
 const SettingButtonContainer = styled.div`
     display: flex;
@@ -41,7 +41,7 @@ function OfficeBookingManageCell(props) {
                 alert(Response.data.message)
                 window.location.reload()
              })
-            .catch((Error) => { alert(Error.response.data.message) })
+             .catch((error) => {basicError(error)})
         }
         else
         {

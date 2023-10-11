@@ -7,6 +7,7 @@ import { AdminBookingAxios } from "api/AxiosApi";
 import styled from "styled-components";
 import RangeImage from "../../../assets/images/RangeArrow.svg"
 import { getToken } from "utils/IsLoginUtil";
+import { basicError } from 'utils/ErrorHandlerUtil';
 
 
 const RangeImg = styled.img`
@@ -31,7 +32,7 @@ function OfficeBookingManage(props) {
             }
         })
         .then((Response) => { SetBookingOffices(Response.data.data.content) })
-        .catch((Error) => { alert(Error.response.data.message) })
+        .catch((error) => {basicError(error)})
     }
 
     const chnageRange = () => {
