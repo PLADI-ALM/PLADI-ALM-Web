@@ -11,6 +11,7 @@ import LogoutIcon from 'assets/images/sidebarIcon/logoutIcon.svg'
 import { removeAllCookies } from 'utils/CookiesUtil';
 import { getToken, isManager, navigateToLogin } from 'utils/IsLoginUtil';
 import { UsersAxios } from 'api/AxiosApi';
+import { basicError } from 'utils/ErrorHandlerUtil';
 
 const Container = styled.div`
     width: 250px;
@@ -91,9 +92,7 @@ function logout() {
             navigateToLogin()
         })
         .catch((error) => {
-            if (error.response.data.message != null)
-                alert(error.response.data.message)
-            else console.log(error)
+            basicError(error)
         })
 }
 
@@ -116,7 +115,7 @@ function Sidebar() {
                 setInfo(response.data.data.position)
             })
             .catch((error) => {
-                alert(error.response.data.message)
+                basicError(error)
             })
     }
 
