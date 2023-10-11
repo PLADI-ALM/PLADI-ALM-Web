@@ -13,6 +13,7 @@ import { BookingContentContainer, RequestButtonContainer, RequestBookingButton }
 import { RightContainer, WhiteContainer } from 'components/rightContainer/RightContainer';
 import 'react-calendar/dist/Calendar.css';
 import styles from "../resourceBooking/CustomCalendar.css";
+import { basicError } from 'utils/ErrorHandlerUtil';
 
 var startDate = '';
 var endDate = '';
@@ -92,11 +93,7 @@ function ResourceBooking(props) {
     const getResourceInfo = () => {
         ResourcesAxios.get(`/${resourceId}`)
             .then((Response) => { setResourceInfo(Response.data.data) })
-            .catch((Error) => {
-                console.log(Error)
-                window.alert("자원 정보를 불러올 수 없습니댜.")
-                window.history.back()
-            });
+            .catch((Error) => { basicError(Error) });
     };
 
     const getBookedDates = () => {
@@ -107,11 +104,7 @@ function ResourceBooking(props) {
                 Response.data.data.map(function (date) { temp.push(new Date(date)) })
                 setBookedDates(temp)
             })
-            .catch((Error) => {
-                console.log(Error)
-                window.alert("예약 현황 정보를 불러올 수 없습니댜.")
-                window.history.back()
-            });
+            .catch((Error) => { basicError(Error) });
     }
 
     const changeDate = e => {
