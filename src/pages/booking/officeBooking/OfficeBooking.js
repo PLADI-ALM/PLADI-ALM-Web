@@ -14,6 +14,7 @@ import {
 } from 'components/officeBooking/BookingTimeBar';
 import { BookingPurposeContainer, BookingCapsuleContainer, BookingPurposeTextFieldContainer } from 'components/officeBooking/BookingPurpose';
 import { RightContainer, WhiteContainer } from 'components/rightContainer/RightContainer';
+import { basicError } from 'utils/ErrorHandlerUtil';
 
 var bookingDate = '';
 var bookingId = 1;
@@ -93,7 +94,11 @@ function OfficeBooking(props) {
             .then((Response) => {
                 setBookingState(Response.data.data.bookedTimes)
             })
-            .catch((Error)=>{ basicError(Error) });
+            .catch((Error)=>{ 
+                basicError(Error) 
+                console.log(Error)
+                window.alert("예약 현황을 불러오는데 실패하였습니다.")
+            });
     };
 
     const getOfficeInfoForBooking = (id) => {
@@ -102,7 +107,11 @@ function OfficeBooking(props) {
                 console.log(Response.data.data)
                 setOfficeInfo(Response.data.data)
             })
-            .catch((Error)=>{ basicError(Error) });
+            .catch((Error)=>{ 
+                basicError(Error) 
+                console.log(Error)
+                window.alert("회의실 정보를 불러올 수 없습니댜.")
+            });
     };
 
     useEffect(() => {
@@ -200,7 +209,11 @@ function requestBooking(bookingPurpose, startT, endT) {
                 if (response.data.status === '200') { alert('예약에 성공하였습니다!') }
                 else { alert(response.data.message); }
             })
-            .catch((Error)=>{ basicError(Error) });
+            .catch((Error)=>{ 
+                basicError(Error) 
+                console.log(Error)
+                window.alert("예약에 실패하였습니다.")
+            });
     }
 }
 export { requestBooking };

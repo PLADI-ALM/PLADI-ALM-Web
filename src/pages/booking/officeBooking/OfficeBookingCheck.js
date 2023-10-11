@@ -13,6 +13,7 @@ import { findStatus } from 'constants/BookingStatus';
 import { TitleText, MyStatusContainer, BookingDateText, PurposeTextarea } from './OfficeBooking';
 import { RightContainer, WhiteContainer } from 'components/rightContainer/RightContainer';
 import { getToken } from 'utils/IsLoginUtil';
+import { basicError } from 'utils/ErrorHandlerUtil';
 
 var bookingId = 1;
 var officeId = 1;
@@ -51,7 +52,12 @@ function OfficeBookingCheck(props) {
                 getOfficeInfo(officeId)
                 setBookingTime(Response.data.data.startTime, Response.data.data.endTime)
             })
-            .catch((Error)=>{ basicError(Error) });
+            .catch((Error)=>{ 
+                basicError(Error) 
+                console.log(Error)
+                window.alert("예약 정보를 불러올 수 없습니댜.")
+                window.history.back()
+            });
     };
 
     const getOfficeInfo = (id) => {
@@ -60,7 +66,12 @@ function OfficeBookingCheck(props) {
                 console.log(Response.data.data)
                 setOfficeInfo(Response.data.data)
             })
-            .catch((Error)=>{ basicError(Error) });
+            .catch((Error)=>{ 
+                basicError(Error) 
+                console.log(Error)
+                window.alert("회의실 정보를 불러올 수 없습니댜.")
+                window.history.back()
+            });
     };
 
     useEffect(() => {
