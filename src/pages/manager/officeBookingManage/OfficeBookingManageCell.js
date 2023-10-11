@@ -10,7 +10,7 @@ import { Link } from 'react-router-dom';
 const SettingButtonContainer = styled.div`
     display: flex;
     width: 90%;
-    height: 100%
+    height: 100%;
     align-items: center;
     justify-content: flex-end;
 `

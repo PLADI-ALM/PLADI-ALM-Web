@@ -6,6 +6,7 @@ import OfficeBookingManageCell from "./OfficeBookingManageCell";
 import { AdminBookingAxios } from "api/AxiosApi";
 import styled from "styled-components";
 import RangeImage from "../../../assets/images/RangeArrow.svg"
+import { getToken } from "utils/IsLoginUtil";
 
 
 const RangeImg = styled.img`
@@ -24,7 +25,11 @@ function OfficeBookingManage(props) {
     }, [])
 
     const getOfficesBooking = () => {
-        AdminBookingAxios.get("offices?size=100")
+        AdminBookingAxios.get("offices?size=100", {
+            headers: {
+                Authorization: getToken()
+            }
+        })
         .then((Response) => { SetBookingOffices(Response.data.data.content) })
         .catch((Error) => { alert(Error.response.data.message) })
     }
