@@ -10,7 +10,7 @@ import { getToken } from 'utils/IsLoginUtil';
 const SettingButtonContainer = styled.div`
     display: flex;
     width: 90%;
-    height: 100%
+    height: 100%;
     align-items: center;
     justify-content: flex-end;
 `
@@ -150,7 +150,7 @@ function ResourceBookingManageCell(props) {
             <td width="15%">{props.name}</td>
             <td width="10%">{props.category}</td>
             <td width="20%">{props.startDateTime} ~ {props.endDateTime}</td>
-            <td width="10%">{props.requester}</td>
+            <td width="10%">{props.requester} ({props.position})</td>
             <td width="15%">
                 <StatusContainer isCheck={'true'} background={status.background}>
                     <StatusCircle color={status.color} />

@@ -6,6 +6,7 @@ import { Bar, BookedTable, BookedThead, TableContainer } from "../../booking/boo
 import ManageSearchBar from "components/searchBar/ManageSearchBar";
 import ResourceBookingManageCell from "./ResourceBookingManageCell";
 import { AdminBookingAxios } from "api/AxiosApi";
+import { getToken } from "utils/IsLoginUtil";
 
 
 function ResourceBookingManage(props) {
@@ -17,7 +18,11 @@ function ResourceBookingManage(props) {
     }, [])
 
     const getResourceBooking = () => {
-        AdminBookingAxios.get("resources?size=100")
+        AdminBookingAxios.get("resources?size=100", {
+            headers: {
+                Authorization: getToken()
+            }
+        })
         .then((Response) => { SetBookingResources(Response.data.data.content) })
         .catch((Error) => { alert (Error.response.data.message) })
     }
@@ -47,7 +52,8 @@ function ResourceBookingManage(props) {
                                 <ResourceBookingManageCell 
                                     key={index} 
                                     id={bookingResource.id}
-                                    name={bookingResource.name}  
+                                    name={bookingResource.name}
+                                    position={bookingResource.position}  
                                     category={bookingResource.category} 
                                     startDateTime={bookingResource.startDateTime} 
                                     endDateTime={bookingResource.endDateTime} 
