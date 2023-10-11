@@ -3,6 +3,7 @@ import styled from "styled-components"
 import Example from '../../assets/images/example.png'
 import Capsule from "components/capsule/Capsule";
 import { ResourceCard, CardText, DetailContainer, ResourceCardImage, InfoContainer, DescriptionContainer, OfficeContentText, ResourceTitle } from "components/card/Card";
+import { useNavigate } from "react-router-dom";
 
 // 자원명 컨테이너
 const ResourceTitleContainer = styled.div`
@@ -12,9 +13,17 @@ const ResourceTitleContainer = styled.div`
 `
 
 
+
+
+
 function ResourceInfo(props) {
+    const moveToDetail = () => {
+        window.location.href = "/resourceBooking/"+props.resourceId
+    }
+
+
     return (
-        <ResourceCard onClick={props.click}>
+        <ResourceCard  onClick={props.detail===true ? moveToDetail : {}}>
             <DetailContainer>
                 <ResourceCardImage src={Example} />
 

@@ -5,6 +5,7 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import ResourceInfo from "components/resourceInfo/ResourceInfo";
 import { ResourcesAxios } from "api/AxiosApi";
+import { useNavigate } from "react-router-dom";
 
 
 export const SearchTitleContainer = styled.div`
@@ -61,6 +62,7 @@ export const SearchDateInput = styled.input`
 `
 
 function SelectResource(props) {
+    const navigate = useNavigate();
 
     const [resourceList, setResourceList] = useState([]);
     const [resourceName, setResourceName] = useState("");
@@ -118,7 +120,7 @@ function SelectResource(props) {
 
             <WhiteContainer>
                 <div className="cardList">
-                    {resourceList.length === 0 ? <label>예약 가능한 자원이 없습니다.</label> : resourceList.map((resource) => <ResourceInfo key={resource.resourceId} name={resource.name} image={resource.imgUrl} category={resource.category} description={resource.description} />)}
+                    {resourceList.length === 0 ? <label>예약 가능한 자원이 없습니다.</label> : resourceList.map((resource, index) => <ResourceInfo key={resource.index} detail={true} resourceId={resource.resourceId} name={resource.name} image={resource.imgUrl} category={resource.category} description={resource.description} />)}
                 </div>
             </WhiteContainer>
         </RightContainer>
