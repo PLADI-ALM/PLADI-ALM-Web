@@ -64,6 +64,7 @@ function OfficeBookingManage(props) {
                                     key={index} 
                                     id={bookingOffice.id}
                                     name={bookingOffice.name}  
+                                    position={bookingOffice.position}
                                     detailInfo={bookingOffice.detailInfo} 
                                     startDateTime={bookingOffice.startDateTime} 
                                     endDateTime={bookingOffice.endDateTime} 

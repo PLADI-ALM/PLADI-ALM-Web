@@ -150,7 +150,7 @@ function ResourceBookingManageCell(props) {
             <td width="15%">{props.name}</td>
             <td width="10%">{props.category}</td>
             <td width="20%">{props.startDateTime} ~ {props.endDateTime}</td>
-            <td width="10%">{props.requester}</td>
+            <td width="10%">{props.requester} ({props.position})</td>
             <td width="15%">
                 <StatusContainer isCheck={'true'} background={status.background}>
                     <StatusCircle color={status.color} />

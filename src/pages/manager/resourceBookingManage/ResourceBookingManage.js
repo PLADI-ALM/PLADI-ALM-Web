@@ -52,7 +52,8 @@ function ResourceBookingManage(props) {
                                 <ResourceBookingManageCell 
                                     key={index} 
                                     id={bookingResource.id}
-                                    name={bookingResource.name}  
+                                    name={bookingResource.name}
+                                    position={bookingResource.position}  
                                     category={bookingResource.category} 
                                     startDateTime={bookingResource.startDateTime} 
                                     endDateTime={bookingResource.endDateTime} 
