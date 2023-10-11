@@ -51,11 +51,7 @@ function OfficeBookingCheck(props) {
                 getOfficeInfo(officeId)
                 setBookingTime(Response.data.data.startTime, Response.data.data.endTime)
             })
-            .catch((Error) => {
-                console.log('Error -> ', Error)
-                window.alert("예약 정보를 불러올 수 없습니댜.")
-                window.history.back()
-            });
+            .catch((Error)=>{ basicError(Error) });
     };
 
     const getOfficeInfo = (id) => {
@@ -64,11 +60,7 @@ function OfficeBookingCheck(props) {
                 console.log(Response.data.data)
                 setOfficeInfo(Response.data.data)
             })
-            .catch((Error) => {
-                console.log(Error)
-                window.alert("정보를 불러올 수 없습니댜.")
-                window.history.back()
-            });
+            .catch((Error)=>{ basicError(Error) });
     };
 
     useEffect(() => {

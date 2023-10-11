@@ -12,6 +12,7 @@ import { findStatus } from 'constants/BookingStatus';
 import { RightContainer, WhiteContainer } from 'components/rightContainer/RightContainer';
 import { TitleText, BookingDateText, PurposeTextarea } from './ResourceBooking';
 import { getToken } from 'utils/IsLoginUtil';
+import { basicError } from 'utils/ErrorHandlerUtil';
 
 const MyStatusContainer = styled(StatusContainer)`
     margin-top: 12px;
@@ -38,11 +39,7 @@ function ResourceBookingCheck(props) {
     const getResourceInfo = () => {
         ResourcesAxios.get(`/${resourceId}`)
         .then((Response)=>{ setResourceInfo(Response.data.data) })
-        .catch((Error)=>{ 
-            console.log(Error)
-            window.alert("자원 정보를 불러올 수 없습니댜.") 
-            window.history.back()
-        });        
+        .catch((Error)=>{ basicError(Error) });        
     };
     const getBookingInfo = () => {
         (props.isAdmin 
@@ -58,11 +55,7 @@ function ResourceBookingCheck(props) {
             resourceId = Response.data.data.resourceId 
             getResourceInfo(resourceId)
         })
-        .catch((Error)=>{ 
-            console.log('Error -> ', Error)
-            window.alert("자원 예약 정보를 불러올 수 없습니댜.") 
-            window.history.back()
-        });
+        .catch((Error)=>{ basicError(Error) });
     };
 
     useEffect(() => {

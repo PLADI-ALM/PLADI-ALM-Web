@@ -13,6 +13,7 @@ var endT = -1;
 
 export const BookingContentContainer = styled.div`
     margin-left: 40px;
+    padding-top: 40px;
     display: flex;
 `
 
