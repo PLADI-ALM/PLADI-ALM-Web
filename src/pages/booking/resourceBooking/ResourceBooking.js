@@ -13,6 +13,7 @@ import { BookingContentContainer, RequestButtonContainer, RequestBookingButton }
 import { RightContainer, WhiteContainer } from 'components/rightContainer/RightContainer';
 import 'react-calendar/dist/Calendar.css';
 import styles from "../resourceBooking/CustomCalendar.css";
+import { basicError } from 'utils/ErrorHandlerUtil';
 
 var startDate = '';
 var endDate = '';
@@ -92,11 +93,12 @@ function ResourceBooking(props) {
     const getResourceInfo = () => {
         ResourcesAxios.get(`/${resourceId}`)
             .then((Response) => { setResourceInfo(Response.data.data) })
-            .catch((Error) => {
+            .catch((Error)=>{ 
+                basicError(Error) 
                 console.log(Error)
-                window.alert("자원 정보를 불러올 수 없습니댜.")
+                window.alert("자원 정보를 불러올 수 없습니댜.") 
                 window.history.back()
-            });
+            });  
     };
 
     const getBookedDates = () => {
@@ -107,11 +109,12 @@ function ResourceBooking(props) {
                 Response.data.data.map(function (date) { temp.push(new Date(date)) })
                 setBookedDates(temp)
             })
-            .catch((Error) => {
+            .catch((Error)=>{ 
+                basicError(Error) 
                 console.log(Error)
-                window.alert("예약 현황 정보를 불러올 수 없습니댜.")
+                window.alert("예약 정보를 불러올 수 없습니댜.") 
                 window.history.back()
-            });
+            });   
     }
 
     const changeDate = e => {
@@ -229,11 +232,12 @@ function requestBookingOffice() {
                 else { alert(response.data.message); }
                 window.location.reload()
             })
-            .catch(function (error) {
-                console.log(error)
-                window.alert("자원 예약에 실패하였습니다. \n", error.response.data.message)
+            .catch((Error)=>{ 
+                basicError(Error) 
+                console.log(Error)
+                window.alert("자원 예약에 실패하였습니다.") 
                 window.history.back()
-            });
+            });  
 
         console.log('start date : ', startDate)
         console.log('end date : ', endDate)
