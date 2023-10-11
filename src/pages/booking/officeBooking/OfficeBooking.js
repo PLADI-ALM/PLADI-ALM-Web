@@ -93,11 +93,7 @@ function OfficeBooking(props) {
             .then((Response) => {
                 setBookingState(Response.data.data.bookedTimes)
             })
-            .catch((Error) => {
-                console.log(Error)
-                window.alert("정보를 불러올 수 없습니댜.")
-                window.history.back()
-            });
+            .catch((Error)=>{ basicError(Error) });
     };
 
     const getOfficeInfoForBooking = (id) => {
@@ -106,11 +102,7 @@ function OfficeBooking(props) {
                 console.log(Response.data.data)
                 setOfficeInfo(Response.data.data)
             })
-            .catch((Error) => {
-                console.log(Error)
-                window.alert("정보를 불러올 수 없습니댜.")
-                window.history.back()
-            });
+            .catch((Error)=>{ basicError(Error) });
     };
 
     useEffect(() => {
@@ -208,7 +200,7 @@ function requestBooking(bookingPurpose, startT, endT) {
                 if (response.data.status === '200') { alert('예약에 성공하였습니다!') }
                 else { alert(response.data.message); }
             })
-            .catch(function (error) { console.log(error) });
+            .catch((Error)=>{ basicError(Error) });
     }
 }
 export { requestBooking };
