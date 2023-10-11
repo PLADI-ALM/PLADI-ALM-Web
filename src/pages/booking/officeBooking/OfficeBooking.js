@@ -13,16 +13,14 @@ import {
     RequestBookingButton, requestBookingOffice, RequestButtonContainer
 } from 'components/officeBooking/BookingTimeBar';
 import { BookingPurposeContainer, BookingCapsuleContainer, BookingPurposeTextFieldContainer } from 'components/officeBooking/BookingPurpose';
-import { findStatus } from 'constants/BookingStatus';
+import { RightContainer, WhiteContainer } from 'components/rightContainer/RightContainer';
 
 var bookingDate = '';
 var bookingId = 1;
 var officeId = 1;
 
-export const Container = styled.div`
-    width: 87%;
-    margin-left: 80px;
-    margin-top: 70px;
+const CustomWhiteContainer = styled(WhiteContainer)`
+    display: block;
 `
 
 export const TitleText = styled.p`
@@ -33,15 +31,7 @@ export const TitleText = styled.p`
     font-weight: 700;
     align: left;
     display: flex;
-    margin: 0;
-`
-
-export const ContentContainer = styled.div`
-    width: 90%;
-    border-radius: 12px;
-    background: #FFF;
-    box-shadow: 0px 4px 14px 0px rgba(0, 0, 0, 0.25);
-    margin-top: 20px;
+    margin-bottom: 10px;
 `
 
 export const BookingDateText = styled.p`
@@ -111,7 +101,6 @@ function OfficeBooking(props) {
     };
 
     const getOfficeInfoForBooking = (id) => {
-        console.log("officeId -> ", officeId)
         OfficesAxios.get(`/${officeId}`)
             .then((Response) => {
                 console.log(Response.data.data)
@@ -120,7 +109,7 @@ function OfficeBooking(props) {
             .catch((Error) => {
                 console.log(Error)
                 window.alert("정보를 불러올 수 없습니댜.")
-                // window.history.back()
+                window.history.back()
             });
     };
 
@@ -130,10 +119,10 @@ function OfficeBooking(props) {
     }, []);
 
     return (
-        <Container>
-            <TitleText>{props.title}</TitleText>
+        <RightContainer>
+            <TitleText>회의실 예약</TitleText>
 
-            <ContentContainer isCheck={props.isCheck}>
+            <CustomWhiteContainer>
 
                 <SubTitleContainer>
                     <MainTextContainer>
@@ -158,7 +147,6 @@ function OfficeBooking(props) {
                     description={officeInfo.description}
                 />
 
-                {/* 예약일시 */}
                 <BookingContentContainer isCheck={'true'}>
                     <BookingCapsuleContainer>
                         <Capsule color="purple" text="예약일시" />
@@ -172,8 +160,6 @@ function OfficeBooking(props) {
                     {renderBookingTimeBar(false)}
                 </BookingTimeContainer>
 
-
-                {/* 예약목적 */}
                 <BookingPurposeContainer>
                     <BookingCapsuleContainer>
                         <Capsule color="purple" text="예약목적" />
@@ -190,8 +176,8 @@ function OfficeBooking(props) {
                 </RequestButtonContainer>
 
 
-            </ContentContainer>
-        </Container>
+            </CustomWhiteContainer>
+        </RightContainer>
     );
 }
 export default OfficeBooking;
