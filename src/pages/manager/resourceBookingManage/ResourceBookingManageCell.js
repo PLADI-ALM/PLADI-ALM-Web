@@ -96,53 +96,24 @@ function ResourceBookingManageCell(props) {
         }
     };
 
+    const moveToDetail = () => {
+        window.location.href = `/manage/resourceBooking/${props.id}`
+    };
 
 
 
     var status = findStatus(props.status)
     var watingButton = (
     <SettingButtonContainer>
-        <SettingButton onClick={allowResource}>허가</SettingButton> | <SettingButton onClick={rejectResource}>반려</SettingButton> |  
-        <SettingButton>
-            <Link style={{
-              color: "#8741CB",
-              fontSize: "20px",
-              fontStyle: "normal",
-              fontWeight: "400",
-              lineHeight: "22px", }} 
-              to={`/manage/resourceBooking/${props.id}`}>
-            상세보기
-            </Link>
-        </SettingButton>  
+        <SettingButton onClick={allowResource}>허가</SettingButton> | <SettingButton onClick={rejectResource}>반려</SettingButton> |  <SettingButton onClick={moveToDetail}>상세보기</SettingButton>  
     </SettingButtonContainer>)
+
     var cancelButton = (
-    <SettingButtonContainer>
-         <SettingButton>
-            <Link style={{
-              color: "#8741CB",
-              fontSize: "20px",
-              fontStyle: "normal",
-              fontWeight: "400",
-              lineHeight: "22px", }} 
-              to={`/manage/resourceBooking/${props.id}`}>
-            상세보기
-            </Link>
-        </SettingButton>    
-    </SettingButtonContainer>)
+    <SettingButtonContainer><SettingButton onClick={moveToDetail}>상세보기</SettingButton></SettingButtonContainer>)
+
     var usingButton = (
     <SettingButtonContainer>
-        <SettingButton onClick={returnResource}>반납</SettingButton> | 
-        <SettingButton>
-            <Link style={{
-              color: "#8741CB",
-              fontSize: "20px",
-              fontStyle: "normal",
-              fontWeight: "400",
-              lineHeight: "22px", }} 
-              to={`/manage/resourceBooking/${props.id}`}>
-            상세보기
-            </Link>
-        </SettingButton>  
+        <SettingButton onClick={returnResource}>반납</SettingButton> | <SettingButton onClick={moveToDetail}>상세보기</SettingButton>  
     </SettingButtonContainer>)
 
     return (
