@@ -4,6 +4,7 @@ import OfficeInfo from "components/officeInfo/OfficeInfo";
 import { RightContainer, WhiteContainer, TitleText } from "components/rightContainer/RightContainer";
 import { OfficesAxios } from "api/AxiosApi";
 import { useState } from "react";
+import { basicError } from 'utils/ErrorHandlerUtil';
 
 function SelectOffice(props) {
 
@@ -15,7 +16,7 @@ function SelectOffice(props) {
     const getOfficeList = () => {
         OfficesAxios.get()
             .then((Response) => { setOffices(Response.data.data.content) })
-            .catch((Error) => { alert(Error) })
+            .catch((error) => {basicError(error)})
     };
 
 
@@ -34,7 +35,7 @@ function SelectOffice(props) {
     const searchOffice = () => {
         OfficesAxios.get(`?date=${date}&startTime=${startTime}&endTime=${endTime}`)
             .then((Response) => { setOffices(Response.data.data.content) })
-            .catch((Error) => { alert(Error.response.data.message) })
+            .catch((error) => {basicError(error)})
     }
 
     useEffect(() => {

@@ -7,6 +7,7 @@ import ManageSearchBar from "components/searchBar/ManageSearchBar";
 import ResourceBookingManageCell from "./ResourceBookingManageCell";
 import { AdminBookingAxios } from "api/AxiosApi";
 import { getToken } from "utils/IsLoginUtil";
+import { basicError } from "utils/ErrorHandlerUtil";
 
 
 function ResourceBookingManage(props) {
@@ -24,7 +25,7 @@ function ResourceBookingManage(props) {
             }
         })
         .then((Response) => { SetBookingResources(Response.data.data.content) })
-        .catch((Error) => { alert (Error.response.data.message) })
+        .catch((error) => {basicError(error)})
     }
     
 

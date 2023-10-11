@@ -6,6 +6,7 @@ import { CANCELED, USING, WAITING, findStatus } from 'constants/BookingStatus';
 import { AdminBookingAxios } from 'api/AxiosApi';
 import styled from 'styled-components';
 import { getToken } from 'utils/IsLoginUtil';
+import { basicError } from 'utils/ErrorHandlerUtil';
 
 const SettingButtonContainer = styled.div`
     display: flex;
@@ -40,7 +41,7 @@ function ResourceBookingManageCell(props) {
                 alert(Response.data.message)
                 window.location.reload()
              })
-            .catch((Error) => { alert(Error.response.data.message) })
+             .catch((error) => {basicError(error)})
 
             props.refresh()
         }
@@ -64,7 +65,7 @@ function ResourceBookingManageCell(props) {
                 alert(Response.data.message)
                 window.location.reload()
              })
-            .catch((Error) => { alert(Error.response.data.message) })
+             .catch((error) => {basicError(error)})
 
             props.refresh()
         }
@@ -86,7 +87,7 @@ function ResourceBookingManageCell(props) {
                 alert(Response.data.message)
                 window.location.reload()
              })
-            .catch((Error) => { alert(Error.response.data.message) })
+             .catch((error) => {basicError(error)})
 
             props.refresh()
         }

@@ -6,6 +6,7 @@ import styled from "styled-components";
 import ResourceInfo from "components/resourceInfo/ResourceInfo";
 import { ResourcesAxios } from "api/AxiosApi";
 import { useNavigate } from "react-router-dom";
+import { basicError } from 'utils/ErrorHandlerUtil';
 
 
 export const SearchTitleContainer = styled.div`
@@ -72,7 +73,7 @@ function SelectResource(props) {
     const getResourceList = () => {
         ResourcesAxios.get()
             .then((Response) => { setResourceList(Response.data.data.content) })
-            .catch((Error) => { alert(Error) })
+            .catch((error) => {basicError(error)})
     };
 
 
@@ -95,7 +96,7 @@ function SelectResource(props) {
     const searchResource = () => {
         ResourcesAxios.get(`?resourceName=${resourceName}&startDate=${startDate}&endDate=${endDate}`)
             .then((Response) => { setResourceList(Response.data.data.content) })
-            .catch((Error) => { alert(Error.response.data.message) })
+            .catch((error) => {basicError(error)})
     }
 
 
