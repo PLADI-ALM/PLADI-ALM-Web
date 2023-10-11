@@ -49,31 +49,21 @@ function OfficeBookingManageCell(props) {
         }
     };
 
+    const moveToDetail = () => {
+        window.location.href = `/manage/officeBooking/${props.id}`
+    };
+
+
 
 
 
     var status = findStatus(props.status)
     var cancelButton = (
-    <SettingButtonContainer>
-        <SettingButton><Link style={{
-              color: "#8741CB",
-              fontSize: "20px",
-              fontStyle: "normal",
-              fontWeight: "400",
-              lineHeight: "22px", 
-        }} 
-        to={`/manage/officeBooking/${props.id}`}>상세보기</Link></SettingButton>    
-    </SettingButtonContainer>)
+    <SettingButtonContainer><SettingButton onClick={moveToDetail}>상세보기</SettingButton></SettingButtonContainer>)
+
     var usingButton = (
     <SettingButtonContainer>
-        <SettingButton onClick={rejectResource}>반려</SettingButton> | <SettingButton><Link to={`/manage/officeBooking/${props.id}`} 
-        style={{
-              color: "#8741CB",
-              fontSize: "20px",
-              fontStyle: "normal",
-              fontWeight: "400",
-              lineHeight: "22px", 
-        }}>상세보기</Link></SettingButton> 
+        <SettingButton onClick={rejectResource}>반려</SettingButton> |<SettingButton onClick={moveToDetail}>상세보기</SettingButton>  
     </SettingButtonContainer>)
 
     return (
