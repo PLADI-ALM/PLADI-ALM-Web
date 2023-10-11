@@ -7,6 +7,7 @@ import SelectToggle from 'components/capsule/SelectToggle';
 import { BookingCategoryList } from 'constants/ToggleList';
 import { BookingCategoryPathList, getBookingCategoryPath } from 'constants/Path';
 import { getToken } from 'utils/IsLoginUtil';
+import { basicError } from 'utils/ErrorHandlerUtil';
 
 const TitleContainer = styled.div`
     display: flex;
@@ -69,9 +70,7 @@ function BookedList(props) {
         })
             .then((response) => { setBookingList(response.data.data.content) })
             .catch((error) => {
-                if (error.response.data.message != null)
-                    alert(error.response.data.message)
-                else console.log(error)
+                basicError(error)
             })
     }
 
@@ -84,9 +83,7 @@ function BookedList(props) {
         })
             .then((response) => { setBookingList(response.data.data.content) })
             .catch((error) => {
-                if (error.response.data.message != null)
-                    alert(error.response.data.message)
-                else console.log(error)
+                basicError(error)
             })
     }
 

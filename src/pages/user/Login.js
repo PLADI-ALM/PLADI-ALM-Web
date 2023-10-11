@@ -6,6 +6,7 @@ import LogoImg from "assets/images/imgLogo.svg"
 import { UsersAxios } from 'api/AxiosApi';
 import { setCookie } from 'utils/CookiesUtil'
 import { isLogin } from 'utils/IsLoginUtil';
+import { basicError } from 'utils/ErrorHandlerUtil';
 
 const Container = styled.div`
     height: fit-content;
@@ -89,9 +90,7 @@ function Login() {
             setCookie('Role', res.data.data.role)
             window.location.replace('/officeBooking')
         }).catch((error) => {
-            if (error.response.data.message != null)
-                alert(error.response.data.message)
-            else console.log(error)
+            basicError(error)
         })
     }
 
