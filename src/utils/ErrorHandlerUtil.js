@@ -5,9 +5,8 @@ import { navigateToLogin } from "utils/IsLoginUtil"
 export function basicError(error) {
     try {
         var errMsg = error.response.data.message
-        alert(errMsg)
         if (errMsg !== undefined) {
-            
+            alert(errMsg)
 
             // 토큰에러인 경우 쿠키 삭제
             var errCode = String(error.response.data.code)
