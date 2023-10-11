@@ -10,12 +10,16 @@ import { SubTitleContainer, MainTextContainer, SubTextContainer, SelectedSubTitl
 import { BookingPurposeContainer, BookingCapsuleContainer, BookingPurposeTextFieldContainer } from 'components/officeBooking/BookingPurpose';
 import ResourceInfo from 'components/resourceInfo/ResourceInfo';
 import { BookingContentContainer, RequestButtonContainer, RequestBookingButton } from 'components/officeBooking/BookingTimeBar';
-import { RightContainer } from 'components/rightContainer/RightContainer';
+import { RightContainer, WhiteContainer } from 'components/rightContainer/RightContainer';
 import 'react-calendar/dist/Calendar.css';
 import styles from "../resourceBooking/CustomCalendar.css";
 
 var startDate = '';
 var endDate = '';
+
+const CustomWhiteContainer = styled(WhiteContainer)`
+    display: block;
+`
 
 export const TitleText = styled.p`
     color: #4C4C4C;
@@ -24,8 +28,8 @@ export const TitleText = styled.p`
     font-style: normal;
     font-weight: 700;
     align: left;
-    width: 200px;
-    margin-bottom: 10px;
+    display: flex;
+    margin: 0 0 10px 10px;
 `
 
 export const ContentContainer = styled.div`
@@ -136,7 +140,7 @@ function ResourceBooking(props) {
     return <RightContainer>
         <TitleText>자원 예약</TitleText>
 
-        <ContentContainer>
+        <CustomWhiteContainer>
 
             <SubTitleContainer>
                 <MainTextContainer>
@@ -192,7 +196,7 @@ function ResourceBooking(props) {
                 <BookingPurposeTextFieldContainer>
                     <PurposeTextarea id='bookingPurpose'
                         cols='135'
-                        rows='5'
+                        rows='4'
                         maxLength='100' />
                 </BookingPurposeTextFieldContainer>
             </BookingPurposeContainer>
@@ -203,7 +207,7 @@ function ResourceBooking(props) {
             </RequestButtonContainer>
 
 
-        </ContentContainer>
+        </CustomWhiteContainer>
     </RightContainer>
 }
 export default ResourceBooking;

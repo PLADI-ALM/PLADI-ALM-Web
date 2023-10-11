@@ -13,7 +13,6 @@ var endT = -1;
 
 export const BookingContentContainer = styled.div`
     margin-left: 40px;
-    padding: 40px 0 0 0;
     display: flex;
 `
 
@@ -37,7 +36,7 @@ export const RequestButtonContainer = styled.div`
 export const RequestBookingButton = styled.button`
     border: none;
     padding: 5px 10px;
-    margin-right: 45px;
+    margin-right: 55px;
     margin-top: 15px;
     background: #8741CB;
     color: #FFF;
