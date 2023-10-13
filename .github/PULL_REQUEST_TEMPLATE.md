@@ -1,5 +1,5 @@
 ## ✈️ 지라 티켓
-- [PDW-지라번호](https://pladi-alm.atlassian.net/browse/PDW-지라번호) 티켓설명
+- [LFI-지라번호](https://lyfe2024.atlassian.net/browse/LFI-지라번호) 티켓설명
 
 <br>
 
