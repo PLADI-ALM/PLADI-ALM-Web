@@ -78,7 +78,7 @@ function ManageSearchBar(props) {
                 <ManageSearchImage src={SearchInputImage} />
                 <ManageSearchText onKeyUp={handleOnKeyPress} placeholder="이름 검색" />
             </ManageSearchContainer>
-            <ManageAddButton>
+            <ManageAddButton onClick={props.onClick}>
                 <ManageAddButtonImage src={SearchButtonImage} />
                 <ManageAddButtonLabel>{props.buttonTitle}</ManageAddButtonLabel>
             </ManageAddButton>

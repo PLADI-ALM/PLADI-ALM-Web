@@ -9,11 +9,14 @@ import ManageSearchBar from "components/searchBar/ManageSearchBar";
 
 function ResourceManage(props) {
 
+    const moveToAdd = () => {
+        window.location.href = `/manage/resources/add`
+    }
 
     return (
        <RightContainer>
             <TitleText>{props.title}</TitleText>
-            <ManageSearchBar buttonTitle="자원 추가"/>
+            <ManageSearchBar buttonTitle="자원 추가" onClick={moveToAdd}/>
 
             <WhiteContainer>
                 <Bar />
