@@ -10,8 +10,8 @@ import { StatusText, StatusCircle } from 'components/booking/StatusTag';
 import { BookingContentContainer, BookingTimeContainer, renderBookingTimeBar, BookingDateTextContainer, setBookingTime } from 'components/officeBooking/BookingTimeBar';
 import { BookingPurposeContainer, BookingCapsuleContainer, BookingPurposeTextFieldContainer } from 'components/officeBooking/BookingPurpose';
 import { findStatus } from 'constants/BookingStatus';
-import { TitleText, MyStatusContainer, BookingDateText, PurposeTextarea } from './OfficeBooking';
-import { RightContainer, WhiteContainer } from 'components/rightContainer/RightContainer';
+import { MyStatusContainer, BookingDateText, PurposeTextarea } from './OfficeBooking';
+import { RightContainer, WhiteContainer, TitleText } from 'components/rightContainer/RightContainer';
 import { getToken } from 'utils/IsLoginUtil';
 import { basicError } from 'utils/ErrorHandlerUtil';
 

@@ -2,6 +2,7 @@ import React from 'react';
 import styled from "styled-components"
 import { OfficesAxios, BookingsAxios } from 'api/AxiosApi';
 import { useState, useEffect } from "react";
+import { useParams } from 'react-router-dom';
 import Capsule from 'components/capsule/Capsule';
 
 import OfficeInfo from "components/officeInfo/OfficeInfo";
@@ -13,27 +14,26 @@ import {
     RequestBookingButton, requestBookingOffice, RequestButtonContainer
 } from 'components/officeBooking/BookingTimeBar';
 import { BookingPurposeContainer, BookingCapsuleContainer, BookingPurposeTextFieldContainer } from 'components/officeBooking/BookingPurpose';
-import { RightContainer, WhiteContainer } from 'components/rightContainer/RightContainer';
+import { RightContainer, WhiteContainer, TitleText } from 'components/rightContainer/RightContainer';
 import { basicError } from 'utils/ErrorHandlerUtil';
+import { Bar } from '../bookedList/BookedList';
 
 var bookingDate = '';
-var bookingId = 1;
-var officeId = 1;
 
-const CustomWhiteContainer = styled(WhiteContainer)`
-    display: block;
-`
+// const CustomWhiteContainer = styled(WhiteContainer)`
+//     display: block;
+// `
 
-export const TitleText = styled.p`
-    color: #4C4C4C;
-    font-family: NanumSquare_ac;
-    font-size: 32px;
-    font-style: normal;
-    font-weight: 700;
-    align: left;
-    display: flex;
-    margin-bottom: 10px;
-`
+// export const TitleText = styled.p`
+//     color: #4C4C4C;
+//     font-family: NanumSquare_ac;
+//     font-size: 32px;
+//     font-style: normal;
+//     font-weight: 700;
+//     align: left;
+//     display: flex;
+//     margin-bottom: 10px;
+// `
 
 export const BookingDateText = styled.p`
     margin: 6px 0 0 0;
@@ -70,7 +70,7 @@ export const MyStatusContainer = styled(StatusContainer)`
 
 
 function OfficeBooking(props) {
-    officeId = window.location.href.substring(36,)
+    let { officeId } = useParams();
 
     const [officeInfo, setOfficeInfo] = useState([]);
     const [bookingInfo, setBookingDetail] = useState([]);
@@ -123,7 +123,7 @@ function OfficeBooking(props) {
         <RightContainer>
             <TitleText>회의실 예약</TitleText>
 
-            <CustomWhiteContainer>
+            <WhiteContainer>
 
                 <SubTitleContainer>
                     <MainTextContainer>
@@ -153,7 +153,7 @@ function OfficeBooking(props) {
                         <Capsule color="purple" text="예약일시" />
                     </BookingCapsuleContainer>
                     <BookingDateTextContainer>
-                        {getBookingDate(false, bookingInfo, changeDate)}
+                        {getBookingDate(false, bookingInfo, changeDate, officeId)}
                     </BookingDateTextContainer>
                 </BookingContentContainer>
 
@@ -177,7 +177,7 @@ function OfficeBooking(props) {
                 </RequestButtonContainer>
 
 
-            </CustomWhiteContainer>
+            </WhiteContainer>
         </RightContainer>
     );
 }
@@ -190,7 +190,7 @@ function getBookingDate(info, changeDate) {
 }
 
 
-function requestBooking(bookingPurpose, startT, endT) {
+function requestBooking(bookingPurpose, startT, endT, officeId) {
     // console.log("예약일시 : ", bookingDate);
     // console.log("예약목적 : ", bookingPurpose);
     // console.log("시작시간 : ", startT);

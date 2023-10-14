@@ -97,7 +97,7 @@ function ResourceBooking(props) {
                 basicError(Error) 
                 console.log(Error)
                 window.alert("자원 정보를 불러올 수 없습니댜.") 
-                window.history.back()
+                // window.history.back()
             });  
     };
 
@@ -113,7 +113,7 @@ function ResourceBooking(props) {
                 basicError(Error) 
                 console.log(Error)
                 window.alert("예약 정보를 불러올 수 없습니댜.") 
-                window.history.back()
+                // window.history.back()
             });   
     }
 
@@ -191,7 +191,7 @@ function ResourceBooking(props) {
                 </DateContainer>
             </BookingContentContainer>
 
-            <BookingPurposeContainer>
+            {/* <BookingPurposeContainer>
                 <BookingCapsuleContainer>
                     <Capsule color="purple" text="예약목적" />
                 </BookingCapsuleContainer>
@@ -202,7 +202,7 @@ function ResourceBooking(props) {
                         rows='4'
                         maxLength='100' />
                 </BookingPurposeTextFieldContainer>
-            </BookingPurposeContainer>
+            </BookingPurposeContainer> */}
 
 
             <RequestButtonContainer isCheck={props.isCheck}>
