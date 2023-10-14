@@ -25,7 +25,7 @@ function UserManage(props) {
     }
 
     useEffect(() => {
-        getUserList()
+        getUserList("")
     }, [])
 
     const searchUsers = (e) => {
