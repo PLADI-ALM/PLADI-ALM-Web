@@ -7,11 +7,13 @@ import ManageSearchBar from "components/searchBar/ManageSearchBar";
 import { AdminUsersAxios } from "api/AxiosApi";
 import { basicError } from "utils/ErrorHandlerUtil";
 import { getToken } from "utils/IsLoginUtil";
-
+import { UserModal } from "./UserModal";
 
 function UserManage(props) {
+    const [isOpen, setIsOpen] = useState(false)
     const [users, setUserList] = useState([])
 
+    // 유저 목록 조회
     const getUserList = (word) => {
         AdminUsersAxios.get(`?name=${word}`, {
             headers: {
@@ -32,10 +34,19 @@ function UserManage(props) {
         getUserList(e.target.value)
     }
 
+    // 모달 핸들러
+    const openModalHandler = () => {
+        setIsOpen(!isOpen)
+    }
+
     return (
         <RightContainer>
+            {isOpen ?
+                <UserModal id={props.id} handler={openModalHandler} />
+                : null
+            }
             <TitleText>{props.title}</TitleText>
-            <ManageSearchBar onEnter={searchUsers} buttonTitle="신규 직원 등록" />
+            <ManageSearchBar btnClick={openModalHandler} onEnter={searchUsers} buttonTitle="신규 직원 등록" />
 
             <WhiteContainer>
                 <Bar />
@@ -59,7 +70,7 @@ function UserManage(props) {
                                 </UserManageLine>
                                 : users.map((user, index) =>
                                     <UserManageLine key={index}
-                                        id={user.id}
+                                        id={user.userId}
                                         name={user.name}
                                         position={user.position}
                                         email={user.email}
