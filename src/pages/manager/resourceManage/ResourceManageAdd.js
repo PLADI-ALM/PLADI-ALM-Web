@@ -151,7 +151,7 @@ function ResourceManageAdd(props) {
     const [categories, setCategories] = useState([]);
 
     const [name, setName] = useState("");
-    const [category, setCategory] = useState("");
+    const [selectCategory, setSelectCategory] = useState("");
     const [description, setDescription] = useState("");
     const [imageFile, setImageFile] = useState(null);
 
@@ -171,7 +171,7 @@ function ResourceManageAdd(props) {
     };
 
     const changeCategory = (e) => {
-        setCategory(e.target.value)
+        setSelectCategory(e.target.value)
     };
 
     const changeDescription = (e) => {
