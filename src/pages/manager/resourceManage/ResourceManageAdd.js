@@ -11,6 +11,7 @@ import { AdminBookingResourceAxios } from "api/AxiosApi";
 
 import AddImageImage from "../../../assets/images/AddImage.png"
 import SearchButtonImage from "../../../assets/images/SearchPlus.svg"
+import {ExitBtn} from "../../../components/modal/Modal";
 
 
 const NameContainer = styled.div`
@@ -159,7 +160,7 @@ function ResourceManageAdd(props) {
         AdminBookingResourceAxios.get(`/category`, {
             headers: {
                 Authorization: getToken()
-            } 
+            }
         })
         .then((Response) => { setCategories(Response.data.data.category) })
         .catch((error) => {basicError(error)})
@@ -180,12 +181,16 @@ function ResourceManageAdd(props) {
 
     const imageInput = useRef(null);
 
-    const changeImage = (e) => {
+    const changeImageFile = (e) => {
         imageInput.current.click();
     };
 
     const handleChange = (e) => {
         setImageFile(e.target.files[0])
+    };
+
+    const deleteImageFile = () => {
+        setImageFile(null);
     };
 
 
@@ -226,22 +231,23 @@ function ResourceManageAdd(props) {
 
                     <ImageContainer>
                         <TitleLabel>첨부사진</TitleLabel>
-                        {imageFile === null ? 
+                        {imageFile === null ?
                         <IamgeAddContainer>
-                            <ImageAddButton src={AddImageImage} onClick={changeImage} />
-                            <input type="file" 
-                                   name="image" 
-                                   ref={imageInput} 
+                            <ImageAddButton src={AddImageImage} onClick={changeImageFile} />
+                            <input type="file"
+                                   name="image"
+                                   ref={imageInput}
                                    accept='.png, .jpg,image/*'
-                                   onChange={handleChange} 
+                                   onChange={handleChange}
                                    style={{ display: "none"}}/>
                         </IamgeAddContainer>
                         : <ImageInfoContainer>
                             <IamgeInfoLabel>{imageFile.name}</IamgeInfoLabel>
+                                <ExitBtn onClick={deleteImageFile} >X</ExitBtn>
                           </ImageInfoContainer>
                         }
 
-                        
+
                     </ImageContainer>
 
                     <AddButtonContainer>
@@ -250,7 +256,7 @@ function ResourceManageAdd(props) {
                             <ManageAddButtonLabel>대여 자원 추가</ManageAddButtonLabel>
                         </ManageAddButton>
                     </AddButtonContainer>
-                    
+
             </WhiteContainer>
        </RightContainer>
     );
