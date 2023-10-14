@@ -3,8 +3,6 @@ import styled from "styled-components";
 import SearchInputImage from "../../assets/images/SearchInput.svg"
 import SearchButtonImage from "../../assets/images/SearchPlus.svg"
 
-
-
 const Container = styled.div`
     background: none;
     width: 100%;
@@ -23,6 +21,7 @@ const ManageSearchContainer = styled.div`
     border: 1px solid #FFF;
     background: #FFF;
     margin-right: 20px;
+    padding: 0 10px;
 `
 const ManageSearchImage = styled.img`
     width: 30px;
@@ -34,41 +33,50 @@ const ManageSearchText = styled.input`
     height: 100%;
     background: none;
     border: none;
+    outline: none;
 `
 
 const ManageAddButton = styled.button`
-    width: 15%;
+    width: 160px;
     height: 100%;
+    padding: 10px;
+    border: none;
     border-radius: 8px;
     background: #8741CB;
     display: flex;
     align-items: center;
+    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+    cursor: pointer;
 `
 
 const ManageAddButtonImage = styled.img`
-    width: 20px;
-    height: 20px;
+    width: 16px;
+    height: 16px;
     border-radius: 12px;
     border: 1px dashed var(--gray-300, #D0D5DD);
-    margin: 0 15px 0 15px
+    margin: 0 5px;
 `
 
-const ManageAddButtonLabel = styled.label`
+const ManageAddButtonLabel = styled.text`
+    margin: auto;
     color: white;
-    font-size: 20px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: 16px;
+    font-size: 17px;
+    font-family: NanumSquare_ac;
 `
-
-
 
 function ManageSearchBar(props) {
-    return(
+
+    const handleOnKeyPress = e => {
+        if (e.key === 'Enter') {
+            props.onEnter(e) // Enter 입력이 되면 클릭 이벤트 실행
+        }
+    };
+
+    return (
         <Container>
             <ManageSearchContainer>
                 <ManageSearchImage src={SearchInputImage} />
-                <ManageSearchText placeholder="이름 검색" />
+                <ManageSearchText onKeyUp={handleOnKeyPress} placeholder="이름 검색" />
             </ManageSearchContainer>
             <ManageAddButton>
                 <ManageAddButtonImage src={SearchButtonImage} />
