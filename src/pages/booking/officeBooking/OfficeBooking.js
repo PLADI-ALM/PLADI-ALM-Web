@@ -100,7 +100,7 @@ function OfficeBooking(props) {
     };
 
     const getBookingDate = (info, changeDate) => {
-        var date = info.date + " " + info.startTime + " ~ " + info.endTime;
+        let date = info.date + " " + info.startTime + " ~ " + info.endTime;
         date = date.replaceAll('-', '.');
         getBookingTimeState()
         return <DatePicker type="date" onChange={changeDate} value={bookingDate} />
@@ -162,7 +162,7 @@ function OfficeBooking(props) {
 
 
                 <RequestButtonContainer isCheck={props.isCheck}>
-                    <SmallButton name={'예약'} onClick={requestBookingOffice}></SmallButton>
+                    <SmallButton name={'예약'} click={requestBookingOffice}></SmallButton>
                 </RequestButtonContainer>
 
 

@@ -197,7 +197,7 @@ function ResourceBooking(props) {
 
 
             <RequestButtonContainer isCheck={props.isCheck}>
-                <SmallButton name={'예약'} onClick={requestBookingOffice}></SmallButton>
+                <SmallButton name={'예약'} click={requestBookingOffice}></SmallButton>
             </RequestButtonContainer>
 
 

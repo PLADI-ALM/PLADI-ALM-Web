@@ -60,30 +60,15 @@ export const RequestBookingButton = styled.button`
     text-align: center;
 `
 
-export const FirstBookingTimeButton = styled.button`
-    width: 100%;
-    height: 30px;
-    background-color: ${props => getTimeBarItemBackColor(props.index, props.selected, props.isCheck)}
-    margin-left: 2px;
-    margin-right: 2px;
-    border: none;
-    border-radius: 15px 0px 0px 15px; 
-`
-
-export const LastBookingTimeButton = styled.button`
-    width: 110%;
-    height: 30px;
-    background-color: ${props => getTimeBarItemBackColor(props.index, props.selected, props.isCheck)};
-    margin-right: 1px;
-    border: none;
-    border-radius: 0px 15px 15px 0px; 
-`
-
 export const BookingTimeButton = styled.button`
     width: 100%;
     height: 30px;
     background-color: ${props => getTimeBarItemBackColor(props.index, props.selected, props.isCheck)};
     border: none;
+    border-top-left-radius: ${props => (props.index === 0) ? '15px' : '0'};
+    border-bottom-left-radius: ${props => (props.index === 0) ? '15px' : '0'};
+    border-top-right-radius: ${props => (props.index === 23) ? '15px' : '0'};
+    border-bottom-right-radius: ${props => (props.index === 23) ? '15px' : '0'};
 `
 
 export const TimeButtonContainer = styled.div`
@@ -97,6 +82,7 @@ export const StartTimeTextContainer = styled.div`
 
 export const EndTimeTextContainer = styled.div`
     float: right;
+    display: ${props => (props.index === 23) ? 'flex' : 'none'};
 `
 
 function getTimeBarItemBackColor(index, selected, isCheck) {
@@ -135,29 +121,13 @@ const BookingTimeButtonItem = (index, isCheck) => {
         }
     }
 
-    if (index === 0) {
-        return (
-            <TimeButtonContainer>
-                <FirstBookingTimeButton index={index} selected={selectedState[index]} isCheck={true} onClick={() => (isCheck === 'true') ? {} : onClick(index)}/>
-                <StartTimeTextContainer>{index}</StartTimeTextContainer>
-            </TimeButtonContainer>
-        );
-    } else if (index === 23) {
-        return (
-            <TimeButtonContainer>
-                <LastBookingTimeButton index={index} selected={selectedState[index]} isCheck={true} onClick={() => (isCheck === 'true') ? {} : onClick(index)}/>
-                <StartTimeTextContainer>{index}</StartTimeTextContainer>
-                <EndTimeTextContainer>{index + 1}</EndTimeTextContainer>
-            </TimeButtonContainer>
-        );
-    } else {
-        return (
-            <TimeButtonContainer>
+    return (
+        <TimeButtonContainer>
                 <BookingTimeButton index={index} selected={selectedState[index]} isCheck={isCheck} onClick={() => (isCheck === 'true') ? {} : onClick(index)} />
                 <StartTimeTextContainer>{index}</StartTimeTextContainer>
-            </TimeButtonContainer>
-        );
-    }
+                <EndTimeTextContainer index={index}>{index + 1}</EndTimeTextContainer>
+        </TimeButtonContainer>
+    )
 }
 
 function renderBookingTimeBar(isCheck) {
