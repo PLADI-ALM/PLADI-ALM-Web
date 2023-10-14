@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import TimeCapsule from "components/capsule/SelectToggle";
+import { SelectToggle } from "components/capsule/SelectToggle";
 import SearchButtonImg from '../../assets/images/button/searchButton.png'
 import ImageButton from "components/button/ImageButton";
 import { TimeList } from "constants/ToggleList";
@@ -38,9 +38,9 @@ function SearchBar(props) {
         <Container>
             <TitleText>예약 가능한 회의실 검색</TitleText>
             <DatePicker type="date" onChange={props.changeDate} value={props.value} />
-            <TimeCapsule items={timeOptionList} change={props.changeStart} />
+            <SelectToggle items={timeOptionList} change={props.changeStart} />
             ~
-            <TimeCapsule items={timeOptionList} change={props.changeEnd} />
+            <SelectToggle items={timeOptionList} change={props.changeEnd} />
             <ImageButton image={SearchButtonImg} width={"30px"} height={"30px"} click={props.search} />
         </Container>
     );

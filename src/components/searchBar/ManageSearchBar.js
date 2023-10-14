@@ -29,6 +29,7 @@ const ManageSearchImage = styled.img`
 `
 
 const ManageSearchText = styled.input`
+    font-family: NanumSquare_ac;
     width: 100%;
     height: 100%;
     background: none;
@@ -78,7 +79,7 @@ function ManageSearchBar(props) {
                 <ManageSearchImage src={SearchInputImage} />
                 <ManageSearchText onKeyUp={handleOnKeyPress} placeholder="이름 검색" />
             </ManageSearchContainer>
-            <ManageAddButton onClick={props.onClick}>
+            <ManageAddButton onClick={props.btnClick}>
                 <ManageAddButtonImage src={SearchButtonImage} />
                 <ManageAddButtonLabel>{props.buttonTitle}</ManageAddButtonLabel>
             </ManageAddButton>
