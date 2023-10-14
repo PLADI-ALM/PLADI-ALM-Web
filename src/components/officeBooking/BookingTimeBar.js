@@ -18,18 +18,19 @@ export const BookingContentContainer = styled.div`
 `
 
 export const BookingDateTextContainer = styled.div`
-    flaot: right;
-    display: flex;
+    display: inline;
+    float: left;
 `
 
 export const BookingTimeContainer = styled.div`
     width: 93%;
-    margin: 25px 0px 10px 35px;
+    margin: 0 0 10px 35px;
     display: flex;
 `
 
 export const RequestButtonContainer = styled.div`
     padding-bottom: 25px;
+    margin: 15px 50px 0 0;
     display: ${props => (props.isCheck === 'true') ? 'none' : 'flex'};
     justify-content: flex-end;
 `

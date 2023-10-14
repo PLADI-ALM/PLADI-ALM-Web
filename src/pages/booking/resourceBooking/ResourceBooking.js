@@ -10,27 +10,17 @@ import { SubTitleContainer, MainTextContainer, SubTextContainer, SelectedSubTitl
 import { BookingPurposeContainer, BookingCapsuleContainer, BookingPurposeTextFieldContainer } from 'components/officeBooking/BookingPurpose';
 import ResourceInfo from 'components/resourceInfo/ResourceInfo';
 import { BookingContentContainer, RequestButtonContainer, RequestBookingButton } from 'components/officeBooking/BookingTimeBar';
-import { RightContainer, WhiteContainer } from 'components/rightContainer/RightContainer';
+import { RightContainer, WhiteContainer, TitleText } from 'components/rightContainer/RightContainer';
 import 'react-calendar/dist/Calendar.css';
 import styles from "../resourceBooking/CustomCalendar.css";
 import { basicError } from 'utils/ErrorHandlerUtil';
+import SmallButton from 'components/button/SmallButton';
 
 var startDate = '';
 var endDate = '';
 
 const CustomWhiteContainer = styled(WhiteContainer)`
     display: block;
-`
-
-export const TitleText = styled.p`
-    color: #4C4C4C;
-    font-family: NanumSquare_ac;
-    font-size: 32px;
-    font-style: normal;
-    font-weight: 700;
-    align: left;
-    display: flex;
-    margin: 0 0 10px 10px;
 `
 
 export const ContentContainer = styled.div`
@@ -191,7 +181,7 @@ function ResourceBooking(props) {
                 </DateContainer>
             </BookingContentContainer>
 
-            {/* <BookingPurposeContainer>
+            <BookingPurposeContainer>
                 <BookingCapsuleContainer>
                     <Capsule color="purple" text="예약목적" />
                 </BookingCapsuleContainer>
@@ -202,11 +192,11 @@ function ResourceBooking(props) {
                         rows='4'
                         maxLength='100' />
                 </BookingPurposeTextFieldContainer>
-            </BookingPurposeContainer> */}
+            </BookingPurposeContainer>
 
 
             <RequestButtonContainer isCheck={props.isCheck}>
-                <RequestBookingButton onClick={requestBookingOffice}>예약</RequestBookingButton>
+                <SmallButton name={'예약'} onClick={requestBookingOffice}></SmallButton>
             </RequestButtonContainer>
 
 

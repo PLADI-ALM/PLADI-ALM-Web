@@ -10,30 +10,14 @@ import { SubTitleContainer, MainTextContainer, SubTextContainer, SelectedSubTitl
 import { StatusText, StatusContainer, StatusCircle } from 'components/booking/StatusTag';
 import { DatePicker } from 'components/searchBar/SearchBar';
 import {
-    BookingContentContainer, BookingTimeContainer, renderBookingTimeBar, BookingDateTextContainer, setBookingState, setBookingTime,
-    RequestBookingButton, requestBookingOffice, RequestButtonContainer
+    BookingContentContainer, BookingTimeContainer, renderBookingTimeBar, BookingDateTextContainer, setBookingState, RequestButtonContainer, requestBookingOffice
 } from 'components/officeBooking/BookingTimeBar';
 import { BookingPurposeContainer, BookingCapsuleContainer, BookingPurposeTextFieldContainer } from 'components/officeBooking/BookingPurpose';
 import { RightContainer, WhiteContainer, TitleText } from 'components/rightContainer/RightContainer';
 import { basicError } from 'utils/ErrorHandlerUtil';
-import { Bar } from '../bookedList/BookedList';
+import SmallButton from 'components/button/SmallButton';
 
 var bookingDate = '';
-
-// const CustomWhiteContainer = styled(WhiteContainer)`
-//     display: block;
-// `
-
-// export const TitleText = styled.p`
-//     color: #4C4C4C;
-//     font-family: NanumSquare_ac;
-//     font-size: 32px;
-//     font-style: normal;
-//     font-weight: 700;
-//     align: left;
-//     display: flex;
-//     margin-bottom: 10px;
-// `
 
 export const BookingDateText = styled.p`
     margin: 6px 0 0 0;
@@ -167,13 +151,13 @@ function OfficeBooking(props) {
                     </BookingCapsuleContainer>
 
                     <BookingPurposeTextFieldContainer>
-                        <PurposeTextarea id='bookingPurpose' cols='135' rows='5' maxLength='100'></PurposeTextarea>
+                        <PurposeTextarea id='bookingPurpose' cols='135' rows='4' maxLength='100'></PurposeTextarea>
                     </BookingPurposeTextFieldContainer>
                 </BookingPurposeContainer>
 
 
                 <RequestButtonContainer isCheck={props.isCheck}>
-                    <RequestBookingButton onClick={requestBookingOffice}>예약</RequestBookingButton>
+                    <SmallButton name={'예약'} onClick={requestBookingOffice}></SmallButton>
                 </RequestButtonContainer>
 
 
@@ -188,7 +172,6 @@ function getBookingDate(info, changeDate) {
     date = date.replaceAll('-', '.');
     return <DatePicker type="date" onChange={changeDate} value={bookingDate} />
 }
-
 
 function requestBooking(bookingPurpose, startT, endT, officeId) {
     // console.log("예약일시 : ", bookingDate);

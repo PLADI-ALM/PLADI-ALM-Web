@@ -1,7 +1,7 @@
 import React from 'react';
-import styled from "styled-components"
 import { AdminBookingAxios, BookingsAxios, OfficesAxios } from 'api/AxiosApi';
 import { useState, useEffect } from "react";
+import { useParams } from 'react-router-dom';
 import Capsule from 'components/capsule/Capsule';
 
 import OfficeInfo from "components/officeInfo/OfficeInfo";
@@ -14,18 +14,12 @@ import { MyStatusContainer, BookingDateText, PurposeTextarea } from './OfficeBoo
 import { RightContainer, WhiteContainer, TitleText } from 'components/rightContainer/RightContainer';
 import { getToken } from 'utils/IsLoginUtil';
 import { basicError } from 'utils/ErrorHandlerUtil';
+import { Bar } from '../bookedList/BookedList';
 
-var bookingId = 1;
 var officeId = 1;
 
-const CustomWhiteContainer = styled(WhiteContainer)`
-    display: block;
-`
-
 function OfficeBookingCheck(props) {
-    bookingId = props.isAdmin
-        ? window.location.href.substring(43,)
-        : window.location.href.substring(39,)
+    let { bookingId } = useParams();
 
     const [officeInfo, setOfficeInfo] = useState([]);
     const [bookingInfo, setBookingDetail] = useState([]);
@@ -60,10 +54,9 @@ function OfficeBookingCheck(props) {
             });
     };
 
-    const getOfficeInfo = (id) => {
+    const getOfficeInfo = () => {
         OfficesAxios.get(`/${officeId}`)
             .then((Response) => {
-                console.log(Response.data.data)
                 setOfficeInfo(Response.data.data)
             })
             .catch((Error)=>{ 
@@ -83,7 +76,7 @@ function OfficeBookingCheck(props) {
         <RightContainer>
             <TitleText>{props.isAdmin ? "회의실 예약 내역" : "예약 내역"}</TitleText>
 
-            <CustomWhiteContainer>
+            <WhiteContainer>
 
                 <SubTitleContainer>
                     <MainTextContainer>
@@ -104,6 +97,7 @@ function OfficeBookingCheck(props) {
                     facilityList={officeInfo.facilityList}
                     description={officeInfo.description}
                 />
+                
 
                 <BookingContentContainer isCheck={'true'}>
                     <BookingCapsuleContainer>
@@ -126,7 +120,7 @@ function OfficeBookingCheck(props) {
 
                     <BookingPurposeTextFieldContainer>
                         <PurposeTextarea id='bookingPurpose'
-                            cols='135' rows='5'
+                            cols='135' rows='4'
                             maxLength='100'
                             value={bookingInfo.memo}
                             readOnly="readOnly"
@@ -134,7 +128,7 @@ function OfficeBookingCheck(props) {
                     </BookingPurposeTextFieldContainer>
                 </BookingPurposeContainer>
 
-            </CustomWhiteContainer>
+            </WhiteContainer>
         </RightContainer>
     );
 }

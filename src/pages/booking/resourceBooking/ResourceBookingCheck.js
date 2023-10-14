@@ -9,8 +9,8 @@ import ResourceInfo from 'components/resourceInfo/ResourceInfo';
 import { BookingContentContainer } from 'components/officeBooking/BookingTimeBar';
 import { StatusText, StatusContainer, StatusCircle } from 'components/booking/StatusTag';
 import { findStatus } from 'constants/BookingStatus';
-import { RightContainer, WhiteContainer } from 'components/rightContainer/RightContainer';
-import { TitleText, BookingDateText, PurposeTextarea } from './ResourceBooking';
+import { RightContainer, WhiteContainer,TitleText } from 'components/rightContainer/RightContainer';
+import { BookingDateText, PurposeTextarea } from './ResourceBooking';
 import { getToken } from 'utils/IsLoginUtil';
 import { basicError } from 'utils/ErrorHandlerUtil';
 
