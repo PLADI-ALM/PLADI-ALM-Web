@@ -2,6 +2,7 @@ import React from 'react';
 import styled from "styled-components"
 import { AdminBookingAxios, ResourcesAxios, BookingsAxios } from 'api/AxiosApi';
 import { useState, useEffect } from "react";
+import { useParams } from 'react-router-dom';
 import Capsule from 'components/capsule/Capsule';
 import { MainTextContainer, SubTextContainer, SelectedSubTitleText, UnselectedSubTitleText, SubTitleContainer } from 'components/officeBooking/SubTitleBar';
 import { BookingPurposeContainer, BookingCapsuleContainer, BookingPurposeTextFieldContainer } from 'components/officeBooking/BookingPurpose';
@@ -21,13 +22,10 @@ const MyStatusContainer = styled(StatusContainer)`
     float: right;
 `
 
-var bookingId = 1;
 var resourceId = 1;
 
 function ResourceBookingCheck(props) {
-    bookingId = props.isAdmin 
-                ? window.location.href.substring(45,) 
-                : window.location.href.substring(41,)
+    let { bookingId } = useParams();
 
     const [resourceInfo, setResourceInfo] = useState([]);
     const [bookingInfo, setBookingDetail] = useState([]);
