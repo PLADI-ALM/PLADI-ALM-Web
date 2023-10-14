@@ -36,7 +36,7 @@ const ManageSearchText = styled.input`
     outline: none;
 `
 
-const ManageSearchButton = styled.button`
+const ManageAddButton = styled.button`
     width: 160px;
     height: 100%;
     padding: 10px;
@@ -49,7 +49,7 @@ const ManageSearchButton = styled.button`
     cursor: pointer;
 `
 
-const ManageSearchButtonImage = styled.img`
+const ManageAddButtonImage = styled.img`
     width: 16px;
     height: 16px;
     border-radius: 12px;
@@ -57,7 +57,7 @@ const ManageSearchButtonImage = styled.img`
     margin: 0 5px;
 `
 
-const ManageSearchButtonLabel = styled.text`
+const ManageAddButtonLabel = styled.text`
     margin: auto;
     color: white;
     font-size: 17px;
@@ -78,10 +78,10 @@ function ManageSearchBar(props) {
                 <ManageSearchImage src={SearchInputImage} />
                 <ManageSearchText onKeyUp={handleOnKeyPress} placeholder="이름 검색" />
             </ManageSearchContainer>
-            <ManageSearchButton>
-                <ManageSearchButtonImage src={SearchButtonImage} />
-                <ManageSearchButtonLabel>{props.buttonTitle}</ManageSearchButtonLabel>
-            </ManageSearchButton>
+            <ManageAddButton>
+                <ManageAddButtonImage src={SearchButtonImage} />
+                <ManageAddButtonLabel>{props.buttonTitle}</ManageAddButtonLabel>
+            </ManageAddButton>
         </Container>
     );
 }

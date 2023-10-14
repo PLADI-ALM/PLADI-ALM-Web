@@ -13,6 +13,7 @@ import ResourceBookingManage from 'pages/manager/resourceBookingManage/ResourceB
 import ResourceBookingCheck from 'pages/booking/resourceBooking/ResourceBookingCheck'
 import OfficeBookingManage from 'pages/manager/officeBookingManage/OfficeBookingManage';
 import UserManage from 'pages/manager/userManage/UserManage';
+import ResourceManage from 'pages/manager/resourceManage/ResourceManage';
 
 function App() {
 
@@ -38,6 +39,7 @@ function App() {
           <Route path='/manage/offices' element={<OfficeManage title="회의실 관리" />} />
           <Route path='/manage/officeBooking' element={<OfficeBookingManage title="회의실 예약 내역" />} />
           <Route path='/manage/officeBooking/:bookingId' element={<OfficeBookingCheck isAdmin={true} />} />
+          <Route path='/manage/resources' element={<ResourceManage title="자원 관리" />} />
           <Route path='/manage/resourceBooking' element={<ResourceBookingManage title="자원 예약 관리" />} />
           <Route path='/manage/resourceBooking/:bookingId' element={<ResourceBookingCheck isAdmin={true} />} />
           <Route path='/manage/users' element={<UserManage title="직원 관리" />} />
