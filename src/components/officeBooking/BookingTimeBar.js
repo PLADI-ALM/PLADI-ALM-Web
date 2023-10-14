@@ -8,28 +8,33 @@ var bookingState = [
     false, false, false, false, false, false, false, false, false, false, false, false,
 ];
 
+var selectedState = [
+    false, false, false, false, false, false, false, false, false, false, false, false,
+    false, false, false, false, false, false, false, false, false, false, false, false,
+];
+
 var startT = -1;
 var endT = -1;
 
 export const BookingContentContainer = styled.div`
-    margin-left: 40px;
-    padding-top: 40px;
+    margin: 30px 0 0 40px;
     display: flex;
 `
 
 export const BookingDateTextContainer = styled.div`
-    flaot: right;
-    display: flex;
+    display: inline;
+    float: left;
 `
 
 export const BookingTimeContainer = styled.div`
     width: 93%;
-    margin: 25px 0px 10px 35px;
+    margin: 0 0 10px 35px;
     display: flex;
 `
 
 export const RequestButtonContainer = styled.div`
     padding-bottom: 25px;
+    margin: 15px 50px 0 0;
     display: ${props => (props.isCheck === 'true') ? 'none' : 'flex'};
     justify-content: flex-end;
 `
@@ -54,30 +59,15 @@ export const RequestBookingButton = styled.button`
     text-align: center;
 `
 
-export const FirstBookingTimeButton = styled.button`
-    width: 100%;
-    height: 30px;
-    background-color: ${props => getTimeBarItemBackColor(props.index, props.selected, props.isCheck)}
-    margin-left: 2px;
-    margin-right: 2px;
-    border: none;
-    border-radius: 15px 0px 0px 15px; 
-`
-
-export const LastBookingTimeButton = styled.button`
-    width: 110%;
-    height: 30px;
-    background-color: ${props => getTimeBarItemBackColor(props.index, props.selected, props.isCheck)};
-    margin-right: 1px;
-    border: none;
-    border-radius: 0px 15px 15px 0px; 
-`
-
 export const BookingTimeButton = styled.button`
     width: 100%;
     height: 30px;
     background-color: ${props => getTimeBarItemBackColor(props.index, props.selected, props.isCheck)};
     border: none;
+    border-top-left-radius: ${props => (props.index === 0) ? '15px' : '0'};
+    border-bottom-left-radius: ${props => (props.index === 0) ? '15px' : '0'};
+    border-top-right-radius: ${props => (props.index === 23) ? '15px' : '0'};
+    border-bottom-right-radius: ${props => (props.index === 23) ? '15px' : '0'};
 `
 
 export const TimeButtonContainer = styled.div`
@@ -91,19 +81,22 @@ export const StartTimeTextContainer = styled.div`
 
 export const EndTimeTextContainer = styled.div`
     float: right;
+    display: ${props => (props.index === 23) ? 'flex' : 'none'};
 `
 
 function getTimeBarItemBackColor(index, selected, isCheck) {
     if (bookingState[index]) {
-        return (isCheck === 'true') ? '#D0B1EE' : '#808080';   // TODO: #808080을 빗금으로 수정하기
+        // 이미 예약된 시간 (조회화면-보라색(#D0B1EE) / 예약화면-빗금)
+        return (isCheck === 'true') ? '#D0B1EE' : '#808080'     // TODO: #808080을 빗금으로 수정하기 
+        // return (isCheck === 'true') ? '#D0B1EE' : 'linear-gradient(45deg,red 25%, green 0, green 50%,red 0, red 75%, green 0)';
     } else {
+        // 예약 가능한 시간 (선택O-보라색(#D0B1EE) / 선택X-연회색(#E9E9E9))
         return selected ? '#D0B1EE' : '#E9E9E9';
     }
 }
 
 const BookingTimeButtonItem = (index, isCheck) => {
     const [selectedCheckList, setSelectedCheckList] = useState([]);
-    const [isSelected, setSelected] = useState(false);
 
     const onClick = (index) => { 
         if(isCheck || bookingState[index]) { return }
@@ -111,44 +104,32 @@ const BookingTimeButtonItem = (index, isCheck) => {
 
         updatedCheckList[index] = !updatedCheckList[index];
         selectedCheckList[index] = !selectedCheckList[index];
+        selectedState[index] = !selectedState[index]
 
-        const updatedIsSelected = updatedCheckList[index];
+        setSelectedCheckList(selectedState);
 
-        setSelectedCheckList(updatedCheckList);
-        setSelected(updatedIsSelected);
-
-        if (startT === -1) { startT = index }
-        if (endT === -1) { endT = index + 1 }
-        getStartTime(selectedCheckList);
-        getEndTime(selectedCheckList);
+        getStartTime(index);
+        getEndTime(index);
 
         console.log('startT -> ', startT);
         console.log('endT -> ', endT);
+
+        for(var i=startT+1; i<endT-1; i++) {
+            updatedCheckList[i] = true
+            selectedCheckList[i] = true
+            selectedState[i] = true
+
+            setSelectedCheckList(updatedCheckList);
+        }
     }
 
-    if (index == 0) {
-        return (
-            <TimeButtonContainer>
-                <FirstBookingTimeButton index={index} selected={isSelected} isCheck={true} onClick={() => (isCheck == 'true') ? {} : onClick(index)}/>
+    return (
+        <TimeButtonContainer>
+                <BookingTimeButton index={index} selected={selectedState[index]} isCheck={isCheck} onClick={() => (isCheck === 'true') ? {} : onClick(index)} />
                 <StartTimeTextContainer>{index}</StartTimeTextContainer>
-            </TimeButtonContainer>
-        );
-    } else if (index === 23) {
-        return (
-            <TimeButtonContainer>
-                <LastBookingTimeButton index={index} selected={isSelected} isCheck={true} onClick={() => (isCheck == 'true') ? {} : onClick(index)}/>
-                <StartTimeTextContainer>{index}</StartTimeTextContainer>
-                <EndTimeTextContainer>{index + 1}</EndTimeTextContainer>
-            </TimeButtonContainer>
-        );
-    } else {
-        return (
-            <TimeButtonContainer>
-                <BookingTimeButton index={index} selected={isSelected} isCheck={isCheck} onClick={() => (isCheck === 'true') ? {} : onClick(index)} />
-                <StartTimeTextContainer>{index}</StartTimeTextContainer>
-            </TimeButtonContainer>
-        );
-    }
+                <EndTimeTextContainer index={index}>{index + 1}</EndTimeTextContainer>
+        </TimeButtonContainer>
+    )
 }
 
 function renderBookingTimeBar(isCheck) {
@@ -167,12 +148,9 @@ function getIndexValue(timeStr) {
 }
 
 function setBookingState(props) {
+    bookingState = Array.from({length: 24}, () => false);
     for (var i = 0; i < props.length; i++) {
-        var start = getIndexValue(props[i].startTime)
-        var end = getIndexValue(props[i].endTime)
-        for (var j = start; j < end; j++) {
-            bookingState[j] = true;
-        }
+        setBookingTime(props[i].startTime, props[i].endTime)
     }
 }
 export { setBookingState }
@@ -188,15 +166,17 @@ export { setBookingTime }
 
 
 // 예약 버튼 관련 함수
-function getStartTime(props) {
+function getStartTime(index) {
+    if (startT === -1) { startT = index }
     for (var i = 0; i < 24; i++) {
-        if (props[i] && startT > i) { startT = i; }
+        if (selectedState[i] && startT > i) { startT = i; }
     }
 }
 
-function getEndTime(props) {
+function getEndTime(index) {
+    if (endT === -1) { endT = index + 1 }
     for (var i = 23; i > -1; i--) {
-        if (props[i] && endT < i) { endT = i + 1; }
+        if (selectedState[i] && endT < i) { endT = i + 1; }
     }
 }
 
@@ -209,6 +189,7 @@ function getTimeStr(props) {
 
 function requestBookingOffice() {
     var bookingPurpose = document.getElementById("bookingPurpose").value;
+    if (endT === 24) { endT = 0 }
     requestBooking(bookingPurpose, getTimeStr(startT), getTimeStr(endT));
 }
 export { requestBookingOffice }

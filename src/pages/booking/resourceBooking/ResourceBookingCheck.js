@@ -2,17 +2,19 @@ import React from 'react';
 import styled from "styled-components"
 import { AdminBookingAxios, ResourcesAxios, BookingsAxios } from 'api/AxiosApi';
 import { useState, useEffect } from "react";
+import { useParams } from 'react-router-dom';
 import Capsule from 'components/capsule/Capsule';
-import { SubTitleContainer, MainTextContainer, SubTextContainer, SelectedSubTitleText, UnselectedSubTitleText } from 'components/officeBooking/SubTitleBar';
+import { MainTextContainer, SubTextContainer, SelectedSubTitleText, UnselectedSubTitleText, SubTitleContainer } from 'components/officeBooking/SubTitleBar';
 import { BookingPurposeContainer, BookingCapsuleContainer, BookingPurposeTextFieldContainer } from 'components/officeBooking/BookingPurpose';
 import ResourceInfo from 'components/resourceInfo/ResourceInfo';
 import { BookingContentContainer } from 'components/officeBooking/BookingTimeBar';
 import { StatusText, StatusContainer, StatusCircle } from 'components/booking/StatusTag';
 import { findStatus } from 'constants/BookingStatus';
-import { RightContainer, WhiteContainer } from 'components/rightContainer/RightContainer';
-import { TitleText, BookingDateText, PurposeTextarea } from './ResourceBooking';
+import { RightContainer, WhiteContainer,TitleText } from 'components/rightContainer/RightContainer';
+import { BookingDateText, PurposeTextarea } from './ResourceBooking';
 import { getToken } from 'utils/IsLoginUtil';
 import { basicError } from 'utils/ErrorHandlerUtil';
+import { Bar } from '../bookedList/BookedList';
 
 const MyStatusContainer = styled(StatusContainer)`
     margin-top: 12px;
@@ -20,17 +22,10 @@ const MyStatusContainer = styled(StatusContainer)`
     float: right;
 `
 
-const CustomWhiteContainer = styled(WhiteContainer)`
-    display: block;
-`
-
-var bookingId = 1;
 var resourceId = 1;
 
 function ResourceBookingCheck(props) {
-    bookingId = props.isAdmin 
-                ? window.location.href.substring(45,) 
-                : window.location.href.substring(41,)
+    let { bookingId } = useParams();
 
     const [resourceInfo, setResourceInfo] = useState([]);
     const [bookingInfo, setBookingDetail] = useState([]);
@@ -76,8 +71,8 @@ function ResourceBookingCheck(props) {
     return <RightContainer>
         <TitleText>{props.isAdmin ? "자원 예약 내역" : "예약 내역"}</TitleText>
 
-        <CustomWhiteContainer>
-            <SubTitleContainer>
+        <WhiteContainer style={{display:'inline'}}>
+            <Bar style={{position:'static'}}>
                 <MainTextContainer>
                     <SelectedSubTitleText>{resourceInfo.name}</SelectedSubTitleText>
                 </MainTextContainer>
@@ -88,7 +83,7 @@ function ResourceBookingCheck(props) {
                     <StatusCircle color={bookingStatus.color} />
                     <StatusText color={bookingStatus.color}>{bookingStatus.name}</StatusText>
                 </MyStatusContainer>
-            </SubTitleContainer>
+            </Bar>
 
             <ResourceInfo description={resourceInfo.description} />
 
@@ -124,8 +119,9 @@ function ResourceBookingCheck(props) {
                         disabled />
                 </BookingPurposeTextFieldContainer>
             </BookingPurposeContainer>
+            
 
-        </CustomWhiteContainer>
+        </WhiteContainer>
     </RightContainer>
 }
 export default ResourceBookingCheck;

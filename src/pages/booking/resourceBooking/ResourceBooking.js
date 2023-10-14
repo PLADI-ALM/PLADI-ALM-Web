@@ -5,33 +5,22 @@ import 'react-calendar/dist/Calendar.css';
 import moment, { locale } from 'moment';
 import { ResourcesAxios, BookingsAxios } from 'api/AxiosApi';
 import { useState, useEffect } from "react";
+import { useParams } from 'react-router-dom';
 import Capsule from 'components/capsule/Capsule';
-import { SubTitleContainer, MainTextContainer, SubTextContainer, SelectedSubTitleText, UnselectedSubTitleText } from 'components/officeBooking/SubTitleBar';
+import { MainTextContainer, SubTextContainer, SelectedSubTitleText, UnselectedSubTitleText } from 'components/officeBooking/SubTitleBar';
 import { BookingPurposeContainer, BookingCapsuleContainer, BookingPurposeTextFieldContainer } from 'components/officeBooking/BookingPurpose';
 import ResourceInfo from 'components/resourceInfo/ResourceInfo';
 import { BookingContentContainer, RequestButtonContainer, RequestBookingButton } from 'components/officeBooking/BookingTimeBar';
-import { RightContainer, WhiteContainer } from 'components/rightContainer/RightContainer';
+import { RightContainer, WhiteContainer, TitleText } from 'components/rightContainer/RightContainer';
 import 'react-calendar/dist/Calendar.css';
 import styles from "../resourceBooking/CustomCalendar.css";
 import { basicError } from 'utils/ErrorHandlerUtil';
+import SmallButton from 'components/button/SmallButton';
+import { Bar } from '../bookedList/BookedList';
+import { getToken } from 'utils/IsLoginUtil';
 
 var startDate = '';
 var endDate = '';
-
-const CustomWhiteContainer = styled(WhiteContainer)`
-    display: block;
-`
-
-export const TitleText = styled.p`
-    color: #4C4C4C;
-    font-family: NanumSquare_ac;
-    font-size: 32px;
-    font-style: normal;
-    font-weight: 700;
-    align: left;
-    display: flex;
-    margin: 0 0 10px 10px;
-`
 
 export const ContentContainer = styled.div`
     width: 90%;
@@ -78,11 +67,12 @@ export const DateContainer = styled.div`
     padding-left: 1%;
 `
 
-var resourceId = 1
+// var resourceId = 1
 var currentMonth = moment(new Date()).format('YYYY-MM')
 
 function ResourceBooking(props) {
-    resourceId = window.location.href.substring(38,);
+    // resourceId = window.location.href.substring(38,);
+    let { resourceId } = useParams();
 
     const [resourceInfo, setResourceInfo] = useState([]);
     const [dates, setBookedDates] = useState([]);
@@ -97,7 +87,7 @@ function ResourceBooking(props) {
                 basicError(Error) 
                 console.log(Error)
                 window.alert("자원 정보를 불러올 수 없습니댜.") 
-                window.history.back()
+                // window.history.back()
             });  
     };
 
@@ -113,7 +103,7 @@ function ResourceBooking(props) {
                 basicError(Error) 
                 console.log(Error)
                 window.alert("예약 정보를 불러올 수 없습니댜.") 
-                window.history.back()
+                // window.history.back()
             });   
     }
 
@@ -135,6 +125,38 @@ function ResourceBooking(props) {
         getBookedDates()
     }
 
+    const requestBookingOffice = () => {
+        var bookingPurpose = document.getElementById("bookingPurpose").value;
+
+        if (window.confirm("예약하시겠습니까?")) {
+            ResourcesAxios.post(`/${resourceId}`, 
+                {
+                    "endDate": endDate,
+                    "memo": bookingPurpose,
+                    "startDate": startDate
+                },
+                {
+                    headers: { Authorization: getToken() }
+                },
+            )
+                .then(function (response) {
+                    if (response.data.status === '200') { alert('예약에 성공하였습니다!') }
+                    else { alert(response.data.message); }
+                    window.location.reload()
+                })
+                .catch((Error)=>{ 
+                    basicError(Error) 
+                    console.log(Error)
+                    window.alert("자원 예약에 실패하였습니다.") 
+                    window.history.back()
+                });  
+
+            console.log('start date : ', startDate)
+            console.log('end date : ', endDate)
+            console.log('예약목적 : ', bookingPurpose)
+        }
+    }
+
     useEffect(() => {
         getResourceInfo()
         getBookedDates()
@@ -143,16 +165,16 @@ function ResourceBooking(props) {
     return <RightContainer>
         <TitleText>자원 예약</TitleText>
 
-        <CustomWhiteContainer>
-
-            <SubTitleContainer>
+        <WhiteContainer>
+            <Bar />
+            <div style={{zIndex:1}}>
                 <MainTextContainer>
                     <SelectedSubTitleText>{resourceInfo.name}</SelectedSubTitleText>
                 </MainTextContainer>
                 <SubTextContainer>
                     <UnselectedSubTitleText>{resourceInfo.category}</UnselectedSubTitleText>
                 </SubTextContainer>
-            </SubTitleContainer>
+            </div>
 
             <ResourceInfo description={resourceInfo.description} />
 
@@ -206,43 +228,43 @@ function ResourceBooking(props) {
 
 
             <RequestButtonContainer isCheck={props.isCheck}>
-                <RequestBookingButton onClick={requestBookingOffice}>예약</RequestBookingButton>
+                <SmallButton name={'예약'} click={requestBookingOffice}></SmallButton>
             </RequestButtonContainer>
 
 
-        </CustomWhiteContainer>
+        </WhiteContainer>
     </RightContainer>
 }
 export default ResourceBooking;
 
 
-function requestBookingOffice() {
-    var bookingPurpose = document.getElementById("bookingPurpose").value;
+// function requestBookingOffice() {
+//     var bookingPurpose = document.getElementById("bookingPurpose").value;
 
-    if (window.confirm("예약하시겠습니까?")) {
-        ResourcesAxios.post(`/${resourceId}`,
-            {
-                "endDate": endDate,
-                "memo": bookingPurpose,
-                "startDate": startDate
-            }
-        )
-            .then(function (response) {
-                if (response.data.status === '200') { alert('예약에 성공하였습니다!') }
-                else { alert(response.data.message); }
-                window.location.reload()
-            })
-            .catch((Error)=>{ 
-                basicError(Error) 
-                console.log(Error)
-                window.alert("자원 예약에 실패하였습니다.") 
-                window.history.back()
-            });  
+//     if (window.confirm("예약하시겠습니까?")) {
+//         ResourcesAxios.post(`/${resourceId}`,
+//             {
+//                 "endDate": endDate,
+//                 "memo": bookingPurpose,
+//                 "startDate": startDate
+//             }
+//         )
+//             .then(function (response) {
+//                 if (response.data.status === '200') { alert('예약에 성공하였습니다!') }
+//                 else { alert(response.data.message); }
+//                 window.location.reload()
+//             })
+//             .catch((Error)=>{ 
+//                 basicError(Error) 
+//                 console.log(Error)
+//                 window.alert("자원 예약에 실패하였습니다.") 
+//                 window.history.back()
+//             });  
 
-        console.log('start date : ', startDate)
-        console.log('end date : ', endDate)
-        console.log('예약목적 : ', bookingPurpose)
-    }
-}
+//         console.log('start date : ', startDate)
+//         console.log('end date : ', endDate)
+//         console.log('예약목적 : ', bookingPurpose)
+//     }
+// }
 
 

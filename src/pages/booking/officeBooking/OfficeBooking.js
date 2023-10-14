@@ -2,38 +2,23 @@ import React from 'react';
 import styled from "styled-components"
 import { OfficesAxios, BookingsAxios } from 'api/AxiosApi';
 import { useState, useEffect } from "react";
+import { useParams } from 'react-router-dom';
 import Capsule from 'components/capsule/Capsule';
 
 import OfficeInfo from "components/officeInfo/OfficeInfo";
-import { SubTitleContainer, MainTextContainer, SubTextContainer, SelectedSubTitleText, UnselectedSubTitleText } from 'components/officeBooking/SubTitleBar';
-import { StatusText, StatusContainer, StatusCircle } from 'components/booking/StatusTag';
+import { MainTextContainer, SubTextContainer, SelectedSubTitleText, UnselectedSubTitleText } from 'components/officeBooking/SubTitleBar';
+import { StatusContainer } from 'components/booking/StatusTag';
 import { DatePicker } from 'components/searchBar/SearchBar';
 import {
-    BookingContentContainer, BookingTimeContainer, renderBookingTimeBar, BookingDateTextContainer, setBookingState, setBookingTime,
-    RequestBookingButton, requestBookingOffice, RequestButtonContainer
+    BookingContentContainer, BookingTimeContainer, renderBookingTimeBar, BookingDateTextContainer, setBookingState, RequestButtonContainer, requestBookingOffice
 } from 'components/officeBooking/BookingTimeBar';
 import { BookingPurposeContainer, BookingCapsuleContainer, BookingPurposeTextFieldContainer } from 'components/officeBooking/BookingPurpose';
-import { RightContainer, WhiteContainer } from 'components/rightContainer/RightContainer';
+import { RightContainer, WhiteContainer, TitleText } from 'components/rightContainer/RightContainer';
 import { basicError } from 'utils/ErrorHandlerUtil';
+import SmallButton from 'components/button/SmallButton';
+import { Bar } from '../bookedList/BookedList';
 
 var bookingDate = '';
-var bookingId = 1;
-var officeId = 1;
-
-const CustomWhiteContainer = styled(WhiteContainer)`
-    display: block;
-`
-
-export const TitleText = styled.p`
-    color: #4C4C4C;
-    font-family: NanumSquare_ac;
-    font-size: 32px;
-    font-style: normal;
-    font-weight: 700;
-    align: left;
-    display: flex;
-    margin-bottom: 10px;
-`
 
 export const BookingDateText = styled.p`
     margin: 6px 0 0 0;
@@ -70,11 +55,10 @@ export const MyStatusContainer = styled(StatusContainer)`
 
 
 function OfficeBooking(props) {
-    officeId = window.location.href.substring(36,)
+    let { officeId } = useParams();
 
     const [officeInfo, setOfficeInfo] = useState([]);
     const [bookingInfo, setBookingDetail] = useState([]);
-    const [bookingStatus, setStatus] = useState([]);
     var [date, setDate] = useState("");
 
     const changeDate = (e) => {
@@ -92,7 +76,9 @@ function OfficeBooking(props) {
 
         OfficesAxios.get(`/${officeId}/booking-state?date=${bookingDate}`)
             .then((Response) => {
-                setBookingState(Response.data.data.bookedTimes)
+                setBookingDetail(Response.data.data.bookedTimes)
+                setBookingState(bookingInfo)
+
             })
             .catch((Error)=>{ 
                 basicError(Error) 
@@ -114,6 +100,13 @@ function OfficeBooking(props) {
             });
     };
 
+    const getBookingDate = (info, changeDate) => {
+        let date = info.date + " " + info.startTime + " ~ " + info.endTime;
+        date = date.replaceAll('-', '.');
+        getBookingTimeState()
+        return <DatePicker type="date" onChange={changeDate} value={bookingDate} />
+    }
+
     useEffect(() => {
         getBookingTimeState();
         getOfficeInfoForBooking();
@@ -123,20 +116,16 @@ function OfficeBooking(props) {
         <RightContainer>
             <TitleText>회의실 예약</TitleText>
 
-            <CustomWhiteContainer>
-
-                <SubTitleContainer>
+            <WhiteContainer>
+                <Bar />
+                <div style={{zIndex:1}}>
                     <MainTextContainer>
                         <SelectedSubTitleText>{officeInfo.name}</SelectedSubTitleText>
                     </MainTextContainer>
                     <SubTextContainer>
                         <UnselectedSubTitleText>{officeInfo.location}</UnselectedSubTitleText>
                     </SubTextContainer>
-                    <MyStatusContainer isCheck={props.isCheck} background={bookingStatus.background}>
-                        <StatusCircle color={bookingStatus.color} />
-                        <StatusText color={bookingStatus.color}>{bookingStatus.name}</StatusText>
-                    </MyStatusContainer>
-                </SubTitleContainer>
+                </div>
 
                 <OfficeInfo isDetailPage={true}
                     hidden={props.isCheck}
@@ -147,13 +136,14 @@ function OfficeBooking(props) {
                     facilityList={officeInfo.facilityList}
                     description={officeInfo.description}
                 />
+                
 
                 <BookingContentContainer isCheck={'true'}>
                     <BookingCapsuleContainer>
                         <Capsule color="purple" text="예약일시" />
                     </BookingCapsuleContainer>
                     <BookingDateTextContainer>
-                        {getBookingDate(false, bookingInfo, changeDate)}
+                        {getBookingDate(bookingInfo, changeDate)}
                     </BookingDateTextContainer>
                 </BookingContentContainer>
 
@@ -167,30 +157,23 @@ function OfficeBooking(props) {
                     </BookingCapsuleContainer>
 
                     <BookingPurposeTextFieldContainer>
-                        <PurposeTextarea id='bookingPurpose' cols='135' rows='5' maxLength='100'></PurposeTextarea>
+                        <PurposeTextarea id='bookingPurpose' cols='135' rows='4' maxLength='100'></PurposeTextarea>
                     </BookingPurposeTextFieldContainer>
                 </BookingPurposeContainer>
 
 
                 <RequestButtonContainer isCheck={props.isCheck}>
-                    <RequestBookingButton onClick={requestBookingOffice}>예약</RequestBookingButton>
+                    <SmallButton name={'예약'} click={requestBookingOffice}></SmallButton>
                 </RequestButtonContainer>
 
 
-            </CustomWhiteContainer>
+            </WhiteContainer>
         </RightContainer>
     );
 }
 export default OfficeBooking;
 
-function getBookingDate(info, changeDate) {
-    var date = info.date + " " + info.startTime + " ~ " + info.endTime;
-    date = date.replaceAll('-', '.');
-    return <DatePicker type="date" onChange={changeDate} value={bookingDate} />
-}
-
-
-function requestBooking(bookingPurpose, startT, endT) {
+function requestBooking(bookingPurpose, startT, endT, officeId) {
     // console.log("예약일시 : ", bookingDate);
     // console.log("예약목적 : ", bookingPurpose);
     // console.log("시작시간 : ", startT);
