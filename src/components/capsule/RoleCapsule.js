@@ -18,7 +18,27 @@ const AdminCapsule = styled(BasicCapsule)`
     color: #8741CB;
 `
 
-function RoleCapsule(props) {
+const BasicCapsuleBtnT = styled(BasicCapsule)`
+    background: #15294B;
+    color: white;
+    cursor: pointer;
+`
+
+const AdminCapsuleBtnT = styled(AdminCapsule)`
+    background: #8741CB;
+    color: white;
+    cursor: pointer;
+`
+
+const BasicCapsuleBtnF = styled(BasicCapsule)`
+    cursor: pointer;
+`
+
+const AdminCapsuleBtnF = styled(AdminCapsule)`
+    cursor: pointer;
+`
+
+export function RoleCapsule(props) {
     return (
         <>
             {props.role === "일반" ?
@@ -28,4 +48,17 @@ function RoleCapsule(props) {
     );
 }
 
-export default RoleCapsule;
+export function RoleCapsuleBtn(props) {
+    return (
+        <>
+            {props.role === "일반" && props.type === true ?
+                <BasicCapsuleBtnT>{props.role}</BasicCapsuleBtnT> :
+                props.role === "일반" && props.type === false ?
+                    <BasicCapsuleBtnF>{props.role}</BasicCapsuleBtnF> :
+                    props.role === "관리자" && props.type === true ?
+                        <AdminCapsuleBtnT>{props.role}</AdminCapsuleBtnT> :
+                        <AdminCapsuleBtnF>{props.role}</AdminCapsuleBtnF>
+            }
+        </>
+    );
+}

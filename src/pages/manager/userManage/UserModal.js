@@ -1,10 +1,11 @@
 import { SelectToggleInModal } from 'components/capsule/SelectToggle';
-import styled from 'styled-components';
 import React, { useState, useEffect } from 'react';
 import { AdminUsersAxios } from 'api/AxiosApi';
 import { getToken } from 'utils/IsLoginUtil';
 import { basicError } from 'utils/ErrorHandlerUtil';
-import { AttrContainer, AttrInput, AttrLabel, AttrsContainer, ExitBtn, ModalBackdrop, ModalTitle, ModalView, TitleContainer } from 'components/modal/Modal';
+import { AttrContainer, AttrInput, AttrLabel, AttrsContainer, BottomBtnContainer, ExitBtn, ModalBackdrop, ModalTitle, ModalView, TitleContainer } from 'components/modal/Modal';
+import { RoleCapsuleBtn } from 'components/capsule/RoleCapsule';
+import BigSquareButton from 'components/button/BigSquareButton';
 
 export function UserModal(props) {
     const [positionOptionList, setPositionOptionList] = useState([]);
@@ -66,9 +67,14 @@ export function UserModal(props) {
                     </AttrContainer>
                     <AttrContainer>
                         <AttrLabel>권한</AttrLabel>
-                        <AttrInput type='text'></AttrInput>
+                        <RoleCapsuleBtn role="일반" type={true} />
+                        <RoleCapsuleBtn role="관리자" type={false} />
                     </AttrContainer>
                 </AttrsContainer>
+                <BottomBtnContainer>
+                    <BigSquareButton name={"등록"} color={"purple"} />
+                    <BigSquareButton name={"취소"} color={"white"} />
+                </BottomBtnContainer>
             </ModalView>
         </ModalBackdrop>
     );
