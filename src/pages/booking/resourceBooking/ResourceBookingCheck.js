@@ -3,7 +3,7 @@ import styled from "styled-components"
 import { AdminBookingAxios, ResourcesAxios, BookingsAxios } from 'api/AxiosApi';
 import { useState, useEffect } from "react";
 import Capsule from 'components/capsule/Capsule';
-import { MainTextContainer, SubTextContainer, SelectedSubTitleText, UnselectedSubTitleText } from 'components/officeBooking/SubTitleBar';
+import { MainTextContainer, SubTextContainer, SelectedSubTitleText, UnselectedSubTitleText, SubTitleContainer } from 'components/officeBooking/SubTitleBar';
 import { BookingPurposeContainer, BookingCapsuleContainer, BookingPurposeTextFieldContainer } from 'components/officeBooking/BookingPurpose';
 import ResourceInfo from 'components/resourceInfo/ResourceInfo';
 import { BookingContentContainer } from 'components/officeBooking/BookingTimeBar';
@@ -73,10 +73,9 @@ function ResourceBookingCheck(props) {
     return <RightContainer>
         <TitleText>{props.isAdmin ? "자원 예약 내역" : "예약 내역"}</TitleText>
 
-        <WhiteContainer>
-            <Bar />
-            <div style={{zIndex:1}}>
-            <   MainTextContainer>
+        <WhiteContainer style={{display:'inline'}}>
+            <Bar style={{position:'static'}}>
+                <MainTextContainer>
                     <SelectedSubTitleText>{resourceInfo.name}</SelectedSubTitleText>
                 </MainTextContainer>
                 <SubTextContainer>
@@ -86,7 +85,7 @@ function ResourceBookingCheck(props) {
                     <StatusCircle color={bookingStatus.color} />
                     <StatusText color={bookingStatus.color}>{bookingStatus.name}</StatusText>
                 </MyStatusContainer>
-            </div>
+            </Bar>
 
             <ResourceInfo description={resourceInfo.description} />
 
@@ -122,6 +121,7 @@ function ResourceBookingCheck(props) {
                         disabled />
                 </BookingPurposeTextFieldContainer>
             </BookingPurposeContainer>
+            
 
         </WhiteContainer>
     </RightContainer>

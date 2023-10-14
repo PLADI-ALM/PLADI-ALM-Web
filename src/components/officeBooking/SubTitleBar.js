@@ -1,11 +1,5 @@
 import styled from "styled-components"
 
-export const SubTitleContainer = styled.div`
-    height: 64px;
-    border-radius: 12px;
-    background: #2A3042;
-`
-
 export const MainTextContainer = styled.div`
     margin-left: 35px;
     margin-top: 20px;

@@ -1,7 +1,7 @@
 import styled from "styled-components"
 
 export const BookingPurposeContainer = styled.div`
-    margin: 15px 0 0 40px;
+    margin: 30px 0 0 40px;
 `
 
 export const BookingPurposeTextFieldContainer = styled.div`

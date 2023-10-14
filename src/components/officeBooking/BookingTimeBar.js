@@ -17,8 +17,7 @@ var startT = -1;
 var endT = -1;
 
 export const BookingContentContainer = styled.div`
-    margin-left: 40px;
-    padding-top: 40px;
+    margin: 30px 0 0 40px;
     display: flex;
 `
 
@@ -87,8 +86,11 @@ export const EndTimeTextContainer = styled.div`
 
 function getTimeBarItemBackColor(index, selected, isCheck) {
     if (bookingState[index]) {
+        // 이미 예약된 시간 (조회화면-보라색(#D0B1EE) / 예약화면-빗금)
         return (isCheck === 'true') ? '#D0B1EE' : '#808080'     // TODO: #808080을 빗금으로 수정하기 
+        // return (isCheck === 'true') ? '#D0B1EE' : 'linear-gradient(45deg,red 25%, green 0, green 50%,red 0, red 75%, green 0)';
     } else {
+        // 예약 가능한 시간 (선택O-보라색(#D0B1EE) / 선택X-연회색(#E9E9E9))
         return selected ? '#D0B1EE' : '#E9E9E9';
     }
 }
