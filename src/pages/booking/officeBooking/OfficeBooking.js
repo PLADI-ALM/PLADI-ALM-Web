@@ -77,7 +77,7 @@ function OfficeBooking(props) {
         OfficesAxios.get(`/${officeId}/booking-state?date=${bookingDate}`)
             .then((Response) => {
                 setBookingState(Response.data.data.bookedTimes)
-                // renderBookingTimeBar()
+                setBookingDetail(Response.data.data.bookedTimes)
             })
             .catch((Error)=>{ 
                 basicError(Error) 
@@ -171,13 +171,6 @@ function OfficeBooking(props) {
     );
 }
 export default OfficeBooking;
-
-// function getBookingDate(info, changeDate) {
-//     var date = info.date + " " + info.startTime + " ~ " + info.endTime;
-//     date = date.replaceAll('-', '.');
-//     getBookingTimeState();
-//     return <DatePicker type="date" onChange={changeDate} value={bookingDate} />
-// }
 
 function requestBooking(bookingPurpose, startT, endT, officeId) {
     // console.log("예약일시 : ", bookingDate);
