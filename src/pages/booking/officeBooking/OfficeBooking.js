@@ -76,8 +76,9 @@ function OfficeBooking(props) {
 
         OfficesAxios.get(`/${officeId}/booking-state?date=${bookingDate}`)
             .then((Response) => {
-                setBookingState(Response.data.data.bookedTimes)
                 setBookingDetail(Response.data.data.bookedTimes)
+                setBookingState(bookingInfo)
+
             })
             .catch((Error)=>{ 
                 basicError(Error) 

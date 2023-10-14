@@ -148,12 +148,9 @@ function getIndexValue(timeStr) {
 }
 
 function setBookingState(props) {
+    bookingState = Array.from({length: 24}, () => false);
     for (var i = 0; i < props.length; i++) {
-        var start = getIndexValue(props[i].startTime)
-        var end = getIndexValue(props[i].endTime)
-        for (var j = start; j < end; j++) {
-            bookingState[j] = true;
-        }
+        setBookingTime(props[i].startTime, props[i].endTime)
     }
 }
 export { setBookingState }
