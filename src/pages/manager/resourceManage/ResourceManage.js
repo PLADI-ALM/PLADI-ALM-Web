@@ -1,19 +1,41 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import axios from "axios";
 import { RightContainer, TitleText, WhiteContainer } from "components/rightContainer/RightContainer";
 import { Bar, BookedTable, BookedThead, TableContainer } from "../../booking/bookedList/BookedList";
 import ResourceManageTableCell from "./ResourceManageTableCell";
 import ManageSearchBar from "components/searchBar/ManageSearchBar";
+import { getToken } from "utils/IsLoginUtil";
+import { basicError } from "utils/ErrorHandlerUtil";
+import { AdminBookingResourceAxios } from "api/AxiosApi";
 
 
 function ResourceManage(props) {
+
+    const [resources, setResources] = useState([]);
+
+    const getResources = (name) => {
+        AdminBookingResourceAxios.get(`?keyword=${name}`, {
+            headers: {
+                Authorization: getToken()
+            }
+        })
+        .then((Response) => { setResources(Response.data.data.content) })
+        .catch((error) => {basicError(error)})
+    };
+
+    const getSearchResources = (e) => {
+        getResources(e.target.value)
+    };
+
+    useEffect(() => {
+        getResources("");
+    }, [])
 
 
     return (
        <RightContainer>
             <TitleText>{props.title}</TitleText>
-            <ManageSearchBar buttonTitle="자원 추가"/>
+            <ManageSearchBar buttonTitle="자원 추가" onEnter={getSearchResources}/>
 
             <WhiteContainer>
                 <Bar />
@@ -27,7 +49,13 @@ function ResourceManage(props) {
                             </tr>
                         </BookedThead>
                         <tbody>
-                            <ResourceManageTableCell  name={"MAcBookPro"} category={"전자기기"}  description={"맥북 프로가 가지고 싶다면 이걸로 대여해서 코딩하세요"}/>
+                            { resources.length === 0 ? 
+                            <ResourceManageTableCell>
+                                <td colSpan={4}>자원 내역이 없습니다.</td>
+                            </ResourceManageTableCell>
+                            : resources.map((resource) => 
+                                <ResourceManageTableCell key={resource.resourceId} id={resource.resourceId}  name={resource.name} category={resource.category} description={resource.description}/>
+                            )}
                         </tbody>
                     </BookedTable>
                 </TableContainer>
