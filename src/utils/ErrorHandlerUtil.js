@@ -9,8 +9,7 @@ export function basicError(error) {
             alert(errMsg)
 
             // 토큰에러인 경우 쿠키 삭제
-            var errCode = String(error.response.data.code)
-            if (errCode.startsWith('T')) {
+            if (String(error.response.data.code).startsWith('T')) {
                 removeAllCookies()
                 navigateToLogin()
             }

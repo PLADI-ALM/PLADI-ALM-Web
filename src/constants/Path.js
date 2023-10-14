@@ -31,7 +31,7 @@ export const MANAGER_BOOKING_MENUS = [
 ]
 
 export const MANAGER_MAIN_MENUS = [
-    { name: '직원 관리', path: '/manage/employee', subMenus: null, icons: [EmployeeActiveIcon, EmployeeInactiveIcon] },
+    { name: '직원 관리', path: '/manage/users', subMenus: null, icons: [EmployeeActiveIcon, EmployeeInactiveIcon] },
     { name: '회의실 관리', path: '/manage/offices', subMenus: null, icons: [OfficeActiveIcon, OfficeInactiveIcon] },
     { name: '자원 관리', path: '/manage/resources', subMenus: null, icons: [ResourceActiveIcon, ResourceInactiveIcon] },
     { name: '예약 관리', path: '/manage/officeBooking', subMenus: MANAGER_BOOKING_MENUS, icons: [BookingManageActiveIcon, BookingManageInactiveIcon] }
