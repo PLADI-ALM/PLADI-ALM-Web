@@ -1,5 +1,5 @@
 import 'App.css';
-import { Routes, Route, Outlet } from 'react-router-dom';
+import {Outlet, Route, Routes} from 'react-router-dom';
 import Sidebar from 'components/sidebar/Sidebar';
 import Login from 'pages/user/Login';
 import SelectOffice from 'pages/booking/selectOffice/SelectOffice';
@@ -14,6 +14,7 @@ import ResourceBookingCheck from 'pages/booking/resourceBooking/ResourceBookingC
 import OfficeBookingManage from 'pages/manager/officeBookingManage/OfficeBookingManage';
 import UserManage from 'pages/manager/userManage/UserManage';
 import ResourceManage from 'pages/manager/resourceManage/ResourceManage';
+import ResourceManageAdd from "./pages/manager/resourceManage/ResourceManageAdd";
 
 function App() {
 
@@ -40,6 +41,7 @@ function App() {
           <Route path='/manage/officeBooking' element={<OfficeBookingManage title="회의실 예약 내역" />} />
           <Route path='/manage/officeBooking/:bookingId' element={<OfficeBookingCheck isAdmin={true} />} />
           <Route path='/manage/resources' element={<ResourceManage title="자원 관리" />} />
+          <Route path='/manage/resources/add' element={<ResourceManageAdd title="자원 관리" />} />
           <Route path='/manage/resourceBooking' element={<ResourceBookingManage title="자원 예약 관리" />} />
           <Route path='/manage/resourceBooking/:bookingId' element={<ResourceBookingCheck isAdmin={true} />} />
           <Route path='/manage/users' element={<UserManage title="직원 관리" />} />

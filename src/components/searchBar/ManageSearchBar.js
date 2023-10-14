@@ -37,7 +37,7 @@ const ManageSearchText = styled.input`
     outline: none;
 `
 
-const ManageAddButton = styled.button`
+export const ManageAddButton = styled.button`
     width: 160px;
     height: 100%;
     padding: 10px;
@@ -50,7 +50,7 @@ const ManageAddButton = styled.button`
     cursor: pointer;
 `
 
-const ManageAddButtonImage = styled.img`
+export const ManageAddButtonImage = styled.img`
     width: 16px;
     height: 16px;
     border-radius: 12px;
@@ -58,7 +58,7 @@ const ManageAddButtonImage = styled.img`
     margin: 0 5px;
 `
 
-const ManageAddButtonLabel = styled.text`
+export const ManageAddButtonLabel = styled.text`
     margin: auto;
     color: white;
     font-size: 17px;
