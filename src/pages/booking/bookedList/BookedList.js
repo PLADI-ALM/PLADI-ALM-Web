@@ -3,7 +3,7 @@ import styled from "styled-components"
 import BookedLine from './BookedLine';
 import { RightContainer, WhiteContainer, TitleText } from "components/rightContainer/RightContainer";
 import { BookingsAxios } from 'api/AxiosApi';
-import SelectToggle from 'components/capsule/SelectToggle';
+import { SelectToggle } from 'components/capsule/SelectToggle';
 import { BookingCategoryList } from 'constants/ToggleList';
 import { BookingCategoryPathList, getBookingCategoryPath } from 'constants/Path';
 import { getToken } from 'utils/IsLoginUtil';
