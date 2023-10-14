@@ -59,7 +59,6 @@ function OfficeBooking(props) {
 
     const [officeInfo, setOfficeInfo] = useState([]);
     const [bookingInfo, setBookingDetail] = useState([]);
-    const [bookingStatus, setStatus] = useState([]);
     var [date, setDate] = useState("");
 
     const changeDate = (e) => {
@@ -78,6 +77,7 @@ function OfficeBooking(props) {
         OfficesAxios.get(`/${officeId}/booking-state?date=${bookingDate}`)
             .then((Response) => {
                 setBookingState(Response.data.data.bookedTimes)
+                // renderBookingTimeBar()
             })
             .catch((Error)=>{ 
                 basicError(Error) 
@@ -98,6 +98,13 @@ function OfficeBooking(props) {
                 window.alert("회의실 정보를 불러올 수 없습니댜.")
             });
     };
+
+    const getBookingDate = (info, changeDate) => {
+        var date = info.date + " " + info.startTime + " ~ " + info.endTime;
+        date = date.replaceAll('-', '.');
+        getBookingTimeState()
+        return <DatePicker type="date" onChange={changeDate} value={bookingDate} />
+    }
 
     useEffect(() => {
         getBookingTimeState();
@@ -135,7 +142,7 @@ function OfficeBooking(props) {
                         <Capsule color="purple" text="예약일시" />
                     </BookingCapsuleContainer>
                     <BookingDateTextContainer>
-                        {getBookingDate(false, bookingInfo, changeDate, officeId)}
+                        {getBookingDate(bookingInfo, changeDate)}
                     </BookingDateTextContainer>
                 </BookingContentContainer>
 
@@ -165,11 +172,12 @@ function OfficeBooking(props) {
 }
 export default OfficeBooking;
 
-function getBookingDate(info, changeDate) {
-    var date = info.date + " " + info.startTime + " ~ " + info.endTime;
-    date = date.replaceAll('-', '.');
-    return <DatePicker type="date" onChange={changeDate} value={bookingDate} />
-}
+// function getBookingDate(info, changeDate) {
+//     var date = info.date + " " + info.startTime + " ~ " + info.endTime;
+//     date = date.replaceAll('-', '.');
+//     getBookingTimeState();
+//     return <DatePicker type="date" onChange={changeDate} value={bookingDate} />
+// }
 
 function requestBooking(bookingPurpose, startT, endT, officeId) {
     // console.log("예약일시 : ", bookingDate);
