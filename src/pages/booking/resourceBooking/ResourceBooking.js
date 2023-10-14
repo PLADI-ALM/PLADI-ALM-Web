@@ -6,7 +6,7 @@ import moment, { locale } from 'moment';
 import { ResourcesAxios, BookingsAxios } from 'api/AxiosApi';
 import { useState, useEffect } from "react";
 import Capsule from 'components/capsule/Capsule';
-import { SubTitleContainer, MainTextContainer, SubTextContainer, SelectedSubTitleText, UnselectedSubTitleText } from 'components/officeBooking/SubTitleBar';
+import { MainTextContainer, SubTextContainer, SelectedSubTitleText, UnselectedSubTitleText } from 'components/officeBooking/SubTitleBar';
 import { BookingPurposeContainer, BookingCapsuleContainer, BookingPurposeTextFieldContainer } from 'components/officeBooking/BookingPurpose';
 import ResourceInfo from 'components/resourceInfo/ResourceInfo';
 import { BookingContentContainer, RequestButtonContainer, RequestBookingButton } from 'components/officeBooking/BookingTimeBar';
@@ -15,6 +15,7 @@ import 'react-calendar/dist/Calendar.css';
 import styles from "../resourceBooking/CustomCalendar.css";
 import { basicError } from 'utils/ErrorHandlerUtil';
 import SmallButton from 'components/button/SmallButton';
+import { Bar } from '../bookedList/BookedList';
 
 var startDate = '';
 var endDate = '';
@@ -133,16 +134,16 @@ function ResourceBooking(props) {
     return <RightContainer>
         <TitleText>자원 예약</TitleText>
 
-        <CustomWhiteContainer>
-
-            <SubTitleContainer>
+        <WhiteContainer>
+            <Bar />
+            <div style={{zIndex:1}}>
                 <MainTextContainer>
                     <SelectedSubTitleText>{resourceInfo.name}</SelectedSubTitleText>
                 </MainTextContainer>
                 <SubTextContainer>
                     <UnselectedSubTitleText>{resourceInfo.category}</UnselectedSubTitleText>
                 </SubTextContainer>
-            </SubTitleContainer>
+            </div>
 
             <ResourceInfo description={resourceInfo.description} />
 
@@ -200,7 +201,7 @@ function ResourceBooking(props) {
             </RequestButtonContainer>
 
 
-        </CustomWhiteContainer>
+        </WhiteContainer>
     </RightContainer>
 }
 export default ResourceBooking;

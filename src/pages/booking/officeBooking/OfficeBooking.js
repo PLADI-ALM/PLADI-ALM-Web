@@ -6,8 +6,8 @@ import { useParams } from 'react-router-dom';
 import Capsule from 'components/capsule/Capsule';
 
 import OfficeInfo from "components/officeInfo/OfficeInfo";
-import { SubTitleContainer, MainTextContainer, SubTextContainer, SelectedSubTitleText, UnselectedSubTitleText } from 'components/officeBooking/SubTitleBar';
-import { StatusText, StatusContainer, StatusCircle } from 'components/booking/StatusTag';
+import { MainTextContainer, SubTextContainer, SelectedSubTitleText, UnselectedSubTitleText } from 'components/officeBooking/SubTitleBar';
+import { StatusContainer } from 'components/booking/StatusTag';
 import { DatePicker } from 'components/searchBar/SearchBar';
 import {
     BookingContentContainer, BookingTimeContainer, renderBookingTimeBar, BookingDateTextContainer, setBookingState, RequestButtonContainer, requestBookingOffice
@@ -16,6 +16,7 @@ import { BookingPurposeContainer, BookingCapsuleContainer, BookingPurposeTextFie
 import { RightContainer, WhiteContainer, TitleText } from 'components/rightContainer/RightContainer';
 import { basicError } from 'utils/ErrorHandlerUtil';
 import SmallButton from 'components/button/SmallButton';
+import { Bar } from '../bookedList/BookedList';
 
 var bookingDate = '';
 
@@ -108,19 +109,15 @@ function OfficeBooking(props) {
             <TitleText>회의실 예약</TitleText>
 
             <WhiteContainer>
-
-                <SubTitleContainer>
+                <Bar />
+                <div style={{zIndex:1}}>
                     <MainTextContainer>
                         <SelectedSubTitleText>{officeInfo.name}</SelectedSubTitleText>
                     </MainTextContainer>
                     <SubTextContainer>
                         <UnselectedSubTitleText>{officeInfo.location}</UnselectedSubTitleText>
                     </SubTextContainer>
-                    <MyStatusContainer isCheck={props.isCheck} background={bookingStatus.background}>
-                        <StatusCircle color={bookingStatus.color} />
-                        <StatusText color={bookingStatus.color}>{bookingStatus.name}</StatusText>
-                    </MyStatusContainer>
-                </SubTitleContainer>
+                </div>
 
                 <OfficeInfo isDetailPage={true}
                     hidden={props.isCheck}
@@ -131,6 +128,7 @@ function OfficeBooking(props) {
                     facilityList={officeInfo.facilityList}
                     description={officeInfo.description}
                 />
+                
 
                 <BookingContentContainer isCheck={'true'}>
                     <BookingCapsuleContainer>

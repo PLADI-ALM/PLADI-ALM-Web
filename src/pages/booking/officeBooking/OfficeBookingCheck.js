@@ -5,7 +5,7 @@ import { useParams } from 'react-router-dom';
 import Capsule from 'components/capsule/Capsule';
 
 import OfficeInfo from "components/officeInfo/OfficeInfo";
-import { SubTitleContainer, MainTextContainer, SubTextContainer, SelectedSubTitleText, UnselectedSubTitleText } from 'components/officeBooking/SubTitleBar';
+import { MainTextContainer, SubTextContainer, SelectedSubTitleText, UnselectedSubTitleText } from 'components/officeBooking/SubTitleBar';
 import { StatusText, StatusCircle } from 'components/booking/StatusTag';
 import { BookingContentContainer, BookingTimeContainer, renderBookingTimeBar, BookingDateTextContainer, setBookingTime } from 'components/officeBooking/BookingTimeBar';
 import { BookingPurposeContainer, BookingCapsuleContainer, BookingPurposeTextFieldContainer } from 'components/officeBooking/BookingPurpose';
@@ -77,8 +77,8 @@ function OfficeBookingCheck(props) {
             <TitleText>{props.isAdmin ? "회의실 예약 내역" : "예약 내역"}</TitleText>
 
             <WhiteContainer>
-
-                <SubTitleContainer>
+                <Bar />
+                <div style={{zIndex:1}}>
                     <MainTextContainer>
                         <SelectedSubTitleText>{officeInfo.name}</SelectedSubTitleText>
                     </MainTextContainer>
@@ -89,7 +89,7 @@ function OfficeBookingCheck(props) {
                         <StatusCircle color={bookingStatus.color} />
                         <StatusText color={bookingStatus.color}>{bookingStatus.name}</StatusText>
                     </MyStatusContainer>
-                </SubTitleContainer>
+                </div>
 
                 <OfficeInfo isDetailPage={true}
                     key={officeInfo.name}

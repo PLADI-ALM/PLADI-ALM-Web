@@ -3,7 +3,7 @@ import styled from "styled-components"
 import { AdminBookingAxios, ResourcesAxios, BookingsAxios } from 'api/AxiosApi';
 import { useState, useEffect } from "react";
 import Capsule from 'components/capsule/Capsule';
-import { SubTitleContainer, MainTextContainer, SubTextContainer, SelectedSubTitleText, UnselectedSubTitleText } from 'components/officeBooking/SubTitleBar';
+import { MainTextContainer, SubTextContainer, SelectedSubTitleText, UnselectedSubTitleText } from 'components/officeBooking/SubTitleBar';
 import { BookingPurposeContainer, BookingCapsuleContainer, BookingPurposeTextFieldContainer } from 'components/officeBooking/BookingPurpose';
 import ResourceInfo from 'components/resourceInfo/ResourceInfo';
 import { BookingContentContainer } from 'components/officeBooking/BookingTimeBar';
@@ -13,15 +13,12 @@ import { RightContainer, WhiteContainer,TitleText } from 'components/rightContai
 import { BookingDateText, PurposeTextarea } from './ResourceBooking';
 import { getToken } from 'utils/IsLoginUtil';
 import { basicError } from 'utils/ErrorHandlerUtil';
+import { Bar } from '../bookedList/BookedList';
 
 const MyStatusContainer = styled(StatusContainer)`
     margin-top: 12px;
     margin-right: 12px;
     float: right;
-`
-
-const CustomWhiteContainer = styled(WhiteContainer)`
-    display: block;
 `
 
 var bookingId = 1;
@@ -76,9 +73,10 @@ function ResourceBookingCheck(props) {
     return <RightContainer>
         <TitleText>{props.isAdmin ? "자원 예약 내역" : "예약 내역"}</TitleText>
 
-        <CustomWhiteContainer>
-            <SubTitleContainer>
-                <MainTextContainer>
+        <WhiteContainer>
+            <Bar />
+            <div style={{zIndex:1}}>
+            <   MainTextContainer>
                     <SelectedSubTitleText>{resourceInfo.name}</SelectedSubTitleText>
                 </MainTextContainer>
                 <SubTextContainer>
@@ -88,7 +86,7 @@ function ResourceBookingCheck(props) {
                     <StatusCircle color={bookingStatus.color} />
                     <StatusText color={bookingStatus.color}>{bookingStatus.name}</StatusText>
                 </MyStatusContainer>
-            </SubTitleContainer>
+            </div>
 
             <ResourceInfo description={resourceInfo.description} />
 
@@ -125,7 +123,7 @@ function ResourceBookingCheck(props) {
                 </BookingPurposeTextFieldContainer>
             </BookingPurposeContainer>
 
-        </CustomWhiteContainer>
+        </WhiteContainer>
     </RightContainer>
 }
 export default ResourceBookingCheck;
