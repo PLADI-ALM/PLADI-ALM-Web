@@ -1,4 +1,4 @@
-import { getCookie } from 'utils/CookiesUtil';
+import { getCookie, removeAllCookies } from 'utils/CookiesUtil';
 
 export function getToken() {
     return getCookie('Authorization')
@@ -16,4 +16,9 @@ export function isManager() {
 
 export function navigateToLogin() {
     if (!isLogin()) window.location.replace('/')
+}
+
+export function removeTokenAndNavigate() {
+    removeAllCookies()
+    window.location.replace('/')
 }
