@@ -1,17 +1,19 @@
-import { removeAllCookies } from "utils/CookiesUtil"
-import { navigateToLogin } from "utils/IsLoginUtil"
+import { removeTokenAndNavigate, isLogin } from "utils/IsLoginUtil"
 
 // 일반 예외처리
 export function basicError(error) {
     try {
-        var errMsg = error.response.data.message
+        const errMsg = error.response.data.message;
         if (errMsg !== undefined) {
-            alert(errMsg)
+            // 토큰에러가 아닌 경우 일단 alert
+            if (!String(error.response.data.code).startsWith('T')) {
+                alert(errMsg)
+            }
 
-            // 토큰에러인 경우 쿠키 삭제
-            if (String(error.response.data.code).startsWith('T')) {
-                removeAllCookies()
-                navigateToLogin()
+            // 토큰에러인 경우 쿠키 삭제 (토큰 에러를 두번 alert 하지 않기 위해 토큰 존재 여부 판단)
+            if (String(error.response.data.code).startsWith('T') && isLogin()) {
+                alert(errMsg)
+                removeTokenAndNavigate()
             }
         } else {
             console.log(error)
