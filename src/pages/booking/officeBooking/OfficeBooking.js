@@ -35,6 +35,7 @@ export const BookingDateText = styled.p`
 `
 
 export const PurposeTextarea = styled.textarea`
+    width: 100%; 
     padding: 6px 0 0 18px;
     border-radius: 12px;
     border-width:1;
@@ -71,6 +72,7 @@ function OfficeBooking(props) {
     }
 
     const getBookingTimeState = () => {
+        console.log('getBookingTimeState called - ', bookingDate)
         if (date.length === 0) {
             const dateNow = new Date();
             date = dateNow.toISOString().slice(0, 10);
@@ -78,14 +80,17 @@ function OfficeBooking(props) {
         }
 
         OfficesAxios.get(`/${officeId}/booking-state?date=${bookingDate}`)
-        .then((Response) => {
-            setBookingState(Response.data.data.bookedTimes)
-        })
-        .catch((Error)=>{ 
-            basicError(Error) 
-            console.log(Error)
-            window.alert("예약 현황을 불러오는데 실패하였습니다.")
-        });
+            .then((Response) => {
+                setBookingState(Response.data.data.bookedTimes)
+
+                // setBookingDetail(Response.data.data.bookedTimes)
+                // setBookingState(bookingInfo)
+            })
+            .catch((Error)=>{ 
+                basicError(Error) 
+                console.log(Error)
+                window.alert("예약 현황을 불러오는데 실패하였습니다.")
+            });
     };
 
     const getOfficeInfoForBooking = (id) => {
@@ -136,10 +141,10 @@ function OfficeBooking(props) {
         }
     }
 
-    // useEffect(() => {
-    //     getBookingTimeState();
-    //     getOfficeInfoForBooking();
-    // }, []);
+    useEffect(() => {
+        // getBookingTimeState();
+        getOfficeInfoForBooking();
+    }, []);
 
     return (
         <RightContainer>
@@ -187,9 +192,9 @@ function OfficeBooking(props) {
                     </BookingCapsuleContainer>
 
                     <BookingPurposeTextFieldContainer>
-                        <PurposeTextarea id='bookingPurpose' 
-                            cols='135' 
-                            rows='4' 
+                        <PurposeTextarea id='bookingPurpose'
+                            cols='135'
+                            rows='4'
                             maxLength='100' />
                     </BookingPurposeTextFieldContainer>
                 </BookingPurposeContainer>
