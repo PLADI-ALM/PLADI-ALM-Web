@@ -113,11 +113,6 @@ function OfficeBooking(props) {
     const requestBooking = () => {
         var bookingPurpose = document.getElementById("bookingPurpose").value;
         if (endTimeStr === 24) { endTimeStr = 0 }
-
-        // console.log("예약일시 : ", bookingDate);
-        // console.log("예약목적 : ", bookingPurpose);
-        // console.log("시작시간 : ", getTimeStr(startTimeStr));
-        // console.log("마감시간 : ", getTimeStr(endTimeStr));
     
         if (window.confirm("예약하시겠습니까?")) {
             OfficesAxios.post(`/${officeId}/booking`,
@@ -171,6 +166,7 @@ function OfficeBooking(props) {
                     capacity={officeInfo.capacity}
                     facilityList={officeInfo.facilityList}
                     description={officeInfo.description}
+                    imgUrl={officeInfo.imgUrl}
                 />
                 
 

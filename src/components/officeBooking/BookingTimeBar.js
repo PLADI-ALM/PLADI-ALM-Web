@@ -176,13 +176,6 @@ function getStartTime(index) {
     setStartTimeStr(startT)
 }
 
-// function temp() {
-//     let cnt = selectedState.filter(element => true === element).length
-//     if (cnt > 2) {
-
-//     }
-// }
-
 function getEndTime(index) {
     if (endT === -1) { endT = index + 1 }
     for (var i = 23; i > -1; i--) {
