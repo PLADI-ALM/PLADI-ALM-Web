@@ -62,7 +62,7 @@ export const RequestBookingButton = styled.button`
 export const BookingTimeButton = styled.button`
     width: 100%;
     height: 30px;
-    background-color: ${props => getTimeBarItemBackColor(props.index, props.selected, props.isCheck)};
+    background: ${props => getTimeBarItemBackColor(props.index, props.selected, props.isCheck)};
     border: none;
     border-top-left-radius: ${props => (props.index === 0) ? '15px' : '0'};
     border-bottom-left-radius: ${props => (props.index === 0) ? '15px' : '0'};
@@ -87,8 +87,8 @@ export const EndTimeTextContainer = styled.div`
 function getTimeBarItemBackColor(index, selected, isCheck) {
     if (bookingState[index]) {
         // 이미 예약된 시간 (조회화면-보라색(#D0B1EE) / 예약화면-빗금)
-        return (isCheck === 'true') ? '#D0B1EE' : '#808080'     // TODO: #808080을 빗금으로 수정하기 
-        // return (isCheck === 'true') ? '#D0B1EE' : 'linear-gradient(45deg,red 25%, green 0, green 50%,red 0, red 75%, green 0)';
+        return (isCheck === 'true') ? '#D0B1EE' : 'repeating-linear-gradient(-45deg, #E9E9E9, #E9E9E9 2px, skyblue 2px, skyblue 4px)';
+        
     } else {
         // 예약 가능한 시간 (선택O-보라색(#D0B1EE) / 선택X-연회색(#E9E9E9))
         return selected ? '#D0B1EE' : '#E9E9E9';
