@@ -85,7 +85,7 @@ function ResourceBooking(props) {
                 basicError(Error) 
                 console.log(Error)
                 window.alert("자원 정보를 불러올 수 없습니댜.") 
-                // window.history.back()
+                window.history.back()
             });  
     };
 
@@ -101,7 +101,7 @@ function ResourceBooking(props) {
                 basicError(Error) 
                 console.log(Error)
                 window.alert("예약 정보를 불러올 수 없습니댜.") 
-                // window.history.back()
+                window.history.back()
             });   
     }
 
@@ -148,10 +148,6 @@ function ResourceBooking(props) {
                     window.alert("자원 예약에 실패하였습니다.") 
                     window.history.back()
                 });  
-
-            console.log('start date : ', startDate)
-            console.log('end date : ', endDate)
-            console.log('예약목적 : ', bookingPurpose)
         }
     }
 
@@ -234,35 +230,3 @@ function ResourceBooking(props) {
     </RightContainer>
 }
 export default ResourceBooking;
-
-
-// function requestBookingOffice() {
-//     var bookingPurpose = document.getElementById("bookingPurpose").value;
-
-//     if (window.confirm("예약하시겠습니까?")) {
-//         ResourcesAxios.post(`/${resourceId}`,
-//             {
-//                 "endDate": endDate,
-//                 "memo": bookingPurpose,
-//                 "startDate": startDate
-//             }
-//         )
-//             .then(function (response) {
-//                 if (response.data.status === '200') { alert('예약에 성공하였습니다!') }
-//                 else { alert(response.data.message); }
-//                 window.location.reload()
-//             })
-//             .catch((Error)=>{ 
-//                 basicError(Error) 
-//                 console.log(Error)
-//                 window.alert("자원 예약에 실패하였습니다.") 
-//                 window.history.back()
-//             });  
-
-//         console.log('start date : ', startDate)
-//         console.log('end date : ', endDate)
-//         console.log('예약목적 : ', bookingPurpose)
-//     }
-// }
-
-
