@@ -78,16 +78,14 @@ function OfficeBooking(props) {
         }
 
         OfficesAxios.get(`/${officeId}/booking-state?date=${bookingDate}`)
-            .then((Response) => {
-                setBookingDetail(Response.data.data.bookedTimes)
-                setBookingState(bookingInfo)
-
-            })
-            .catch((Error)=>{ 
-                basicError(Error) 
-                console.log(Error)
-                window.alert("예약 현황을 불러오는데 실패하였습니다.")
-            });
+        .then((Response) => {
+            setBookingState(Response.data.data.bookedTimes)
+        })
+        .catch((Error)=>{ 
+            basicError(Error) 
+            console.log(Error)
+            window.alert("예약 현황을 불러오는데 실패하였습니다.")
+        });
     };
 
     const getOfficeInfoForBooking = (id) => {
@@ -138,10 +136,10 @@ function OfficeBooking(props) {
         }
     }
 
-    useEffect(() => {
-        getBookingTimeState();
-        getOfficeInfoForBooking();
-    }, []);
+    // useEffect(() => {
+    //     getBookingTimeState();
+    //     getOfficeInfoForBooking();
+    // }, []);
 
     return (
         <RightContainer>
