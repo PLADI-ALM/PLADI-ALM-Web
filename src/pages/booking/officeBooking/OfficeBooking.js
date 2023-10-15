@@ -17,8 +17,11 @@ import { RightContainer, WhiteContainer, TitleText } from 'components/rightConta
 import { basicError } from 'utils/ErrorHandlerUtil';
 import SmallButton from 'components/button/SmallButton';
 import { Bar } from '../bookedList/BookedList';
+import { getToken } from 'utils/IsLoginUtil';
 
 var bookingDate = '';
+var startTimeStr = '';
+var endTimeStr = '';
 
 export const BookingDateText = styled.p`
     margin: 6px 0 0 0;
@@ -107,6 +110,39 @@ function OfficeBooking(props) {
         return <DatePicker type="date" onChange={changeDate} value={bookingDate} />
     }
 
+    const requestBooking = () => {
+        var bookingPurpose = document.getElementById("bookingPurpose").value;
+        if (endTimeStr === 24) { endTimeStr = 0 }
+
+        // console.log("예약일시 : ", bookingDate);
+        // console.log("예약목적 : ", bookingPurpose);
+        // console.log("시작시간 : ", getTimeStr(startTimeStr));
+        // console.log("마감시간 : ", getTimeStr(endTimeStr));
+    
+        if (window.confirm("예약하시겠습니까?")) {
+            OfficesAxios.post(`/${officeId}/booking`,
+                {
+                    date: bookingDate,
+                    startTime: getTimeStr(startTimeStr),
+                    endTime: getTimeStr(endTimeStr),
+                    memo: bookingPurpose
+                },
+                {
+                    headers: { Authorization: getToken() }
+                },
+            )
+                .then(function (response) {
+                    if (response.data.status === '200') { alert('예약에 성공하였습니다!') }
+                    else { alert(response.data.message); }
+                })
+                .catch((Error)=>{ 
+                    basicError(Error) 
+                    console.log(Error)
+                    window.alert("예약에 실패하였습니다.")
+                });
+        }
+    }
+
     useEffect(() => {
         getBookingTimeState();
         getOfficeInfoForBooking();
@@ -157,13 +193,16 @@ function OfficeBooking(props) {
                     </BookingCapsuleContainer>
 
                     <BookingPurposeTextFieldContainer>
-                        <PurposeTextarea id='bookingPurpose' cols='135' rows='4' maxLength='100'></PurposeTextarea>
+                        <PurposeTextarea id='bookingPurpose' 
+                            cols='135' 
+                            rows='4' 
+                            maxLength='100' />
                     </BookingPurposeTextFieldContainer>
                 </BookingPurposeContainer>
 
 
                 <RequestButtonContainer isCheck={props.isCheck}>
-                    <SmallButton name={'예약'} click={requestBookingOffice}></SmallButton>
+                    <SmallButton name={'예약'} click={requestBooking}></SmallButton>
                 </RequestButtonContainer>
 
 
@@ -173,30 +212,15 @@ function OfficeBooking(props) {
 }
 export default OfficeBooking;
 
-function requestBooking(bookingPurpose, startT, endT, officeId) {
-    // console.log("예약일시 : ", bookingDate);
-    // console.log("예약목적 : ", bookingPurpose);
-    // console.log("시작시간 : ", startT);
-    // console.log("마감시간 : ", endT);
+function setStartTimeStr(startTime) { startTimeStr = startTime }
+export { setStartTimeStr };
 
-    if (window.confirm("예약하시겠습니까?")) {
-        OfficesAxios.post(`/${officeId}/booking`,
-            {
-                date: bookingDate,
-                startTime: startT,
-                endTime: endT,
-                memo: bookingPurpose
-            }
-        )
-            .then(function (response) {
-                if (response.data.status === '200') { alert('예약에 성공하였습니다!') }
-                else { alert(response.data.message); }
-            })
-            .catch((Error)=>{ 
-                basicError(Error) 
-                console.log(Error)
-                window.alert("예약에 실패하였습니다.")
-            });
-    }
+function setEndTimeStr(endTime) { endTimeStr = endTime }
+export { setEndTimeStr };
+
+function getTimeStr(props) {
+    var str = ''
+    if (props < 10) { str = '0' + props + ':00' }
+    else { str = props + ':00' }
+    return str
 }
-export { requestBooking };

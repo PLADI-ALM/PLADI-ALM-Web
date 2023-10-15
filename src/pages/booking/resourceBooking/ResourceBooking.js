@@ -67,11 +67,9 @@ export const DateContainer = styled.div`
     padding-left: 1%;
 `
 
-// var resourceId = 1
 var currentMonth = moment(new Date()).format('YYYY-MM')
 
 function ResourceBooking(props) {
-    // resourceId = window.location.href.substring(38,);
     let { resourceId } = useParams();
 
     const [resourceInfo, setResourceInfo] = useState([]);
@@ -125,7 +123,7 @@ function ResourceBooking(props) {
         getBookedDates()
     }
 
-    const requestBookingOffice = () => {
+    const requestBookingResource = () => {
         var bookingPurpose = document.getElementById("bookingPurpose").value;
 
         if (window.confirm("예약하시겠습니까?")) {
@@ -228,7 +226,7 @@ function ResourceBooking(props) {
 
 
             <RequestButtonContainer isCheck={props.isCheck}>
-                <SmallButton name={'예약'} click={requestBookingOffice}></SmallButton>
+                <SmallButton name={'예약'} click={requestBookingResource}></SmallButton>
             </RequestButtonContainer>
 
 
