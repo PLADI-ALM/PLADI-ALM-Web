@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { BookedLineTr } from 'pages/booking/bookedList/BookedList';
-import RoleCapsule from 'components/capsule/RoleCapsule';
+import { RoleCapsule } from 'components/capsule/RoleCapsule';
 import MoreIcon from 'assets/images/moreIcon.svg'
 import styled from 'styled-components';
 import { UserModal } from './UserModal';

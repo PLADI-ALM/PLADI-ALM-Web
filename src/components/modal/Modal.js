@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 // Modal이 떴을 때의 배경
 export const ModalBackdrop = styled.div`
-    z-index: 1; //위치지정 요소
+    z-index: 2; //위치지정 요소
     position: fixed;
     display : flex;
     justify-content : center;
@@ -81,4 +81,11 @@ export const AttrInput = styled.input`
     padding: 0 10px;
     outline: none;
     box-sizing: border-box;
+`
+
+// 하단 버튼 컨테이너
+export const BottomBtnContainer = styled.div`
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
 `
