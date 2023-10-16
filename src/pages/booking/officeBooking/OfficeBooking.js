@@ -7,7 +7,6 @@ import Capsule from 'components/capsule/Capsule';
 
 import OfficeInfo from "components/officeInfo/OfficeInfo";
 import { MainTextContainer, SubTextContainer, SelectedSubTitleText, UnselectedSubTitleText } from 'components/officeBooking/SubTitleBar';
-import { StatusContainer } from 'components/booking/StatusTag';
 import { DatePicker } from 'components/searchBar/SearchBar';
 import {
     BookingContentContainer, BookingTimeContainer, renderBookingTimeBar, BookingDateTextContainer, setBookingState, RequestButtonContainer, requestBookingOffice
@@ -50,12 +49,6 @@ export const PurposeTextarea = styled.textarea`
     text-align: left;
     margin: 0 10px 0 10px;
 `
-
-// export const MyStatusContainer = styled(StatusContainer)`
-//     margin-top: 12px;
-//     margin-right: 12px;
-//     float: right;
-// `
 
 
 function OfficeBooking(props) {
