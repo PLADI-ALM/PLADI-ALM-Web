@@ -83,6 +83,7 @@ function OfficeBooking(props) {
                 basicError(Error) 
                 console.log(Error)
                 window.alert("예약 현황을 불러오는데 실패하였습니다.")
+                window.history.back()
             });
     };
 
@@ -96,6 +97,7 @@ function OfficeBooking(props) {
                 basicError(Error) 
                 console.log(Error)
                 window.alert("회의실 정보를 불러올 수 없습니댜.")
+                window.history.back()
             });
     };
 
