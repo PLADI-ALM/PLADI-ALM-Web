@@ -15,6 +15,7 @@ var selectedState = [
 
 var startT = -1;
 var endT = -1;
+var bookedTimeList = []
 
 export const BookingContentContainer = styled.div`
     margin: 30px 0 0 40px;
@@ -117,14 +118,18 @@ const BookingTimeButtonItem = (index, isCheck) => {
 
         setStartEndTime(index);
 
-        if ((startT <= bookingState.indexOf(true)) && (endT >= bookingState.lastIndexOf(true))) {
-            alert('예약된 시간을 포함한 시간대는 선택할 수 없습니다.')
-            startT = -1
-            endT = -1
-            selectedState = Array.from({length: 24}, () => false)
-            setSelectedCheckList(selectedState)
-            return
-        } 
+        for(var i=0; i<bookedTimeList.length; i++) {
+            console.log(bookedTimeList[i])
+            if (startT <= getIndexValue(bookedTimeList[i][0]) 
+                && endT >= getIndexValue(bookedTimeList[i][1])) {
+                alert('예약된 시간을 포함한 시간대는 선택할 수 없습니다.')
+                startT = -1
+                endT = -1
+                selectedState = Array.from({length: 24}, () => false)
+                setSelectedCheckList(selectedState)
+                return
+            }
+        }
 
         console.log('startT -> ', startT);
         console.log('endT -> ', endT);
@@ -182,6 +187,7 @@ function setBookingState(props) {
 export { setBookingState }
 
 function setBookingTime(startTime, endTime) {
+    bookedTimeList.push([startTime,endTime])
     var start = getIndexValue(startTime)
     var end = getIndexValue(endTime)
     for (var i= start; i < end; i++) {
