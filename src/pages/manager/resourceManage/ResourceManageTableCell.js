@@ -6,7 +6,7 @@ import { BookedLineTr } from '../../booking/bookedList/BookedList';
 
 function ResourceManageTableCell(props) {
     const moveToDetail = () => {
-        window.location.href = `/manage/office/${props.id}`
+        window.location.href = `/manage/resources/${props.id}`
     }
 
     return (
