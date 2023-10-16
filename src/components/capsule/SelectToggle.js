@@ -13,6 +13,7 @@ const Select = styled.select`
     padding: 0 10px;
     height: 35px;
     outline: none;
+    padding: 2px;
 `
 
 const ModalSelect = styled(Select)`
