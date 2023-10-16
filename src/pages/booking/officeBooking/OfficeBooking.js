@@ -125,6 +125,7 @@ function OfficeBooking(props) {
                 .then(function (response) {
                     if (response.data.status === '200') { alert('예약에 성공하였습니다!') }
                     else { alert(response.data.message); }
+                    getBookingTimeState()
                 })
                 .catch((Error)=>{ 
                     basicError(Error) 
