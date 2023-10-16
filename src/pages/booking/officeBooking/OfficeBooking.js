@@ -61,30 +61,30 @@ export const MyStatusContainer = styled(StatusContainer)`
 function OfficeBooking(props) {
     let { officeId } = useParams();
 
-    const [officeInfo, setOfficeInfo] = useState([]);
-    const [bookingInfo, setBookingDetail] = useState([]);
-    var [date, setDate] = useState("");
+    const [officeInfo, setOfficeInfo] = useState([]);   // 회의실 정보
+    const [bookingInfo, setBookingDetail] = useState([]);   // 
+    var [date, setDate] = useState(""); // 예약날짜 변경
 
+    if (date.length === 0) {
+        const dateNow = new Date();
+        date = dateNow.toISOString().slice(0, 10);
+        bookingDate = date;
+    }
+
+    // 달력 내 날짜가 바뀌는 경우 -> 예약일 변수 값 변경
     const changeDate = (e) => {
         if (bookingDate === '') { bookingDate = new Date().toISOString().slice(0, 10) }
         setDate(e.target.value)
         bookingDate = e.target.value;
+        getBookingTimeState()
     }
 
+    // 일자별 예약 현황 받아오기
     const getBookingTimeState = () => {
-        console.log('getBookingTimeState called - ', bookingDate)
-        if (date.length === 0) {
-            const dateNow = new Date();
-            date = dateNow.toISOString().slice(0, 10);
-            bookingDate = date;
-        }
-
         OfficesAxios.get(`/${officeId}/booking-state?date=${bookingDate}`)
             .then((Response) => {
+                setBookingDetail(Response.data.data.bookedTimes)
                 setBookingState(Response.data.data.bookedTimes)
-
-                // setBookingDetail(Response.data.data.bookedTimes)
-                // setBookingState(bookingInfo)
             })
             .catch((Error)=>{ 
                 basicError(Error) 
@@ -93,10 +93,10 @@ function OfficeBooking(props) {
             });
     };
 
+    // 회의실 정보 받아오기
     const getOfficeInfoForBooking = (id) => {
         OfficesAxios.get(`/${officeId}`)
             .then((Response) => {
-                console.log(Response.data.data)
                 setOfficeInfo(Response.data.data)
             })
             .catch((Error)=>{ 
@@ -105,13 +105,6 @@ function OfficeBooking(props) {
                 window.alert("회의실 정보를 불러올 수 없습니댜.")
             });
     };
-
-    const getBookingDate = (info, changeDate) => {
-        let date = info.date + " " + info.startTime + " ~ " + info.endTime;
-        date = date.replaceAll('-', '.');
-        getBookingTimeState()
-        return <DatePicker type="date" onChange={changeDate} value={bookingDate} />
-    }
 
     const requestBooking = () => {
         var bookingPurpose = document.getElementById("bookingPurpose").value;
@@ -142,7 +135,7 @@ function OfficeBooking(props) {
     }
 
     useEffect(() => {
-        // getBookingTimeState();
+        getBookingTimeState();
         getOfficeInfoForBooking();
     }, []);
 
@@ -178,7 +171,7 @@ function OfficeBooking(props) {
                         <Capsule color="purple" text="예약일시" />
                     </BookingCapsuleContainer>
                     <BookingDateTextContainer>
-                        {getBookingDate(bookingInfo, changeDate)}
+                        <DatePicker type="date" onChange={changeDate} value={bookingDate} />
                     </BookingDateTextContainer>
                 </BookingContentContainer>
 

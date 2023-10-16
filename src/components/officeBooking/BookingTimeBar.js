@@ -1,7 +1,6 @@
 import React from 'react';
 import { useState } from 'react'
 import styled from "styled-components"
-// import { requestBooking } from 'pages/booking/officeBooking/OfficeBooking';
 import { setStartTimeStr, setEndTimeStr } from 'pages/booking/officeBooking/OfficeBooking';
 
 var bookingState = [
@@ -149,7 +148,6 @@ function getIndexValue(timeStr) {
 }
 
 function setBookingState(props) {
-    console.log('data -> ', props)
     bookingState = Array.from({length: 24}, () => false);   // 예약 현황 반영 배열 초기화
     for (var i = 0; i < props.length; i++) {
         setBookingTime(props[i].startTime, props[i].endTime)
