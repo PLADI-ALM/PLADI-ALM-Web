@@ -156,7 +156,7 @@ function ResourceManageAdd(props) {
     const [selectCategory, setSelectCategory] = useState("");
     const [description, setDescription] = useState("");
     const [imageFile, setImageFile] = useState(null);
-    const [imageUrl, setImageUrl] = useState("");
+    const [imageUrl, setImageUrl] = useState(null);
 
     const getCategories = () => {
         AdminBookingResourceAxios.get(`/category`, {
@@ -199,14 +199,20 @@ function ResourceManageAdd(props) {
         if (imageFile !== null) {
             ImageUrlAxios.get(`?ext=${imageFile.type.split("/", 2)[1]}&dir=photo`)
                 .then((Response) => {
-                    alert(Response)
+                    setImageUrl(Response.data);
+                    uploadImage();
                 })
                 .catch((error) => {
                     console.log(error)
                 });
+        }else {
+            addResource()
         }
     }
 
+    const uploadImage = () => {
+        console.log(imageUrl)
+    }
 
     const addResource = () => {
         AdminBookingResourceAxios.post(``, {
