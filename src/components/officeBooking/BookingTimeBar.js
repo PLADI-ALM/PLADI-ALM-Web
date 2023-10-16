@@ -99,46 +99,26 @@ const BookingTimeButtonItem = (index, isCheck) => {
 
     const onClick = (index) => { 
         if(isCheck || bookingState[index]) { return }
-        // const updatedCheckList = [...selectedCheckList];
-
-        // updatedCheckList[index] = !updatedCheckList[index];
-        // selectedCheckList[index] = !selectedCheckList[index];
 
         selectedState[index] = !selectedState[index]
         setSelectedCheckList(selectedState);
 
-        if ((startT <= bookingState.indexOf(true)) 
-            && (endT >= bookingState.lastIndexOf(true))) {
+        getStartTime(index);
+        getEndTime(index);
 
+        if ((startT <= bookingState.indexOf(true)) && (endT >= bookingState.lastIndexOf(true))) {
             alert('예약된 시간을 포함한 시간대는 선택할 수 없습니다.')
             selectedState = Array.from({length: 24}, () => false)
             setSelectedCheckList(selectedState)
+            return
         } 
-        
-
-        getStartTime(index);
-        getEndTime(index);
 
         console.log('startT -> ', startT);
         console.log('endT -> ', endT);
 
-        // 시작시간과 끝시간 사이를 자동선택
-        // for(var i=startT+1; i<endT-1; i++) {
-        //     updatedCheckList[i] = true
-        //     selectedCheckList[i] = true
-        //     selectedState[i] = true
-
-        //     setSelectedCheckList(updatedCheckList);
-        // }
-        
+        // 시작시간과 끝시간 사이를 자동선택        
         for (var i=0 ;i<24; i++) {
             selectedState[i] = (i >= startT && i < endT) ? true : false
-            // if (i >= startT && i < endT) { 
-            //     selectedState[i] = true 
-            // }
-            // else { 
-            //     selectedState[i] = false 
-            // }
         }
         setSelectedCheckList(selectedState);
     }
