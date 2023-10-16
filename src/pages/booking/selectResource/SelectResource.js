@@ -121,7 +121,7 @@ function SelectResource(props) {
 
             <WhiteContainer>
                 <div className="cardList">
-                    {resourceList.length === 0 ? <label>예약 가능한 자원이 없습니다.</label> : resourceList.map((resource, index) => <ResourceInfo key={resource.index} detail={true} resourceId={resource.resourceId} name={resource.name} image={resource.imgUrl} category={resource.category} description={resource.description} />)}
+                    {resourceList.length === 0 ? <label>예약 가능한 자원이 없습니다.</label> : resourceList.map((resource, index) => <ResourceInfo key={resource.index} detail={true} resourceId={resource.resourceId} name={resource.name} imgUrl={resource.imgUrl} category={resource.category} description={resource.description} />)}
                 </div>
             </WhiteContainer>
         </RightContainer>
