@@ -28,7 +28,7 @@ export const BookingDateTextContainer = styled.div`
 
 export const BookingTimeContainer = styled.div`
     width: 94%;
-    margin: 0 0 10px 35px;
+    margin: 10px 0 10px 35px;
     display: flex;
 `
 
@@ -118,7 +118,7 @@ const BookingTimeButtonItem = (index, isCheck) => {
         console.log('startT -> ', startT);
         console.log('endT -> ', endT);
 
-        // 시작시간과 끝시간 사이를 자동선택        
+        // 시작시간과 끝시간 사이를 자동선택      
         for (var i=0 ;i<24; i++) {
             selectedState[i] = (i >= startT && i < endT) ? true : false
         }
