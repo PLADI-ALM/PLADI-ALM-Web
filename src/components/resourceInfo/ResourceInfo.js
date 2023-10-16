@@ -14,16 +14,17 @@ const ResourceTitleContainer = styled.div`
 
 
 
-
+function moveToDetail(resourceId) { 
+    window.location.href = "/resourceBooking/"+resourceId
+}
 
 function ResourceInfo(props) {
-    const moveToDetail = () => {
-        window.location.href = "/resourceBooking/"+props.resourceId
-    }
-
+    // const moveToDetail = () => {
+    //     window.location.href = "/resourceBooking/"+props.resourceId
+    // }
 
     return (
-        <ResourceCard  onClick={props.detail===true ? moveToDetail : {}}>
+        <ResourceCard  onClick={() => (props.detail ? moveToDetail(props.resourceId) : {})}>
             <DetailContainer>
                 <ResourceCardImage src={props.imgUrl} />
 

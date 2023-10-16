@@ -170,7 +170,8 @@ function ResourceBooking(props) {
                 </SubTextContainer>
             </div>
 
-            <ResourceInfo description={resourceInfo.description}
+            <ResourceInfo detail={false}
+                        description={resourceInfo.description}
                         imgUrl={resourceInfo.imgUrl} />
 
             <BookingContentContainer>
