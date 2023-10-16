@@ -165,7 +165,7 @@ function OfficeBooking(props) {
                         <Capsule color="purple" text="예약일시" />
                     </BookingCapsuleContainer>
                     <BookingDateTextContainer>
-                        <DatePicker type="date" onChange={changeDate} value={bookingDate} />
+                        <DatePicker style={{padding: '5px 0 0 10px', fontSize: '21px', width: '160px'}} type="date" onChange={changeDate} value={bookingDate} />
                     </BookingDateTextContainer>
                 </BookingContentContainer>
 
