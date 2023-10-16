@@ -28,7 +28,7 @@ export const BookingDateTextContainer = styled.div`
 `
 
 export const BookingTimeContainer = styled.div`
-    width: 80%;
+    width: 94%;
     margin: 0 0 10px 35px;
     display: flex;
 `
@@ -149,7 +149,8 @@ function getIndexValue(timeStr) {
 }
 
 function setBookingState(props) {
-    bookingState = Array.from({length: 24}, () => false);
+    console.log('data -> ', props)
+    bookingState = Array.from({length: 24}, () => false);   // 예약 현황 반영 배열 초기화
     for (var i = 0; i < props.length; i++) {
         setBookingTime(props[i].startTime, props[i].endTime)
     }
@@ -159,8 +160,8 @@ export { setBookingState }
 function setBookingTime(startTime, endTime) {
     var start = getIndexValue(startTime)
     var end = getIndexValue(endTime)
-    for (var j = start; j < end; j++) {
-        bookingState[j] = true;
+    for (var i= start; i < end; i++) {
+        bookingState[i] = true;
     }
 }
 export { setBookingTime }

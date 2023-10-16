@@ -35,6 +35,7 @@ export const BookingDateText = styled.p`
 `
 
 export const PurposeTextarea = styled.textarea`
+    width: 100%; 
     padding: 6px 0 0 18px;
     border-radius: 12px;
     border-width:1;
@@ -71,6 +72,7 @@ function OfficeBooking(props) {
     }
 
     const getBookingTimeState = () => {
+        console.log('getBookingTimeState called - ', bookingDate)
         if (date.length === 0) {
             const dateNow = new Date();
             date = dateNow.toISOString().slice(0, 10);
@@ -79,9 +81,10 @@ function OfficeBooking(props) {
 
         OfficesAxios.get(`/${officeId}/booking-state?date=${bookingDate}`)
             .then((Response) => {
-                setBookingDetail(Response.data.data.bookedTimes)
-                setBookingState(bookingInfo)
+                setBookingState(Response.data.data.bookedTimes)
 
+                // setBookingDetail(Response.data.data.bookedTimes)
+                // setBookingState(bookingInfo)
             })
             .catch((Error)=>{ 
                 basicError(Error) 
@@ -139,7 +142,7 @@ function OfficeBooking(props) {
     }
 
     useEffect(() => {
-        getBookingTimeState();
+        // getBookingTimeState();
         getOfficeInfoForBooking();
     }, []);
 
@@ -189,9 +192,9 @@ function OfficeBooking(props) {
                     </BookingCapsuleContainer>
 
                     <BookingPurposeTextFieldContainer>
-                        <PurposeTextarea id='bookingPurpose' 
-                            cols='135' 
-                            rows='4' 
+                        <PurposeTextarea id='bookingPurpose'
+                            cols='135'
+                            rows='4'
                             maxLength='100' />
                     </BookingPurposeTextFieldContainer>
                 </BookingPurposeContainer>
