@@ -51,11 +51,11 @@ export const PurposeTextarea = styled.textarea`
     margin: 0 10px 0 10px;
 `
 
-export const MyStatusContainer = styled(StatusContainer)`
-    margin-top: 12px;
-    margin-right: 12px;
-    float: right;
-`
+// export const MyStatusContainer = styled(StatusContainer)`
+//     margin-top: 12px;
+//     margin-right: 12px;
+//     float: right;
+// `
 
 
 function OfficeBooking(props) {

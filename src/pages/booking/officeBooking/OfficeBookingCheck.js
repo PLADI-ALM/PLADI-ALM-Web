@@ -10,11 +10,12 @@ import { StatusText, StatusCircle } from 'components/booking/StatusTag';
 import { BookingContentContainer, BookingTimeContainer, renderBookingTimeBar, BookingDateTextContainer, setBookingTime } from 'components/officeBooking/BookingTimeBar';
 import { BookingPurposeContainer, BookingCapsuleContainer, BookingPurposeTextFieldContainer } from 'components/officeBooking/BookingPurpose';
 import { findStatus } from 'constants/BookingStatus';
-import { MyStatusContainer, BookingDateText, PurposeTextarea } from './OfficeBooking';
+import { BookingDateText, PurposeTextarea } from './OfficeBooking';
 import { RightContainer, WhiteContainer, TitleText } from 'components/rightContainer/RightContainer';
 import { getToken } from 'utils/IsLoginUtil';
 import { basicError } from 'utils/ErrorHandlerUtil';
 import { Bar } from '../bookedList/BookedList';
+import { StatusContainer } from 'components/booking/StatusTag';
 
 var officeId = 1;
 
@@ -85,10 +86,10 @@ function OfficeBookingCheck(props) {
                     <SubTextContainer>
                         <UnselectedSubTitleText>{officeInfo.location}</UnselectedSubTitleText>
                     </SubTextContainer>
-                    <MyStatusContainer isCheck={'true'} background={bookingStatus.background}>
+                    <StatusContainer style={{margin:'12px 12px 0 0 ', float:'right'}} isCheck={'true'} background={bookingStatus.background}>
                         <StatusCircle color={bookingStatus.color} />
                         <StatusText color={bookingStatus.color}>{bookingStatus.name}</StatusText>
-                    </MyStatusContainer>
+                    </StatusContainer>
                 </div>
 
                 <OfficeInfo isDetailPage={true}
