@@ -1,6 +1,7 @@
 import axios from "axios";
 
-const host = process.env.REACT_APP_DEV_HOST
+const host = process.env.REACT_APP_DEV_HOST;
+const image = process.env.REACT_APP_URL_HOST;
 
 export const OfficesAxios = axios.create({
     baseURL: `${host}/offices`,
@@ -37,3 +38,7 @@ export const AdminBookingAxios = axios.create({
 export const AdminBookingResourceAxios = axios.create({
     baseURL: `${host}/admin/resources`,
 });
+
+export  const ImageUrlAxios = axios.create({
+    baseURL: `${image}`
+})

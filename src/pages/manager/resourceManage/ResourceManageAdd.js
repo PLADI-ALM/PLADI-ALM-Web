@@ -7,11 +7,12 @@ import { ManageAddButton, ManageAddButtonImage, ManageAddButtonLabel } from "com
 
 import { getToken } from "utils/IsLoginUtil";
 import { basicError } from "utils/ErrorHandlerUtil";
-import { AdminBookingResourceAxios } from "api/AxiosApi";
+import {AdminBookingResourceAxios, ImageUrlAxios} from "api/AxiosApi";
 
 import AddImageImage from "../../../assets/images/AddImage.png"
 import SearchButtonImage from "../../../assets/images/SearchPlus.svg"
 import {ExitBtn} from "../../../components/modal/Modal";
+import axios from "axios";
 
 
 const NameContainer = styled.div`
@@ -155,6 +156,7 @@ function ResourceManageAdd(props) {
     const [selectCategory, setSelectCategory] = useState("");
     const [description, setDescription] = useState("");
     const [imageFile, setImageFile] = useState(null);
+    const [imageUrl, setImageUrl] = useState("");
 
     const getCategories = () => {
         AdminBookingResourceAxios.get(`/category`, {
@@ -193,15 +195,53 @@ function ResourceManageAdd(props) {
         setImageFile(null);
     };
 
+    const getImageUrl = () => {
+
+
+
+        if (imageFile !== null) {
+            const data = {
+                'ext' : String(imageFile.type.split("/", 2)[1]),
+                'dir' : "photo"
+            };
+            const config = {"Content-Type": 'application/json'};
+
+            axios.post("https://gpkzpnv8lh.execute-api.ap-northeast-2.amazonaws.com/dev/presignedurl-lambda", data, config)
+                .then((Response) => {
+                    alert(Response)
+                })
+                .catch((error) => {
+                    console.log(error)
+                });
+        }
+    }
+
 
     const addResource = () => {
-
+        AdminBookingResourceAxios.post(``, {
+                category: selectCategory,
+                description: description,
+                name: name,
+                imgUrl: imageUrl,
+            },
+            {
+                headers: {
+                    Authorization: getToken()
+                },
+            })
+            .then((Response) => {
+                setCategories(Response.data.data.category)
+            })
+            .catch((error) => {
+                basicError(error)
+            });
     };
 
 
     useEffect(() => {
         getCategories("");
     }, [])
+
 
 
     return (
@@ -251,7 +291,7 @@ function ResourceManageAdd(props) {
                     </ImageContainer>
 
                     <AddButtonContainer>
-                        <ManageAddButton onClick={addResource}>
+                        <ManageAddButton onClick={getImageUrl}>
                             <ManageAddButtonImage src={SearchButtonImage} />
                             <ManageAddButtonLabel>대여 자원 추가</ManageAddButtonLabel>
                         </ManageAddButton>
