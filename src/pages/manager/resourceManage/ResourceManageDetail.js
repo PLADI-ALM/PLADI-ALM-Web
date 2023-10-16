@@ -10,6 +10,35 @@ import { RightContainer, WhiteContainer,TitleText } from 'components/rightContai
 import { MainTextContainer, SubTextContainer, SelectedSubTitleText, UnselectedSubTitleText } from 'components/officeBooking/SubTitleBar';
 import ResourceInfo from 'components/resourceInfo/ResourceInfo';
 import { getToken } from 'utils/IsLoginUtil';
+import MoreButtonIcon from "../../../assets/images/button/triple_dot_icon.svg"
+
+export const MoreButton = styled.button`
+    border: none;
+    background-color: #2A3042;
+    float: right;
+    margin: 15px; 10px; 5px; 0;
+`
+export const OptionsView = styled.div`
+    display: ${props => props.isShowing ? 'table-cell' : 'none'};
+    width: 85px;
+    height: 96px;
+    background: white;
+    border: 1px solid #545F71;
+    border-radius: 12px;
+    position: absolute;
+    top: 35px;
+    right: 30px;
+    vertical-align: middle;
+`
+
+export const OptionButton = styled.button`
+    width: 85px;
+    height: 48px;
+    background: none;
+    border: none;
+    color: ${props => props.isDelete ? '#A65959' : '#545F71'};
+    font-size: 16px;
+`
 
 export const InfoTable = styled.table`
     width: 94%;
@@ -28,6 +57,7 @@ export const InfoTableData = styled.td`
 function ResourceManageDetail() {
     let { resourceId } = useParams()
 
+    const [isShowingOptions, setOptionViewShowing] = useState(false)
     const [resourceInfo, setResourceInfo] = useState([])
     const [bookingsInfo, setBookingsInfo] = useState([])
 
@@ -43,21 +73,42 @@ function ResourceManageDetail() {
     }
 
     const getResourceBookingListInfo = () => {
-        console.log(getToken())
         AdminBookingResourceAxios.get(`resources/${resourceId}`, {
             headers: {
                 Authorization: getToken()
             }
         })
-        .then((Response)=>{ 
-            setBookingsInfo(Response.data.data.resourcesLists)
-         })
+        .then((Response)=>{ setBookingsInfo(Response.data.data.resourcesLists) })
         .catch((Error)=>{ 
             basicError(Error) 
             console.log(Error)
             window.alert("예약 정보를 불러올 수 없습니댜.")
             window.history.back()
         })
+    }
+
+    const deleteResource = () => {
+        if (window.confirm("자원을 삭제하시겠습니까?")) {
+            // AdminBookingResourceAxios.delete(`${resourceId}`, {
+            //     headers: {
+            //         Authorization: getToken()
+            //     }
+            // })
+            // .then((Response)=>{ 
+            //     if(Response.data.status === 200) {
+            //         alert('자원을 성공적으로 삭제하였습니다.')
+            //         window.history.back()
+            //     } else {
+            //         alert('자원 삭제에 실패하였습니다.')
+            //     }
+            // })
+            // .catch((Error)=>{ 
+            //     basicError(Error) 
+            //     console.log(Error)
+            //     alert('자원 삭제에 실패하였습니다.')
+                
+            // })
+        } 
     }
 
     useEffect(() => {
@@ -76,7 +127,13 @@ function ResourceManageDetail() {
                 <SubTextContainer>
                     <UnselectedSubTitleText>{resourceInfo.category}</UnselectedSubTitleText>
                 </SubTextContainer>
-                {/* TODO: 우측에 더보기 버튼 추가 */}
+                <MoreButton onClick={() => { setOptionViewShowing(!isShowingOptions) }}> 
+                    <img src={MoreButtonIcon} alt="더보기" />
+                </MoreButton>
+                <OptionsView isShowing={isShowingOptions}>
+                    <OptionButton onClick={() => { window.location.href = `/manage/resources/edit/${resourceId}` }}>수정</OptionButton>
+                    <OptionButton isDelete={true} onClick={ deleteResource }>삭제</OptionButton>
+                </OptionsView>
             </Bar>
 
             <ResourceInfo detail={false}
