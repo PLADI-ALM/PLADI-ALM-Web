@@ -196,17 +196,8 @@ function ResourceManageAdd(props) {
     };
 
     const getImageUrl = () => {
-
-
-
         if (imageFile !== null) {
-            const data = {
-                'ext' : String(imageFile.type.split("/", 2)[1]),
-                'dir' : "photo"
-            };
-            const config = {"Content-Type": 'application/json'};
-
-            axios.post("https://gpkzpnv8lh.execute-api.ap-northeast-2.amazonaws.com/dev/presignedurl-lambda", data, config)
+            ImageUrlAxios.get(`?ext=${imageFile.type.split("/", 2)[1]}&dir=photo`)
                 .then((Response) => {
                     alert(Response)
                 })

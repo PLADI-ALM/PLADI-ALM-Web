@@ -25,7 +25,7 @@ function ResourceInfo(props) {
     return (
         <ResourceCard  onClick={props.detail===true ? moveToDetail : {}}>
             <DetailContainer>
-                <ResourceCardImage src={Example} />
+                <ResourceCardImage src={props.imgUrl} />
 
                 <InfoContainer>
                     <ResourceTitleContainer isHidden={props.isTItleHidden}>
