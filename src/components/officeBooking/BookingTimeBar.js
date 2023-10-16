@@ -179,7 +179,10 @@ function getIndexValue(timeStr) {
 
  // 예약 현황 반영 관련
 function setBookingState(props) {
-    bookingState = Array.from({length: 24}, () => false);  
+    bookingState = Array.from({length: 24}, () => false); 
+    selectedState = Array.from({length: 24}, () => false);
+    bookedTimeList = []
+    startT = -1; endT = -1;
     for (var i = 0; i < props.length; i++) {
         setBookingTime(props[i].startTime, props[i].endTime)
     }
