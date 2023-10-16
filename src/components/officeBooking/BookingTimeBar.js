@@ -1,7 +1,6 @@
 import React from 'react';
 import { useState } from 'react'
 import styled from "styled-components"
-// import { requestBooking } from 'pages/booking/officeBooking/OfficeBooking';
 import { setStartTimeStr, setEndTimeStr } from 'pages/booking/officeBooking/OfficeBooking';
 
 var bookingState = [
@@ -100,28 +99,30 @@ const BookingTimeButtonItem = (index, isCheck) => {
 
     const onClick = (index) => { 
         if(isCheck || bookingState[index]) { return }
-        const updatedCheckList = [...selectedCheckList];
 
-        updatedCheckList[index] = !updatedCheckList[index];
-        selectedCheckList[index] = !selectedCheckList[index];
         selectedState[index] = !selectedState[index]
-
         setSelectedCheckList(selectedState);
 
         getStartTime(index);
         getEndTime(index);
 
+        if ((startT <= bookingState.indexOf(true)) && (endT >= bookingState.lastIndexOf(true))) {
+            alert('예약된 시간을 포함한 시간대는 선택할 수 없습니다.')
+            startT = -1
+            endT = -1
+            selectedState = Array.from({length: 24}, () => false)
+            setSelectedCheckList(selectedState)
+            return
+        } 
+
         console.log('startT -> ', startT);
         console.log('endT -> ', endT);
 
-        // 시작시간과 끝시간 사이를 자동선택
-        for(var i=startT+1; i<endT-1; i++) {
-            updatedCheckList[i] = true
-            selectedCheckList[i] = true
-            selectedState[i] = true
-
-            setSelectedCheckList(updatedCheckList);
+        // 시작시간과 끝시간 사이를 자동선택        
+        for (var i=0 ;i<24; i++) {
+            selectedState[i] = (i >= startT && i < endT) ? true : false
         }
+        setSelectedCheckList(selectedState);
     }
 
     return (
@@ -148,9 +149,9 @@ function getIndexValue(timeStr) {
     return parseInt(temp);
 }
 
+ // 예약 현황 반영 관련
 function setBookingState(props) {
-    console.log('data -> ', props)
-    bookingState = Array.from({length: 24}, () => false);   // 예약 현황 반영 배열 초기화
+    bookingState = Array.from({length: 24}, () => false);  
     for (var i = 0; i < props.length; i++) {
         setBookingTime(props[i].startTime, props[i].endTime)
     }
@@ -167,21 +168,31 @@ function setBookingTime(startTime, endTime) {
 export { setBookingTime }
 
 
-// 예약 버튼 관련 함수
+// 예약 시간 관련
 function getStartTime(index) {
     if (startT === -1) { startT = index }
     for (var i = 0; i < 24; i++) {
-        if (selectedState[i] && startT > i) { startT = i; return; }
-        
+        if (selectedState[i] && startT > i) { startT = i }   
     }
     setStartTimeStr(startT)
 }
 
 function getEndTime(index) {
     if (endT === -1) { endT = index + 1 }
-    for (var i = 23; i > -1; i--) {
-        // selectedState[i]가 참인 경우만 for문
-        if (selectedState[i] && endT < i) { endT = i + 1; }
+    let cnt = endT - startT
+    if (cnt > 2) {
+        if (startT < index && endT > index) { 
+            endT = index + 1 
+        }
+        else {
+            if (startT > index) { startT = index }
+            else if (endT < index) { endT = index + 1 }
+        }
+    } else {
+        for (var i = 23; i > -1; i--) {
+            if (selectedState[i] && endT < i) { endT = i + 1; }
+        }
     }
+    
     setEndTimeStr(endT)
 }
