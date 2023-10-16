@@ -32,7 +32,7 @@ function OfficeInfo(props) {
             </TitleContainer>
 
             <DetailContainer>
-                <CardImage src={DateIcon} />
+                <CardImage src={props.imgUrl} />
 
                 <InfoContainer>
                     <OfficePeopleContainer>
