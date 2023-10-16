@@ -8,13 +8,15 @@ import OfficeInfo from "components/officeInfo/OfficeInfo";
 import { MainTextContainer, SubTextContainer, SelectedSubTitleText, UnselectedSubTitleText } from 'components/officeBooking/SubTitleBar';
 import { StatusText, StatusCircle } from 'components/booking/StatusTag';
 import { BookingContentContainer, BookingTimeContainer, renderBookingTimeBar, BookingDateTextContainer, setBookingTime } from 'components/officeBooking/BookingTimeBar';
-import { BookingPurposeContainer, BookingCapsuleContainer, BookingPurposeTextFieldContainer } from 'components/officeBooking/BookingPurpose';
+import { BookingPurposeContainer, BookingCapsuleContainer } from 'components/officeBooking/BookingPurpose';
 import { findStatus } from 'constants/BookingStatus';
-import { MyStatusContainer, BookingDateText, PurposeTextarea } from './OfficeBooking';
+import { BookingDateText } from './OfficeBooking';
 import { RightContainer, WhiteContainer, TitleText } from 'components/rightContainer/RightContainer';
 import { getToken } from 'utils/IsLoginUtil';
 import { basicError } from 'utils/ErrorHandlerUtil';
 import { Bar } from '../bookedList/BookedList';
+import { StatusContainer } from 'components/booking/StatusTag';
+import { PurposeContainer } from 'components/officeBooking/BookingPurpose';
 
 var officeId = 1;
 
@@ -76,26 +78,26 @@ function OfficeBookingCheck(props) {
         <RightContainer>
             <TitleText>{props.isAdmin ? "회의실 예약 내역" : "예약 내역"}</TitleText>
 
-            <WhiteContainer>
-                <Bar />
-                <div style={{zIndex:1}}>
+            <WhiteContainer style={{display:'inline'}}>
+                <Bar style={{position:'static'}}>
                     <MainTextContainer>
                         <SelectedSubTitleText>{officeInfo.name}</SelectedSubTitleText>
                     </MainTextContainer>
                     <SubTextContainer>
                         <UnselectedSubTitleText>{officeInfo.location}</UnselectedSubTitleText>
                     </SubTextContainer>
-                    <MyStatusContainer isCheck={'true'} background={bookingStatus.background}>
+                    <StatusContainer style={{margin:'12px 12px 0 0 ', float:'right'}} isCheck={'true'} background={bookingStatus.background}>
                         <StatusCircle color={bookingStatus.color} />
                         <StatusText color={bookingStatus.color}>{bookingStatus.name}</StatusText>
-                    </MyStatusContainer>
-                </div>
+                    </StatusContainer>
+                </Bar>
 
                 <OfficeInfo isDetailPage={true}
                     key={officeInfo.name}
                     capacity={officeInfo.capacity}
                     facilityList={officeInfo.facilityList}
                     description={officeInfo.description}
+                    imgUrl={officeInfo.imgUrl}
                 />
                 
 
@@ -118,14 +120,11 @@ function OfficeBookingCheck(props) {
                         <Capsule color="purple" text="예약목적" />
                     </BookingCapsuleContainer>
 
-                    <BookingPurposeTextFieldContainer>
-                        <PurposeTextarea id='bookingPurpose'
-                            cols='135' rows='4'
-                            maxLength='100'
-                            value={bookingInfo.memo}
-                            readOnly="readOnly"
-                            disabled></PurposeTextarea>
-                    </BookingPurposeTextFieldContainer>
+                    <PurposeContainer>
+                        {(bookingInfo.memo === null) 
+                            ? '* 저장된 예약목적이 없습니다'
+                            : bookingInfo.memo}
+                    </PurposeContainer>
                 </BookingPurposeContainer>
 
             </WhiteContainer>

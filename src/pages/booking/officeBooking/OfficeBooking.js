@@ -7,7 +7,6 @@ import Capsule from 'components/capsule/Capsule';
 
 import OfficeInfo from "components/officeInfo/OfficeInfo";
 import { MainTextContainer, SubTextContainer, SelectedSubTitleText, UnselectedSubTitleText } from 'components/officeBooking/SubTitleBar';
-import { StatusContainer } from 'components/booking/StatusTag';
 import { DatePicker } from 'components/searchBar/SearchBar';
 import {
     BookingContentContainer, BookingTimeContainer, renderBookingTimeBar, BookingDateTextContainer, setBookingState, RequestButtonContainer, requestBookingOffice
@@ -49,12 +48,6 @@ export const PurposeTextarea = styled.textarea`
     letter-spacing: 0em;
     text-align: left;
     margin: 0 10px 0 10px;
-`
-
-export const MyStatusContainer = styled(StatusContainer)`
-    margin-top: 12px;
-    margin-right: 12px;
-    float: right;
 `
 
 
@@ -125,6 +118,7 @@ function OfficeBooking(props) {
                 .then(function (response) {
                     if (response.data.status === '200') { alert('예약에 성공하였습니다!') }
                     else { alert(response.data.message); }
+                    getBookingTimeState()
                 })
                 .catch((Error)=>{ 
                     basicError(Error) 
@@ -171,7 +165,7 @@ function OfficeBooking(props) {
                         <Capsule color="purple" text="예약일시" />
                     </BookingCapsuleContainer>
                     <BookingDateTextContainer>
-                        <DatePicker type="date" onChange={changeDate} value={bookingDate} />
+                        <DatePicker style={{padding: '5px 0 0 10px', fontSize: '21px', width: '160px'}} type="date" onChange={changeDate} value={bookingDate} />
                     </BookingDateTextContainer>
                 </BookingContentContainer>
 

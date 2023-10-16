@@ -28,7 +28,7 @@ export const BookingDateTextContainer = styled.div`
 
 export const BookingTimeContainer = styled.div`
     width: 94%;
-    margin: 0 0 10px 35px;
+    margin: 10px 0 10px 35px;
     display: flex;
 `
 
@@ -96,15 +96,26 @@ function getTimeBarItemBackColor(index, selected, isCheck) {
 
 const BookingTimeButtonItem = (index, isCheck) => {
     const [selectedCheckList, setSelectedCheckList] = useState([]);
+    const [isSelected, setSelected] = useState(false);
 
     const onClick = (index) => { 
         if(isCheck || bookingState[index]) { return }
 
         selectedState[index] = !selectedState[index]
         setSelectedCheckList(selectedState);
+        const updatedCheckList = [...selectedCheckList];
 
-        getStartTime(index);
-        getEndTime(index);
+        updatedCheckList[index] = !updatedCheckList[index];
+        selectedCheckList[index] = !selectedCheckList[index];
+        selectedState[index] = !selectedState[index]
+
+        const updatedIsSelected = updatedCheckList[index];
+        setSelectedCheckList(selectedState);
+
+        setSelectedCheckList(updatedCheckList);
+        setSelected(updatedIsSelected);
+
+        setStartEndTime(index);
 
         if ((startT <= bookingState.indexOf(true)) && (endT >= bookingState.lastIndexOf(true))) {
             alert('예약된 시간을 포함한 시간대는 선택할 수 없습니다.')
@@ -118,11 +129,23 @@ const BookingTimeButtonItem = (index, isCheck) => {
         console.log('startT -> ', startT);
         console.log('endT -> ', endT);
 
-        // 시작시간과 끝시간 사이를 자동선택        
+        // 시작시간과 끝시간 사이를 자동선택
         for (var i=0 ;i<24; i++) {
             selectedState[i] = (i >= startT && i < endT) ? true : false
+
+            setSelectedCheckList(selectedState);
+            const updatedCheckList = [...selectedCheckList];
+
+            updatedCheckList[i] = (i >= startT && i < endT) ? true : false
+            selectedCheckList[i] = (i >= startT && i < endT) ? true : false
+            selectedState[i] = (i >= startT && i < endT) ? true : false
+
+            const updatedIsSelected = updatedCheckList[i];
+            setSelectedCheckList(selectedState);
+
+            setSelectedCheckList(updatedCheckList);
+            setSelected(updatedIsSelected);
         }
-        setSelectedCheckList(selectedState);
     }
 
     return (
@@ -169,30 +192,24 @@ export { setBookingTime }
 
 
 // 예약 시간 관련
-function getStartTime(index) {
+function setStartEndTime(index) {
     if (startT === -1) { startT = index }
-    for (var i = 0; i < 24; i++) {
-        if (selectedState[i] && startT > i) { startT = i }   
-    }
-    setStartTimeStr(startT)
-}
 
-function getEndTime(index) {
-    if (endT === -1) { endT = index + 1 }
-    let cnt = endT - startT
-    if (cnt > 2) {
-        if (startT < index && endT > index) { 
-            endT = index + 1 
-        }
+    if ((endT - startT) > 2) {   // 3칸 이상 선택된 경우
+        if (startT <= index && endT >= index) {  endT = index + 1 }
         else {
             if (startT > index) { startT = index }
             else if (endT < index) { endT = index + 1 }
         }
     } else {
-        for (var i = 23; i > -1; i--) {
-            if (selectedState[i] && endT < i) { endT = i + 1; }
+        
+        if (endT === -1) { endT = index + 1 }
+        if ((endT-startT) === 1 && selectedState[index]) {  // 선택된 유일한 한 칸을 해제하기 위해 클릭한 경우
+            startT = -1; endT = -1; return;
         }
+        if (startT >= index) { startT = index }
+        if (startT <= index) { endT = index + 1 }
     }
-    
+    setStartTimeStr(startT)
     setEndTimeStr(endT)
 }

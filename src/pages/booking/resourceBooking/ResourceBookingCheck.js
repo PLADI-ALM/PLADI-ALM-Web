@@ -1,26 +1,20 @@
 import React from 'react';
-import styled from "styled-components"
 import { AdminBookingAxios, ResourcesAxios, BookingsAxios } from 'api/AxiosApi';
 import { useState, useEffect } from "react";
 import { useParams } from 'react-router-dom';
 import Capsule from 'components/capsule/Capsule';
-import { MainTextContainer, SubTextContainer, SelectedSubTitleText, UnselectedSubTitleText, SubTitleContainer } from 'components/officeBooking/SubTitleBar';
-import { BookingPurposeContainer, BookingCapsuleContainer, BookingPurposeTextFieldContainer } from 'components/officeBooking/BookingPurpose';
+import { MainTextContainer, SubTextContainer, SelectedSubTitleText, UnselectedSubTitleText } from 'components/officeBooking/SubTitleBar';
+import { BookingPurposeContainer, BookingCapsuleContainer } from 'components/officeBooking/BookingPurpose';
 import ResourceInfo from 'components/resourceInfo/ResourceInfo';
 import { BookingContentContainer } from 'components/officeBooking/BookingTimeBar';
 import { StatusText, StatusContainer, StatusCircle } from 'components/booking/StatusTag';
 import { findStatus } from 'constants/BookingStatus';
 import { RightContainer, WhiteContainer,TitleText } from 'components/rightContainer/RightContainer';
-import { BookingDateText, PurposeTextarea } from './ResourceBooking';
+import { BookingDateText } from './ResourceBooking';
 import { getToken } from 'utils/IsLoginUtil';
 import { basicError } from 'utils/ErrorHandlerUtil';
 import { Bar } from '../bookedList/BookedList';
-
-const MyStatusContainer = styled(StatusContainer)`
-    margin-top: 12px;
-    margin-right: 12px;
-    float: right;
-`
+import { PurposeContainer } from 'components/officeBooking/BookingPurpose';
 
 var resourceId = 1;
 
@@ -79,13 +73,14 @@ function ResourceBookingCheck(props) {
                 <SubTextContainer>
                     <UnselectedSubTitleText>{resourceInfo.category}</UnselectedSubTitleText>
                 </SubTextContainer>
-                <MyStatusContainer isCheck={'true'} background={bookingStatus.background}>
+                <StatusContainer style={{margin:'10px 12px 0 0', float:'right'}} isCheck={'true'} background={bookingStatus.background}>
                     <StatusCircle color={bookingStatus.color} />
                     <StatusText color={bookingStatus.color}>{bookingStatus.name}</StatusText>
-                </MyStatusContainer>
+                </StatusContainer>
             </Bar>
 
-            <ResourceInfo description={resourceInfo.description} />
+            <ResourceInfo description={resourceInfo.description} 
+                        imgUrl = {resourceInfo.imgUrl} />
 
             <BookingContentContainer>
                 <BookingCapsuleContainer>
@@ -110,14 +105,11 @@ function ResourceBookingCheck(props) {
                     <Capsule color="purple" text="예약목적" />
                 </BookingCapsuleContainer>
 
-                <BookingPurposeTextFieldContainer>
-                    <PurposeTextarea id='bookingPurpose'
-                        cols='135' rows='5'
-                        maxLength='100'
-                        value={bookingInfo.memo}
-                        readOnly="readOnly"
-                        disabled />
-                </BookingPurposeTextFieldContainer>
+                <PurposeContainer>
+                    {(bookingInfo.memo === null) 
+                        ? '* 저장된 예약목적이 없습니다'
+                        : bookingInfo.memo}
+                </PurposeContainer>
             </BookingPurposeContainer>
             
 
