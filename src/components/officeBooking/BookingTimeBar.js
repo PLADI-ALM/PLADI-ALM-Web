@@ -108,6 +108,8 @@ const BookingTimeButtonItem = (index, isCheck) => {
 
         if ((startT <= bookingState.indexOf(true)) && (endT >= bookingState.lastIndexOf(true))) {
             alert('예약된 시간을 포함한 시간대는 선택할 수 없습니다.')
+            startT = -1
+            endT = -1
             selectedState = Array.from({length: 24}, () => false)
             setSelectedCheckList(selectedState)
             return
