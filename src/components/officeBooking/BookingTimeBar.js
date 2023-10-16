@@ -99,13 +99,12 @@ const BookingTimeButtonItem = (index, isCheck) => {
 
     const onClick = (index) => { 
         if(isCheck || bookingState[index]) { return }
-        const updatedCheckList = [...selectedCheckList];
+        // const updatedCheckList = [...selectedCheckList];
 
-        updatedCheckList[index] = !updatedCheckList[index];
-        selectedCheckList[index] = !selectedCheckList[index];
+        // updatedCheckList[index] = !updatedCheckList[index];
+        // selectedCheckList[index] = !selectedCheckList[index];
 
         selectedState[index] = !selectedState[index]
-
         setSelectedCheckList(selectedState);
 
         if ((startT <= bookingState.indexOf(true)) 
@@ -133,10 +132,14 @@ const BookingTimeButtonItem = (index, isCheck) => {
         // }
         
         for (var i=0 ;i<24; i++) {
-            if (i >= startT && i < endT) { selectedState[i] = true }
-            else { selectedState[i] = false }
+            selectedState[i] = (i >= startT && i < endT) ? true : false
+            // if (i >= startT && i < endT) { 
+            //     selectedState[i] = true 
+            // }
+            // else { 
+            //     selectedState[i] = false 
+            // }
         }
-        setSelectedCheckList(updatedCheckList);
         setSelectedCheckList(selectedState);
     }
 
