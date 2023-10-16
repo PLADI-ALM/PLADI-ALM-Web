@@ -206,7 +206,7 @@ function ResourceManageAdd(props) {
             };
             const config = {"Content-Type": 'application/json'};
 
-            axios.post("https://gpkzpnv8lh.execute-api.ap-northeast-2.amazonaws.com/dev/presignedurl-lambda", data, config)
+            ImageUrlAxios.post("", data)
                 .then((Response) => {
                     alert(Response)
                 })
