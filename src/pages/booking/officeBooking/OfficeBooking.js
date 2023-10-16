@@ -17,6 +17,7 @@ import { basicError } from 'utils/ErrorHandlerUtil';
 import SmallButton from 'components/button/SmallButton';
 import { Bar } from '../bookedList/BookedList';
 import { getToken } from 'utils/IsLoginUtil';
+import moment from 'moment';
 
 var bookingDate = '';
 var startTimeStr = '';
@@ -59,8 +60,7 @@ function OfficeBooking(props) {
     var [date, setDate] = useState(""); // 예약날짜 변경
 
     if (date.length === 0) {
-        const dateNow = new Date();
-        date = dateNow.toISOString().slice(0, 10);
+        date = moment(new Date()).format("YYYY-MM-DD")
         bookingDate = date;
     }
 
