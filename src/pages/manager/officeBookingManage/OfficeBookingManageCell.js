@@ -7,21 +7,23 @@ import styled from 'styled-components';
 import { getToken } from 'utils/IsLoginUtil';
 import { basicError } from 'utils/ErrorHandlerUtil';
 
-const SettingButtonContainer = styled.div`
+export const SettingButtonContainer = styled.div`
     display: flex;
     width: 90%;
     height: 100%;
     align-items: center;
     justify-content: flex-end;
 `
-const SettingButton = styled.button`
-    color: #8741CB;
-    font-size: 20px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: 22px; 
-    background: none;
-    border: none;
+export const SettingButton = styled.button`
+  color: #8741CB;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 22px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  
 `
 
 
@@ -37,7 +39,7 @@ function OfficeBookingManageCell(props) {
                     Authorization: getToken()
                 }
             })
-            .then((Response) => { 
+            .then((Response) => {
                 alert(Response.data.message)
                 window.location.reload()
              })
@@ -63,7 +65,7 @@ function OfficeBookingManageCell(props) {
 
     var usingButton = (
     <SettingButtonContainer>
-        <SettingButton onClick={rejectResource}>반려</SettingButton> |<SettingButton onClick={moveToDetail}>상세보기</SettingButton>  
+        <SettingButton onClick={rejectResource}>반려</SettingButton> |<SettingButton onClick={moveToDetail}>상세보기</SettingButton>
     </SettingButtonContainer>)
 
     return (

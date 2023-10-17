@@ -109,11 +109,25 @@ function ResourceBooking(props) {
         const startDateFormat = moment(e[0]).format("YYYY-MM-DD");
         const endDateFormat = moment(e[1]).format("YYYY-MM-DD");
 
-        setStartDate(startDateFormat);
-        setEndDate(endDateFormat);
+        setStartDate(startDateFormat)
+        setEndDate(endDateFormat)
 
-        startDate = startDateFormat;
-        endDate = endDateFormat;
+        startDate = startDateFormat
+        endDate = endDateFormat
+
+        for(var i=0; i<dates.length; i++) {
+            var temp = new Date(dates[i])
+            temp = moment(temp).format("YYYY-MM-DD")
+
+            if (startDateFormat <= temp && endDateFormat >= temp) {
+                alert('예약된 일자를 포함한 날짜는 선택할 수 없습니다.')
+                startDate = ''; endDate = '';
+                setStartDate(startDate)
+                setEndDate(endDate)
+                window.location.reload()
+                return
+            }
+        }
     };
 
     const onActiveStartDateChange = (e) => {
