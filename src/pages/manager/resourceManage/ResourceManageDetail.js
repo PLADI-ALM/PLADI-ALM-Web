@@ -89,25 +89,22 @@ function ResourceManageDetail() {
 
     const deleteResource = () => {
         if (window.confirm("자원을 삭제하시겠습니까?")) {
-            // AdminBookingResourceAxios.delete(`${resourceId}`, {
-            //     headers: {
-            //         Authorization: getToken()
-            //     }
-            // })
-            // .then((Response)=>{ 
-            //     if(Response.data.status === 200) {
-            //         alert('자원을 성공적으로 삭제하였습니다.')
-            //         window.history.back()
-            //     } else {
-            //         alert('자원 삭제에 실패하였습니다.')
-            //     }
-            // })
-            // .catch((Error)=>{ 
-            //     basicError(Error) 
-            //     console.log(Error)
-            //     alert('자원 삭제에 실패하였습니다.')
-                
-            // })
+            AdminBookingResourceAxios.delete(`${resourceId}`, {
+                headers: {
+                    Authorization: getToken()
+                }
+            })
+            .then((Response)=>{ 
+                if(Response.data.status === 200) {
+                    alert('자원을 성공적으로 삭제하였습니다.')
+                    window.history.back()
+                } 
+            })
+            .catch((Error)=>{ 
+                basicError(Error) 
+                console.log(Error)
+            })
+            setOptionViewShowing(false)
         } 
     }
 
