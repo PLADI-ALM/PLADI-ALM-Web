@@ -16,7 +16,7 @@ export const SettingButtonContainer = styled.div`
 `
 export const SettingButton = styled.button`
   color: #8741CB;
-  font-family: 용;
+  font-family: NanumSquare_ac;
   font-size: 16px;
   font-style: normal;
   font-weight: 400;
