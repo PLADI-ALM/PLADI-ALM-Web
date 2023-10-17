@@ -16,7 +16,8 @@ export const SettingButtonContainer = styled.div`
 `
 export const SettingButton = styled.button`
   color: #8741CB;
-  font-size: 18px;
+  font-family: 용;
+  font-size: 16px;
   font-style: normal;
   font-weight: 400;
   line-height: 22px;
