@@ -39,6 +39,10 @@ export const AdminBookingResourceAxios = axios.create({
     baseURL: `${host}/admin/resources`,
 });
 
+export const AdminBookingOfficeAxios = axios.create({
+    baseURL: `${host}/admin/offices`,
+});
+
 export  const ImageUrlAxios = axios.create({
     baseURL: `${image}`
 })

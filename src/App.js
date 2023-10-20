@@ -16,6 +16,7 @@ import UserManage from 'pages/manager/userManage/UserManage';
 import ResourceManage from 'pages/manager/resourceManage/ResourceManage';
 import ResourceManageAdd from "./pages/manager/resourceManage/ResourceManageAdd";
 import ResourceManageDetail from 'pages/manager/resourceManage/ResourceManageDetail';
+import OfficeManageDetail from 'pages/manager/officeManage/OfficeBookingManageDetail';
 
 function App() {
 
@@ -39,6 +40,7 @@ function App() {
           <Route path='/resourceBooking' element={<SelectResource title="자원 예약" />} />
           <Route path='/resourceBooking/:resourceId' element={<ResourceBooking />} />
           <Route path='/manage/offices' element={<OfficeManage title="회의실 관리" />} />
+          <Route path='/manage/offices/:officeId' element={<OfficeManageDetail />} />
           <Route path='/manage/officeBooking' element={<OfficeBookingManage title="회의실 예약 내역" />} />
           <Route path='/manage/officeBooking/:bookingId' element={<OfficeBookingCheck isAdmin={true} />} />
           <Route path='/manage/resources' element={<ResourceManage title="자원 관리" />} />
