@@ -14,7 +14,8 @@ function ResourceManage(props) {
     const [resources, setResources] = useState([]);
 
     const getResources = (name) => {
-        AdminBookingResourceAxios.get(`?keyword=${name}`, {
+        const max = Int32Array.max;
+        AdminBookingResourceAxios.get(`?keyword=${name}&size=200`, {
             headers: {
                 Authorization: getToken()
             }
@@ -30,7 +31,7 @@ function ResourceManage(props) {
     useEffect(() => {
         getResources("");
     }, [])
-  
+
       const moveToAdd = () => {
         window.location.href = `/manage/resources/add`
     }
@@ -53,11 +54,11 @@ function ResourceManage(props) {
                             </tr>
                         </BookedThead>
                         <tbody>
-                            { resources.length === 0 ? 
+                            { resources.length === 0 ?
                             <ResourceManageTableCell>
                                 <td colSpan={4}>자원 내역이 없습니다.</td>
                             </ResourceManageTableCell>
-                            : resources.map((resource) => 
+                            : resources.map((resource) =>
                                 <ResourceManageTableCell key={resource.resourceId} id={resource.resourceId}  name={resource.name} category={resource.category} description={resource.description}/>
                             )}
                         </tbody>

@@ -153,10 +153,11 @@ function ResourceManageAdd(props) {
     const [categories, setCategories] = useState([]);
 
     const [name, setName] = useState("");
-    const [selectCategory, setSelectCategory] = useState("");
+    const [selectCategory, setSelectCategory] = useState("컴퓨터");
     const [description, setDescription] = useState("");
     const [imageFile, setImageFile] = useState(null);
     const [imageUrl, setImageUrl] = useState(null);
+    const [isUpload, setIsUpload] = useState(false);
 
     const getCategories = () => {
         AdminBookingResourceAxios.get(`/category`, {
@@ -200,18 +201,26 @@ function ResourceManageAdd(props) {
             ImageUrlAxios.get(`?ext=${imageFile.type.split("/", 2)[1]}&dir=photo`)
                 .then((Response) => {
                     setImageUrl(Response.data);
-                    uploadImage();
                 })
                 .catch((error) => {
                     console.log(error)
                 });
         }else {
-            addResource()
+            alert("이미지를 업로드해주세요.")
         }
     }
 
-    const uploadImage = () => {
-        console.log(imageUrl)
+    const uploadImage =  () => {
+        const formData = new FormData();
+        formData.append("files", imageFile);
+
+        axios.put(imageUrl.presignedUrl, formData)
+            .then(function (rep) {
+                setIsUpload(true);
+            })
+            .catch(function (err) {
+                alert("이미지 등록에 실패했습니다. 다시 시도해주세요.");
+            });
     }
 
     const addResource = () => {
@@ -219,7 +228,7 @@ function ResourceManageAdd(props) {
                 category: selectCategory,
                 description: description,
                 name: name,
-                imgUrl: imageUrl,
+                imgUrl: imageUrl.imgKey,
             },
             {
                 headers: {
@@ -227,7 +236,8 @@ function ResourceManageAdd(props) {
                 },
             })
             .then((Response) => {
-                setCategories(Response.data.data.category)
+                alert("자원 등록이 완료되었습니다.");
+                window.location.href = `/manage/resources`
             })
             .catch((error) => {
                 basicError(error)
@@ -238,6 +248,19 @@ function ResourceManageAdd(props) {
     useEffect(() => {
         getCategories("");
     }, [])
+
+    useEffect(() => {
+        if (imageUrl !== null) {
+            uploadImage();
+        }
+    }, [imageUrl]);
+
+    useEffect(() => {
+        if (isUpload) {
+            addResource();
+        }
+    }, [isUpload]);
+
 
 
 
