@@ -1,40 +1,44 @@
-import BookingActiveIcon from 'assets/images/sidebarIcon/bookingActive.svg'
-import BookingInactiveIcon from 'assets/images/sidebarIcon/bookingInactive.svg'
-import EquipmentActiveIcon from 'assets/images/sidebarIcon/equipmentActive.svg'
-import EquipmentInactiveIcon from 'assets/images/sidebarIcon/equipmentInactive.svg'
-import ArchivingActiveIcon from 'assets/images/sidebarIcon/archivingActive.svg'
-import ArchivingInactiveIcon from 'assets/images/sidebarIcon/archivingInactive.svg'
-import EmployeeActiveIcon from 'assets/images/sidebarIcon/employeeActive.svg'
-import EmployeeInactiveIcon from 'assets/images/sidebarIcon/employeeInactive.svg'
-import OfficeActiveIcon from 'assets/images/sidebarIcon/officeActive.svg'
-import OfficeInactiveIcon from 'assets/images/sidebarIcon/officeInactive.svg'
-import ResourceActiveIcon from 'assets/images/sidebarIcon/resourceActive.svg'
-import ResourceInactiveIcon from 'assets/images/sidebarIcon/resourceInactive.svg'
-import BookingManageActiveIcon from 'assets/images/sidebarIcon/bookingManageActive.svg'
-import BookingManageInactiveIcon from 'assets/images/sidebarIcon/bookingManageInactive.svg'
+import BookingActiveIcon from 'assets/images/sidebarIcon/BookingActive.svg'
+import BookingInactiveIcon from 'assets/images/sidebarIcon/BookingInactive.svg'
+import MyBookingActiveIcon from 'assets/images/sidebarIcon/MyBookingActive.svg'
+import MyBookingInactiveIcon from 'assets/images/sidebarIcon/MyBookingInactive.svg'
+import EquipmentActiveIcon from 'assets/images/sidebarIcon/EquipmentActive.svg'
+import EquipmentInactiveIcon from 'assets/images/sidebarIcon/EquipmentInactive.svg'
+import ArchivingActiveIcon from 'assets/images/sidebarIcon/ArchivingActive.svg'
+import ArchivingInactiveIcon from 'assets/images/sidebarIcon/ArchivingInactive.svg'
+import AdminActiveIcon from 'assets/images/sidebarIcon/AdminActive.svg'
+import AdminInactiveIcon from 'assets/images/sidebarIcon/AdminInactive.svg'
 
 export const BOOKING_MENUS = [
     { name: '회의실 예약', path: '/officeBooking' },
-    { name: '자원 예약', path: '/resourceBooking' },
-    { name: '예약 내역', path: '/bookings' }
+    { name: '장비 예약', path: '/resourceBooking' },
+    { name: '차량 내역', path: '/carBooking' }
+]
+
+export const MY_BOOKING_MENUS = [
+    { name: '회의실 예약 내역', path: '/my/bookings/offices' },
+    { name: '장비 예약 내역', path: '/my/bookings/resources' },
+    { name: '차량 내역 내역', path: '/my/bookings/cars' }
 ]
 
 export const MAIN_MENUS = [
     { name: '예약', path: '/officeBooking', subMenus: BOOKING_MENUS, icons: [BookingActiveIcon, BookingInactiveIcon] },
-    { name: '비품 내역', path: '/resources', subMenus: null, icons: [EquipmentActiveIcon, EquipmentInactiveIcon] },
+    { name: 'My 예약', path: '/my/bookings/offices', subMenus: MY_BOOKING_MENUS, icons: [MyBookingActiveIcon, MyBookingInactiveIcon] },
+    { name: '비품 내역', path: '/equipments', subMenus: null, icons: [EquipmentActiveIcon, EquipmentInactiveIcon] },
     { name: '자료 아카이빙', path: '/archiving', subMenus: null, icons: [ArchivingActiveIcon, ArchivingInactiveIcon] }
 ]
 
-export const MANAGER_BOOKING_MENUS = [
-    { name: '회의실 예약 내역', path: '/manage/officeBooking' },
-    { name: '자원 예약 내역', path: '/manage/resourceBooking' }
+export const ADMIN_MENUS = [
+    { name: '직원 관리', path: '/manage/users' },
+    { name: '회의실 관리', path: '/manage/offices' },
+    { name: '자원 관리', path: '/manage/resources' },
+    { name: '회의실예약 관리', path: '/manage/officeBooking' },
+    { name: '자원 예약 관리', path: '/manage/resourceBooking' },
+    { name: '차량 예약 관리', path: '/manage/carBooking' }
 ]
 
-export const MANAGER_MAIN_MENUS = [
-    { name: '직원 관리', path: '/manage/users', subMenus: null, icons: [EmployeeActiveIcon, EmployeeInactiveIcon] },
-    { name: '회의실 관리', path: '/manage/offices', subMenus: null, icons: [OfficeActiveIcon, OfficeInactiveIcon] },
-    { name: '자원 관리', path: '/manage/resources', subMenus: null, icons: [ResourceActiveIcon, ResourceInactiveIcon] },
-    { name: '예약 관리', path: '/manage/officeBooking', subMenus: MANAGER_BOOKING_MENUS, icons: [BookingManageActiveIcon, BookingManageInactiveIcon] }
+export const ADMIN_MAIN_MENUS = [
+    { name: '관리자', path: '/manage/users', subMenus: ADMIN_MENUS, icons: [AdminActiveIcon, AdminInactiveIcon] }
 ]
 
 export const MAIN_PATH = '/officeBooking'
