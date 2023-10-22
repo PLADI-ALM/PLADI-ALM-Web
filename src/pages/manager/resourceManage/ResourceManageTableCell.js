@@ -14,8 +14,8 @@ function ResourceManageTableCell(props) {
         <BookedLineTr >
             <td width="20%"><Link to={`/manage/resources/${props.id}`}>{props.name}</Link></td>
             <td width="15%">{props.location}</td>
-            <td width="15%">{props.user}({props.userPhone})</td>
-            <td width="40%">{props.description}</td>
+            <td width="20%">{props.user}({props.userPhone})</td>
+            <td width="30%">{props.description}</td>
             <td width="8%"><Toggle click={changeToggle} isEnable={props.isEnable}/></td>
         </BookedLineTr>
     )
