@@ -10,6 +10,7 @@ import SearchButtonImg from "../../../assets/images/button/searchButton.png";
 import ImageButton from "../../../components/button/ImageButton";
 import {SelectToggle} from "../../../components/capsule/SelectToggle";
 import {TimeList} from "../../../constants/ToggleList";
+import {getToken} from "../../../utils/IsLoginUtil";
 
 function SelectOffice(props) {
 
@@ -22,7 +23,11 @@ function SelectOffice(props) {
     const [endTime, setEndTime] = useState("");
 
     const getOfficeList = () => {
-        OfficesAxios.get("")
+        OfficesAxios.get("?size=200",  {
+            headers: {
+                Authorization: getToken()
+            }
+        })
             .then((Response) => { setOffices(Response.data.data.content) })
             .catch((error) => {basicError(error)})
     };

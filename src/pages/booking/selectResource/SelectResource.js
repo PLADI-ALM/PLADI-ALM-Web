@@ -7,6 +7,7 @@ import ResourceInfo from "components/resourceInfo/ResourceInfo";
 import { ResourcesAxios } from "api/AxiosApi";
 import { useNavigate } from "react-router-dom";
 import { basicError } from 'utils/ErrorHandlerUtil';
+import {getToken} from "../../../utils/IsLoginUtil";
 
 
 export const SearchTitleContainer = styled.div`
@@ -71,7 +72,11 @@ function SelectResource(props) {
     const [endDate, setEndDate] = useState("");
 
     const getResourceList = () => {
-        ResourcesAxios.get()
+        ResourcesAxios.get("?size=200",  {
+            headers: {
+                Authorization: getToken()
+            }
+        })
             .then((Response) => { setResourceList(Response.data.data.content) })
             .catch((error) => {basicError(error)})
     };
