@@ -36,7 +36,7 @@ function BookedLine(props) {
     return (
         <>
             <BookedLineTr>
-                <td width="30%"><Link to={`/bookings/${props.type}/${props.id}`}>{props.name}({props.info})</Link></td>
+                <td width="30%"><Link to={`/my/bookings/${props.type}/${props.id}`}>{props.name}({props.info})</Link></td>
                 <td width="30%">{props.start} ~ {props.end}</td>
                 <td width="10%"><StatusContainer isCheck={'true'} background={status.background}>
                     <StatusCircle color={status.color} />

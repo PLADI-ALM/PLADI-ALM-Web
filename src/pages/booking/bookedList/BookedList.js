@@ -128,8 +128,8 @@ function BookedList(props) {
                                 <BookedLineTr>
                                     <td colSpan={4}>예약 내역이 없습니다.</td>
                                 </BookedLineTr>
-                                : bookings.map((booking, index) =>
-                                    <BookedLine key={index}
+                                : bookings.map((booking) =>
+                                    <BookedLine key={booking.id}
                                         id={booking.id}
                                         name={booking.name}
                                         info={booking.detailInfo}

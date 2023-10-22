@@ -4,10 +4,10 @@ import { useLocation, Link } from "react-router-dom";
 import logo from 'assets/images/imgNameLogo.svg';
 import MainMenu from "components/sidebar/MainMenu";
 import SubMenu from "components/sidebar/SubMenu";
-import { MAIN_MENUS, MAIN_PATH, MANAGER_MAIN_MENUS } from "constants/Path";
+import { MAIN_MENUS, MAIN_PATH, ADMIN_MAIN_MENUS } from "constants/Path";
 import { Icon } from 'components/sidebar/MainMenu';
-import MyInfoIcon from 'assets/images/sidebarIcon/myInfoIcon.svg'
-import LogoutIcon from 'assets/images/sidebarIcon/logoutIcon.svg'
+import MyInfoIcon from 'assets/images/sidebarIcon/MyInfoIcon.svg'
+import LogoutIcon from 'assets/images/sidebarIcon/LogoutIcon.svg'
 import { removeAllCookies } from 'utils/CookiesUtil';
 import { getToken, isManager, navigateToLogin } from 'utils/IsLoginUtil';
 import { UsersAxios } from 'api/AxiosApi';
@@ -126,12 +126,9 @@ function Sidebar() {
     // 관리자 메뉴
     const managerMenus =
         <>
-            <MainMenu info={MANAGER_MAIN_MENUS[0]} active={useIsMenuActive(MANAGER_MAIN_MENUS[0].path)} />
-            <MainMenu info={MANAGER_MAIN_MENUS[1]} active={useIsMenuActive(MANAGER_MAIN_MENUS[1].path)} />
-            <MainMenu info={MANAGER_MAIN_MENUS[2]} active={useIsMenuActive(MANAGER_MAIN_MENUS[2].path)} />
-            <MainMenu info={MANAGER_MAIN_MENUS[3]} active={useIsMenuActive(MANAGER_MAIN_MENUS[3].path)} />
-            <SubMenus active={useIsSubMenuActive(MANAGER_MAIN_MENUS[3].subMenus)}>
-                {MANAGER_MAIN_MENUS[3].subMenus.map(sub => { return (<SubMenu path={sub.path} name={sub.name} />) })}
+            <MainMenu info={ADMIN_MAIN_MENUS[0]} active={useIsSubMenuActive(ADMIN_MAIN_MENUS[0].subMenus)} />
+            <SubMenus active={useIsSubMenuActive(ADMIN_MAIN_MENUS[0].subMenus)}>
+                {ADMIN_MAIN_MENUS[0].subMenus.map(sub => { return (<SubMenu path={sub.path} name={sub.name} />) })}
             </SubMenus>
         </>
 
@@ -148,8 +145,12 @@ function Sidebar() {
                 <SubMenus active={useIsSubMenuActive(MAIN_MENUS[0].subMenus)}>
                     {MAIN_MENUS[0].subMenus.map(sub => { return (<SubMenu path={sub.path} name={sub.name} />) })}
                 </SubMenus>
-                <MainMenu info={MAIN_MENUS[1]} active={useIsMenuActive(MAIN_MENUS[1].path)} />
+                <MainMenu info={MAIN_MENUS[1]} active={useIsSubMenuActive(MAIN_MENUS[1].subMenus)} />
+                <SubMenus active={useIsSubMenuActive(MAIN_MENUS[1].subMenus)}>
+                    {MAIN_MENUS[1].subMenus.map(sub => { return (<SubMenu path={sub.path} name={sub.name} />) })}
+                </SubMenus>
                 <MainMenu info={MAIN_MENUS[2]} active={useIsMenuActive(MAIN_MENUS[2].path)} />
+                <MainMenu info={MAIN_MENUS[3]} active={useIsMenuActive(MAIN_MENUS[3].path)} />
 
                 {/* 관리자 메뉴 */}
                 {isManager() ? managerMenus : null}

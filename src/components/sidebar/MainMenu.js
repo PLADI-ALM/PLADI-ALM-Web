@@ -1,7 +1,7 @@
 import React from 'react';
 import { styled } from 'styled-components';
-import ToggleActiveIcon from 'assets/images/sidebarIcon/toggleActive.svg'
-import ToggleInactiveIcon from 'assets/images/sidebarIcon/toggleInactive.svg'
+import ToggleActiveIcon from 'assets/images/sidebarIcon/ToggleActive.svg'
+import ToggleInactiveIcon from 'assets/images/sidebarIcon/ToggleInactive.svg'
 import { InactiveMenuLine, ActiveMenuLine } from './MenuLineStyle';
 
 
