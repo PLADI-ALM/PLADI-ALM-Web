@@ -48,18 +48,29 @@ function ResourceManage(props) {
                     <BookedTable>
                         <BookedThead>
                             <tr>
-                                <th width="20%">자원명</th>
-                                <th width="20%">카테고리</th>
-                                <th width="60%">설명</th>
+                                <th width="20%">장비명</th>
+                                <th width="15%">보관장소</th>
+                                <th width="15%">책임자</th>
+                                <th width="40%">설명</th>
+                                <th width="8%"></th>
                             </tr>
                         </BookedThead>
                         <tbody>
                             { resources.length === 0 ?
                             <ResourceManageTableCell>
-                                <td colSpan={4}>자원 내역이 없습니다.</td>
+                                <td colSpan={5}>자원 내역이 없습니다.</td>
                             </ResourceManageTableCell>
                             : resources.map((resource) =>
-                                <ResourceManageTableCell key={resource.resourceId} id={resource.resourceId}  name={resource.name} category={resource.category} description={resource.description}/>
+                                <ResourceManageTableCell
+                                    key={resource.resourceId}
+                                    id={resource.resourceId}
+                                    name={resource.name}
+                                    location={resource.category}
+                                    user={resource.name}
+                                    userPhone={resource.category}
+                                    description={resource.description}
+                                    isEnable={true}
+                                />
                             )}
                         </tbody>
                     </BookedTable>

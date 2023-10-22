@@ -29,6 +29,8 @@ const ManageSearchImage = styled.img`
 `
 
 const ManageSearchText = styled.input`
+    padding-left: 10px;
+    font-size: 18px;
     font-family: NanumSquare_ac;
     width: 100%;
     height: 100%;

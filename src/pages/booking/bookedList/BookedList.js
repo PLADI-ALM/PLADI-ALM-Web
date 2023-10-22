@@ -23,6 +23,7 @@ export const Bar = styled.div`
     box-sizing: border-box;
     position: absolute;
     top: 0;
+    z-index: 1;
 `
 
 // 네이비 바 밑의 테이블의 컨테이너
@@ -42,7 +43,7 @@ export const BookedThead = styled.thead`
     top: 0;
     border-radius: 12px;
     height: 60px;
-    z-index: 1;
+    z-index: 2;
     color: white;
 `
 
