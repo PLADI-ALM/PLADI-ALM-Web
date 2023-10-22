@@ -67,7 +67,9 @@ function ResourceManageDetail() {
                 Authorization: getToken()
             }
         })
-        .then((Response)=>{ setResourceInfo(Response.data.data) })
+        .then((Response)=>{ 
+            console.log(Response.data.data)
+            setResourceInfo(Response.data.data) })
         .catch((Error)=>{ 
             basicError(Error) 
             console.log(Error)
@@ -128,7 +130,7 @@ function ResourceManageDetail() {
                     <SelectedSubTitleText>{resourceInfo.name}</SelectedSubTitleText>
                 </MainTextContainer>
                 <SubTextContainer>
-                    <UnselectedSubTitleText>{resourceInfo.category}</UnselectedSubTitleText>
+                    <UnselectedSubTitleText>{resourceInfo.location}</UnselectedSubTitleText>
                 </SubTextContainer>
                 <MoreButton onClick={() => { setOptionViewShowing(!isShowingOptions) }}> 
                     <img src={MoreButtonIcon} alt="더보기" />
@@ -140,6 +142,8 @@ function ResourceManageDetail() {
             </Bar>
 
             <ResourceInfo detail={false}
+                        responsibilityName={resourceInfo.responsibilityName}
+                        responsibilityPhone={resourceInfo.responsibilityPhone}
                         description={resourceInfo.description}
                         imgUrl={resourceInfo.imgUrl} />
 
