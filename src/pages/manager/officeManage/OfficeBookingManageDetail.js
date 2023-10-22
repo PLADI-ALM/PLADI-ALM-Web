@@ -19,8 +19,12 @@ function OfficeManageDetail() {
     const [officeInfo, setOfficeInfo] = useState([])
     const [bookingsInfo, setBookingsInfo] = useState([])
 
-    const getResourceInfo = () => {
-        OfficesAxios.get(`/${officeId}`)
+    const getOfficeInfo = () => {
+        OfficesAxios.get(`/${officeId}`, {
+            headers: {
+                Authorization: getToken()
+            }
+        })
         .then((Response)=>{ setOfficeInfo(Response.data.data) })
         .catch((Error)=>{ 
             basicError(Error) 
@@ -30,7 +34,7 @@ function OfficeManageDetail() {
         })
     }
 
-    const getResourceBookingListInfo = () => {
+    const getOfficeBookingListInfo = () => {
         AdminBookingOfficeAxios.get(`offices/${officeId}`, {
             headers: {
                 Authorization: getToken()
@@ -38,7 +42,6 @@ function OfficeManageDetail() {
         })
         .then((Response)=>{ 
             setBookingsInfo(Response.data.data.officesLists) 
-            console.log(Response.data.data)
         })
         .catch((Error)=>{ 
             basicError(Error) 
@@ -70,8 +73,8 @@ function OfficeManageDetail() {
     }
 
     useEffect(() => {
-        getResourceInfo()
-        getResourceBookingListInfo()
+        getOfficeInfo()
+        getOfficeBookingListInfo()
     }, []);
 
     return <RightContainer>
@@ -108,15 +111,15 @@ function OfficeManageDetail() {
             
             <InfoTable>
                 <tr style={{backgroundColor:'#D0B1EE', border: '1px solid #959494', height:'45px'}}>
-                    <th scope="col" style={{width: '15%', border:'1px solid #959494'}} >요청자</th>
-                    <th scope="col" style={{width: '30%', border:'1px solid #959494'}} >예약일자</th>
-                    <th scope="col" style={{width: '43%', border:'1px solid #959494'}} >목적</th>
+                    <th scope="col" style={{width: '20%', border:'1px solid #959494'}} >요청자</th>
+                    <th scope="col" style={{width: '28%', border:'1px solid #959494'}} >예약일자</th>
+                    <th scope="col" style={{width: '40%', border:'1px solid #959494'}} >목적</th>
                     <th scope="col" style={{width: '12%', border:'1px solid #959494'}} >상태</th>
                 </tr>
                 {bookingsInfo.map(function(info){
                     return (
                         <tr style={{border: '1px solid #959494', height:'45px'}}>
-                            <InfoTableData>{info.requester} ({info.position})</InfoTableData>
+                            <InfoTableData>{info.reservatorName} ({info.reservatorPhone})</InfoTableData>
                             <InfoTableData style={{fontWeight:'bold'}}>{info.startDateTime} ~ {info.endDateTime}</InfoTableData>
                             <InfoTableData>{info.goal}</InfoTableData>
                             <InfoTableData>{info.bookingStatus}</InfoTableData>
