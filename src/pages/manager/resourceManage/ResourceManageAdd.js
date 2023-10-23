@@ -7,12 +7,13 @@ import { ManageAddButton, ManageAddButtonImage, ManageAddButtonLabel } from "com
 
 import { getToken } from "utils/IsLoginUtil";
 import { basicError } from "utils/ErrorHandlerUtil";
-import {AdminBookingResourceAxios, ImageUrlAxios} from "api/AxiosApi";
+import {AdminBookingResourceAxios, ImageUrlAxios, ResourcesAxios} from "api/AxiosApi";
 
 import AddImageImage from "../../../assets/images/AddImage.png"
 import SearchButtonImage from "../../../assets/images/SearchPlus.svg"
 import {ExitBtn} from "../../../components/modal/Modal";
 import axios from "axios";
+import {useParams} from "react-router-dom";
 
 
 const NameContainer = styled.div`
@@ -21,23 +22,35 @@ const NameContainer = styled.div`
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    margin: 120px 130px 0 80px;
+    margin: 90px 130px 0 80px;
 `
-const CategoryContainer = styled.div`
+const PlaceContainer = styled.div`
     width: 90%;
-    height: 30px;
+    height: 40px;
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    margin: 30px 80px 0px 80px;
+    margin: 40px 80px 0px 80px;
 `
+
+
+const StaffContainer = styled.div`
+  width: 90%;
+  height: 150px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  margin: 40px 80px 0px 80px;
+`
+
+
 const DescriptionContainer = styled.div`
     width: 90%;
     height: 80px;
     display: flex;
     justify-content: flex-start;
     align-items: flex-start;
-    margin: 60px 80px 0 80px;
+    margin: 40px 80px 0 80px;
 `
 const ImageContainer = styled.div`
     width: 90%;
@@ -53,7 +66,7 @@ const AddButtonContainer = styled.div`
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    margin: 0 80px 0 80px;
+    margin: -50px 80px 0 80px;
 `
 
 const TitleLabel = styled.label`
@@ -78,19 +91,64 @@ const NameInput = styled.input`
     padding: 10px;
 `
 
-const CategorySelect = styled.select`
-    width: 336px;
-    height: 49px;
+const PlaceInput = styled.input`
+    width: 43%;
+    height: 70%;
     border-radius: 8px;
     border: 2px solid #E6E6E6;
     background: #FFF;
     margin-left: 52px;
-    color: #4C4C4C;
     font-size: 20px;
     font-style: normal;
     font-weight: 400;
-    line-height: 32px; /* 160% */
+    line-height: 32px; 
     padding: 10px;
+`
+
+const StaffInputContainer = styled.div`
+  width: 43%;
+  height: 100%;
+  margin-left: 73px;
+  display: block;
+  justify-content: start;
+  align-items: start;
+  margin-top: -10px;
+`
+
+const StaffInput = styled.input`
+  width: 100%;
+  height: 25px;
+  border-radius: 8px;
+  border: 2px solid #E6E6E6;
+  background: #FFF;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 32px;
+  padding: 10px;
+  z-index: 10;
+`
+
+const StaffSelectUl = styled.div`
+  width: 100%;
+  height: 120px;
+  overflow: scroll;
+  border-radius: 0px 0px 8px 8px;
+  border: 2px solid #E6E6E6;
+  background: #FFF;
+  margin-top: -5px;
+  padding: 10px;
+  z-index: 1;
+`
+const StaffLabel = styled.p`
+  color: #4C4C4C;
+  font-family: NanumSquare_ac;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  text-align: start;
+  z-index: 2;
 `
 
 const DescriptionInput = styled.textarea`
@@ -150,14 +208,20 @@ const IamgeInfoLabel = styled.label`
 
 function ResourceManageAdd(props) {
 
+    let { resourceId } = useParams()
+
     const [categories, setCategories] = useState([]);
 
     const [name, setName] = useState("");
-    const [selectCategory, setSelectCategory] = useState("컴퓨터");
+    const [selectCategory, setSelectCategory] = useState(0);
     const [description, setDescription] = useState("");
     const [imageFile, setImageFile] = useState(null);
     const [imageUrl, setImageUrl] = useState(null);
     const [isUpload, setIsUpload] = useState(false);
+
+    const [isFocusStaffInput, setIsFocusStaffInput] = useState(false);
+
+    const [resourceInfo, setResourceInfo] = useState([])
 
     const getCategories = () => {
         AdminBookingResourceAxios.get(`/category`, {
@@ -169,6 +233,16 @@ function ResourceManageAdd(props) {
         .catch((error) => {basicError(error)})
     };
 
+
+    const focusSelectInput = () => {
+        setIsFocusStaffInput(true);
+        console.log(isFocusStaffInput)
+    }
+
+    const cancelFocusSelectInput = () => {
+        setIsFocusStaffInput(false);
+        console.log(isFocusStaffInput)
+    };
 
     const chagneName = (e) => {
         setName(e.target.value);
@@ -244,9 +318,29 @@ function ResourceManageAdd(props) {
             });
     };
 
+    const getResourceInfo = () => {
+        ResourcesAxios.get(`/${resourceId}`, {
+            headers: {
+                Authorization: getToken()
+            }
+        })
+            .then((Response)=>{
+                console.log(Response.data.data);
+                setResourceInfo(Response.data.data);
+            })
+            .catch((Error)=>{
+                basicError(Error)
+                console.log(Error)
+                window.alert("자원 정보를 불러올 수 없습니댜.")
+                window.history.back()
+            })
+    }
 
     useEffect(() => {
         getCategories("");
+        if (resourceId !== undefined) {
+            getResourceInfo();
+        }
     }, [])
 
     useEffect(() => {
@@ -271,18 +365,36 @@ function ResourceManageAdd(props) {
             <WhiteContainer>
                 <Bar />
                     <NameContainer>
-                        <TitleLabel>자원명</TitleLabel>
-                        <NameInput type="text" onChange={chagneName}/>
+                        <TitleLabel>장비명</TitleLabel>
+                        <NameInput type="text" value={name} onChange={chagneName}/>
                     </NameContainer>
 
-                    <CategoryContainer>
-                        <TitleLabel>카테고리</TitleLabel>
-                        <CategorySelect onChange={changeCategory}>
-                            {categories.map((category, index) =>
-                                <option key={index}>{category}</option>
-                             )}
-                        </CategorySelect>
-                    </CategoryContainer>
+                    <PlaceContainer>
+                        <TitleLabel>보관장소</TitleLabel>
+                        <PlaceInput type="text" value={name} onChange={chagneName}/>
+                    </PlaceContainer>
+
+                    <StaffContainer>
+                        <TitleLabel>책임자</TitleLabel>
+                        <StaffInputContainer>
+                            <StaffInput type="text" value={name} onChange={chagneName} onFocus={focusSelectInput} ={cancelFocusSelectInput()}/>
+                            {isFocusStaffInput && <StaffSelectUl></StaffSelectUl>}
+                            {/*<StaffSelectUl style={{*/}
+                            {/*    display: isFocusStaffInput ? "none" : ""*/}
+                            {/*}}>*/}
+                            {/*    <StaffLabel>sdf</StaffLabel>*/}
+                            {/*    <StaffLabel>sdf</StaffLabel>*/}
+                            {/*    <StaffLabel>sdf</StaffLabel>*/}
+                            {/*    <StaffLabel>sdf</StaffLabel>*/}
+                            {/*    <StaffLabel>sdf</StaffLabel>*/}
+                            {/*    <StaffLabel>sdf</StaffLabel>*/}
+                            {/*    <StaffLabel>sdf</StaffLabel>*/}
+                            {/*    <StaffLabel>sdf</StaffLabel>*/}
+                            {/*    <StaffLabel>sdf</StaffLabel>*/}
+                            {/*</StaffSelectUl>*/}
+                        </StaffInputContainer>
+
+                    </StaffContainer>
 
                     <DescriptionContainer>
                         <TitleLabel>설명</TitleLabel>
@@ -306,8 +418,6 @@ function ResourceManageAdd(props) {
                                 <ExitBtn onClick={deleteImageFile} >X</ExitBtn>
                           </ImageInfoContainer>
                         }
-
-
                     </ImageContainer>
 
                     <AddButtonContainer>

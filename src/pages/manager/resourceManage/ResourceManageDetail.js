@@ -62,10 +62,14 @@ function ResourceManageDetail() {
     const [bookingsInfo, setBookingsInfo] = useState([])
 
     const getResourceInfo = () => {
-        ResourcesAxios.get(`/${resourceId}`)
+        ResourcesAxios.get(`/${resourceId}`, {
+            headers: {
+                Authorization: getToken()
+            }
+        })
         .then((Response)=>{ setResourceInfo(Response.data.data) })
-        .catch((Error)=>{ 
-            basicError(Error) 
+        .catch((Error)=>{
+            basicError(Error)
             console.log(Error)
             window.alert("자원 정보를 불러올 수 없습니댜.")
             window.history.back()
@@ -79,8 +83,8 @@ function ResourceManageDetail() {
             }
         })
         .then((Response)=>{ setBookingsInfo(Response.data.data.resourcesLists) })
-        .catch((Error)=>{ 
-            basicError(Error) 
+        .catch((Error)=>{
+            basicError(Error)
             console.log(Error)
             window.alert("예약 정보를 불러올 수 없습니댜.")
             window.history.back()
@@ -94,18 +98,18 @@ function ResourceManageDetail() {
                     Authorization: getToken()
                 }
             })
-            .then((Response)=>{ 
+            .then((Response)=>{
                 if(Response.data.status === 200) {
                     alert('자원을 성공적으로 삭제하였습니다.')
                     window.history.back()
-                } 
+                }
             })
-            .catch((Error)=>{ 
-                basicError(Error) 
+            .catch((Error)=>{
+                basicError(Error)
                 console.log(Error)
             })
             setOptionViewShowing(false)
-        } 
+        }
     }
 
     useEffect(() => {
@@ -124,7 +128,7 @@ function ResourceManageDetail() {
                 <SubTextContainer>
                     <UnselectedSubTitleText>{resourceInfo.category}</UnselectedSubTitleText>
                 </SubTextContainer>
-                <MoreButton onClick={() => { setOptionViewShowing(!isShowingOptions) }}> 
+                <MoreButton onClick={() => { setOptionViewShowing(!isShowingOptions) }}>
                     <img src={MoreButtonIcon} alt="더보기" />
                 </MoreButton>
                 <OptionsView isShowing={isShowingOptions}>
@@ -140,7 +144,7 @@ function ResourceManageDetail() {
             <div style={{width:'150px', padding:'30px 0 0 40px'}}>
                 <Capsule color="purple" text="예약 내역"/>
             </div>
-            
+
             <InfoTable>
                 <tr style={{backgroundColor:'#D0B1EE', border: '1px solid #959494', height:'45px'}}>
                     <th scope="col" style={{width: '15%', border:'1px solid #959494'}} >요청자</th>
