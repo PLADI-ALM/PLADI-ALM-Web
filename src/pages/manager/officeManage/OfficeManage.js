@@ -1,19 +1,45 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import axios from "axios";
 import { RightContainer, TitleText, WhiteContainer } from "components/rightContainer/RightContainer";
 import { Bar, BookedTable, BookedThead, TableContainer } from "../../booking/bookedList/BookedList";
 import OfficeManageTableCell from "./OfficeManageTableCell";
 import ManageSearchBar from "components/searchBar/ManageSearchBar";
-
+import { getToken } from "utils/IsLoginUtil";
+import { basicError } from "utils/ErrorHandlerUtil";
+import { OfficesAxios } from "api/AxiosApi";
 
 function OfficeManage(props) {
+
+    const [offices, setOffices] = useState([]);
+
+    const getOffices = (name) => {
+        const max = Int32Array.max;
+        OfficesAxios.get(`?keyword=${name}&size=200`,{
+            headers: {
+                Authorization: getToken()
+            }
+        })
+        .then((Response) => { setOffices(Response.data.data.content) })
+        .catch((error) => {basicError(error)})
+    };
+
+    const getSearchOffices = (e) => {
+        getOffices(e.target.value)
+    };
+
+    useEffect(() => {
+        getOffices();
+    }, [])
+
+      const moveToAdd = () => {
+        window.location.href = `/manage/offices/add`
+    }
 
 
     return (
        <RightContainer>
             <TitleText>{props.title}</TitleText>
-            <ManageSearchBar buttonTitle="자원 추가"/>
+            <ManageSearchBar buttonTitle="회의실 추가" onEnter={getSearchOffices} btnClick={moveToAdd}/>
 
             <WhiteContainer>
                 <Bar />
@@ -28,7 +54,19 @@ function OfficeManage(props) {
                             </tr>
                         </BookedThead>
                         <tbody>
-                            <OfficeManageTableCell  name={"회의실1"} location={"S1350"} capacity={"7"} description={"분명 추석 연휴가 긴 줄 알았는데 눈깜빡하니까 학교가겠"}/>
+                            { offices.length === 0 ?
+                            <OfficeManageTableCell>
+                                <td colSpan={5}>회의실 내역이 없습니다.</td>
+                            </OfficeManageTableCell>
+                            : offices.map((office) =>
+                                <OfficeManageTableCell
+                                    id={office.officeId}
+                                    name={office.name} 
+                                    location={office.location} 
+                                    capacity={office.capacity} 
+                                    description={office.description}
+                                />
+                            )}
                         </tbody>
                     </BookedTable>
                 </TableContainer>
