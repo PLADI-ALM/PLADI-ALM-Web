@@ -211,7 +211,10 @@ function ResourceManageAdd(props) {
     let { resourceId } = useParams()
     const [name, setName] = useState("");
     const [place, setPlace] = useState("");
-    const [staff, setStaff] = useState("");
+    const [staff, setStaff] = useState({
+        userId: 1,
+        name: ""
+    });
     const [staffList, setStaffList] = useState([]);
     const [description, setDescription] = useState("");
     const [imageFile, setImageFile] = useState(null);
@@ -233,7 +236,7 @@ function ResourceManageAdd(props) {
     };
 
     const changeStaff = (e) => {
-        setStaff(e.target.value)
+        setStaff({...staff, name: e.target.value});
     };
 
     const changeDescription = (e) => {
@@ -242,7 +245,7 @@ function ResourceManageAdd(props) {
 
     const imageInput = useRef(null);
 
-    const changeImageFile = (e) => {
+    const changeImageFile = () => {
         imageInput.current.click();
     };
 
@@ -283,10 +286,11 @@ function ResourceManageAdd(props) {
 
     const addResource = () => {
         AdminBookingResourceAxios.post(``, {
-                staff: staff,
+                responsibility: staff.userId,
                 description: description,
+                location: place,
                 name: name,
-                imgUrl: imageUrl.imgKey,
+                imgKey: imageUrl.imgKey,
             },
             {
                 headers: {
@@ -322,7 +326,7 @@ function ResourceManageAdd(props) {
 
 
     const getStaffList = () => {
-        UsersAxios.get(`managers?name=${staff}` , {
+        UsersAxios.get(`managers?name=${staff.name}` , {
             headers: {
                 Authorization: getToken()
             }})
@@ -343,7 +347,11 @@ function ResourceManageAdd(props) {
 
     useEffect(() => {
         if (imageUrl !== null) {
-            uploadImage();
+            if (staff.userId === -1) {
+                alert("책임자를 선택해주세요.");
+            } else {
+                uploadImage();
+            }
         }
     }, [imageUrl]);
 
@@ -355,7 +363,7 @@ function ResourceManageAdd(props) {
 
     useEffect(() => {
         getStaffList();
-    }, [staff]);
+    }, [staff.name]);
 
 
 
@@ -379,11 +387,11 @@ function ResourceManageAdd(props) {
                     <StaffContainer >
                         <TitleLabel>책임자</TitleLabel>
                         <StaffInputContainer >
-                            <StaffInput type="text" value={staff} onChange={changeStaff} onClick={() => setIsFocusStaffInput(true)} onBlur={() => setIsFocusStaffInput(false)} />
+                            <StaffInput type="text" value={staff.name} onChange={changeStaff} onClick={() => setIsFocusStaffInput(true)} onBlur={() => setIsFocusStaffInput(false)} />
                             {isFocusStaffInput &&
                                 <StaffSelectUl>
                                     {staffList.map((staff, index) =>
-                                        <StaffLabel key={index} onMouseDown={() => setStaff(staff.name)}>{staff.name}</StaffLabel>
+                                        <StaffLabel key={index} onMouseDown={() => setStaff(staff)}>{staff.name}</StaffLabel>
                                     )}
                                 </StaffSelectUl>
                             }
@@ -400,12 +408,11 @@ function ResourceManageAdd(props) {
                         <TitleLabel>첨부사진</TitleLabel>
                         <ImageInfoContainer>
                             <IamgeInfoLabel>{imageFile!== null ? imageFile.name : ""}</IamgeInfoLabel>
-                            <ExitBtn onClick={deleteImageFile} >X</ExitBtn>
+                            {imageFile===null ? <></> : <ExitBtn onClick={deleteImageFile} >X</ExitBtn>}
                         </ImageInfoContainer>
                         <IamgeAddContainer>
                             <ImageAddButton src={AddImageImage} onClick={changeImageFile} />
-
-                        <input type="file"
+                            <input type="file"
                                name="image"
                                ref={imageInput}
                                accept='.png, .jpg,image/*'
