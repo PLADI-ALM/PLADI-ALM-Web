@@ -258,16 +258,30 @@ function ResourceManageAdd(props) {
     };
 
     const getImageUrl = () => {
-        if (imageFile !== null) {
-            ImageUrlAxios.get(`?ext=${imageFile.type.split("/", 2)[1]}&dir=photo`)
-                .then((Response) => {
-                    setImageUrl(Response.data);
-                })
-                .catch((error) => {
-                    console.log(error)
-                });
+        if (resourceInfo !== null) {
+            if (imageFile !== null) {
+                ImageUrlAxios.get(`?ext=${imageFile.type.split("/", 2)[1]}&dir=photo`)
+                    .then((Response) => {
+                        setImageUrl(Response.data);
+                    })
+                    .catch((error) => {
+                        console.log(error)
+                    });
+            }else {
+                editResource();
+            }
         }else {
-            alert("이미지를 업로드해주세요.")
+            if (imageFile !== null) {
+                ImageUrlAxios.get(`?ext=${imageFile.type.split("/", 2)[1]}&dir=photo`)
+                    .then((Response) => {
+                        setImageUrl(Response.data);
+                    })
+                    .catch((error) => {
+                        console.log(error)
+                    });
+            }else {
+                alert("이미지를 업로드해주세요.");
+            }
         }
     }
 
@@ -298,13 +312,37 @@ function ResourceManageAdd(props) {
                 },
             })
             .then((Response) => {
-                alert("자원 등록이 완료되었습니다.");
+                alert("장비 등록이 완료되었습니다.");
                 window.location.href = `/manage/resources`
             })
             .catch((error) => {
                 basicError(error)
             });
     };
+
+    const editResource = () => {
+
+
+        AdminBookingResourceAxios.patch(`/${resourceId}`, {
+                responsibility: staff.userId,
+                description: description,
+                location: place,
+                name: name,
+                imgKey: imageFile === null ? imageUrl : imageUrl.imgKey,
+            },
+            {
+                headers: {
+                    Authorization: getToken()
+                },
+            })
+            .then((Response) => {
+                alert("장비 수정이 완료되었습니다.");
+                window.location.href = `/manage/resources/${resourceId}`
+            })
+            .catch((error) => {
+                basicError(error)
+            });
+    }
 
     const getResourceInfo = () => {
         ResourcesAxios.get(`/${resourceId}`, {
@@ -313,8 +351,16 @@ function ResourceManageAdd(props) {
             }
         })
             .then((Response)=>{
-                console.log(Response.data.data);
                 setResourceInfo(Response.data.data);
+                setStaff({
+                    ...staff,
+                    name: Response.data.data.responsibilityName,
+                    userId: Response.data.data.responsibilityId
+                });
+                setDescription(Response.data.data.description);
+                setPlace(Response.data.data.location);
+                setName(Response.data.data.name);
+                setImageUrl(Response.data.data.imgUrl)
             })
             .catch((Error)=>{
                 basicError(Error)
@@ -346,6 +392,9 @@ function ResourceManageAdd(props) {
     }, [])
 
     useEffect(() => {
+        if (resourceInfo !== null && imageFile === null) {
+            return;
+        }
         if (imageUrl !== null) {
             if (staff.userId === -1) {
                 alert("책임자를 선택해주세요.");
@@ -356,8 +405,12 @@ function ResourceManageAdd(props) {
     }, [imageUrl]);
 
     useEffect(() => {
-        if (isUpload) {
-            addResource();
+        if (isUpload ) {
+            if (resourceInfo !== null) {
+                editResource();
+            } else {
+                addResource();
+            }
         }
     }, [isUpload]);
 
@@ -401,13 +454,14 @@ function ResourceManageAdd(props) {
 
                     <DescriptionContainer>
                         <TitleLabel>설명</TitleLabel>
-                        <DescriptionInput type="text"  onChange={changeDescription}/>
+                        <DescriptionInput type="text" value={description}  onChange={changeDescription}/>
                     </DescriptionContainer>
 
                     <ImageContainer>
                         <TitleLabel>첨부사진</TitleLabel>
                         <ImageInfoContainer>
-                            <IamgeInfoLabel>{imageFile!== null ? imageFile.name : ""}</IamgeInfoLabel>
+                            <IamgeInfoLabel>{imageFile !== null ? imageFile.name :""
+                            }</IamgeInfoLabel>
                             {imageFile===null ? <></> : <ExitBtn onClick={deleteImageFile} >X</ExitBtn>}
                         </ImageInfoContainer>
                         <IamgeAddContainer>
@@ -424,7 +478,7 @@ function ResourceManageAdd(props) {
                     <AddButtonContainer>
                         <ManageAddButton onClick={getImageUrl}>
                             <ManageAddButtonImage src={SearchButtonImage} />
-                            <ManageAddButtonLabel>대여 자원 추가</ManageAddButtonLabel>
+                            <ManageAddButtonLabel>{resourceInfo === null ? "대여 자원 추가" : "대여 자원 수정"}</ManageAddButtonLabel>
                         </ManageAddButton>
                     </AddButtonContainer>
 
