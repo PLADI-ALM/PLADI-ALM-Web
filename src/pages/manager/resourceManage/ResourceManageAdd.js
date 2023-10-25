@@ -321,12 +321,14 @@ function ResourceManageAdd(props) {
     };
 
     const editResource = () => {
+
+
         AdminBookingResourceAxios.patch(`/${resourceId}`, {
                 responsibility: staff.userId,
                 description: description,
                 location: place,
                 name: name,
-                imgKey: imageUrl.imgKey,
+                imgKey: imageFile === null ? imageUrl : imageUrl.imgKey,
             },
             {
                 headers: {
@@ -476,7 +478,7 @@ function ResourceManageAdd(props) {
                     <AddButtonContainer>
                         <ManageAddButton onClick={getImageUrl}>
                             <ManageAddButtonImage src={SearchButtonImage} />
-                            <ManageAddButtonLabel>대여 자원 추가</ManageAddButtonLabel>
+                            <ManageAddButtonLabel>{resourceInfo === null ? "대여 자원 추가" : "대여 자원 수정"}</ManageAddButtonLabel>
                         </ManageAddButton>
                     </AddButtonContainer>
 
