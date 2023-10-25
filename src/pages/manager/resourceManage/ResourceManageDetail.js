@@ -67,9 +67,11 @@ function ResourceManageDetail() {
                 Authorization: getToken()
             }
         })
-        .then((Response)=>{ setResourceInfo(Response.data.data) })
-        .catch((Error)=>{
-            basicError(Error)
+        .then((Response)=>{ 
+            console.log(Response.data.data)
+            setResourceInfo(Response.data.data) })
+        .catch((Error)=>{ 
+            basicError(Error) 
             console.log(Error)
             window.alert("자원 정보를 불러올 수 없습니댜.")
             window.history.back()
@@ -77,14 +79,16 @@ function ResourceManageDetail() {
     }
 
     const getResourceBookingListInfo = () => {
-        AdminBookingResourceAxios.get(`resources/${resourceId}`, {
+        AdminBookingResourceAxios.get(`${resourceId}`, {
             headers: {
                 Authorization: getToken()
             }
         })
-        .then((Response)=>{ setBookingsInfo(Response.data.data.resourcesLists) })
-        .catch((Error)=>{
-            basicError(Error)
+        .then((Response)=>{ 
+            console.log(Response.data.data)
+            setBookingsInfo(Response.data.data.resourcesLists) })
+        .catch((Error)=>{ 
+            basicError(Error) 
             console.log(Error)
             window.alert("예약 정보를 불러올 수 없습니댜.")
             window.history.back()
@@ -126,7 +130,7 @@ function ResourceManageDetail() {
                     <SelectedSubTitleText>{resourceInfo.name}</SelectedSubTitleText>
                 </MainTextContainer>
                 <SubTextContainer>
-                    <UnselectedSubTitleText>{resourceInfo.category}</UnselectedSubTitleText>
+                    <UnselectedSubTitleText>{resourceInfo.location}</UnselectedSubTitleText>
                 </SubTextContainer>
                 <MoreButton onClick={() => { setOptionViewShowing(!isShowingOptions) }}>
                     <img src={MoreButtonIcon} alt="더보기" />
@@ -138,6 +142,8 @@ function ResourceManageDetail() {
             </Bar>
 
             <ResourceInfo detail={false}
+                        responsibilityName={resourceInfo.responsibilityName}
+                        responsibilityPhone={resourceInfo.responsibilityPhone}
                         description={resourceInfo.description}
                         imgUrl={resourceInfo.imgUrl} />
 
@@ -147,15 +153,15 @@ function ResourceManageDetail() {
 
             <InfoTable>
                 <tr style={{backgroundColor:'#D0B1EE', border: '1px solid #959494', height:'45px'}}>
-                    <th scope="col" style={{width: '15%', border:'1px solid #959494'}} >요청자</th>
+                    <th scope="col" style={{width: '20%', border:'1px solid #959494'}} >요청자</th>
                     <th scope="col" style={{width: '25%', border:'1px solid #959494'}} >예약일자</th>
-                    <th scope="col" style={{width: '48%', border:'1px solid #959494'}} >목적</th>
+                    <th scope="col" style={{width: '43%', border:'1px solid #959494'}} >목적</th>
                     <th scope="col" style={{width: '12%', border:'1px solid #959494'}} >상태</th>
                 </tr>
                 {bookingsInfo.map(function(info){
                     return (
                         <tr style={{border: '1px solid #959494', height:'45px'}}>
-                            <InfoTableData>{info.requester} ({info.position})</InfoTableData>
+                            <InfoTableData>{info.reservatorName} ({info.reservatorPhone})</InfoTableData>
                             <InfoTableData style={{fontWeight:'bold'}}>{info.startDateTime} ~ {info.endDateTime}</InfoTableData>
                             <InfoTableData>{info.goal}</InfoTableData>
                             <InfoTableData>{info.bookingStatus}</InfoTableData>

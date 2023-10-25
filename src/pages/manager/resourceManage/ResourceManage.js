@@ -41,7 +41,7 @@ function ResourceManage(props) {
     return (
        <RightContainer>
             <TitleText>{props.title}</TitleText>
-            <ManageSearchBar buttonTitle="자원 추가" onEnter={getSearchResources} btnClick={moveToAdd}/>
+            <ManageSearchBar buttonTitle="장비 추가" onEnter={getSearchResources} btnClick={moveToAdd}/>
             <WhiteContainer>
                 <Bar />
                 <TableContainer>
@@ -50,26 +50,26 @@ function ResourceManage(props) {
                             <tr>
                                 <th width="20%">장비명</th>
                                 <th width="15%">보관장소</th>
-                                <th width="15%">책임자</th>
-                                <th width="40%">설명</th>
+                                <th width="20%">책임자</th>
+                                <th width="30%">설명</th>
                                 <th width="8%"></th>
                             </tr>
                         </BookedThead>
                         <tbody>
                             { resources.length === 0 ?
                             <ResourceManageTableCell>
-                                <td colSpan={5}>자원 내역이 없습니다.</td>
+                                <td colSpan={5}>장비 내역이 없습니다.</td>
                             </ResourceManageTableCell>
                             : resources.map((resource) =>
                                 <ResourceManageTableCell
                                     key={resource.resourceId}
                                     id={resource.resourceId}
                                     name={resource.name}
-                                    location={resource.category}
-                                    user={resource.name}
-                                    userPhone={resource.category}
+                                    location={resource.location}
+                                    user={resource.responsibilityName}
+                                    userPhone={resource.responsibilityPhone}
                                     description={resource.description}
-                                    isEnable={true}
+                                    isEnable={resource.isActive}
                                 />
                             )}
                         </tbody>

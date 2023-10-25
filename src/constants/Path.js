@@ -31,9 +31,9 @@ export const MAIN_MENUS = [
 export const ADMIN_MENUS = [
     { name: '직원 관리', path: '/manage/users' },
     { name: '회의실 관리', path: '/manage/offices' },
-    { name: '자원 관리', path: '/manage/resources' },
+    { name: '장비 관리', path: '/manage/resources' },
     { name: '회의실예약 관리', path: '/manage/officeBooking' },
-    { name: '자원 예약 관리', path: '/manage/resourceBooking' },
+    { name: '장비 예약 관리', path: '/manage/resourceBooking' },
     { name: '차량 예약 관리', path: '/manage/carBooking' }
 ]
 
@@ -50,7 +50,7 @@ export const BookingCategoryPathList = [
 export function getBookingCategoryPath(koreanName) {
     if (koreanName === '회의실') {
         return BookingCategoryPathList[0]
-    } else if (koreanName === '자원') {
+    } else if (koreanName === '장비') {
         return BookingCategoryPathList[1]
     }
 }

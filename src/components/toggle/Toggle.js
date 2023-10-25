@@ -33,7 +33,7 @@ const Circle = styled.div`
 `;
 
 export function Toggle(props) {
-    const [toggle, setToggle] = useState(false);
+    const [toggle, setToggle] = useState(props.isEnable);
     const clickedToggle = () => {
         setToggle((prev) => !prev);
         props.click(!toggle);
