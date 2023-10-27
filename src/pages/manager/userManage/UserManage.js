@@ -55,10 +55,9 @@ function UserManage(props) {
                         <BookedThead>
                             <tr>
                                 <th width="5%">성명</th>
-                                <th width="5%">직위</th>
                                 <th width="15%">이메일</th>
+                                <th width="15%">연락처</th>
                                 <th width="10%">부서</th>
-                                <th width="10%">직책</th>
                                 <th width="5%">권한</th>
                                 <th width="5%"></th>
                             </tr>
@@ -66,16 +65,15 @@ function UserManage(props) {
                         <tbody>
                             {users.length === 0 ?
                                 <UserManageLine>
-                                    <td colSpan={4}>예약 내역이 없습니다.</td>
+                                    <td colSpan={6}>직원이 없습니다.</td>
                                 </UserManageLine>
                                 : users.map((user, index) =>
                                     <UserManageLine key={index}
                                         id={user.userId}
                                         name={user.name}
-                                        position={user.position}
                                         email={user.email}
+                                        phone={user.phone}
                                         department={user.department}
-                                        officeJob={user.officeJob}
                                         role={user.role}
                                     />)}
                         </tbody>
