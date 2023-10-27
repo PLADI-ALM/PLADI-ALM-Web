@@ -73,7 +73,7 @@ function ResourceManageDetail() {
         .catch((Error)=>{ 
             basicError(Error) 
             console.log(Error)
-            window.alert("자원 정보를 불러올 수 없습니댜.")
+            window.alert("장비 정보를 불러올 수 없습니댜.")
             window.history.back()
         })
     }
@@ -96,7 +96,7 @@ function ResourceManageDetail() {
     }
 
     const deleteResource = () => {
-        if (window.confirm("자원을 삭제하시겠습니까?")) {
+        if (window.confirm("장비을 삭제하시겠습니까?")) {
             AdminBookingResourceAxios.delete(`${resourceId}`, {
                 headers: {
                     Authorization: getToken()
@@ -104,7 +104,7 @@ function ResourceManageDetail() {
             })
             .then((Response)=>{
                 if(Response.data.status === 200) {
-                    alert('자원을 성공적으로 삭제하였습니다.')
+                    alert('장비을 성공적으로 삭제하였습니다.')
                     window.history.back()
                 }
             })
@@ -122,7 +122,7 @@ function ResourceManageDetail() {
     }, []);
 
     return <RightContainer>
-        <TitleText>자원 관리</TitleText>
+        <TitleText>장 관리</TitleText>
 
         <WhiteContainer style={{display:'inline'}}>
             <Bar style={{position:'static'}}>

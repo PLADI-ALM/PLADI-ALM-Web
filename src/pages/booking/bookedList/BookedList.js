@@ -75,7 +75,7 @@ function BookedList(props) {
             })
     }
 
-    // 자원 예약내역
+    // 장비 예약내역
     const getResourceBookingList = () => {
         BookingsAxios.get("?category=resource", {
             headers: {

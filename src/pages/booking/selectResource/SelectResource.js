@@ -110,10 +110,10 @@ function SelectResource(props) {
             <TitleText>{props.title}</TitleText>
             <ResourceSearchBar>
                 <SearchTitleContainer>
-                    <SearchTitleText>예약 가능 자원 검색</SearchTitleText>
+                    <SearchTitleText>예약 가능 장비 검색</SearchTitleText>
                 </SearchTitleContainer>
 
-                <SearchTextInput type="text" placeholder="자원명 검색" onChange={changeResourceName} />
+                <SearchTextInput type="text" placeholder="장비명 검색" onChange={changeResourceName} />
 
                 <SearchDateContainer>
                     <SearchDateInput type="date" onChange={changeStartDate} />
@@ -126,7 +126,7 @@ function SelectResource(props) {
 
             <WhiteContainer>
                 <div className="cardList">
-                    {resourceList.length === 0 ? <label>예약 가능한 자원이 없습니다.</label> : resourceList.map((resource, index) => <ResourceInfo key={resource.index} detail={true} resourceId={resource.resourceId} name={resource.name} imgUrl={resource.imgUrl} category={resource.category} description={resource.description} />)}
+                    {resourceList.length === 0 ? <label>예약 가능한 장비가 없습니다.</label> : resourceList.map((resource, index) => <ResourceInfo key={resource.index} detail={true} resourceId={resource.resourceId} name={resource.name} imgUrl={resource.imgUrl} category={resource.category} description={resource.description} />)}
                 </div>
             </WhiteContainer>
         </RightContainer>

@@ -61,7 +61,7 @@ export const CardImage = styled.img`
     object-fit: contain;
     margin-right: 20px;
 `
-// 자원 이미지
+// 장비 이미지
 export const ResourceCardImage = styled.img`
     width: 30%;
     height: 150px;

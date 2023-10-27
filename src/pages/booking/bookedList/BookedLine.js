@@ -20,7 +20,7 @@ function cancelBooking(bookingId, name, info, start, end, type) {
 }
 
 function returnBooking(bookingId, name, info, start, end) {
-    if (window.confirm(`${name}(${info}) ${start} ~ ${end}\n자원을 반납하시겠습니까?`)) {
+    if (window.confirm(`${name}(${info}) ${start} ~ ${end}\n장비를 반납하시겠습니까?`)) {
         BookingsAxios.patch(`/resources/${bookingId}/return`)
             .catch((error) => {
                 basicError(error)
@@ -50,7 +50,7 @@ function BookedLine(props) {
                                 cancelBooking(props.id, props.name, props.info, props.start, props.end, props.type)} name={'취소'} /></td>
                             : null
                         :
-                        // 자원
+                        // 장비
                         ((status === WAITING) || (status === BOOKED)) ?
                             <td width="10%"><SmallButton click={() =>
                                 cancelBooking(props.id, props.name, props.info, props.start, props.end, props.type)} name={'취소'} /></td>

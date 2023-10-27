@@ -40,7 +40,7 @@ function ResourceBookingManage(props) {
                     <BookedTable>
                         <BookedThead>
                             <tr>
-                                <th width="15%">자원명</th>
+                                <th width="15%">장비명</th>
                                 <th width="10%">카테고리</th>
                                 <th width="20%">예약일자</th>
                                 <th width="10%">요청자</th>
