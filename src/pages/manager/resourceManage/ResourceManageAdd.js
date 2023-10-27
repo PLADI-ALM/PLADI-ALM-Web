@@ -224,7 +224,7 @@ function ResourceManageAdd(props) {
 
     const [isFocusStaffInput, setIsFocusStaffInput] = useState(false);
 
-    const [resourceInfo, setResourceInfo] = useState([])
+    const [resourceInfo, setResourceInfo] = useState(null)
 
 
     const changeName = (e) => {
