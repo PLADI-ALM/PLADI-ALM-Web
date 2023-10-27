@@ -22,11 +22,10 @@ function UserManageLine(props) {
     return (
         <>
             <BookedLineTr>
-                <td width="5%">{props.name}</td>
-                <td width="5%">{props.position}</td>
+                <td width="10%">{props.name}</td>
                 <td width="15%">{props.email}</td>
+                <td width="15%">{props.phone}</td>
                 <td width="10%">{props.department}</td>
-                <td width="10%">{props.officeJob}</td>
                 <td width="5%"><RoleCapsule role={props.role} /></td>
                 <td width="5%"><MoreBtn src={MoreIcon} onClick={openModalHandler} /></td>
 
