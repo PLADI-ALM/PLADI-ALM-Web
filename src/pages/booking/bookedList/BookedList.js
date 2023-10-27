@@ -54,6 +54,13 @@ export const BookedLineTr = styled.tr`
     border-bottom: #E1E0E2 solid 1px;
 `
 
+export const NoLineTr = styled.tr`
+  color: #4c4c4c;
+  text-align: center;
+  height: 60px;
+  border-bottom: #E1E0E2 solid 1px;
+`
+
 const optionList = BookingCategoryList.map((category) => (<option>{category}</option>))
 
 function BookedList(props) {

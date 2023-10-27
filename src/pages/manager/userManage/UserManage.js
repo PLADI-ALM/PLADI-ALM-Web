@@ -1,7 +1,7 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { RightContainer, TitleText, WhiteContainer } from "components/rightContainer/RightContainer";
-import { Bar, BookedTable, BookedThead, TableContainer } from "../../booking/bookedList/BookedList";
+import {Bar, BookedTable, BookedThead, NoLineTr, TableContainer} from "../../booking/bookedList/BookedList";
 import UserManageLine from "pages/manager/userManage/UserManageLine"
 import ManageSearchBar from "components/searchBar/ManageSearchBar";
 import { AdminUsersAxios } from "api/AxiosApi";
@@ -45,7 +45,7 @@ function UserManage(props) {
                 <UserModal id={props.id} handler={openModalHandler} />
                 : null
             }
-            <TitleText>{props.title}</TitleText>
+            <TitleText>직원 관리</TitleText>
             <ManageSearchBar btnClick={openModalHandler} onEnter={searchUsers} buttonTitle="신규 직원 등록" />
 
             <WhiteContainer>
@@ -54,7 +54,7 @@ function UserManage(props) {
                     <BookedTable>
                         <BookedThead>
                             <tr>
-                                <th width="5%">성명</th>
+                                <th width="10%">성명</th>
                                 <th width="15%">이메일</th>
                                 <th width="15%">연락처</th>
                                 <th width="10%">부서</th>
@@ -64,11 +64,12 @@ function UserManage(props) {
                         </BookedThead>
                         <tbody>
                             {users.length === 0 ?
-                                <UserManageLine>
+                                <NoLineTr>
                                     <td colSpan={6}>직원이 없습니다.</td>
-                                </UserManageLine>
-                                : users.map((user, index) =>
-                                    <UserManageLine key={index}
+                                </NoLineTr>
+                                : users.map((user) =>
+                                    <UserManageLine
+                                        key={user.id}
                                         id={user.userId}
                                         name={user.name}
                                         email={user.email}
