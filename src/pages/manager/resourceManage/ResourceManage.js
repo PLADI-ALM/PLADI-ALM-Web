@@ -1,7 +1,7 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { RightContainer, TitleText, WhiteContainer } from "components/rightContainer/RightContainer";
-import { Bar, BookedTable, BookedThead, TableContainer } from "../../booking/bookedList/BookedList";
+import {Bar, BookedTable, BookedThead, NoLineTr, TableContainer} from "../../booking/bookedList/BookedList";
 import ResourceManageTableCell from "./ResourceManageTableCell";
 import ManageSearchBar from "components/searchBar/ManageSearchBar";
 import { getToken } from "utils/IsLoginUtil";
@@ -57,9 +57,9 @@ function ResourceManage(props) {
                         </BookedThead>
                         <tbody>
                             { resources.length === 0 ?
-                            <ResourceManageTableCell>
+                            <NoLineTr>
                                 <td colSpan={5}>장비 내역이 없습니다.</td>
-                            </ResourceManageTableCell>
+                            </NoLineTr>
                             : resources.map((resource) =>
                                 <ResourceManageTableCell
                                     key={resource.resourceId}
