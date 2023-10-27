@@ -4,14 +4,14 @@ import styled from "styled-components";
 import ArrowDown from "assets/images/arrowDown.svg"
 
 const Select = styled.select`
-    border-radius: 10px;
+    border-radius: 8px;
     border: 1px solid #717171;
     background: #F6F6F6;
     font-family: NanumSquare_ac;
     font-size: 18px;
     color: #757575;
     padding: 0 10px;
-    height: 35px;
+    height: 40px;
     outline: none;
     padding: 2px;
 `

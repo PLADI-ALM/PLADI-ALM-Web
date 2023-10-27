@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 // Modal이 떴을 때의 배경
 export const ModalBackdrop = styled.div`
-    z-index: 2; //위치지정 요소
+    z-index: 3; //위치지정 요소
     position: fixed;
     display : flex;
     justify-content : center;
@@ -31,7 +31,7 @@ export const TitleContainer = styled.div`
     display : flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 20px;
+    margin-bottom: 35px;
 `
 
 export const ModalTitle = styled.h2`
@@ -60,7 +60,7 @@ export const AttrsContainer = styled.div`
 export const AttrContainer = styled.div`
     display : flex;
     align-items: center;
-    margin-bottom: 20px;
+    margin-bottom: 35px;
 `
 
 export const AttrLabel = styled.div`
@@ -72,8 +72,8 @@ export const AttrLabel = styled.div`
 
 export const AttrInput = styled.input`
     border: 2px solid #E6E6E6;
-    border-radius: 10px;
-    height: 35px;
+    border-radius: 8px;
+    height: 40px;
     width: 280px;
     font-family: NanumSquare_ac;
     font-size: 18px;
