@@ -6,5 +6,5 @@ export const TimeList = [
 ]
 
 export const BookingCategoryList = [
-    "회의실", "자원"
+    "회의실", "장비"
 ]

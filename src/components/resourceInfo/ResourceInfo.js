@@ -5,7 +5,7 @@ import Capsule from "components/capsule/Capsule";
 import { ResourceCard, CardText, DetailContainer, ResourceCardImage, InfoContainer, DescriptionContainer, OfficeContentText, ResourceTitle } from "components/card/Card";
 import { useNavigate } from "react-router-dom";
 
-// 자원명 컨테이너
+// 장비명 컨테이너
 const ResourceTitleContainer = styled.div`
     height: 20px;
     display: ${props => props.isHidden ? 'none' : 'inline-flex'};

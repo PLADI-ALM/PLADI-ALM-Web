@@ -84,7 +84,7 @@ function ResourceBooking(props) {
             .catch((Error)=>{ 
                 basicError(Error) 
                 console.log(Error)
-                window.alert("자원 정보를 불러올 수 없습니댜.") 
+                window.alert("장비 정보를 불러올 수 없습니댜.")
                 window.history.back()
             });  
     };
@@ -159,7 +159,7 @@ function ResourceBooking(props) {
                 .catch((Error)=>{ 
                     basicError(Error) 
                     console.log(Error)
-                    window.alert("자원 예약에 실패하였습니다.") 
+                    window.alert("장비 예약에 실패하였습니다.")
                     window.history.back()
                 });  
         }
@@ -171,7 +171,7 @@ function ResourceBooking(props) {
     }, []);
 
     return <RightContainer>
-        <TitleText>자원 예약</TitleText>
+        <TitleText>장비 예약</TitleText>
 
         <WhiteContainer>
             <Bar />

@@ -31,7 +31,7 @@ function ResourceBookingCheck(props) {
         .catch((Error)=>{ 
             basicError(Error) 
             console.log(Error)
-            window.alert("자원 정보를 불러올 수 없습니댜.")
+            window.alert("장비 정보를 불러올 수 없습니댜.")
             window.history.back()
         });
     };
@@ -63,7 +63,7 @@ function ResourceBookingCheck(props) {
     }, []);
 
     return <RightContainer>
-        <TitleText>{props.isAdmin ? "자원 예약 내역" : "예약 내역"}</TitleText>
+        <TitleText>{props.isAdmin ? "장비 예약 내역" : "예약 내역"}</TitleText>
 
         <WhiteContainer style={{display:'inline'}}>
             <Bar style={{position:'static'}}>

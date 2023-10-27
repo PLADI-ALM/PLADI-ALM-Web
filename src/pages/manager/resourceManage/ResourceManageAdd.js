@@ -365,7 +365,7 @@ function ResourceManageAdd(props) {
             .catch((Error)=>{
                 basicError(Error)
                 console.log(Error)
-                window.alert("자원 정보를 불러올 수 없습니댜.")
+                window.alert("장비 정보를 불러올 수 없습니댜.")
                 window.history.back()
             })
     }
@@ -478,7 +478,7 @@ function ResourceManageAdd(props) {
                     <AddButtonContainer>
                         <ManageAddButton onClick={getImageUrl}>
                             <ManageAddButtonImage src={SearchButtonImage} />
-                            <ManageAddButtonLabel>{resourceInfo === null ? "대여 자원 추가" : "대여 자원 수정"}</ManageAddButtonLabel>
+                            <ManageAddButtonLabel>{resourceInfo === null ? "대여 장비 추가" : "대여 장비 수정"}</ManageAddButtonLabel>
                         </ManageAddButton>
                     </AddButtonContainer>
 
