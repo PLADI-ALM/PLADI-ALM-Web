@@ -53,7 +53,7 @@ export const ExitBtn = styled.button`
     align-items : center;
 `
 
-export const AttrsContainer = styled.div`
+export const AttrsForm = styled.form`
     width: 100%;
 `
 

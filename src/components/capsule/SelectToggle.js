@@ -29,7 +29,7 @@ const ModalSelect = styled(Select)`
 
 export function SelectToggleInModal(props) {
     return (
-        <ModalSelect imgUrl={ArrowDown} onChange={props.change}>
+        <ModalSelect imgUrl={ArrowDown} onChange={props.change} name={props.name}>
             {props.items}
         </ModalSelect>
     );
