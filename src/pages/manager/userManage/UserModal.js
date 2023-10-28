@@ -13,7 +13,7 @@ import {
     ModalTitle,
     ModalView,
     TitleContainer
-} from 'components/modal/Modal';
+} from 'components/modal/BigModal';
 import {
     AdminCapsuleBtnF,
     AdminRadioInput,

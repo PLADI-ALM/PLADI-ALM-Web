@@ -11,7 +11,7 @@ import {AdminBookingResourceAxios, ImageUrlAxios, ResourcesAxios, UsersAxios} fr
 
 import AddImageImage from "../../../assets/images/AddImage.svg"
 import SearchButtonImage from "../../../assets/images/SearchPlus.svg"
-import {ExitBtn} from "../../../components/modal/Modal";
+import {ExitBtn} from "../../../components/modal/BigModal";
 import axios from "axios";
 import {useParams} from "react-router-dom";
 
