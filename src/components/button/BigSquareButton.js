@@ -8,7 +8,7 @@ const Button = styled.button`
     border: none;
     border-radius: 8px;
     background: #8741CB;
-    box-shadow: 0px 4px 4px 0px #00000040;
+    box-shadow: 0 4px 4px 0 #00000040;
     cursor: pointer;
     color: white;
     font-size: 17px;
@@ -19,6 +19,21 @@ const WhiteButton = styled(Button)`
     color: #8741CB;
     background: white;
     border: 1px solid #8741CB;
+`
+
+export const InputPurpleButton = styled.input.attrs({type: 'submit'})`
+  width: 130px;
+  height: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  background: #8741CB;
+  box-shadow: 0 4px 4px 0 #00000040;
+  cursor: pointer;
+  color: white;
+  font-size: 17px;
+  font-family: NanumSquare_ac;
+    
 `
 
 function BigSquareButton(props) {

@@ -1,36 +1,97 @@
-import { SelectToggleInModal } from 'components/capsule/SelectToggle';
-import React, { useState, useEffect } from 'react';
-import { AdminUsersAxios } from 'api/AxiosApi';
-import { getToken } from 'utils/IsLoginUtil';
-import { basicError } from 'utils/ErrorHandlerUtil';
-import { AttrContainer, AttrInput, AttrLabel, AttrsContainer, BottomBtnContainer, ExitBtn, ModalBackdrop, ModalTitle, ModalView, TitleContainer } from 'components/modal/Modal';
-import { RoleCapsuleBtn } from 'components/capsule/RoleCapsule';
-import BigSquareButton from 'components/button/BigSquareButton';
+import {SelectToggleInModal} from 'components/capsule/SelectToggle';
+import React, {useState, useEffect} from 'react';
+import {AdminUsersAxios} from 'api/AxiosApi';
+import {getToken} from 'utils/IsLoginUtil';
+import {basicError} from 'utils/ErrorHandlerUtil';
+import {
+    AttrContainer,
+    AttrInput,
+    AttrLabel,
+    AttrsForm,
+    BottomBtnContainer,
+    ModalBackdrop,
+    ModalTitle,
+    ModalView,
+    TitleContainer
+} from 'components/modal/Modal';
+import {
+    AdminCapsuleBtnF,
+    AdminRadioInput,
+    BasicCapsuleBtnF,
+    BasicRadioInput
+} from 'components/capsule/RoleCapsule';
+import BigSquareButton, {InputPurpleButton} from 'components/button/BigSquareButton';
 
 export function UserModal(props) {
-    const [positionOptionList, setPositionOptionList] = useState([]);
     const [departmentOptionList, setDepartmentOptionList] = useState([]);
-    let deparments, positions;
+    const [currentRole, setCurrentRole] = useState("일반");
+    const [currentDepartment, setCurrentDepartment] = useState("");
+    let departments;
 
     function getDpNPsList() {
-        AdminUsersAxios.get("/ranks", {
+        AdminUsersAxios.get("/departments", {
             headers: {
                 Authorization: getToken()
             }
         })
             .then((response) => {
-                deparments = response.data.data.departmentList
-                positions = response.data.data.positionList
-                setPositionOptionList(positions.map((position) => (<option>{position}</option>)))
-                setDepartmentOptionList(deparments.map((deparment) => (<option>{deparment}</option>)))
+                departments = response.data.data.departmentList
+                setDepartmentOptionList(departments.map((department) => (<option value={department}>{department}</option>)))
             })
             .catch((error) => {
                 basicError(error)
             })
     }
+
     useEffect(() => {
         getDpNPsList()
     }, [])
+
+    const handleRoleChange = (e) => {
+        setCurrentRole(e.target.value);
+    };
+
+    const handleDepartmentChange = (e) => {
+        setCurrentDepartment(e.target.value);
+    };
+
+    // 전화번호 자동 하이픈
+    const autoHyphen = (e) => {
+        e.target.value = e.target.value
+            .replace(/[^0-9]/g, '')
+            .replace(/^(\d{2,3})(\d{3,4})(\d{4})$/, `$1-$2-$3`);
+    }
+
+    const registerUser = (e) => {
+        e.preventDefault()
+        const inputName = e.target.name.value
+        const inputEmail = e.target.email.value
+        const inputPassword = e.target.password.value
+        const inputPhone = e.target.phone.value
+        const inputDepartment = e.target.department.value
+        const inputRole = e.target.role.value
+        // todo: 입력값 정규식 확인
+
+        AdminUsersAxios.post("", {
+            name: inputName,
+            email: inputEmail,
+            password: inputPassword,
+            phone: inputPhone,
+            department: inputDepartment,
+            role: inputRole
+        }, {
+            headers: {
+                Authorization: getToken()
+            }
+        })
+            .then((response) => {
+                alert("등록되었습니다.")
+                window.location.reload();
+            })
+            .catch((error) => {
+                basicError(error)
+            })
+    };
 
 
     return (
@@ -38,43 +99,48 @@ export function UserModal(props) {
             <ModalView onClick={(e) => e.stopPropagation()}>
                 <TitleContainer>
                     <ModalTitle>신규 직원 등록</ModalTitle>
-                    <ExitBtn onClick={props.handler}>×</ExitBtn>
                 </TitleContainer>
-                <AttrsContainer>
+                <AttrsForm method="post" id="register-user-form" onSubmit={registerUser}>
                     <AttrContainer>
-                        <AttrLabel>이름</AttrLabel>
-                        <AttrInput type='text'></AttrInput>
+                        <AttrLabel>성명</AttrLabel>
+                        <AttrInput type='text' name='name'></AttrInput>
                     </AttrContainer>
                     <AttrContainer>
                         <AttrLabel>이메일</AttrLabel>
-                        <AttrInput type='text'></AttrInput>
+                        <AttrInput type='text' name='email'></AttrInput>
                     </AttrContainer>
                     <AttrContainer>
                         <AttrLabel>비밀번호</AttrLabel>
-                        <AttrInput type='text'></AttrInput>
+                        <AttrInput type='text' name='password'></AttrInput>
+                    </AttrContainer>
+                    <AttrContainer>
+                        <AttrLabel>연락처</AttrLabel>
+                        <AttrInput type='text' name='phone' onInput={autoHyphen} maxLength='13'></AttrInput>
                     </AttrContainer>
                     <AttrContainer>
                         <AttrLabel>부서</AttrLabel>
-                        <SelectToggleInModal items={departmentOptionList} />
-                    </AttrContainer>
-                    <AttrContainer>
-                        <AttrLabel>직위</AttrLabel>
-                        <SelectToggleInModal items={positionOptionList} />
-                    </AttrContainer>
-                    <AttrContainer>
-                        <AttrLabel>직책</AttrLabel>
-                        <AttrInput type='text'></AttrInput>
+                        <SelectToggleInModal name='department' items={departmentOptionList} value={currentDepartment} onChange={handleDepartmentChange}/>
                     </AttrContainer>
                     <AttrContainer>
                         <AttrLabel>권한</AttrLabel>
-                        <RoleCapsuleBtn role="일반" type={true} />
-                        <RoleCapsuleBtn role="관리자" type={false} />
+                        <BasicRadioInput type="radio" id="basic"
+                                         name="role"
+                                         value="일반"
+                                         checked={currentRole === "일반"}
+                                         onChange={handleRoleChange}/>
+                        <BasicCapsuleBtnF htmlFor="basic">일반</BasicCapsuleBtnF>
+                        <AdminRadioInput type="radio" id="admin"
+                                         name="role"
+                                         value="관리자"
+                                         checked={currentRole === "관리자"}
+                                         onChange={handleRoleChange}/>
+                        <AdminCapsuleBtnF htmlFor="admin">관리자</AdminCapsuleBtnF>
                     </AttrContainer>
-                </AttrsContainer>
-                <BottomBtnContainer>
-                    <BigSquareButton name={"등록"} color={"purple"} />
-                    <BigSquareButton name={"취소"} color={"white"} />
-                </BottomBtnContainer>
+                    <BottomBtnContainer>
+                        <InputPurpleButton value="등록"/>
+                        <BigSquareButton name={"취소"} color={"white"} click={props.handler}/>
+                    </BottomBtnContainer>
+                </AttrsForm>
             </ModalView>
         </ModalBackdrop>
     );
