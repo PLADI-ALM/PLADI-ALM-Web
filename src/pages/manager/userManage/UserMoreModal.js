@@ -1,6 +1,9 @@
 import React, {useState} from 'react';
 import {MenuText, MoreModalView, NormalDiv, RedDiv} from "../../../components/modal/MoreModal";
 import {UserModal} from "./UserModal";
+import {AdminUsersAxios} from "../../../api/AxiosApi";
+import {getToken} from "../../../utils/IsLoginUtil";
+import {basicError} from "../../../utils/ErrorHandlerUtil";
 
 export function UserMoreModal(props) {
     const [isOpen, setIsOpen] = useState(false)
@@ -14,7 +17,17 @@ export function UserMoreModal(props) {
     };
 
     const deleteUser = (e) => {
-
+        AdminUsersAxios.delete(`/${props.id}`, {
+            headers: {
+                Authorization: getToken()
+            }
+        })
+            .then((response) => {
+                alert("탈퇴 완료 되었습니다.")
+            })
+            .catch((error) => {
+                basicError(error)
+            })
     };
 
     return (
