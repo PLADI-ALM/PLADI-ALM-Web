@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import SearchInputImage from "../../assets/images/SearchInput.svg"
 import SearchButtonImage from "../../assets/images/SearchPlus.svg"
+import {SelectToggle} from "../capsule/SelectToggle";
 
 const Container = styled.div`
     background: none;
@@ -40,16 +41,17 @@ const ManageSearchText = styled.input`
 `
 
 export const ManageAddButton = styled.button`
-    width: 160px;
-    height: 100%;
-    padding: 10px;
-    border: none;
-    border-radius: 8px;
-    background: #8741CB;
-    display: flex;
-    align-items: center;
-    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
-    cursor: pointer;
+  width: 160px;
+  height: 100%;
+  padding: 10px;
+  margin-left: 10px;
+  border: none;
+  border-radius: 8px;
+  background: #8741CB;
+  display: flex;
+  align-items: center;
+  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+  cursor: pointer;
 `
 
 export const ManageAddButtonImage = styled.img`
@@ -81,6 +83,10 @@ function ManageSearchBar(props) {
                 <ManageSearchImage src={SearchInputImage} />
                 <ManageSearchText onKeyUp={handleOnKeyPress} placeholder="이름 검색" />
             </ManageSearchContainer>
+            {
+                props.selectOptions !== null ?
+                    <SelectToggle items={props.selectOptions} change={props.onSelectedChange} /> : null
+            }
             <ManageAddButton onClick={props.btnClick}>
                 <ManageAddButtonImage src={SearchButtonImage} />
                 <ManageAddButtonLabel>{props.buttonTitle}</ManageAddButtonLabel>

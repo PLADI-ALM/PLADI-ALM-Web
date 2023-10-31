@@ -41,7 +41,7 @@ function ResourceManage(props) {
     return (
        <RightContainer>
             <TitleText>{props.title}</TitleText>
-            <ManageSearchBar buttonTitle="장비 추가" onEnter={getSearchResources} btnClick={moveToAdd}/>
+            <ManageSearchBar selectOptions={null} buttonTitle="장비 추가" onEnter={getSearchResources} btnClick={moveToAdd}/>
             <WhiteContainer>
                 <Bar />
                 <TableContainer>
