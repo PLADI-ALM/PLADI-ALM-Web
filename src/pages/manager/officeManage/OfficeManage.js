@@ -1,7 +1,7 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { RightContainer, TitleText, WhiteContainer } from "components/rightContainer/RightContainer";
-import { Bar, BookedTable, BookedThead, TableContainer } from "../../booking/bookedList/BookedList";
+import {Bar, BookedTable, BookedThead, NoLineTr, TableContainer} from "../../booking/bookedList/BookedList";
 import OfficeManageTableCell from "./OfficeManageTableCell";
 import ManageSearchBar from "components/searchBar/ManageSearchBar";
 import { getToken } from "utils/IsLoginUtil";
@@ -49,15 +49,16 @@ function OfficeManage(props) {
                             <tr>
                                 <th width="20%">회의실명</th>
                                 <th width="20%">위치</th>
-                                <th width="20%">수용인원</th>
+                                <th width="10%">수용인원</th>
                                 <th width="40%">설명</th>
+                                <th width="10%"></th>
                             </tr>
                         </BookedThead>
                         <tbody>
                             { offices.length === 0 ?
-                            <OfficeManageTableCell>
+                            <NoLineTr>
                                 <td colSpan={5}>회의실 내역이 없습니다.</td>
-                            </OfficeManageTableCell>
+                            </NoLineTr>
                             : offices.map((office) =>
                                 <OfficeManageTableCell
                                     id={office.officeId}
@@ -65,6 +66,7 @@ function OfficeManage(props) {
                                     location={office.location} 
                                     capacity={office.capacity} 
                                     description={office.description}
+                                    isEnable={office.isActive}
                                 />
                             )}
                         </tbody>
