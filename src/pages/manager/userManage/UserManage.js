@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useRef} from "react";
 import { useState, useEffect } from "react";
 import { RightContainer, TitleText, WhiteContainer } from "components/rightContainer/RightContainer";
 import {Bar, BookedTable, BookedThead, NoLineTr, TableContainer} from "../../booking/bookedList/BookedList";
@@ -12,10 +12,14 @@ import { UserModal } from "./UserModal";
 function UserManage(props) {
     const [isOpen, setIsOpen] = useState(false)
     const [users, setUserList] = useState([])
+    const [departmentOptionList, setDepartmentOptionList] = useState([]);
+    const currentDepartment = useRef("");
+    const currentSearchWord = useRef("");
+    let departments;
 
     // 유저 목록 조회
-    const getUserList = (word) => {
-        AdminUsersAxios.get(`?name=${word}`, {
+    const getUserList = (word, department) => {
+        AdminUsersAxios.get(`?name=${word}&department=${department}`, {
             headers: {
                 Authorization: getToken()
             }
@@ -26,12 +30,41 @@ function UserManage(props) {
             })
     }
 
+    function getDpNPsList() {
+        AdminUsersAxios.get("/departments", {
+            headers: {
+                Authorization: getToken()
+            }
+        })
+            .then((response) => {
+                departments = response.data.data.departmentList
+                if (departmentOptionList.length === 0) {
+                    departmentOptionList.push(<option value="">부서</option>)
+                    departments.map((department) =>
+                        departmentOptionList.push(<option value={department}>{department}</option>))
+                }
+            })
+            .catch((error) => {
+                basicError(error)
+            })
+    }
+
     useEffect(() => {
-        getUserList("")
+        getUserList("", "")
     }, [])
 
+    useEffect(() => {
+        getDpNPsList()
+    },[])
+
     const searchUsers = (e) => {
-        getUserList(e.target.value)
+        currentSearchWord.current = e.target.value
+        getUserList(currentSearchWord.current, currentDepartment.current)
+    }
+
+    const onSelectedChange = (e) => {
+        currentDepartment.current = e.target.value
+        getUserList(currentSearchWord.current, currentDepartment.current)
     }
 
     // 모달 핸들러
@@ -46,7 +79,8 @@ function UserManage(props) {
                 : null
             }
             <TitleText>직원 관리</TitleText>
-            <ManageSearchBar btnClick={openModalHandler} onEnter={searchUsers} buttonTitle="신규 직원 등록" />
+            <ManageSearchBar selectOptions={departmentOptionList} onSelectedChange={onSelectedChange}
+                             btnClick={openModalHandler} onEnter={searchUsers} buttonTitle="신규 직원 등록" />
 
             <WhiteContainer>
                 <Bar />
