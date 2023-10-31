@@ -1,5 +1,5 @@
 import {SelectToggleInModal} from 'components/capsule/SelectToggle';
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import {AdminUsersAxios} from 'api/AxiosApi';
 import {getToken} from 'utils/IsLoginUtil';
 import {basicError} from 'utils/ErrorHandlerUtil';
@@ -13,7 +13,7 @@ import {
     ModalTitle,
     ModalView,
     TitleContainer
-} from 'components/modal/Modal';
+} from 'components/modal/BigModal';
 import {
     AdminCapsuleBtnF,
     AdminRadioInput,
@@ -25,8 +25,28 @@ import BigSquareButton, {InputPurpleButton} from 'components/button/BigSquareBut
 export function UserModal(props) {
     const [departmentOptionList, setDepartmentOptionList] = useState([]);
     const [currentRole, setCurrentRole] = useState("일반");
-    const [currentDepartment, setCurrentDepartment] = useState("");
+    const currentDepartment = useRef("");
+    const [userInfo, setUserInfo] = useState(null);
     let departments;
+
+    function getUserInfo() {
+        if (props.id !== null) {
+            AdminUsersAxios.get(`/${props.id}`, {
+                headers: {
+                    Authorization: getToken()
+                }
+            })
+                .then((response) => {
+                    setUserInfo(response.data.data)
+                    currentDepartment.current = response.data.data.department
+                    setCurrentRole(response.data.data.role)
+                    getDpNPsList();
+                })
+                .catch((error) => {
+                    basicError(error)
+                })
+        } else getDpNPsList();
+    }
 
     function getDpNPsList() {
         AdminUsersAxios.get("/departments", {
@@ -36,7 +56,9 @@ export function UserModal(props) {
         })
             .then((response) => {
                 departments = response.data.data.departmentList
-                setDepartmentOptionList(departments.map((department) => (<option value={department}>{department}</option>)))
+                setDepartmentOptionList(departments.map((department) => (<option
+                    selected={currentDepartment.current === department ? 'selected' : null}
+                    value={department}>{department}</option>)))
             })
             .catch((error) => {
                 basicError(error)
@@ -44,7 +66,7 @@ export function UserModal(props) {
     }
 
     useEffect(() => {
-        getDpNPsList()
+        getUserInfo()
     }, [])
 
     const handleRoleChange = (e) => {
@@ -52,7 +74,7 @@ export function UserModal(props) {
     };
 
     const handleDepartmentChange = (e) => {
-        setCurrentDepartment(e.target.value);
+        currentDepartment.current = e.target.value
     };
 
     // 전화번호 자동 하이픈
@@ -93,33 +115,71 @@ export function UserModal(props) {
             })
     };
 
+    const editUser = (e) => {
+        e.preventDefault()
+        const inputName = e.target.name.value
+        const inputPhone = e.target.phone.value
+        const inputDepartment = e.target.department.value
+        const inputRole = e.target.role.value
+        // todo: 입력값 정규식 확인
+
+        AdminUsersAxios.patch(`/${props.id}`, {
+            name: inputName,
+            phone: inputPhone,
+            department: inputDepartment,
+            role: inputRole
+        }, {
+            headers: {
+                Authorization: getToken()
+            }
+        })
+            .then((response) => {
+                alert("수정되었습니다.")
+                window.location.reload();
+            })
+            .catch((error) => {
+                basicError(error)
+            })
+    };
+
 
     return (
         <ModalBackdrop onClick={props.handler}>
             <ModalView onClick={(e) => e.stopPropagation()}>
                 <TitleContainer>
-                    <ModalTitle>신규 직원 등록</ModalTitle>
+                    <ModalTitle>{props.title}</ModalTitle>
                 </TitleContainer>
-                <AttrsForm method="post" id="register-user-form" onSubmit={registerUser}>
+                <AttrsForm method="post" id="register-user-form" onSubmit={userInfo !== null ? editUser : registerUser}>
                     <AttrContainer>
                         <AttrLabel>성명</AttrLabel>
-                        <AttrInput type='text' name='name'></AttrInput>
+                        <AttrInput type='text' name='name'
+                                   defaultValue={userInfo !== null ? userInfo.name : null}
+                        ></AttrInput>
                     </AttrContainer>
                     <AttrContainer>
                         <AttrLabel>이메일</AttrLabel>
-                        <AttrInput type='text' name='email'></AttrInput>
+                        <AttrInput type='text' name='email'
+                                   value={userInfo !== null ? userInfo.email : null}
+                                   disabled={userInfo !== null ? 'disabled' : null}
+                        ></AttrInput>
                     </AttrContainer>
                     <AttrContainer>
                         <AttrLabel>비밀번호</AttrLabel>
-                        <AttrInput type='text' name='password'></AttrInput>
+                        <AttrInput type='text' name='password'
+                                   value={userInfo !== null ? '⁕⁕⁕⁕⁕⁕⁕⁕⁕⁕⁕⁕⁕⁕⁕' : null}
+                                   disabled={userInfo !== null ? 'disabled' : null}></AttrInput>
                     </AttrContainer>
                     <AttrContainer>
                         <AttrLabel>연락처</AttrLabel>
-                        <AttrInput type='text' name='phone' onInput={autoHyphen} maxLength='13'></AttrInput>
+                        <AttrInput type='text' name='phone' onInput={autoHyphen} maxLength='13'
+                                   defaultValue={userInfo !== null ? userInfo.phone : null}
+                        ></AttrInput>
                     </AttrContainer>
                     <AttrContainer>
                         <AttrLabel>부서</AttrLabel>
-                        <SelectToggleInModal name='department' items={departmentOptionList} value={currentDepartment} onChange={handleDepartmentChange}/>
+                        <SelectToggleInModal name='department' items={departmentOptionList}
+                                             value={currentDepartment.current}
+                                             onChange={handleDepartmentChange}/>
                     </AttrContainer>
                     <AttrContainer>
                         <AttrLabel>권한</AttrLabel>
@@ -137,7 +197,7 @@ export function UserModal(props) {
                         <AdminCapsuleBtnF htmlFor="admin">관리자</AdminCapsuleBtnF>
                     </AttrContainer>
                     <BottomBtnContainer>
-                        <InputPurpleButton value="등록"/>
+                        <InputPurpleButton value={userInfo !== null ? '수정' : '등록'}/>
                         <BigSquareButton name={"취소"} color={"white"} click={props.handler}/>
                     </BottomBtnContainer>
                 </AttrsForm>

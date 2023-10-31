@@ -42,7 +42,7 @@ function UserManage(props) {
     return (
         <RightContainer>
             {isOpen ?
-                <UserModal id={props.id} handler={openModalHandler} />
+                <UserModal id={props.id} handler={openModalHandler} title={"신규 직원 등록"}/>
                 : null
             }
             <TitleText>직원 관리</TitleText>
