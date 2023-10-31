@@ -9,7 +9,7 @@ import {MoreBtn} from "../../../components/modal/MoreModal";
 function UserManageLine(props) {
     const [isOpen, setIsOpen] = useState(false)
 
-    const openModalHandler = () => {
+    const openMoreModalHandler = () => {
         setIsOpen(!isOpen)
     }
 
@@ -20,9 +20,9 @@ function UserManageLine(props) {
             <td width="15%">{props.phone}</td>
             <td width="10%">{props.department}</td>
             <td width="5%"><RoleCapsule role={props.role}/></td>
-            <td width="5%"><MoreBtn src={MoreIcon} onClick={openModalHandler}/>
+            <td width="5%"><MoreBtn src={MoreIcon} onClick={openMoreModalHandler}/>
                 {isOpen ?
-                    <UserMoreModal id={props.id} handler={openModalHandler}/>
+                    <UserMoreModal id={props.id} handler={openMoreModalHandler}/>
                     : null
                 }
             </td>
