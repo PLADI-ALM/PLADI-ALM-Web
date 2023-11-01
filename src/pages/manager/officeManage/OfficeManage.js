@@ -1,12 +1,11 @@
-import React from "react";
-import { useState, useEffect } from "react";
-import { RightContainer, TitleText, WhiteContainer } from "components/rightContainer/RightContainer";
+import React, {useEffect, useState} from "react";
+import {RightContainer, TitleText, WhiteContainer} from "components/rightContainer/RightContainer";
 import {Bar, BookedTable, BookedThead, NoLineTr, TableContainer} from "../../booking/bookedList/BookedList";
 import OfficeManageTableCell from "./OfficeManageTableCell";
 import ManageSearchBar from "components/searchBar/ManageSearchBar";
-import { getToken } from "utils/IsLoginUtil";
-import { basicError } from "utils/ErrorHandlerUtil";
-import { OfficesAxios } from "api/AxiosApi";
+import {getToken} from "utils/IsLoginUtil";
+import {basicError} from "utils/ErrorHandlerUtil";
+import {AdminBookingOfficeAxios} from "api/AxiosApi";
 
 function OfficeManage(props) {
 
@@ -14,7 +13,7 @@ function OfficeManage(props) {
 
     const getOffices = (name) => {
         const max = Int32Array.max;
-        OfficesAxios.get(`?keyword=${name}&size=200`,{
+        AdminBookingOfficeAxios.get(`?facilityName=${name}&size=200`,{
             headers: {
                 Authorization: getToken()
             }
@@ -28,7 +27,7 @@ function OfficeManage(props) {
     };
 
     useEffect(() => {
-        getOffices();
+        getOffices("");
     }, [])
 
       const moveToAdd = () => {
