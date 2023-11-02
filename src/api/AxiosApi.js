@@ -19,12 +19,16 @@ export const ResourcesAxios = axios.create({
     baseURL: `${host}/resources`,
 });
 
+export const CarsAxios = axios.create({
+    baseURL: `${host}/cars`,
+});
+
 export const EquipmentsAxios = axios.create({
     baseURL: `${host}/equipments`,
 });
 
-export const ArchivingssAxios = axios.create({
-    baseURL: `${host}/archivings`,
+export const ArchivingAxios = axios.create({
+    baseURL: `${host}/archives`,
 });
 
 export const AdminUsersAxios = axios.create({
@@ -35,11 +39,15 @@ export const AdminBookingAxios = axios.create({
     baseURL: `${host}/admin/bookings`,
 });
 
-export const AdminBookingResourceAxios = axios.create({
+export const AdminCarsAxios = axios.create({
+    baseURL: `${host}/admin/cars`,
+});
+
+export const AdminResourcesAxios = axios.create({
     baseURL: `${host}/admin/resources`,
 });
 
-export const AdminBookingOfficeAxios = axios.create({
+export const AdminOfficesAxios = axios.create({
     baseURL: `${host}/admin/offices`,
 });
 

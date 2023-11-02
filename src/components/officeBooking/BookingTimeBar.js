@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState } from 'react'
 import styled from "styled-components"
-import { setStartTimeStr, setEndTimeStr } from 'pages/booking/officeBooking/OfficeBooking';
+import { setStartTimeStr, setEndTimeStr } from 'pages/basic/booking/office/OfficeBooking';
 
 var bookingState = [
     false, false, false, false, false, false, false, false, false, false, false, false,
