@@ -132,9 +132,9 @@ function BookedList(props) {
                         </BookedThead>
                         <tbody>
                             {bookings.length === 0 ?
-                                <BookedLineTr>
+                                <NoLineTr>
                                     <td colSpan={4}>예약 내역이 없습니다.</td>
-                                </BookedLineTr>
+                                </NoLineTr>
                                 : bookings.map((booking) =>
                                     <BookedLine key={booking.id}
                                         id={booking.id}

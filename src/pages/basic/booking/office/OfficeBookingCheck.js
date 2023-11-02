@@ -40,7 +40,11 @@ function OfficeBookingCheck(props) {
                     Authorization: getToken()
                 }
             })
-            : BookingsAxios.get(`/offices/${bookingId}`))
+            : BookingsAxios.get(`/offices/${bookingId}`, {
+                headers: {
+                    Authorization: getToken()
+                }
+            }))
             .then((Response) => {
                 setBookingDetail(Response.data.data)
                 setStatus(findStatus(Response.data.data.bookingStatus))
@@ -57,7 +61,11 @@ function OfficeBookingCheck(props) {
     };
 
     const getOfficeInfo = () => {
-        OfficesAxios.get(`/${officeId}`)
+        OfficesAxios.get(`/${officeId}`, {
+            headers: {
+                Authorization: getToken()
+            }
+        })
             .then((Response) => {
                 setOfficeInfo(Response.data.data)
             })

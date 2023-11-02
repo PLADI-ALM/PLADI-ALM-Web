@@ -26,7 +26,12 @@ function ResourceBookingCheck(props) {
     const [bookingStatus, setStatus] = useState([]);
 
     const getResourceInfo = () => {
-        ResourcesAxios.get(`/${resourceId}`)
+        ResourcesAxios.get(`/${resourceId}`,
+            {
+                headers: {
+                    Authorization: getToken()
+                }
+            })
         .then((Response)=>{ setResourceInfo(Response.data.data) })
         .catch((Error)=>{ 
             basicError(Error) 
@@ -42,7 +47,12 @@ function ResourceBookingCheck(props) {
                     Authorization: getToken()
                 }
             })
-            : BookingsAxios.get(`/resources/${bookingId}`))
+            : BookingsAxios.get(`/resources/${bookingId}`,
+                {
+                    headers: {
+                        Authorization: getToken()
+                    }
+                }))
         .then((Response)=>{ 
             setBookingDetail(Response.data.data)
             setStatus(findStatus(Response.data.data.status))

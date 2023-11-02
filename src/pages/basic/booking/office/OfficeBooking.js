@@ -1,22 +1,35 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import styled from "styled-components"
-import { OfficesAxios, BookingsAxios } from 'api/AxiosApi';
-import { useState, useEffect } from "react";
-import { useParams } from 'react-router-dom';
+import {OfficesAxios} from 'api/AxiosApi';
+import {useParams} from 'react-router-dom';
 import Capsule from 'components/capsule/Capsule';
 
 import OfficeInfo from "components/officeInfo/OfficeInfo";
-import { MainTextContainer, SubTextContainer, SelectedSubTitleText, UnselectedSubTitleText } from 'components/officeBooking/SubTitleBar';
-import { DatePicker } from 'components/searchBar/SearchBar';
 import {
-    BookingContentContainer, BookingTimeContainer, renderBookingTimeBar, BookingDateTextContainer, setBookingState, RequestButtonContainer, requestBookingOffice
+    MainTextContainer,
+    SelectedSubTitleText,
+    SubTextContainer,
+    UnselectedSubTitleText
+} from 'components/officeBooking/SubTitleBar';
+import {DatePicker} from 'components/searchBar/SearchBar';
+import {
+    BookingContentContainer,
+    BookingDateTextContainer,
+    BookingTimeContainer,
+    renderBookingTimeBar,
+    RequestButtonContainer,
+    setBookingState
 } from 'components/officeBooking/BookingTimeBar';
-import { BookingPurposeContainer, BookingCapsuleContainer, BookingPurposeTextFieldContainer } from 'components/officeBooking/BookingPurpose';
-import { RightContainer, WhiteContainer, TitleText } from 'components/rightContainer/RightContainer';
-import { basicError } from 'utils/ErrorHandlerUtil';
+import {
+    BookingCapsuleContainer,
+    BookingPurposeContainer,
+    BookingPurposeTextFieldContainer
+} from 'components/officeBooking/BookingPurpose';
+import {RightContainer, TitleText, WhiteContainer} from 'components/rightContainer/RightContainer';
+import {basicError} from 'utils/ErrorHandlerUtil';
 import SmallButton from 'components/button/SmallButton';
-import { Bar } from '../../myBookings/BookedList';
-import { getToken } from 'utils/IsLoginUtil';
+import {Bar} from '../../myBookings/BookedList';
+import {getToken} from 'utils/IsLoginUtil';
 import moment from 'moment';
 
 var bookingDate = '';
@@ -51,7 +64,6 @@ export const PurposeTextarea = styled.textarea`
     margin: 0 10px 0 10px;
 `
 
-
 function OfficeBooking(props) {
     let { officeId } = useParams();
 
@@ -74,7 +86,11 @@ function OfficeBooking(props) {
 
     // 일자별 예약 현황 받아오기
     const getBookingTimeState = () => {
-        OfficesAxios.get(`/${officeId}/booking-state?date=${bookingDate}`)
+        OfficesAxios.get(`/${officeId}/booking-state?date=${bookingDate}`, {
+            headers: {
+                Authorization: getToken()
+            }
+        })
             .then((Response) => {
                 setBookingDetail(Response.data.data.bookedTimes)
                 setBookingState(Response.data.data.bookedTimes)
@@ -89,7 +105,11 @@ function OfficeBooking(props) {
 
     // 회의실 정보 받아오기
     const getOfficeInfoForBooking = (id) => {
-        OfficesAxios.get(`/${officeId}`)
+        OfficesAxios.get(`/${officeId}`, {
+            headers: {
+                Authorization: getToken()
+            }
+        })
             .then((Response) => {
                 setOfficeInfo(Response.data.data)
             })

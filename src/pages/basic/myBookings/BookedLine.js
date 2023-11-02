@@ -7,10 +7,16 @@ import { BookedLineTr } from './BookedList';
 import { BookingCategoryPathList } from 'constants/Path';
 import { StatusText, StatusContainer, StatusCircle } from 'components/booking/StatusTag';
 import { basicError } from 'utils/ErrorHandlerUtil';
+import {getToken} from "../../../utils/IsLoginUtil";
 
 function cancelBooking(bookingId, name, info, start, end, type) {
     if (window.confirm(`${name}(${info}) ${start} ~ ${end}\n예약을 취소하시겠습니까?`)) {
-        BookingsAxios.patch(`/${type}/${bookingId}/cancel`)
+        BookingsAxios.patch(`/${type}/${bookingId}/cancel`,
+            {
+                headers: {
+                    Authorization: getToken()
+                }
+            })
             .catch((error) => {
                 basicError(error)
             })
@@ -21,7 +27,12 @@ function cancelBooking(bookingId, name, info, start, end, type) {
 
 function returnBooking(bookingId, name, info, start, end) {
     if (window.confirm(`${name}(${info}) ${start} ~ ${end}\n장비를 반납하시겠습니까?`)) {
-        BookingsAxios.patch(`/resources/${bookingId}/return`)
+        BookingsAxios.patch(`/resources/${bookingId}/return`,
+            {
+                headers: {
+                    Authorization: getToken()
+                }
+            })
             .catch((error) => {
                 basicError(error)
             })

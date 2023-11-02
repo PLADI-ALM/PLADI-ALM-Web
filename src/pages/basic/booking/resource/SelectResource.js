@@ -9,7 +9,6 @@ import {useNavigate} from "react-router-dom";
 import {basicError} from 'utils/ErrorHandlerUtil';
 import {getToken} from "../../../../utils/IsLoginUtil";
 
-
 export const SearchTitleContainer = styled.div`
   width: 15%;
   height: 40px;
@@ -103,7 +102,12 @@ function SelectResource(props) {
     }
 
     const searchResource = () => {
-        ResourcesAxios.get(`?resourceName=${resourceName}&startDate=${startDate}&endDate=${endDate}`)
+        ResourcesAxios.get(`?resourceName=${resourceName}&startDate=${startDate}&endDate=${endDate}`,
+            {
+                headers: {
+                    Authorization: getToken()
+                }
+            })
             .then((Response) => {
                 setResourceList(Response.data.data.content)
             })
