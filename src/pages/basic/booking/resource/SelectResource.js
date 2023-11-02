@@ -3,11 +3,12 @@ import {ResourceSearchBar, RightContainer, TitleText, WhiteContainer} from "comp
 import SearchButtonImg from '../../../../assets/images/button/searchButton.png'
 import React, {useState, useEffect} from "react";
 import styled from "styled-components";
-import ResourceInfo from "components/resourceInfo/ResourceInfo";
+import ResourceInfo from "components/card/ResourceInfo";
 import {ResourcesAxios} from "api/AxiosApi";
 import {useNavigate} from "react-router-dom";
 import {basicError} from 'utils/ErrorHandlerUtil';
 import {getToken} from "../../../../utils/IsLoginUtil";
+import {NoCard} from "../../../../components/card/Card";
 
 export const SearchTitleContainer = styled.div`
   width: 15%;
@@ -139,14 +140,13 @@ function SelectResource(props) {
             <WhiteContainer>
                 <div className="cardList">
                     {resourceList.length === 0 ?
-                        <label>예약 가능한 장비가 없습니다.</label>
+                        <NoCard>예약 가능한 장비가 없습니다.</NoCard>
                         : resourceList.map((resource, index) =>
                             <ResourceInfo key={resource.index}
-                                          detail={true}
                                           resourceId={resource.resourceId}
                                           name={resource.name}
                                           imgUrl={resource.imgUrl}
-                                          category={resource.category}
+                                          location={resource.location}
                                           description={resource.description}/>)}
                 </div>
             </WhiteContainer>

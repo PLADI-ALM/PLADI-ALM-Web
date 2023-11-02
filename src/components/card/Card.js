@@ -11,12 +11,16 @@ export const Card = styled.ul`
 `
 
 export const ResourceCard = styled.ul`
-    height: 150px;
-    background: white;
-    border-radius: 8px;
-    border: 1px solid #E6E6E6;
-    padding: 30px;
-    margin: 20px 20px 20px 20px;
+  height: 150px;
+  background: white;
+  border-radius: 8px;
+  border: 1px solid #E6E6E6;
+  padding: 30px;
+  margin: 20px 20px 20px 20px;
+`
+
+export const ResourceCardClick = styled(ResourceCard)`
+  cursor: pointer;
 `
 
 // 카드 내 텍스트
@@ -85,9 +89,28 @@ export const DescriptionContainer = styled.div`
     margin-top: 12px;
 `
 
+// 설명 속성 컨테이너
+export const DescriptionColumnContainer = styled.div`
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+`
+
 // 설명 텍스트
-export const OfficeContentText = styled(CardText)`
+export const DescriptionText = styled(CardText)`
     margin-top: 10px;
     line-height: 25px;
     text-align: left;
+`
+
+// 오른쪽에 있는 설명 텍스트
+export const RightDescriptionText = styled(CardText)`
+    line-height: 25px;
+    text-align: left;
+`
+
+// 값이 없습니다.
+export const NoCard = styled.label`
+  padding: 30px;
+  display: block;
 `

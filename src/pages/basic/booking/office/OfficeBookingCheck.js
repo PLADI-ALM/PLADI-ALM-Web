@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { useParams } from 'react-router-dom';
 import Capsule from 'components/capsule/Capsule';
 
-import OfficeInfo from "components/officeInfo/OfficeInfo";
+import OfficeInfo from "components/card/OfficeInfo";
 import { MainTextContainer, SubTextContainer, SelectedSubTitleText, UnselectedSubTitleText } from 'components/officeBooking/SubTitleBar';
 import { StatusText, StatusCircle } from 'components/booking/StatusTag';
 import { BookingContentContainer, BookingTimeContainer, renderBookingTimeBar, BookingDateTextContainer, setBookingTime } from 'components/officeBooking/BookingTimeBar';

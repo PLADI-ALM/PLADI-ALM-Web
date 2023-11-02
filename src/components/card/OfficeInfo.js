@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components"
 import DateIcon from '../../assets/images/selectOffice/date.png'
 import Capsule from "components/capsule/Capsule";
-import { Card, CardText, TitleContainer, NameText, DetailContainer, CardImage, InfoContainer, DescriptionContainer, OfficeContentText } from "components/card/Card";
+import { Card, CardText, TitleContainer, NameText, DetailContainer, CardImage, InfoContainer, DescriptionContainer, DescriptionText } from "components/card/Card";
 
 // 수용인원 컨테이너
 const OfficePeopleContainer = styled.div`
@@ -46,9 +46,9 @@ function OfficeInfo(props) {
 
                     <DescriptionContainer>
                         <Capsule color="purple" text="설명" />
-                        <OfficeContentText>
+                        <DescriptionText>
                             {props.description}
-                        </OfficeContentText>
+                        </DescriptionText>
                     </DescriptionContainer>
 
                 </InfoContainer>
