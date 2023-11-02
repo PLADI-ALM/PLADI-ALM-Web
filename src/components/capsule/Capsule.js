@@ -9,6 +9,7 @@ const PurpleCapsule = styled.p`
     font-size: 18px;
     padding: 7px 15px;
     margin: 0 10px 0 0;
+  min-width: fit-content;
 `
 
 const WhiteCapsule = styled(PurpleCapsule)`

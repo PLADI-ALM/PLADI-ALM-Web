@@ -1,6 +1,6 @@
 import React, {useEffect} from "react";
 import SearchBar from "components/searchBar/SearchBar";
-import OfficeInfo from "components/officeInfo/OfficeInfo";
+import OfficeInfo from "components/card/OfficeInfo";
 import {RightContainer, WhiteContainer, TitleText, ResourceSearchBar} from "components/rightContainer/RightContainer";
 import {OfficesAxios} from "api/AxiosApi";
 import {useState} from "react";
@@ -17,6 +17,7 @@ import ImageButton from "../../../../components/button/ImageButton";
 import {SelectToggle} from "../../../../components/capsule/SelectToggle";
 import {TimeList} from "../../../../constants/ToggleList";
 import {getToken} from "../../../../utils/IsLoginUtil";
+import {NoCard} from "../../../../components/card/Card";
 
 function SelectOffice(props) {
 
@@ -96,7 +97,7 @@ function SelectOffice(props) {
             </ResourceSearchBar>
             <WhiteContainer>
                 <div className="cardList">
-                    {offices.length === 0 ? <label>예약 가능한 회의실이 없습니다.</label> : offices.map((office) => <OfficeInfo
+                    {offices.length === 0 ? <NoCard>예약 가능한 회의실이 없습니다.</NoCard> : offices.map((office) => <OfficeInfo
                         key={office.officeId}
                         officeId={office.officeId}
                         name={office.name}

@@ -10,7 +10,7 @@ import { MainTextContainer, SubTextContainer, SelectedSubTitleText, UnselectedSu
 import { getToken } from 'utils/IsLoginUtil';
 import MoreButtonIcon from "../../../assets/images/button/triple_dot_icon.svg"
 import { MoreButton, OptionButton, OptionsView, InfoTable, InfoTableData } from '../resource/ResourceManageDetail';
-import OfficeInfo from 'components/officeInfo/OfficeInfo';
+import OfficeInfo from 'components/card/OfficeInfo';
 
 function OfficeManageDetail() {
     let { officeId } = useParams()

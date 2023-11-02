@@ -1,36 +1,30 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import styled from "styled-components"
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
-import moment, {locale} from 'moment';
-import {ResourcesAxios, BookingsAxios} from 'api/AxiosApi';
-import {useState, useEffect} from "react";
+import moment from 'moment';
+import {ResourcesAxios} from 'api/AxiosApi';
 import {useParams} from 'react-router-dom';
 import Capsule from 'components/capsule/Capsule';
 import {
     MainTextContainer,
-    SubTextContainer,
     SelectedSubTitleText,
+    SubTextContainer,
     UnselectedSubTitleText
 } from 'components/officeBooking/SubTitleBar';
 import {
-    BookingPurposeContainer,
     BookingCapsuleContainer,
+    BookingPurposeContainer,
     BookingPurposeTextFieldContainer
 } from 'components/officeBooking/BookingPurpose';
-import ResourceInfo from 'components/resourceInfo/ResourceInfo';
-import {
-    BookingContentContainer,
-    RequestButtonContainer,
-    RequestBookingButton
-} from 'components/officeBooking/BookingTimeBar';
-import {RightContainer, WhiteContainer, TitleText} from 'components/rightContainer/RightContainer';
-import 'react-calendar/dist/Calendar.css';
+import {BookingContentContainer, RequestButtonContainer} from 'components/officeBooking/BookingTimeBar';
+import {RightContainer, TitleText, WhiteContainer} from 'components/rightContainer/RightContainer';
 import styles from "./CustomCalendar.css";
 import {basicError} from 'utils/ErrorHandlerUtil';
 import SmallButton from 'components/button/SmallButton';
 import {Bar} from '../../myBookings/BookedList';
 import {getToken} from 'utils/IsLoginUtil';
+import ResourceDetailInfo from "../../../../components/card/ResourceDetailInfo";
 
 var startDate = '';
 var endDate = '';
@@ -199,80 +193,84 @@ function ResourceBooking(props) {
         getBookedDates()
     }, []);
 
-    return <RightContainer>
-        <TitleText>장비 예약</TitleText>
+    return (
+        <RightContainer>
+            <TitleText>장비 예약</TitleText>
 
-        <WhiteContainer>
-            <Bar/>
-            <div style={{zIndex: 1}}>
-                <MainTextContainer>
-                    <SelectedSubTitleText>{resourceInfo.name}</SelectedSubTitleText>
-                </MainTextContainer>
-                <SubTextContainer>
-                    <UnselectedSubTitleText>{resourceInfo.category}</UnselectedSubTitleText>
-                </SubTextContainer>
-            </div>
+            <WhiteContainer>
+                <Bar/>
+                <div style={{zIndex: 1}}>
+                    <MainTextContainer>
+                        <SelectedSubTitleText>{resourceInfo.name}</SelectedSubTitleText>
+                    </MainTextContainer>
+                    <SubTextContainer>
+                        <UnselectedSubTitleText>{resourceInfo.location}</UnselectedSubTitleText>
+                    </SubTextContainer>
+                </div>
 
-            <ResourceInfo detail={false}
-                          description={resourceInfo.description}
-                          imgUrl={resourceInfo.imgUrl}/>
+                <ResourceDetailInfo
+                    managerName={resourceInfo.responsibilityName}
+                    managerPhone={resourceInfo.responsibilityPhone}
+                    description={resourceInfo.description}
+                    imgUrl={resourceInfo.imgUrl}/>
 
-            <BookingContentContainer>
-                <BookingCapsuleContainer>
-                    <Capsule color="purple" text="예약일시"/>
-                </BookingCapsuleContainer>
-                <DateContainer>
-                    <BookingDateText>{start || "시작일"}</BookingDateText>
-                    <BookingDateText> ~ </BookingDateText>
-                    <BookingDateText>{end || "마감일"}</BookingDateText>
+                <BookingContentContainer>
+                    <BookingCapsuleContainer>
+                        <Capsule color="purple" text="예약일시"/>
+                    </BookingCapsuleContainer>
+                    <DateContainer>
+                        <BookingDateText>{start || "시작일"}</BookingDateText>
+                        <BookingDateText> ~ </BookingDateText>
+                        <BookingDateText>{end || "마감일"}</BookingDateText>
 
-                    <BookingDateContainer>
-                        <Calendar className={styles}
-                                  onChange={changeDate}
-                                  selectRange={true}
-                                  formatDay={(locale, date) => moment(date).format("D")}
-                                  minDate={new Date()}
-                                  showNeighboringMonth={false}
-                                  next2Label={null}
-                                  prev2Label={null}
-                                  formatShortWeekday={(locale, date) =>
-                                      ["S", "M", "T", "W", "T", "F", "S"][date.getDay()]
-                                  }
-                                  tileDisabled={({date, view}) =>
-                                      (view === 'month') &&
-                                      dates.some(disabledDate =>
-                                          date.getFullYear() === disabledDate.getFullYear() &&
-                                          date.getMonth() === disabledDate.getMonth() &&
-                                          date.getDate() === disabledDate.getDate()
-                                      )}
-                                  onActiveStartDateChange={onActiveStartDateChange}
+                        <BookingDateContainer>
+                            <Calendar className={styles}
+                                      onChange={changeDate}
+                                      selectRange={true}
+                                      formatDay={(locale, date) => moment(date).format("D")}
+                                      minDate={new Date()}
+                                      showNeighboringMonth={false}
+                                      next2Label={null}
+                                      prev2Label={null}
+                                      formatShortWeekday={(locale, date) =>
+                                          ["S", "M", "T", "W", "T", "F", "S"][date.getDay()]
+                                      }
+                                      tileDisabled={({date, view}) =>
+                                          (view === 'month') &&
+                                          dates.some(disabledDate =>
+                                              date.getFullYear() === disabledDate.getFullYear() &&
+                                              date.getMonth() === disabledDate.getMonth() &&
+                                              date.getDate() === disabledDate.getDate()
+                                          )}
+                                      onActiveStartDateChange={onActiveStartDateChange}
 
-                        />
-                    </BookingDateContainer>
-                </DateContainer>
-            </BookingContentContainer>
+                            />
+                        </BookingDateContainer>
+                    </DateContainer>
+                </BookingContentContainer>
 
-            <BookingPurposeContainer>
-                <BookingCapsuleContainer>
-                    <Capsule color="purple" text="예약목적"/>
-                </BookingCapsuleContainer>
+                <BookingPurposeContainer>
+                    <BookingCapsuleContainer>
+                        <Capsule color="purple" text="예약목적"/>
+                    </BookingCapsuleContainer>
 
-                <BookingPurposeTextFieldContainer>
-                    <PurposeTextarea id='bookingPurpose'
-                                     cols='135'
-                                     rows='4'
-                                     maxLength='100'/>
-                </BookingPurposeTextFieldContainer>
-            </BookingPurposeContainer>
-
-
-            <RequestButtonContainer isCheck={props.isCheck}>
-                <SmallButton name={'예약'} click={requestBookingResource}></SmallButton>
-            </RequestButtonContainer>
+                    <BookingPurposeTextFieldContainer>
+                        <PurposeTextarea id='bookingPurpose'
+                                         cols='135'
+                                         rows='4'
+                                         maxLength='100'/>
+                    </BookingPurposeTextFieldContainer>
+                </BookingPurposeContainer>
 
 
-        </WhiteContainer>
-    </RightContainer>
+                <RequestButtonContainer isCheck={props.isCheck}>
+                    <SmallButton name={'예약'} click={requestBookingResource}></SmallButton>
+                </RequestButtonContainer>
+
+
+            </WhiteContainer>
+        </RightContainer>
+    )
 }
 
 export default ResourceBooking;

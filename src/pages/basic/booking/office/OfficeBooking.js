@@ -4,7 +4,7 @@ import {OfficesAxios} from 'api/AxiosApi';
 import {useParams} from 'react-router-dom';
 import Capsule from 'components/capsule/Capsule';
 
-import OfficeInfo from "components/officeInfo/OfficeInfo";
+import OfficeInfo from "components/card/OfficeInfo";
 import {
     MainTextContainer,
     SelectedSubTitleText,
