@@ -36,6 +36,7 @@ function App() {
           <Route path="/officeBooking/:officeId" element={<OfficeBooking isCheck='false' />} />
           <Route path="/my/bookings/offices" element={<BookedList title="회의실 예약 내역" />} />
           <Route path="/my/bookings/offices/:bookingId" element={<OfficeBookingCheck isAdmin={false} />} />
+          <Route path="/my/bookings/resources" element={<BookedList title="장비 예약 내역" />} />
           <Route path='/my/bookings/resources/:bookingId' element={<ResourceBookingCheck />} />
           <Route path='/resourceBooking' element={<SelectResource title="장비 예약" />} />
           <Route path='/resourceBooking/:resourceId' element={<ResourceBooking />} />
