@@ -6,7 +6,7 @@ import ResourceManageTableCell from "./ResourceManageTableCell";
 import ManageSearchBar from "components/searchBar/ManageSearchBar";
 import { getToken } from "utils/IsLoginUtil";
 import { basicError } from "utils/ErrorHandlerUtil";
-import { AdminBookingResourceAxios } from "api/AxiosApi";
+import { AdminResourcesAxios } from "api/AxiosApi";
 
 
 function ResourceManage(props) {
@@ -15,7 +15,7 @@ function ResourceManage(props) {
 
     const getResources = (name) => {
         const max = Int32Array.max;
-        AdminBookingResourceAxios.get(`?keyword=${name}&size=200`, {
+        AdminResourcesAxios.get(`?keyword=${name}&size=200`, {
             headers: {
                 Authorization: getToken()
             }

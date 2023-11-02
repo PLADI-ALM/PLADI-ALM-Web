@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from "styled-components"
-import { ResourcesAxios, AdminBookingResourceAxios } from 'api/AxiosApi';
+import { ResourcesAxios, AdminResourcesAxios } from 'api/AxiosApi';
 import { useState, useEffect } from "react";
 import { useParams } from 'react-router-dom';
 import Capsule from 'components/capsule/Capsule';
@@ -79,7 +79,7 @@ function ResourceManageDetail() {
     }
 
     const getResourceBookingListInfo = () => {
-        AdminBookingResourceAxios.get(`${resourceId}`, {
+        AdminResourcesAxios.get(`${resourceId}`, {
             headers: {
                 Authorization: getToken()
             }
@@ -97,7 +97,7 @@ function ResourceManageDetail() {
 
     const deleteResource = () => {
         if (window.confirm("장비을 삭제하시겠습니까?")) {
-            AdminBookingResourceAxios.delete(`${resourceId}`, {
+            AdminResourcesAxios.delete(`${resourceId}`, {
                 headers: {
                     Authorization: getToken()
                 }

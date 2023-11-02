@@ -5,7 +5,7 @@ import OfficeManageTableCell from "./OfficeManageTableCell";
 import ManageSearchBar from "components/searchBar/ManageSearchBar";
 import {getToken} from "utils/IsLoginUtil";
 import {basicError} from "utils/ErrorHandlerUtil";
-import {AdminBookingOfficeAxios} from "api/AxiosApi";
+import {AdminOfficesAxios} from "api/AxiosApi";
 
 function OfficeManage(props) {
 
@@ -13,7 +13,7 @@ function OfficeManage(props) {
 
     const getOffices = (name) => {
         const max = Int32Array.max;
-        AdminBookingOfficeAxios.get(`?facilityName=${name}&size=200`,{
+        AdminOfficesAxios.get(`?facilityName=${name}&size=200`,{
             headers: {
                 Authorization: getToken()
             }

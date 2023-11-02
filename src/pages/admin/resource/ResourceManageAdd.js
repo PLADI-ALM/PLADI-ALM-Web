@@ -7,7 +7,7 @@ import { ManageAddButton, ManageAddButtonImage, ManageAddButtonLabel } from "com
 
 import { getToken } from "utils/IsLoginUtil";
 import { basicError } from "utils/ErrorHandlerUtil";
-import {AdminBookingResourceAxios, ImageUrlAxios, ResourcesAxios, UsersAxios} from "api/AxiosApi";
+import {AdminResourcesAxios, ImageUrlAxios, ResourcesAxios, UsersAxios} from "api/AxiosApi";
 
 import AddImageImage from "../../../assets/images/AddImage.svg"
 import SearchButtonImage from "../../../assets/images/SearchPlus.svg"
@@ -299,7 +299,7 @@ function ResourceManageAdd(props) {
     }
 
     const addResource = () => {
-        AdminBookingResourceAxios.post(``, {
+        AdminResourcesAxios.post(``, {
                 responsibility: staff.userId,
                 description: description,
                 location: place,
@@ -323,7 +323,7 @@ function ResourceManageAdd(props) {
     const editResource = () => {
 
 
-        AdminBookingResourceAxios.patch(`/${resourceId}`, {
+        AdminResourcesAxios.patch(`/${resourceId}`, {
                 responsibility: staff.userId,
                 description: description,
                 location: place,

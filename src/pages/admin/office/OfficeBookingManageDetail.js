@@ -1,5 +1,5 @@
 import React from 'react';
-import { OfficesAxios, AdminBookingOfficeAxios } from 'api/AxiosApi';
+import { OfficesAxios, AdminOfficesAxios } from 'api/AxiosApi';
 import { useState, useEffect } from "react";
 import { useParams } from 'react-router-dom';
 import Capsule from 'components/capsule/Capsule';
@@ -35,7 +35,7 @@ function OfficeManageDetail() {
     }
 
     const getOfficeBookingListInfo = () => {
-        AdminBookingOfficeAxios.get(`offices/${officeId}`, {
+        AdminOfficesAxios.get(`offices/${officeId}`, {
             headers: {
                 Authorization: getToken()
             }
@@ -53,7 +53,7 @@ function OfficeManageDetail() {
 
     const deleteResource = () => {
         if (window.confirm("회의실을 삭제하시겠습니까?")) {
-            AdminBookingOfficeAxios.delete(`${officeId}`, {
+            AdminOfficesAxios.delete(`${officeId}`, {
                 headers: {
                     Authorization: getToken()
                 }

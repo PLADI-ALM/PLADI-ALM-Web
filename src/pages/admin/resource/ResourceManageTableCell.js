@@ -2,14 +2,14 @@ import React from 'react';
 import { BookedLineTr } from '../../basic/myBookings/BookedList';
 import {Toggle} from "../../../components/toggle/Toggle";
 import {Link} from "react-router-dom";
-import {AdminBookingResourceAxios} from "../../../api/AxiosApi";
+import {AdminResourcesAxios} from "../../../api/AxiosApi";
 import {getToken} from "../../../utils/IsLoginUtil";
 import {basicError} from "../../../utils/ErrorHandlerUtil";
 
 function ResourceManageTableCell(props) {
 
     const changeToggle = (isEnable) => {
-        AdminBookingResourceAxios.patch(`/${props.id}/activation`, null, {
+        AdminResourcesAxios.patch(`/${props.id}/activation`, null, {
             headers: {
                 Authorization: getToken()
             }

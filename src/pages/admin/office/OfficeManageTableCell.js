@@ -2,14 +2,14 @@ import React from 'react';
 import {Link} from 'react-router-dom';
 import {BookedLineTr} from '../../basic/myBookings/BookedList';
 import {Toggle} from "../../../components/toggle/Toggle";
-import {AdminBookingOfficeAxios} from "../../../api/AxiosApi";
+import {AdminOfficesAxios} from "../../../api/AxiosApi";
 import {getToken} from "../../../utils/IsLoginUtil";
 import {basicError} from "../../../utils/ErrorHandlerUtil";
 
 function OfficeManageTableCell(props) {
 
     const changeToggle = (isEnable) => {
-        AdminBookingOfficeAxios.patch(`/${props.id}/activation`, null, {
+        AdminOfficesAxios.patch(`/${props.id}/activation`, null, {
             headers: {
                 Authorization: getToken()
             }
