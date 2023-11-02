@@ -313,7 +313,7 @@ function ResourceManageAdd(props) {
             })
             .then((Response) => {
                 alert("장비 등록이 완료되었습니다.");
-                window.location.href = `/manage/resources`
+                window.location.href = `/admin/resources`
             })
             .catch((error) => {
                 basicError(error)
@@ -337,7 +337,7 @@ function ResourceManageAdd(props) {
             })
             .then((Response) => {
                 alert("장비 수정이 완료되었습니다.");
-                window.location.href = `/manage/resources/${resourceId}`
+                window.location.href = `/admin/resources/${resourceId}`
             })
             .catch((error) => {
                 basicError(error)

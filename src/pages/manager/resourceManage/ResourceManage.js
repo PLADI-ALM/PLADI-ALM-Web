@@ -33,7 +33,7 @@ function ResourceManage(props) {
     }, [])
 
       const moveToAdd = () => {
-        window.location.href = `/manage/resources/add`
+        window.location.href = `/admin/resources/add`
     }
 
 

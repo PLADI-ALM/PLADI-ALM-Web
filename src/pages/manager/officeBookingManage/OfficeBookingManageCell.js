@@ -1,11 +1,11 @@
 import React from 'react';
-import { BookedLineTr } from '../../booking/bookedList/BookedList';
-import { StatusCircle, StatusContainer, StatusText } from 'components/booking/StatusTag';
-import { USING, findStatus, BOOKED } from 'constants/BookingStatus';
-import { AdminBookingAxios } from 'api/AxiosApi';
+import {BookedLineTr} from '../../booking/bookedList/BookedList';
+import {StatusCircle, StatusContainer, StatusText} from 'components/booking/StatusTag';
+import {BOOKED, findStatus} from 'constants/BookingStatus';
+import {AdminBookingAxios} from 'api/AxiosApi';
 import styled from 'styled-components';
-import { getToken } from 'utils/IsLoginUtil';
-import { basicError } from 'utils/ErrorHandlerUtil';
+import {getToken} from 'utils/IsLoginUtil';
+import {basicError} from 'utils/ErrorHandlerUtil';
 
 export const SettingButtonContainer = styled.div`
     display: flex;
@@ -24,12 +24,7 @@ export const SettingButton = styled.button`
   background: none;
   border: none;
   cursor: pointer;
-  
 `
-
-
-
-
 
 function OfficeBookingManageCell(props) {
     const rejectResource = () => {
@@ -53,12 +48,8 @@ function OfficeBookingManageCell(props) {
     };
 
     const moveToDetail = () => {
-        window.location.href = `/manage/officeBooking/${props.id}`
+        window.location.href = `/admin/officeBooking/${props.id}`
     };
-
-
-
-
 
     var status = findStatus(props.status)
     var cancelButton = (

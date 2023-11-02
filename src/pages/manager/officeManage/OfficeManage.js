@@ -31,7 +31,7 @@ function OfficeManage(props) {
     }, [])
 
       const moveToAdd = () => {
-        window.location.href = `/manage/offices/add`
+        window.location.href = `/admin/offices/add`
     }
 
 

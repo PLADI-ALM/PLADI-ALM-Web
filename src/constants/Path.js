@@ -29,16 +29,16 @@ export const MAIN_MENUS = [
 ]
 
 export const ADMIN_MENUS = [
-    { name: '직원 관리', path: '/manage/users' },
-    { name: '회의실 관리', path: '/manage/offices' },
-    { name: '장비 관리', path: '/manage/resources' },
-    { name: '회의실 예약 관리', path: '/manage/officeBooking' },
-    { name: '장비 예약 관리', path: '/manage/resourceBooking' },
-    { name: '차량 예약 관리', path: '/manage/carBooking' }
+    { name: '직원 관리', path: '/admin/users' },
+    { name: '회의실 관리', path: '/admin/offices' },
+    { name: '장비 관리', path: '/admin/resources' },
+    { name: '회의실 예약 관리', path: '/admin/officeBooking' },
+    { name: '장비 예약 관리', path: '/admin/resourceBooking' },
+    { name: '차량 예약 관리', path: '/admin/carBooking' }
 ]
 
 export const ADMIN_MAIN_MENUS = [
-    { name: '관리자', path: '/manage/users', subMenus: ADMIN_MENUS, icons: [AdminActiveIcon, AdminInactiveIcon] }
+    { name: '관리자', path: '/admin/users', subMenus: ADMIN_MENUS, icons: [AdminActiveIcon, AdminInactiveIcon] }
 ]
 
 export const MAIN_PATH = '/officeBooking'

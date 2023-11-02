@@ -21,7 +21,7 @@ function OfficeManageTableCell(props) {
 
     return (
         <BookedLineTr>
-            <td width="20%"><Link to={`/manage/offices/${props.id}`}>{props.name}</Link></td>
+            <td width="20%"><Link to={`/admin/offices/${props.id}`}>{props.name}</Link></td>
             <td width="20%">{props.location}</td>
             <td width="10%">{props.capacity}</td>
             <td width="40%">{props.description}</td>

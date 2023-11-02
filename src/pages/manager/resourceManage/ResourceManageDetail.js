@@ -136,7 +136,7 @@ function ResourceManageDetail() {
                     <img src={MoreButtonIcon} alt="더보기" />
                 </MoreButton>
                 <OptionsView isShowing={isShowingOptions}>
-                    <OptionButton onClick={() => { window.location.href = `/manage/resources/edit/${resourceId}` }}>수정</OptionButton>
+                    <OptionButton onClick={() => { window.location.href = `/admin/resources/edit/${resourceId}` }}>수정</OptionButton>
                     <OptionButton isDelete={true} onClick={ deleteResource }>삭제</OptionButton>
                 </OptionsView>
             </Bar>

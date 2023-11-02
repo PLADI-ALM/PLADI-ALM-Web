@@ -80,12 +80,8 @@ function ResourceBookingManageCell(props) {
     };
 
     const moveToDetail = () => {
-        window.location.href = `/manage/resourceBooking/${props.id}`
+        window.location.href = `/admin/resourceBooking/${props.id}`
     };
-
-
-
-
 
     var status = findStatus(props.status)
     var watingButton = (
