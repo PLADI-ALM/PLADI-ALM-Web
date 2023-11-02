@@ -13,10 +13,10 @@ import ResourceInfo from 'components/resourceInfo/ResourceInfo';
 import { BookingContentContainer, RequestButtonContainer, RequestBookingButton } from 'components/officeBooking/BookingTimeBar';
 import { RightContainer, WhiteContainer, TitleText } from 'components/rightContainer/RightContainer';
 import 'react-calendar/dist/Calendar.css';
-import styles from "../resourceBooking/CustomCalendar.css";
+import styles from "./CustomCalendar.css";
 import { basicError } from 'utils/ErrorHandlerUtil';
 import SmallButton from 'components/button/SmallButton';
-import { Bar } from '../bookedList/BookedList';
+import { Bar } from '../../myBookings/BookedList';
 import { getToken } from 'utils/IsLoginUtil';
 
 var startDate = '';

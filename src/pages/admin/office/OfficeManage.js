@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {RightContainer, TitleText, WhiteContainer} from "components/rightContainer/RightContainer";
-import {Bar, BookedTable, BookedThead, NoLineTr, TableContainer} from "../../booking/bookedList/BookedList";
+import {Bar, BookedTable, BookedThead, NoLineTr, TableContainer} from "../../basic/myBookings/BookedList";
 import OfficeManageTableCell from "./OfficeManageTableCell";
 import ManageSearchBar from "components/searchBar/ManageSearchBar";
 import {getToken} from "utils/IsLoginUtil";

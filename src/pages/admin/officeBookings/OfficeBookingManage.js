@@ -1,7 +1,7 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { RightContainer, TitleText, WhiteContainer } from "components/rightContainer/RightContainer";
-import { Bar, BookedTable, BookedThead, TableContainer } from "../../booking/bookedList/BookedList";
+import { Bar, BookedTable, BookedThead, TableContainer } from "../../basic/myBookings/BookedList";
 import OfficeBookingManageCell from "./OfficeBookingManageCell";
 import { AdminBookingAxios } from "api/AxiosApi";
 import styled from "styled-components";

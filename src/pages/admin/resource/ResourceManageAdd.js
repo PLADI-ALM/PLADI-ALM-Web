@@ -2,7 +2,7 @@ import React,{ useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 
 import { RightContainer, TitleText, WhiteContainer } from "components/rightContainer/RightContainer";
-import { Bar } from "../../booking/bookedList/BookedList";
+import { Bar } from "../../basic/myBookings/BookedList";
 import { ManageAddButton, ManageAddButtonImage, ManageAddButtonLabel } from "components/searchBar/ManageSearchBar";
 
 import { getToken } from "utils/IsLoginUtil";

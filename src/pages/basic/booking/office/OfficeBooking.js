@@ -15,7 +15,7 @@ import { BookingPurposeContainer, BookingCapsuleContainer, BookingPurposeTextFie
 import { RightContainer, WhiteContainer, TitleText } from 'components/rightContainer/RightContainer';
 import { basicError } from 'utils/ErrorHandlerUtil';
 import SmallButton from 'components/button/SmallButton';
-import { Bar } from '../bookedList/BookedList';
+import { Bar } from '../../myBookings/BookedList';
 import { getToken } from 'utils/IsLoginUtil';
 import moment from 'moment';
 

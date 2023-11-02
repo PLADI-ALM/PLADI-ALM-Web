@@ -1,22 +1,22 @@
 import 'App.css';
 import {Outlet, Route, Routes} from 'react-router-dom';
 import Sidebar from 'components/sidebar/Sidebar';
-import Login from 'pages/user/Login';
-import SelectOffice from 'pages/booking/selectOffice/SelectOffice';
-import BookedList from 'pages/booking/bookedList/BookedList';
-import OfficeBooking from 'pages/booking/officeBooking/OfficeBooking';
-import SelectResource from 'pages/booking/selectResource/SelectResource';
-import ResourceBooking from 'pages/booking/resourceBooking/ResourceBooking';
-import OfficeManage from 'pages/manager/officeManage/OfficeManage';
-import OfficeBookingCheck from 'pages/booking/officeBooking/OfficeBookingCheck';
-import ResourceBookingManage from 'pages/manager/resourceBookingManage/ResourceBookingManage';
-import ResourceBookingCheck from 'pages/booking/resourceBooking/ResourceBookingCheck'
-import OfficeBookingManage from 'pages/manager/officeBookingManage/OfficeBookingManage';
-import UserManage from 'pages/manager/userManage/UserManage';
-import ResourceManage from 'pages/manager/resourceManage/ResourceManage';
-import ResourceManageAdd from "./pages/manager/resourceManage/ResourceManageAdd";
-import ResourceManageDetail from 'pages/manager/resourceManage/ResourceManageDetail';
-import OfficeManageDetail from 'pages/manager/officeManage/OfficeBookingManageDetail';
+import Login from 'pages/basic/user/Login';
+import SelectOffice from 'pages/basic/booking/office/SelectOffice';
+import BookedList from 'pages/basic/myBookings/BookedList';
+import OfficeBooking from 'pages/basic/booking/office/OfficeBooking';
+import SelectResource from 'pages/basic/booking/resource/SelectResource';
+import ResourceBooking from 'pages/basic/booking/resource/ResourceBooking';
+import OfficeManage from 'pages/admin/office/OfficeManage';
+import OfficeBookingCheck from 'pages/basic/booking/office/OfficeBookingCheck';
+import ResourceBookingManage from 'pages/admin/resourceBookings/ResourceBookingManage';
+import ResourceBookingCheck from 'pages/basic/booking/resource/ResourceBookingCheck'
+import OfficeBookingManage from 'pages/admin/officeBookings/OfficeBookingManage';
+import UserManage from 'pages/admin/user/UserManage';
+import ResourceManage from 'pages/admin/resource/ResourceManage';
+import ResourceManageAdd from "./pages/admin/resource/ResourceManageAdd";
+import ResourceManageDetail from 'pages/admin/resource/ResourceManageDetail';
+import OfficeManageDetail from 'pages/admin/office/OfficeBookingManageDetail';
 
 function App() {
 

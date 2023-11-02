@@ -14,7 +14,7 @@ import { BookingDateText } from './OfficeBooking';
 import { RightContainer, WhiteContainer, TitleText } from 'components/rightContainer/RightContainer';
 import { getToken } from 'utils/IsLoginUtil';
 import { basicError } from 'utils/ErrorHandlerUtil';
-import { Bar } from '../bookedList/BookedList';
+import { Bar } from '../../myBookings/BookedList';
 import { StatusContainer } from 'components/booking/StatusTag';
 import { PurposeContainer } from 'components/officeBooking/BookingPurpose';
 

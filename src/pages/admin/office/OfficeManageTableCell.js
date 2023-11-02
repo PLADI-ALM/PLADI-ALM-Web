@@ -1,6 +1,6 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
-import {BookedLineTr} from '../../booking/bookedList/BookedList';
+import {BookedLineTr} from '../../basic/myBookings/BookedList';
 import {Toggle} from "../../../components/toggle/Toggle";
 import {AdminBookingOfficeAxios} from "../../../api/AxiosApi";
 import {getToken} from "../../../utils/IsLoginUtil";

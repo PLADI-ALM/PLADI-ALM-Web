@@ -1,8 +1,8 @@
 import React, {useRef} from "react";
 import { useState, useEffect } from "react";
 import { RightContainer, TitleText, WhiteContainer } from "components/rightContainer/RightContainer";
-import {Bar, BookedTable, BookedThead, NoLineTr, TableContainer} from "../../booking/bookedList/BookedList";
-import UserManageLine from "pages/manager/userManage/UserManageLine"
+import {Bar, BookedTable, BookedThead, NoLineTr, TableContainer} from "../../basic/myBookings/BookedList";
+import UserManageLine from "pages/admin/user/UserManageLine"
 import ManageSearchBar from "components/searchBar/ManageSearchBar";
 import { AdminUsersAxios } from "api/AxiosApi";
 import { basicError } from "utils/ErrorHandlerUtil";

@@ -11,12 +11,12 @@ import {
     SearchTextInput,
     SearchTitleContainer,
     SearchTitleText
-} from "../selectResource/SelectResource";
-import SearchButtonImg from "../../../assets/images/button/searchButton.png";
-import ImageButton from "../../../components/button/ImageButton";
-import {SelectToggle} from "../../../components/capsule/SelectToggle";
-import {TimeList} from "../../../constants/ToggleList";
-import {getToken} from "../../../utils/IsLoginUtil";
+} from "../resource/SelectResource";
+import SearchButtonImg from "../../../../assets/images/button/searchButton.png";
+import ImageButton from "../../../../components/button/ImageButton";
+import {SelectToggle} from "../../../../components/capsule/SelectToggle";
+import {TimeList} from "../../../../constants/ToggleList";
+import {getToken} from "../../../../utils/IsLoginUtil";
 
 function SelectOffice(props) {
 

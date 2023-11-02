@@ -1,5 +1,5 @@
 import React from 'react';
-import { BookedLineTr } from '../../booking/bookedList/BookedList';
+import { BookedLineTr } from '../../basic/myBookings/BookedList';
 import {Toggle} from "../../../components/toggle/Toggle";
 import {Link} from "react-router-dom";
 import {AdminBookingResourceAxios} from "../../../api/AxiosApi";

@@ -1,13 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { BookedLineTr } from '../../booking/bookedList/BookedList';
+import { BookedLineTr } from '../../basic/myBookings/BookedList';
 import { StatusCircle, StatusContainer, StatusText } from 'components/booking/StatusTag';
 import {CANCELED, USING, WAITING, findStatus, BOOKED} from 'constants/BookingStatus';
 import { AdminBookingAxios } from 'api/AxiosApi';
 import styled from 'styled-components';
 import { getToken } from 'utils/IsLoginUtil';
 import { basicError } from 'utils/ErrorHandlerUtil';
-import {SettingButton, SettingButtonContainer} from "../officeBookingManage/OfficeBookingManageCell";
+import {SettingButton, SettingButtonContainer} from "../officeBookings/OfficeBookingManageCell";
 
 
 function ResourceBookingManageCell(props) {

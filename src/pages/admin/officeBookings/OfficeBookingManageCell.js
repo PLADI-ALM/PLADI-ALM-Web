@@ -1,5 +1,5 @@
 import React from 'react';
-import {BookedLineTr} from '../../booking/bookedList/BookedList';
+import {BookedLineTr} from '../../basic/myBookings/BookedList';
 import {StatusCircle, StatusContainer, StatusText} from 'components/booking/StatusTag';
 import {BOOKED, findStatus} from 'constants/BookingStatus';
 import {AdminBookingAxios} from 'api/AxiosApi';

@@ -13,7 +13,7 @@ import { RightContainer, WhiteContainer,TitleText } from 'components/rightContai
 import { BookingDateText } from './ResourceBooking';
 import { getToken } from 'utils/IsLoginUtil';
 import { basicError } from 'utils/ErrorHandlerUtil';
-import { Bar } from '../bookedList/BookedList';
+import { Bar } from '../../myBookings/BookedList';
 import { PurposeContainer } from 'components/officeBooking/BookingPurpose';
 
 var resourceId = 1;
