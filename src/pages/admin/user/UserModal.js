@@ -30,7 +30,7 @@ export function UserModal(props) {
     let departments;
 
     function getUserInfo() {
-        if (props.id !== null) {
+        if (props.id !== undefined) {
             AdminUsersAxios.get(`/${props.id}`, {
                 headers: {
                     Authorization: getToken()
