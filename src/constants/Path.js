@@ -43,14 +43,14 @@ export const ADMIN_MAIN_MENUS = [
 
 export const MAIN_PATH = '/officeBooking'
 
-export const BookingCategoryPathList = [
-    "offices", "resources"
+export const BookingCategoryList = [
+    "offices", "resources", "cars"
 ]
 
 export function getBookingCategoryPath(koreanName) {
     if (koreanName === '회의실') {
-        return BookingCategoryPathList[0]
-    } else if (koreanName === '장비') {
-        return BookingCategoryPathList[1]
+        return BookingCategoryList[0]
+    } else if (koreanName === '장비' || koreanName === '차량') {
+        return BookingCategoryList[1]
     }
 }
