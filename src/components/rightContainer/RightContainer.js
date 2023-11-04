@@ -31,14 +31,3 @@ export const TitleText = styled.text`
     margin-bottom: 20px;
     margin-left: 10px;
 `
-
-//예약 검색 컨테이너
-export const ResourceSearchBar = styled.div`
-    background: none;
-    width: 100%;
-    height: 50px;
-    display: inline-flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-`

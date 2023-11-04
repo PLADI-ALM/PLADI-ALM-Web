@@ -19,6 +19,10 @@ a {
   color: #4c4c4c;
 }
 
+input, button, select, text {
+  font-family: 'NanumSquare_ac';
+}
+
 ::-webkit-scrollbar {
   display: none;
 }

@@ -1,50 +1,37 @@
-import React, {useEffect} from "react";
-import SearchBar from "components/searchBar/SearchBar";
+import React, {useEffect, useRef, useState} from "react";
 import OfficeInfo from "components/card/OfficeInfo";
-import {RightContainer, WhiteContainer, TitleText, ResourceSearchBar} from "components/rightContainer/RightContainer";
+import {RightContainer, TitleText, WhiteContainer} from "components/rightContainer/RightContainer";
 import {OfficesAxios} from "api/AxiosApi";
-import {useState} from "react";
 import {basicError} from 'utils/ErrorHandlerUtil';
+import SearchButtonImg from "../../../../assets/images/Search.svg";
+import {DropBox, TimeDropBox} from "../../../../components/capsule/DropBox";
+import {TimeList} from "../../../../constants/ToggleList";
+import {getToken} from "../../../../utils/IsLoginUtil";
+import {NoCard} from "../../../../components/card/Card";
+import ImagePaddingButton from "../../../../components/button/ImagePaddingButton";
 import {
+    SearchBarContainer,
     SearchDateContainer,
     SearchDateInput,
     SearchTextInput,
     SearchTitleContainer,
     SearchTitleText
-} from "../resource/SelectResource";
-import SearchButtonImg from "../../../../assets/images/button/searchButton.png";
-import ImageButton from "../../../../components/button/ImageButton";
-import {SelectToggle} from "../../../../components/capsule/SelectToggle";
-import {TimeList} from "../../../../constants/ToggleList";
-import {getToken} from "../../../../utils/IsLoginUtil";
-import {NoCard} from "../../../../components/card/Card";
+} from "../../../../components/searchBar/SearchBar";
 
 function SelectOffice(props) {
-
-    const timeOptionList = TimeList.map((time) => (<option>{time}</option>))
-
     const [offices, setOffices] = useState([]);
-    const [facilityName, setFacilityName] = useState("");
+    const facilityName = useRef("");
     const [date, setDate] = useState("");
     const [startTime, setStartTime] = useState("");
     const [endTime, setEndTime] = useState("");
 
-    const getOfficeList = () => {
-        OfficesAxios.get("?size=200", {
-            headers: {
-                Authorization: getToken()
-            }
-        })
-            .then((Response) => {
-                setOffices(Response.data.data.content)
-            })
-            .catch((error) => {
-                basicError(error)
-            })
-    };
-
     const changeFacilityName = (e) => {
-        setFacilityName(e.target.value);
+        facilityName.current = e.target.value;
+    };
+    const enterFacilityName = (e) => {
+        if (e.key === 'Enter') {
+            searchOffice()
+        }
     };
 
     const changeDate = (e) => {
@@ -60,7 +47,7 @@ function SelectOffice(props) {
     }
 
     const searchOffice = () => {
-        OfficesAxios.get(`?date=${date}&startTime=${startTime}&endTime=${endTime}&facilityName=${facilityName}`, {
+        OfficesAxios.get(`?date=${date}&startTime=${startTime}&endTime=${endTime}&facilityName=${facilityName.current}`, {
             headers: {
                 Authorization: getToken()
             }
@@ -74,27 +61,28 @@ function SelectOffice(props) {
     }
 
     useEffect(() => {
-        getOfficeList();
+        searchOffice();
     }, []);
 
 
     return (
         <RightContainer>
             <TitleText>{props.title}</TitleText>
-            <ResourceSearchBar>
+            <SearchBarContainer>
                 <SearchTitleContainer>
                     <SearchTitleText>예약 가능 회의실 검색</SearchTitleText>
                 </SearchTitleContainer>
 
-                <SearchTextInput type="text" placeholder="시설 검색" onChange={changeFacilityName}/>
+                <SearchTextInput placeholder="시설 검색" onChange={changeFacilityName} onKeyUp={enterFacilityName}/>
 
                 <SearchDateContainer>
-                    <SearchDateInput type="date" onChange={changeDate}/>
-                    <SelectToggle items={timeOptionList} change={changeStart}/>~
-                    <SelectToggle items={timeOptionList} change={changeEnd}/>
+                    <SearchDateInput onChange={changeDate}/>
+                    <TimeDropBox change={changeStart}/>~
+                    <TimeDropBox change={changeEnd}/>
                 </SearchDateContainer>
-                <ImageButton image={SearchButtonImg} width={"40px"} height={"40px"} click={searchOffice}/>
-            </ResourceSearchBar>
+                <ImagePaddingButton image={SearchButtonImg} width={"40px"} height={"40px"} background={"#717171"}
+                                    click={searchOffice}/>
+            </SearchBarContainer>
             <WhiteContainer>
                 <div className="cardList">
                     {offices.length === 0 ? <NoCard>예약 가능한 회의실이 없습니다.</NoCard> : offices.map((office) => <OfficeInfo
