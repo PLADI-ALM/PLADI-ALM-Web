@@ -18,7 +18,7 @@ export const Bar = styled.div`
     width: 100%;
     background-color: #2A3042;
     box-sizing: border-box;
-    position: absolute;
+    position: sticky;
     top: 0;
     z-index: 1;
 `
@@ -29,10 +29,11 @@ export const TableContainer = styled.div`
 `
 
 export const BookedTable = styled.table`
-    border-collapse: collapse;
-    height: fit-content;
-    width: 100%;
-    font-size: 18px;
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 18px;
+  position: absolute;
+  top: 0;
 `
 
 export const BookedThead = styled.thead`
@@ -48,6 +49,7 @@ export const BookedLineTr = styled.tr`
     color: #4c4c4c;
     text-align: center;
     height: 60px;
+  max-height: 60px;
     border-bottom: #E1E0E2 solid 1px;
 `
 
