@@ -37,6 +37,7 @@ const ManageSearchText = styled.input`
   background: none;
   border: none;
   outline: none;
+  width: 100%;
 `
 
 export const ManageAddButton = styled.button`
