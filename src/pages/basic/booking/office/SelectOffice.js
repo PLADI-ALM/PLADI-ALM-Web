@@ -22,8 +22,8 @@ function SelectOffice(props) {
     const [offices, setOffices] = useState([]);
     const facilityName = useRef("");
     const [date, setDate] = useState("");
-    const [startTime, setStartTime] = useState("");
-    const [endTime, setEndTime] = useState("");
+    const [startTime, setStartTime] = useState("00:00");
+    const [endTime, setEndTime] = useState("00:00");
 
     const changeFacilityName = (e) => {
         facilityName.current = e.target.value;
@@ -47,7 +47,10 @@ function SelectOffice(props) {
     }
 
     const searchOffice = () => {
-        OfficesAxios.get(`?date=${date}&startTime=${startTime}&endTime=${endTime}&facilityName=${facilityName.current}`, {
+        let url = `?facilityName=${facilityName.current}`
+        if (date !== "")
+            url = `?facilityName=${facilityName.current}&date=${date}&startTime=${startTime}&endTime=${endTime}`
+        OfficesAxios.get(url, {
             headers: {
                 Authorization: getToken()
             }

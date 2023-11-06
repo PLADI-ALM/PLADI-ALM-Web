@@ -26,8 +26,8 @@ function SelectResource(props) {
     const resourceName = useRef("");
     const [startDate, setStartDate] = useState("");
     const [endDate, setEndDate] = useState("");
-    const [startTime, setStartTime] = useState("");
-    const [endTime, setEndTime] = useState("");
+    const [startTime, setStartTime] = useState("00:00");
+    const [endTime, setEndTime] = useState("00:00");
 
     useEffect(() => {
         searchResource();
@@ -46,16 +46,20 @@ function SelectResource(props) {
         setEndDate(e.target.value)
     }
 
-    const changeStart = (e) => {
+    const changeStartTime = (e) => {
         setStartTime(e.target.value)
     }
 
-    const changeEnd = (e) => {
+    const changeEndTime = (e) => {
         setEndTime(e.target.value)
     }
 
     const searchResource = () => {
-        ResourcesAxios.get(`?resourceName=${resourceName.current}&startDate=${startDate}&endDate=${endDate}`,
+        // var bookingPurpose = document.getElementById("bookingPurpose").value;
+        let url = `?resourceName=${resourceName.current}`;
+        if (startDate !== "" && endDate !== "")
+            url = `?resourceName=${resourceName.current}&startDate=${startDate} ${startTime}&endDate=${endDate} ${endTime}`;
+        ResourcesAxios.get(url,
             {
                 headers: {
                     Authorization: getToken()
@@ -80,11 +84,11 @@ function SelectResource(props) {
                 <SearchTextInput placeholder="장비명 검색" onChange={changeResourceName}/>
 
                 <SearchDateContainer>
-                    <SearchDateInput onChange={changeStartDate}/>
-                    <TimeDropBox change={changeStart}/>
+                    <SearchDateInput value={startDate} onChange={changeStartDate}/>
+                    <TimeDropBox change={changeStartTime}/>
                     ~
-                    <SearchDateInput onChange={changeEndDate}/>
-                    <TimeDropBox change={changeEnd}/>
+                    <SearchDateInput value={endDate} onChange={changeEndDate}/>
+                    <TimeDropBox change={changeEndTime}/>
                 </SearchDateContainer>
 
                 <ImagePaddingButton image={SearchButtonImg} width={"40px"} height={"40px"} background={"#717171"} click={searchResource}/>
