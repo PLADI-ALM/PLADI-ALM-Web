@@ -41,24 +41,24 @@ function ResourceBookingManage(props) {
                         <BookedThead>
                             <tr>
                                 <th width="15%">장비명</th>
-                                <th width="10%">카테고리</th>
-                                <th width="20%">예약일자</th>
-                                <th width="10%">요청자</th>
+                                <th width="10%">보관장소</th>
+                                <th width="20%">예약일시</th>
+                                <th width="15%">예약자</th>
                                 <th width="15%">상태</th>
-                                <th width="20%">설정</th>
+                                <th width="15%">설정</th>
                             </tr>
                         </BookedThead>
                         <tbody>
                             {bookingResources.map((bookingResource, index) => 
-                                <ResourceBookingManageCell 
-                                    key={index} 
+                                <ResourceBookingManageCell
+                                    key={index}
                                     id={bookingResource.id}
                                     name={bookingResource.name}
-                                    position={bookingResource.position}  
-                                    category={bookingResource.category} 
-                                    startDateTime={bookingResource.startDateTime} 
-                                    endDateTime={bookingResource.endDateTime} 
-                                    requester={bookingResource.requester} 
+                                    location={bookingResource.location}
+                                    startDateTime={bookingResource.startDateTime}
+                                    endDateTime={bookingResource.endDateTime}
+                                    reservatorName={bookingResource.reservatorName}
+                                    reservatorPhone={bookingResource.reservatorPhone}
                                     status={bookingResource.status}
                                     refresh={getResourceBooking} />
                             )}

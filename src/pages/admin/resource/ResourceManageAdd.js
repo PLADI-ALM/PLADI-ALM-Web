@@ -1,12 +1,12 @@
-import React,{ useState, useEffect, useRef } from "react";
+import React, {useEffect, useRef, useState} from "react";
 import styled from "styled-components";
 
-import { RightContainer, TitleText, WhiteContainer } from "components/rightContainer/RightContainer";
-import { Bar } from "../../basic/myBookings/BookedList";
-import { ManageAddButton, ManageAddButtonImage, ManageAddButtonLabel } from "components/searchBar/ManageSearchBar";
+import {RightContainer, TitleText, WhiteContainer} from "components/rightContainer/RightContainer";
+import {Bar} from "../../basic/myBookings/BookedList";
+import {ManageAddButton, ManageAddButtonImage} from "components/searchBar/ManageSearchBar";
 
-import { getToken } from "utils/IsLoginUtil";
-import { basicError } from "utils/ErrorHandlerUtil";
+import {getToken} from "utils/IsLoginUtil";
+import {basicError} from "utils/ErrorHandlerUtil";
 import {AdminResourcesAxios, ImageUrlAxios, ResourcesAxios, UsersAxios} from "api/AxiosApi";
 
 import AddImageImage from "../../../assets/images/AddImage.svg"
@@ -478,7 +478,7 @@ function ResourceManageAdd(props) {
                     <AddButtonContainer>
                         <ManageAddButton onClick={getImageUrl}>
                             <ManageAddButtonImage src={SearchButtonImage} />
-                            <ManageAddButtonLabel>{resourceInfo === null ? "대여 장비 추가" : "대여 장비 수정"}</ManageAddButtonLabel>
+                            {resourceInfo === null ? "대여 장비 추가" : "대여 장비 수정"}
                         </ManageAddButton>
                     </AddButtonContainer>
 

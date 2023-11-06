@@ -64,15 +64,15 @@ function OfficeBookingManageCell(props) {
         <BookedLineTr>
             <td width="15%">{props.name}</td>
             <td width="10%">{props.detailInfo}</td>
-            <td width="20%">{props.startDateTime} ~ <br/>{props.endDateTime}</td>
-            <td width="10%">{props.requester} ({props.position})</td>
+            <td width="20%">{props.startDateTime} ~<br/>{props.endDateTime}</td>
+            <td width="15%">{props.reservatorName}<br/>({props.reservatorPhone})</td>
             <td width="15%">
                 <StatusContainer isCheck={'true'} background={status.background}>
                     <StatusCircle color={status.color} />
                     <StatusText color={status.color}>{props.status}</StatusText>
                 </StatusContainer>
             </td>
-            <td width="20%">
+            <td width="15%">
                 {status === BOOKED ? usingButton : cancelButton}
             </td>
         </BookedLineTr>
