@@ -10,13 +10,13 @@ export const MoreModalView = styled.div`
   align-items: center;
   flex-direction: column;
   position: absolute;
-  right: 30px;
+  right: 3%;
   border-radius: 10px;
-  width: 90px;
   background-color: #ffffff;
   box-sizing: border-box;
   border: 1px solid #EFF0F6;
   box-shadow: 0 9px 26px 0 #170F490D;
+  padding: 0 5px;
 `
 
 export const NormalDiv = styled.div`
