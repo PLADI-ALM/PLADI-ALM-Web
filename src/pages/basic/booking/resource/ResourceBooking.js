@@ -8,9 +8,9 @@ import {useParams} from 'react-router-dom';
 import Capsule from 'components/capsule/Capsule';
 import {
     MainTextContainer,
-    SelectedSubTitleText,
+    NameSubTitleText,
     SubTextContainer,
-    UnselectedSubTitleText
+    DetailSubTitleText
 } from 'components/officeBooking/SubTitleBar';
 import {
     BookingCapsuleContainer,
@@ -41,8 +41,7 @@ export const BookingDateText = styled.text`
   margin: 5px 0 0 0;
   padding-left: 10px;
   color: #575757;
-  background-color: ${props => props.isSelected != 'true' ? 'red' : 'white'}
-  font-family: NanumSquare_ac;
+  background-color: ${props => props.isSelected !== 'true' ? 'red' : 'white'}
   font-size: 22px;
   font-weight: 400;
   letter-spacing: 0em;
@@ -57,7 +56,6 @@ export const PurposeTextarea = styled.textarea`
   border-style: solid;
   border-color: black;
   background-color: #ffffff;
-  font-family: NanumSquare_ac;
   font-size: 20px;
   font-weight: 400;
   line-height: 25px;
@@ -198,15 +196,10 @@ function ResourceBooking(props) {
             <TitleText>장비 예약</TitleText>
 
             <WhiteContainer>
-                <Bar/>
-                <div style={{zIndex: 1}}>
-                    <MainTextContainer>
-                        <SelectedSubTitleText>{resourceInfo.name}</SelectedSubTitleText>
-                    </MainTextContainer>
-                    <SubTextContainer>
-                        <UnselectedSubTitleText>{resourceInfo.location}</UnselectedSubTitleText>
-                    </SubTextContainer>
-                </div>
+                <Bar>
+                    <NameSubTitleText>{resourceInfo.name}</NameSubTitleText>
+                    <DetailSubTitleText>{resourceInfo.location}</DetailSubTitleText>
+                </Bar>
 
                 <ResourceDetailInfo
                     managerName={resourceInfo.responsibilityName}

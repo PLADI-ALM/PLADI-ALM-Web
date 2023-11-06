@@ -8,9 +8,9 @@ import {Bar} from 'pages/basic/myBookings/BookedList';
 import {RightContainer, TitleText, WhiteContainer} from 'components/rightContainer/RightContainer';
 import {
     MainTextContainer,
-    SelectedSubTitleText,
+    NameSubTitleText,
     SubTextContainer,
-    UnselectedSubTitleText
+    DetailSubTitleText
 } from 'components/officeBooking/SubTitleBar';
 import {getToken} from 'utils/IsLoginUtil';
 import MoreButtonIcon from "../../../assets/images/button/triple_dot_icon.svg"
@@ -133,10 +133,10 @@ function ResourceManageDetail() {
         <WhiteContainer style={{display: 'inline'}}>
             <Bar style={{position: 'static'}}>
                 <MainTextContainer>
-                    <SelectedSubTitleText>{resourceInfo.name}</SelectedSubTitleText>
+                    <NameSubTitleText>{resourceInfo.name}</NameSubTitleText>
                 </MainTextContainer>
                 <SubTextContainer>
-                    <UnselectedSubTitleText>{resourceInfo.location}</UnselectedSubTitleText>
+                    <DetailSubTitleText>{resourceInfo.location}</DetailSubTitleText>
                 </SubTextContainer>
                 <MoreButton onClick={() => {
                     setOptionViewShowing(!isShowingOptions)

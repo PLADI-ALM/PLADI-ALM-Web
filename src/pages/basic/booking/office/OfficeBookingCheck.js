@@ -5,7 +5,7 @@ import { useParams } from 'react-router-dom';
 import Capsule from 'components/capsule/Capsule';
 
 import OfficeInfo from "components/card/OfficeInfo";
-import { MainTextContainer, SubTextContainer, SelectedSubTitleText, UnselectedSubTitleText } from 'components/officeBooking/SubTitleBar';
+import { MainTextContainer, SubTextContainer, NameSubTitleText, DetailSubTitleText } from 'components/officeBooking/SubTitleBar';
 import { StatusText, StatusCircle } from 'components/booking/StatusTag';
 import { BookingContentContainer, BookingTimeContainer, renderBookingTimeBar, BookingDateTextContainer, setBookingTime } from 'components/officeBooking/BookingTimeBar';
 import { BookingPurposeContainer, BookingCapsuleContainer } from 'components/officeBooking/BookingPurpose';
@@ -89,10 +89,10 @@ function OfficeBookingCheck(props) {
             <WhiteContainer style={{display:'inline'}}>
                 <Bar style={{position:'static'}}>
                     <MainTextContainer>
-                        <SelectedSubTitleText>{officeInfo.name}</SelectedSubTitleText>
+                        <NameSubTitleText>{officeInfo.name}</NameSubTitleText>
                     </MainTextContainer>
                     <SubTextContainer>
-                        <UnselectedSubTitleText>{officeInfo.location}</UnselectedSubTitleText>
+                        <DetailSubTitleText>{officeInfo.location}</DetailSubTitleText>
                     </SubTextContainer>
                     <StatusContainer style={{margin:'12px 12px 0 0 ', float:'right'}} isCheck={'true'} background={bookingStatus.background}>
                         <StatusCircle color={bookingStatus.color} />

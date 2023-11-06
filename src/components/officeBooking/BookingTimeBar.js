@@ -3,22 +3,22 @@ import { useState } from 'react'
 import styled from "styled-components"
 import { setStartTimeStr, setEndTimeStr } from 'pages/basic/booking/office/OfficeBooking';
 
-var bookingState = [
+let bookingState = [
     false, false, false, false, false, false, false, false, false, false, false, false,
     false, false, false, false, false, false, false, false, false, false, false, false,
 ];
 
-var selectedState = [
+let selectedState = [
     false, false, false, false, false, false, false, false, false, false, false, false,
     false, false, false, false, false, false, false, false, false, false, false, false,
 ];
 
-var startT = -1;
-var endT = -1;
-var bookedTimeList = []
+let startT = -1;
+let endT = -1;
+let bookedTimeList = [];
 
 export const BookingContentContainer = styled.div`
-    margin: 30px 0 0 40px;
+    margin: 30px 0 20px 20px;
     display: flex;
 `
 
@@ -28,36 +28,14 @@ export const BookingDateTextContainer = styled.div`
 `
 
 export const BookingTimeContainer = styled.div`
-    width: 94%;
-    margin: 10px 0 10px 35px;
+    margin: 10px 30px;
     display: flex;
 `
 
 export const RequestButtonContainer = styled.div`
-    padding-bottom: 25px;
-    margin: 15px 50px 0 0;
-    display: ${props => (props.isCheck === 'true') ? 'none' : 'flex'};
+    margin: 0 20px 20px 0;
+    display: flex;
     justify-content: flex-end;
-`
-
-export const RequestBookingButton = styled.button`
-    border: none;
-    padding: 5px 10px;
-    margin-right: 55px;
-    margin-top: 15px;
-    background: #8741CB;
-    color: #FFF;
-    width: 82px;
-    height: 38px;
-    border: none;
-    border-radius: 20px;
-
-    font-family: NanumSquare_ac;
-    font-size: 20px;
-    font-weight: 400;
-    line-height: 16px;
-    letter-spacing: 0em;
-    text-align: center;
 `
 
 export const BookingTimeButton = styled.button`
@@ -77,12 +55,17 @@ export const TimeButtonContainer = styled.div`
 `
 
 export const StartTimeTextContainer = styled.div`
-    float: left;
+  float: left;
+  position: relative;
+  left: -8px;
+  text-align: left;
 `
 
 export const EndTimeTextContainer = styled.div`
-    float: right;
-    display: ${props => (props.index === 23) ? 'flex' : 'none'};
+  float: right;
+  position: relative;
+  left: 8px;
+  display: ${props => (props.index === 23) ? 'flex' : 'none'};
 `
 
 function getTimeBarItemBackColor(index, selected, isCheck) {

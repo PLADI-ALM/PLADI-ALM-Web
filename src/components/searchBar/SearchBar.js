@@ -64,15 +64,6 @@ export const SearchDateInput = styled.input.attrs({type: 'date'})`
   border: none;
 `
 
-export const DatePicker = styled.input`
-    color: #717171;
-    font-size: 18px;
-    padding: 0 10px;
-    border: none;
-    width: 140px;
-`
-
-
 function SearchBar(props) {
     return (
         <SearchBarContainer>
