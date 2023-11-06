@@ -52,6 +52,7 @@ export const PurposeTextarea = styled.textarea`
   border-radius: 12px;
   border-color: #717171;
   font-size: 20px;
+  line-height: 30px;
   text-align: left;
   margin-right: 20px;
 `
@@ -186,10 +187,7 @@ function OfficeBooking(props) {
 
                 <BookingPurposeContainer>
                     <Capsule color="purple" text="예약목적"/>
-                    <PurposeTextarea id='bookingPurpose'
-                                     cols='135'
-                                     rows='4'
-                                     maxLength='100'/>
+                    <PurposeTextarea id='bookingPurpose' maxLength='100'/>
                 </BookingPurposeContainer>
 
                 <RequestButtonContainer>

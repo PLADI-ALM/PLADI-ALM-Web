@@ -39,14 +39,15 @@ export const RequestButtonContainer = styled.div`
 `
 
 export const BookingTimeButton = styled.button`
-    width: 100%;
-    height: 30px;
-    background: ${props => getTimeBarItemBackColor(props.index, props.selected, props.isCheck)};
-    border: none;
-    border-top-left-radius: ${props => (props.index === 0) ? '15px' : '0'};
-    border-bottom-left-radius: ${props => (props.index === 0) ? '15px' : '0'};
-    border-top-right-radius: ${props => (props.index === 23) ? '15px' : '0'};
-    border-bottom-right-radius: ${props => (props.index === 23) ? '15px' : '0'};
+  width: 100%;
+  height: 30px;
+  background: ${props => getTimeBarItemBackColor(props.index, props.selected, props.isCheck)};
+  background-size: 10px 10px;
+  border: none;
+  border-top-left-radius: ${props => (props.index === 0) ? '15px' : '0'};
+  border-bottom-left-radius: ${props => (props.index === 0) ? '15px' : '0'};
+  border-top-right-radius: ${props => (props.index === 23) ? '15px' : '0'};
+  border-bottom-right-radius: ${props => (props.index === 23) ? '15px' : '0'};
 `
 
 export const TimeButtonContainer = styled.div`
@@ -71,7 +72,7 @@ export const EndTimeTextContainer = styled.div`
 function getTimeBarItemBackColor(index, selected, isCheck) {
     if (bookingState[index]) {
         // 이미 예약된 시간 (조회화면-보라색(#D0B1EE) / 예약화면-빗금)
-        return (isCheck === 'true') ? '#D0B1EE' : 'repeating-linear-gradient(-45deg, #E9E9E9, #E9E9E9 2px, skyblue 2px, skyblue 4px)';
+        return isCheck ? '#D0B1EE' : 'linear-gradient(-45deg, #E9E9E9 25%, transparent 25%, transparent 50%, #E9E9E9 50%, #E9E9E9 75%, transparent 75%, transparent)';
     } else {
         // 예약 가능한 시간 (선택O-보라색(#D0B1EE) / 선택X-연회색(#E9E9E9))
         return selected ? '#D0B1EE' : '#E9E9E9';
@@ -119,14 +120,14 @@ const BookingTimeButtonItem = (index, isCheck) => {
 
         // 시작시간과 끝시간 사이를 자동선택
         for (var i=0 ;i<24; i++) {
-            selectedState[i] = (i >= startT && i < endT) ? true : false
+            selectedState[i] = (i >= startT && i < endT)
 
             setSelectedCheckList(selectedState);
             const updatedCheckList = [...selectedCheckList];
 
-            updatedCheckList[i] = (i >= startT && i < endT) ? true : false
-            selectedCheckList[i] = (i >= startT && i < endT) ? true : false
-            selectedState[i] = (i >= startT && i < endT) ? true : false
+            updatedCheckList[i] = (i >= startT && i < endT)
+            selectedCheckList[i] = (i >= startT && i < endT)
+            selectedState[i] = (i >= startT && i < endT)
 
             const updatedIsSelected = updatedCheckList[i];
             setSelectedCheckList(selectedState);
@@ -138,7 +139,7 @@ const BookingTimeButtonItem = (index, isCheck) => {
 
     return (
         <TimeButtonContainer>
-            <BookingTimeButton index={index} selected={selectedState[index]} isCheck={isCheck} onClick={() => (isCheck === 'true') ? {} : onClick(index)} />
+            <BookingTimeButton index={index} selected={selectedState[index]} isCheck={isCheck} onClick={() => isCheck ? {} : onClick(index)} />
             <StartTimeTextContainer>{index}</StartTimeTextContainer>
             <EndTimeTextContainer index={index}>{index + 1}</EndTimeTextContainer>
         </TimeButtonContainer>
