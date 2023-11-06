@@ -1,4 +1,4 @@
-import {SelectToggleInModal} from 'components/capsule/SelectToggle';
+import {SelectToggleInModal} from 'components/capsule/DropBox';
 import React, {useState, useEffect, useRef} from 'react';
 import {AdminUsersAxios} from 'api/AxiosApi';
 import {getToken} from 'utils/IsLoginUtil';

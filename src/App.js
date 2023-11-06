@@ -30,40 +30,28 @@ function App() {
     return (
         <div className="App">
             <Routes>
-                <Route path="/" element={<Login/>}/>
-                <Route element={<SidebarLayout/>}>
-                    <Route path="/officeBooking" element={<SelectOffice title="회의실 예약"/>}>
-                        <Route path=":officeId" element={<OfficeBooking isCheck='false'/>}/>
-                    </Route>
-                    <Route path='/resourceBooking' element={<SelectResource title="장비 예약"/>}>
-                        <Route path=':resourceId' element={<ResourceBooking/>}/>
-                    </Route>
-                    <Route path="/my/bookings/offices" element={<BookedList title="회의실 예약 내역" type={"offices"}/>}>
-                        <Route path=":bookingId" element={<OfficeBookingCheck isAdmin={false}/>}/>
-                    </Route>
-                    <Route path="/my/bookings/resources" element={<BookedList title="장비 예약 내역" type={"resources"}/>}>
-                        <Route path=':bookingId' element={<ResourceBookingCheck/>}/>
-                    </Route>
-                    <Route path="/my/bookings/cars" element={<BookedList title="차량 예약 내역" type={"cars"}/>}>
-
-                    </Route>
-
-                    {/*관리자 메뉴*/}
-                    <Route path='/admin/users' element={<UserManage title="직원 관리"/>}/>
-                    <Route path='/admin/offices' element={<OfficeManage title="회의실 관리"/>}>
-                        <Route path=':officeId' element={<OfficeManageDetail/>}/>
-                    </Route>
-                    <Route path='/admin/resources' element={<ResourceManage title="장비 관리"/>}>
-                        <Route path='add' element={<ResourceManageAdd title="장비 관리"/>}/>
-                        <Route path='edit/:resourceId' element={<ResourceManageAdd title="장비 관리"/>}/>
-                        <Route path=':resourceId' element={<ResourceManageDetail/>}/>
-                    </Route>
-                    <Route path='/admin/officeBooking' element={<OfficeBookingManage title="회의실 예약 내역"/>}>
-                        <Route path=':bookingId' element={<OfficeBookingCheck isAdmin={true}/>}/>
-                    </Route>
-                    <Route path='/admin/resourceBooking' element={<ResourceBookingManage title="장비 예약 관리"/>}>
-                        <Route path=':bookingId' element={<ResourceBookingCheck isAdmin={true}/>}/>
-                    </Route>
+                <Route path="/" element={<Login />} />
+                <Route element={<SidebarLayout />}>
+                    <Route path="/officeBooking" element={<SelectOffice title="회의실 예약" />} />
+                    <Route path="/officeBooking/:officeId" element={<OfficeBooking isCheck='false' />} />
+                    <Route path="/my/bookings/offices" element={<BookedList title="회의실 예약 내역" type={"offices"} />} />
+                    <Route path="/my/bookings/offices/:bookingId" element={<OfficeBookingCheck isAdmin={false} />} />
+                    <Route path="/my/bookings/resources" element={<BookedList title="장비 예약 내역" type={"resources"} />} />
+                    <Route path='/my/bookings/resources/:bookingId' element={<ResourceBookingCheck />} />
+                    <Route path="/my/bookings/cars" element={<BookedList title="차량 예약 내역" type={"cars"} />} />
+                    <Route path='/resourceBooking' element={<SelectResource title="장비 예약" />} />
+                    <Route path='/resourceBooking/:resourceId' element={<ResourceBooking />} />
+                    <Route path='/admin/offices' element={<OfficeManage title="회의실 관리" />} />
+                    <Route path='/admin/offices/:officeId' element={<OfficeManageDetail />} />
+                    <Route path='/admin/officeBooking' element={<OfficeBookingManage title="회의실 예약 내역" />} />
+                    <Route path='/admin/officeBooking/:bookingId' element={<OfficeBookingCheck isAdmin={true} />} />
+                    <Route path='/admin/resources' element={<ResourceManage title="장비 관리" />} />
+                    <Route path='/admin/resources/add' element={<ResourceManageAdd title="장비 관리" />} />
+                    <Route path='/admin/resources/edit/:resourceId' element={<ResourceManageAdd title="장비 관리" />} />
+                    <Route path='/admin/resources/:resourceId' element={<ResourceManageDetail/>} />
+                    <Route path='/admin/resourceBooking' element={<ResourceBookingManage title="장비 예약 관리" />} />
+                    <Route path='/admin/resourceBooking/:bookingId' element={<ResourceBookingCheck isAdmin={true} />} />
+                    <Route path='/admin/users' element={<UserManage title="직원 관리" />} />
                 </Route>
             </Routes>
         </div>

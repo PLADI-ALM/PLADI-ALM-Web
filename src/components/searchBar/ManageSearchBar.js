@@ -2,42 +2,42 @@ import React from "react";
 import styled from "styled-components";
 import SearchInputImage from "../../assets/images/SearchInput.svg"
 import SearchButtonImage from "../../assets/images/SearchPlus.svg"
-import {SelectToggle} from "../capsule/SelectToggle";
+import {DropBox} from "../capsule/DropBox";
 
 const Container = styled.div`
-    background: none;
-    width: 100%;
-    height: 50px;
-    display: inline-flex;
-    align-items: center;
-    margin-bottom: 20px;
+  background: none;
+  width: 100%;
+  height: 40px;
+  display: inline-flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
 `
 
 const ManageSearchContainer = styled.div`
-    width: 85%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    border-radius: 8px;
-    border: 1px solid #FFF;
-    background: #FFF;
-    margin-right: 20px;
-    padding: 0 10px;
+  width: 85%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  border-radius: 8px;
+  border: 1px solid #FFF;
+  background: #FFF;
+  margin-right: 10px;
+  padding: 0 10px;
 `
 const ManageSearchImage = styled.img`
-    width: 30px;
-    height: 30px;
+  width: 30px;
+  height: 30px;
 `
 
 const ManageSearchText = styled.input`
-    padding-left: 10px;
-    font-size: 18px;
-    font-family: NanumSquare_ac;
-    width: 100%;
-    height: 100%;
-    background: none;
-    border: none;
-    outline: none;
+  padding-left: 10px;
+  font-size: 18px;
+  width: 100%;
+  height: 100%;
+  background: none;
+  border: none;
+  outline: none;
 `
 
 export const ManageAddButton = styled.button`
@@ -55,18 +55,17 @@ export const ManageAddButton = styled.button`
 `
 
 export const ManageAddButtonImage = styled.img`
-    width: 16px;
-    height: 16px;
-    border-radius: 12px;
-    border: 1px dashed var(--gray-300, #D0D5DD);
-    margin: 0 5px;
+  width: 16px;
+  height: 16px;
+  border-radius: 12px;
+  border: 1px dashed var(--gray-300, #D0D5DD);
+  margin: 0 5px;
 `
 
 export const ManageAddButtonLabel = styled.text`
-    margin: auto;
-    color: white;
-    font-size: 17px;
-    font-family: NanumSquare_ac;
+  margin: auto;
+  color: white;
+  font-size: 17px;
 `
 
 function ManageSearchBar(props) {
@@ -80,15 +79,15 @@ function ManageSearchBar(props) {
     return (
         <Container>
             <ManageSearchContainer>
-                <ManageSearchImage src={SearchInputImage} />
-                <ManageSearchText onKeyUp={handleOnKeyPress} placeholder="이름 검색" />
+                <ManageSearchImage src={SearchInputImage}/>
+                <ManageSearchText onKeyUp={handleOnKeyPress} placeholder="이름 검색"/>
             </ManageSearchContainer>
             {
                 props.selectOptions !== null ?
-                    <SelectToggle items={props.selectOptions} change={props.onSelectedChange} /> : null
+                    <DropBox height={"40px"} items={props.selectOptions} change={props.onSelectedChange}/> : null
             }
             <ManageAddButton onClick={props.btnClick}>
-                <ManageAddButtonImage src={SearchButtonImage} />
+                <ManageAddButtonImage src={SearchButtonImage}/>
                 <ManageAddButtonLabel>{props.buttonTitle}</ManageAddButtonLabel>
             </ManageAddButton>
         </Container>
