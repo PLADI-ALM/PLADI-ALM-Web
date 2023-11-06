@@ -15,7 +15,7 @@ const Container = styled.div`
 `
 
 const ManageSearchContainer = styled.div`
-  width: 85%;
+  flex: 1;
   height: 100%;
   display: flex;
   align-items: center;
@@ -33,7 +33,6 @@ const ManageSearchImage = styled.img`
 const ManageSearchText = styled.input`
   padding-left: 10px;
   font-size: 18px;
-  width: 100%;
   height: 100%;
   background: none;
   border: none;
@@ -41,9 +40,8 @@ const ManageSearchText = styled.input`
 `
 
 export const ManageAddButton = styled.button`
-  width: 160px;
   height: 100%;
-  padding: 10px;
+  padding: 10px 15px;
   margin-left: 10px;
   border: none;
   border-radius: 8px;
@@ -52,20 +50,17 @@ export const ManageAddButton = styled.button`
   align-items: center;
   filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
   cursor: pointer;
+  font-size: 17px;
+  color: white;
+  white-space: nowrap;
 `
 
 export const ManageAddButtonImage = styled.img`
   width: 16px;
   height: 16px;
   border-radius: 12px;
-  border: 1px dashed var(--gray-300, #D0D5DD);
-  margin: 0 5px;
-`
-
-export const ManageAddButtonLabel = styled.text`
-  margin: auto;
-  color: white;
-  font-size: 17px;
+  border: 1px dashed var(--gray-300, #FFF);
+  margin-right: 10px;
 `
 
 function ManageSearchBar(props) {
@@ -88,7 +83,7 @@ function ManageSearchBar(props) {
             }
             <ManageAddButton onClick={props.btnClick}>
                 <ManageAddButtonImage src={SearchButtonImage}/>
-                <ManageAddButtonLabel>{props.buttonTitle}</ManageAddButtonLabel>
+                {props.buttonTitle}
             </ManageAddButton>
         </Container>
     );

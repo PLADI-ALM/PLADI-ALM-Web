@@ -9,13 +9,11 @@ import RangeImage from "../../../assets/images/RangeArrow.svg"
 import { getToken } from "utils/IsLoginUtil";
 import { basicError } from 'utils/ErrorHandlerUtil';
 
-
 const RangeImg = styled.img`
     width: 20px;
     height: 20px;
     margin-right: 20px;
 `
-
 
 function OfficeBookingManage(props) {
 
@@ -35,7 +33,7 @@ function OfficeBookingManage(props) {
         .catch((error) => {basicError(error)})
     }
 
-    const chnageRange = () => {
+    const changeSort = () => {
         alert("Q")
     }
     
@@ -53,10 +51,10 @@ function OfficeBookingManage(props) {
                             <tr>
                                 <th width="15%">회의실명</th>
                                 <th width="10%">위치</th>
-                                <th width="20%"><RangeImg onClick={chnageRange} src={RangeImage}/>예약일시</th>
-                                <th width="10%">요청자</th>
+                                <th width="20%"><RangeImg onClick={changeSort} src={RangeImage}/>예약일시</th>
+                                <th width="15%">예약자</th>
                                 <th width="15%">상태</th>
-                                <th width="20%">설정</th>
+                                <th width="15%">설정</th>
                             </tr>
                         </BookedThead>
                         <tbody>
@@ -64,12 +62,12 @@ function OfficeBookingManage(props) {
                                 <OfficeBookingManageCell 
                                     key={index} 
                                     id={bookingOffice.id}
-                                    name={bookingOffice.name}  
-                                    position={bookingOffice.position}
-                                    detailInfo={bookingOffice.detailInfo} 
-                                    startDateTime={bookingOffice.startDateTime} 
-                                    endDateTime={bookingOffice.endDateTime} 
-                                    requester={bookingOffice.requester} 
+                                    name={bookingOffice.name}
+                                    detailInfo={bookingOffice.detailInfo}
+                                    startDateTime={bookingOffice.startDateTime}
+                                    endDateTime={bookingOffice.endDateTime}
+                                    reservatorName={bookingOffice.reservatorName}
+                                    reservatorPhone={bookingOffice.reservatorPhone}
                                     status={bookingOffice.status} />
                             )}
                         </tbody>
