@@ -20,6 +20,7 @@ let bookedTimeList = [];
 export const BookingContentContainer = styled.div`
   margin: 30px 0 20px 20px;
   display: flex;
+  align-items: center;
 `
 
 export const BookingDateTextContainer = styled.div`

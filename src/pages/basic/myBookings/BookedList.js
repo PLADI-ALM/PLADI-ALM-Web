@@ -39,6 +39,7 @@ export const BookedTable = styled.table`
   font-size: 18px;
   position: absolute;
   top: 0;
+  table-layout: fixed;
 `
 
 export const BookedThead = styled.thead`

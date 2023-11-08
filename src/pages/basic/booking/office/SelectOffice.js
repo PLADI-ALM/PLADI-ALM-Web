@@ -27,7 +27,9 @@ function SelectOffice(props) {
 
     const changeFacilityName = (e) => {
         facilityName.current = e.target.value;
+        searchOffice()
     };
+
     const enterFacilityName = (e) => {
         if (e.key === 'Enter') {
             searchOffice()

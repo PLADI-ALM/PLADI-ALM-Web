@@ -24,6 +24,7 @@ export function UserMoreModal(props) {
         })
             .then((response) => {
                 alert("탈퇴 완료 되었습니다.")
+                window.location.reload();
             })
             .catch((error) => {
                 basicError(error)

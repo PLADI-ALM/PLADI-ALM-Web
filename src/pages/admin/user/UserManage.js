@@ -89,11 +89,11 @@ function UserManage(props) {
                         <BookedThead>
                             <tr>
                                 <th width="10%">성명</th>
-                                <th width="15%">이메일</th>
+                                <th width="17%">이메일</th>
                                 <th width="15%">연락처</th>
                                 <th width="10%">부서</th>
                                 <th width="5%">권한</th>
-                                <th width="5%"></th>
+                                <th width="3%"></th>
                             </tr>
                         </BookedThead>
                         <tbody>
