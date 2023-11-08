@@ -15,6 +15,7 @@ import {
 import {getToken} from 'utils/IsLoginUtil';
 import MoreButtonIcon from "../../../assets/images/button/triple_dot_icon.svg"
 import ResourceDetailInfo from "../../../components/card/ResourceDetailInfo";
+import ImageFullButton from "../../../components/button/ImageFullButton";
 
 export const MoreButton = styled.button`
   border: none;
@@ -129,19 +130,15 @@ function ResourceManageDetail() {
     return <RightContainer>
         <TitleText>장비 관리</TitleText>
 
-        <WhiteContainer style={{display: 'inline'}}>
-            <Bar style={{position: 'static'}}>
-                <MainTextContainer>
+        <WhiteContainer>
+            <Bar space={true}>
+                <div>
                     <NameSubTitleText>{resourceInfo.name}</NameSubTitleText>
-                </MainTextContainer>
-                <SubTextContainer>
                     <DetailSubTitleText>{resourceInfo.location}</DetailSubTitleText>
-                </SubTextContainer>
-                <MoreButton onClick={() => {
+                </div>
+                <ImageFullButton image={MoreButtonIcon} click={() => {
                     setOptionViewShowing(!isShowingOptions)
-                }}>
-                    <img src={MoreButtonIcon} alt="더보기"/>
-                </MoreButton>
+                }}/>
                 <OptionsView isShowing={isShowingOptions}>
                     <OptionButton onClick={() => {
                         window.location.href = `/admin/resources/edit/${resourceId}`

@@ -32,6 +32,7 @@ export const ADMIN_MENUS = [
     { name: '직원 관리', path: '/admin/users' },
     { name: '회의실 관리', path: '/admin/offices' },
     { name: '장비 관리', path: '/admin/resources' },
+    { name: '차량 관리', path: '/admin/cars' },
     { name: '회의실 예약 관리', path: '/admin/officeBooking' },
     { name: '장비 예약 관리', path: '/admin/resourceBooking' },
     { name: '차량 예약 관리', path: '/admin/carBooking' }
