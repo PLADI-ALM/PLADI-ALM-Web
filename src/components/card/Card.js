@@ -2,7 +2,6 @@ import styled from "styled-components"
 
 // 카드 박스
 export const Card = styled.ul`
-  // height: 300px;
   background: white;
   border-radius: 8px;
   border: 1px solid #E6E6E6;

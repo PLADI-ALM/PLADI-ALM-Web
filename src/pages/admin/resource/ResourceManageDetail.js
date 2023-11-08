@@ -128,7 +128,7 @@ function ResourceManageDetail() {
     }, []);
 
     return <RightContainer>
-        <TitleText>장 관리</TitleText>
+        <TitleText>장비 관리</TitleText>
 
         <WhiteContainer style={{display: 'inline'}}>
             <Bar style={{position: 'static'}}>

@@ -8,17 +8,12 @@ import OfficeInfo from "components/card/OfficeInfo";
 import {DetailSubTitleText, NameSubTitleText} from 'components/officeBooking/SubTitleBar';
 import {
     BookingContentContainer,
-    BookingDateTextContainer,
     BookingTimeContainer,
     renderBookingTimeBar,
     RequestButtonContainer,
     setBookingState
 } from 'components/officeBooking/BookingTimeBar';
-import {
-    BookingCapsuleContainer,
-    BookingPurposeContainer,
-    BookingPurposeTextFieldContainer
-} from 'components/officeBooking/BookingPurpose';
+import {BookingPurposeContainer} from 'components/officeBooking/BookingPurpose';
 import {RightContainer, TitleText, WhiteContainer} from 'components/rightContainer/RightContainer';
 import {basicError} from 'utils/ErrorHandlerUtil';
 import SmallButton from 'components/button/SmallButton';
@@ -40,9 +35,6 @@ export const BookingDateText = styled.p`
   margin: 6px 0 0 0;
   color: #575757;
   font-size: 22px;
-  font-weight: 400;
-  line-height: 16px;
-  letter-spacing: 0em;
   text-align: left;
 `
 
@@ -94,6 +86,24 @@ function OfficeBooking(props) {
                 basicError(Error)
                 console.log(Error)
                 window.alert("예약 현황을 불러오는데 실패하였습니다.")
+                window.history.back()
+            });
+    };
+
+    // 예약자 정보
+    const getBookingInfo = (date, time) => {
+        OfficesAxios.get(`/${officeId}/booking?date=${date}&time=${time}`, {
+            headers: {
+                Authorization: getToken()
+            }
+        })
+            .then((Response) => {
+                setBookingDetail(Response.data.data.bookedTimes)
+                setBookingState(Response.data.data.bookedTimes)
+            })
+            .catch((Error) => {
+                basicError(Error)
+                window.alert("예약 정보를 불러오는데 실패하였습니다.")
                 window.history.back()
             });
     };

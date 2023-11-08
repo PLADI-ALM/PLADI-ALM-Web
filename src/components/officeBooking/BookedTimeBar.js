@@ -1,8 +1,6 @@
-import React from 'react';
-import {useState} from 'react'
+import React, {useState} from 'react';
 import styled from "styled-components"
-import {setStartTimeStr, setEndTimeStr} from 'pages/basic/booking/office/OfficeBooking';
-import {BookingInfoModalView, BookingInfoText} from "../modal/BookingInfoModal";
+import {setEndTimeStr, setStartTimeStr} from 'pages/basic/booking/office/OfficeBooking';
 import {TimeList} from "../../constants/ToggleList";
 import {OfficesAxios} from "../../api/AxiosApi";
 import {getToken} from "../../utils/IsLoginUtil";
