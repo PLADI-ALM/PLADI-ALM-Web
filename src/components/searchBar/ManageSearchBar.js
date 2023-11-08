@@ -67,16 +67,15 @@ export const ManageAddButtonImage = styled.img`
 function ManageSearchBar(props) {
 
     const handleOnKeyPress = e => {
-        if (e.key === 'Enter') {
-            props.onEnter(e) // Enter 입력이 되면 클릭 이벤트 실행
-        }
+        // if (e.key === 'Enter')
+        props.onEnter(e) // Enter 입력이 되면 클릭 이벤트 실행
     };
 
     return (
         <Container>
             <ManageSearchContainer>
                 <ManageSearchImage src={SearchInputImage}/>
-                <ManageSearchText onKeyUp={handleOnKeyPress} placeholder="이름 검색"/>
+                <ManageSearchText onChange={handleOnKeyPress} placeholder="이름 검색"/>
             </ManageSearchContainer>
             {
                 props.selectOptions !== null ?

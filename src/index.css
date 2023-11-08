@@ -22,10 +22,9 @@ a {
 input, button, select, text, p, textarea {
   font-family: 'NanumSquare_ac';
   outline: none;
-}
-
-textarea {
+  word-break: break-all;
   resize: none;
+  margin: 0;
 }
 
 ::-webkit-scrollbar {

@@ -16,7 +16,6 @@ export const SettingButtonContainer = styled.div`
 `
 export const SettingButton = styled.button`
   color: #8741CB;
-  font-family: NanumSquare_ac;
   font-size: 16px;
   font-style: normal;
   font-weight: 400;
@@ -36,7 +35,7 @@ function OfficeBookingManageCell(props) {
                 }
             })
             .then((Response) => {
-                alert(Response.data.message)
+                alert('반려 완료되었습니다.')
                 window.location.reload()
              })
              .catch((error) => {basicError(error)})

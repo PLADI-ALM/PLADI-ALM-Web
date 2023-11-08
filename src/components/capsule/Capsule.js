@@ -2,14 +2,15 @@ import React from "react";
 import styled from "styled-components"
 
 const PurpleCapsule = styled.p`
-    border-radius: 20px;
-    background: #A263DE;
-    text-align: center;
-    color: #FFF;
-    font-size: 18px;
-    padding: 7px 15px;
-    margin: 0 10px 0 0;
+  border-radius: 20px;
+  background: #A263DE;
+  text-align: center;
+  color: #FFF;
+  font-size: 18px;
+  padding: 7px 15px;
+  margin: 0 10px 0 0;
   min-width: fit-content;
+  height: fit-content;
 `
 
 const WhiteCapsule = styled(PurpleCapsule)`

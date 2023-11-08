@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {AdminBookingAxios, BookingsAxios, ResourcesAxios} from 'api/AxiosApi';
 import {useParams} from 'react-router-dom';
 import Capsule from 'components/capsule/Capsule';
@@ -23,17 +23,16 @@ import {basicError} from 'utils/ErrorHandlerUtil';
 import {Bar} from '../../myBookings/BookedList';
 import ResourceDetailInfo from "../../../../components/card/ResourceDetailInfo";
 
-var resourceId = 1;
-
 function ResourceBookingCheck(props) {
     let {bookingId} = useParams();
 
     const [resourceInfo, setResourceInfo] = useState([]);
     const [bookingInfo, setBookingDetail] = useState([]);
     const [bookingStatus, setStatus] = useState([]);
+    const resourceId = useRef("");
 
     const getResourceInfo = () => {
-        ResourcesAxios.get(`/${resourceId}`,
+        ResourcesAxios.get(`/${resourceId.current}`,
             {
                 headers: {
                     Authorization: getToken()
@@ -65,8 +64,8 @@ function ResourceBookingCheck(props) {
             .then((Response) => {
                 setBookingDetail(Response.data.data)
                 setStatus(findStatus(Response.data.data.status))
-                resourceId = Response.data.data.resourceId
-                getResourceInfo(resourceId)
+                resourceId.current = Response.data.data.resourceId
+                getResourceInfo(resourceId.current)
             })
             .catch((Error) => {
                 basicError(Error)
@@ -82,17 +81,15 @@ function ResourceBookingCheck(props) {
     }, []);
 
     return <RightContainer>
-        <TitleText>{props.isAdmin ? "장비 예약 내역" : "예약 내역"}</TitleText>
+        <TitleText>장비 예약 내역</TitleText>
 
-        <WhiteContainer style={{display: 'inline'}}>
-            <Bar style={{position: 'static'}}>
-                <MainTextContainer>
+        <WhiteContainer>
+            <Bar space={true}>
+                <div>
                     <NameSubTitleText>{resourceInfo.name}</NameSubTitleText>
-                </MainTextContainer>
-                <SubTextContainer>
                     <DetailSubTitleText>{resourceInfo.category}</DetailSubTitleText>
-                </SubTextContainer>
-                <StatusContainer style={{margin: '10px 12px 0 0', float: 'right'}} isCheck={'true'}
+                </div>
+                <StatusContainer style={{margin: '0'}} isCheck={'true'}
                                  background={bookingStatus.background}>
                     <StatusCircle color={bookingStatus.color}/>
                     <StatusText color={bookingStatus.color}>{bookingStatus.name}</StatusText>
@@ -106,9 +103,7 @@ function ResourceBookingCheck(props) {
                 imgUrl={resourceInfo.imgUrl}/>
 
             <BookingContentContainer>
-                <BookingCapsuleContainer>
-                    <Capsule color="purple" text="예약일시"/>
-                </BookingCapsuleContainer>
+                <Capsule color="purple" text="예약일시"/>
                 <div>
                     <BookingDateText>{bookingInfo.startDate || "시작일"}</BookingDateText>
                     <BookingDateText> ~ </BookingDateText>
@@ -117,19 +112,14 @@ function ResourceBookingCheck(props) {
             </BookingContentContainer>
 
             <BookingContentContainer isCheck={props.isCheck}>
-                <BookingCapsuleContainer>
-                    <Capsule color="purple" text="반납일자"/>
-                </BookingCapsuleContainer>
+                <Capsule color="purple" text="반납일자"/>
                 <BookingDateText>{getReturnDateStr(bookingInfo.returnDateTime)}</BookingDateText>
             </BookingContentContainer>
 
             <BookingPurposeContainer>
-                <BookingCapsuleContainer>
-                    <Capsule color="purple" text="예약목적"/>
-                </BookingCapsuleContainer>
-
+                <Capsule color="purple" text="예약목적"/>
                 <PurposeContainer>
-                    {(bookingInfo.memo === null)
+                    {(bookingInfo.memo === null || bookingInfo.memo === "")
                         ? '* 저장된 예약목적이 없습니다'
                         : bookingInfo.memo}
                 </PurposeContainer>

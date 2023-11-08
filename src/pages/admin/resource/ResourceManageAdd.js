@@ -15,200 +15,118 @@ import {ExitBtn} from "../../../components/modal/BigModal";
 import axios from "axios";
 import {useParams} from "react-router-dom";
 
-
-const NameContainer = styled.div`
-    width: 90%;
-    height: 40px;
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    margin: 90px 130px 0 80px;
-`
-const PlaceContainer = styled.div`
-    width: 90%;
-    height: 40px;
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    margin: 40px 80px 0px 80px;
+const MarginWhiteContainer = styled(WhiteContainer)`
+  padding: 50px;
+  box-sizing: border-box;
 `
 
-
-const StaffContainer = styled.div`
-  width: 90%;
-  height: 150px;
+const ColumnContainer = styled.div`
+  height: 40px;
   display: flex;
   justify-content: flex-start;
-  align-items: flex-start;
-  margin: 40px 80px 0px 80px;
-`
-
-
-const DescriptionContainer = styled.div`
-    width: 90%;
-    height: 80px;
-    display: flex;
-    justify-content: flex-start;
-    align-items: flex-start;
-    margin: 40px 80px 0 80px;
-`
-const ImageContainer = styled.div`
-    width: 90%;
-    height: 60px;
-    display: flex;
-    justify-content: flex-start;
-    align-items: flex-start;
-    margin: 40px 80px 0 80px;
-`
-const AddButtonContainer = styled.div`
-    width: 90%;
-    height: 50px;
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    margin: -50px 80px 0 80px;
+  align-items: center;
+  margin-bottom: 40px;
 `
 
 const TitleLabel = styled.label`
-    color: #8741CB;
-    font-size: 24px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: 16px; /* 66.667% */
+  color: #8741CB;
+  font-size: 22px;
+  width: 130px;
+  text-align: left;
 `
 
-const NameInput = styled.input`
-    width: 83%;
-    height: 70%;
-    border-radius: 8px;
-    border: 2px solid #E6E6E6;
-    background: #FFF;
-    margin-left: 73px;
-    font-size: 20px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: 32px; 
-    padding: 10px;
-`
-
-const PlaceInput = styled.input`
-    width: 43%;
-    height: 70%;
-    border-radius: 8px;
-    border: 2px solid #E6E6E6;
-    background: #FFF;
-    margin-left: 52px;
-    font-size: 20px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: 32px; 
-    padding: 10px;
+const InfoInput = styled.input.attrs({type: 'text'})`
+  flex: 1;
+  height: 20px;
+  border-radius: 8px;
+  border: 2px solid #E6E6E6;
+  font-size: 20px;
+  padding: 10px;
 `
 
 const StaffInputContainer = styled.div`
-  width: 43%;
+  width: 30%;
   height: 100%;
-  margin-left: 73px;
   display: block;
-  justify-content: start;
-  align-items: start;
-  margin-top: -10px;
+  z-index: 11;
+  background: white;
 `
 
-const StaffInput = styled.input`
+const StaffInfoInput = styled(InfoInput)`
   width: 100%;
-  height: 25px;
-  border-radius: 8px;
-  border: 2px solid #E6E6E6;
-  background: #FFF;
-  font-size: 20px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 32px;
-  padding: 10px;
-  z-index: 10;
 `
 
 const StaffSelectUl = styled.div`
   width: 100%;
-  height: 120px;
+  max-height: 120px;
   overflow: scroll;
-  border-radius: 0px 0px 8px 8px;
+  border-radius: 0 0 8px 8px;
   border: 2px solid #E6E6E6;
-  background: #FFF;
-  margin-top: -5px;
   padding: 10px;
-  z-index: 1;
+  z-index: 3;
+  background: white;
+  margin-top: -5px;
 `
-const StaffLabel = styled.p`
+
+const StaffNameLabel = styled.p`
   color: #4C4C4C;
-  font-family: NanumSquare_ac;
   font-size: 20px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: normal;
-  text-align: start;
-  z-index: 2;
+  text-align: left;
+  z-index: 4;
+`
+
+const DescriptionContainer = styled(ColumnContainer)`
+  height: 60px;
 `
 
 const DescriptionInput = styled.textarea`
-    width: 83%;
-    height: 100%;
-    border-radius: 8px;
-    border: 2px solid #E6E6E6;
-    background: #FFF;
-    margin-left: 93px;
-    margin-top: -10px;
-    font-size: 20px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: 32px; 
-    padding: 10px;
+  flex: 1;
+  height: 100%;
+  border-radius: 8px;
+  border: 2px solid #E6E6E6;
+  font-size: 20px;
+  padding: 10px;
 `
 
-const IamgeAddContainer = styled.div`
-    width: 112px;
-    height: 49px;
-    flex-shrink: 0;
-    margin-left: 52px;
-    margin-top: -10px;
+const AddButtonContainer = styled.div`
+  width: 90%;
+  height: 50px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin: -50px 80px 0 80px;
+`
+
+const ImageAddContainer = styled.div`
+  width: 112px;
+  height: 40px;
+  flex-shrink: 0;
+  margin-left: 52px;
 `
 
 const ImageAddButton = styled.img`
-    width: 100%;
-    height: 100%;
+  width: 100%;
+  height: 100%;
 `
 
 const ImageInfoContainer = styled.div`
-    width: 30%;
-    height: 70%;
-    border-radius: 8px;
-    border: 2px solid #E6E6E6;
-    background: #FFF;
-    margin-left: 52px;
-    margin-top: -10px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  width: 32%;
+  height: 40px;
+  border-radius: 8px;
+  border: 2px solid #E6E6E6;
+  display: flex;
+  justify-content: space-between;
 `
 
-const IamgeInfoLabel = styled.label`
-    font-size: 20px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: 32px; 
-    padding: 5px;
-    margin-left: 20px;
+const ImageInfoLabel = styled.label`
+  font-size: 20px;
+  padding: 5px;
+  margin-left: 20px;
 `
-
-
-
-
-
 
 function ResourceManageAdd(props) {
 
-    let { resourceId } = useParams()
+    let {resourceId} = useParams()
     const [name, setName] = useState("");
     const [place, setPlace] = useState("");
     const [staff, setStaff] = useState({
@@ -225,7 +143,6 @@ function ResourceManageAdd(props) {
     const [isFocusStaffInput, setIsFocusStaffInput] = useState(false);
 
     const [resourceInfo, setResourceInfo] = useState(null)
-
 
     const changeName = (e) => {
         setName(e.target.value);
@@ -267,10 +184,10 @@ function ResourceManageAdd(props) {
                     .catch((error) => {
                         console.log(error)
                     });
-            }else {
+            } else {
                 editResource();
             }
-        }else {
+        } else {
             if (imageFile !== null) {
                 ImageUrlAxios.get(`?ext=${imageFile.type.split("/", 2)[1]}&dir=photo`)
                     .then((Response) => {
@@ -279,13 +196,13 @@ function ResourceManageAdd(props) {
                     .catch((error) => {
                         console.log(error)
                     });
-            }else {
+            } else {
                 alert("이미지를 업로드해주세요.");
             }
         }
     }
 
-    const uploadImage =  () => {
+    const uploadImage = () => {
         const formData = new FormData();
         formData.append("files", imageFile);
 
@@ -350,7 +267,7 @@ function ResourceManageAdd(props) {
                 Authorization: getToken()
             }
         })
-            .then((Response)=>{
+            .then((Response) => {
                 setResourceInfo(Response.data.data);
                 setStaff({
                     ...staff,
@@ -362,7 +279,7 @@ function ResourceManageAdd(props) {
                 setName(Response.data.data.name);
                 setImageUrl(Response.data.data.imgUrl)
             })
-            .catch((Error)=>{
+            .catch((Error) => {
                 basicError(Error)
                 console.log(Error)
                 window.alert("장비 정보를 불러올 수 없습니댜.")
@@ -372,10 +289,11 @@ function ResourceManageAdd(props) {
 
 
     const getStaffList = () => {
-        UsersAxios.get(`managers?name=${staff.name}` , {
+        UsersAxios.get(`managers?name=${staff.name}`, {
             headers: {
                 Authorization: getToken()
-            }})
+            }
+        })
             .then((Response) => {
                 console.log(Response.data.data)
                 setStaffList(Response.data.data.responsibilityList);
@@ -405,7 +323,7 @@ function ResourceManageAdd(props) {
     }, [imageUrl]);
 
     useEffect(() => {
-        if (isUpload ) {
+        if (isUpload) {
             if (resourceInfo !== null) {
                 editResource();
             } else {
@@ -418,72 +336,71 @@ function ResourceManageAdd(props) {
         getStaffList();
     }, [staff.name]);
 
-
-
-
     return (
-       <RightContainer>
-            <TitleText>{props.title}</TitleText>
+        <RightContainer>
+            <TitleText>{resourceInfo === null ? "장비 추가" : "장비 수정"}</TitleText>
 
-            <WhiteContainer>
-                <Bar />
-                    <NameContainer>
-                        <TitleLabel>장비명</TitleLabel>
-                        <NameInput type="text" value={name} onChange={changeName}/>
-                    </NameContainer>
+            <MarginWhiteContainer>
+                <ColumnContainer>
+                    <TitleLabel>장비명</TitleLabel>
+                    <InfoInput value={name} onChange={changeName}/>
+                </ColumnContainer>
 
-                    <PlaceContainer>
-                        <TitleLabel>보관장소</TitleLabel>
-                        <PlaceInput type="text" value={place} onChange={changePlace}/>
-                    </PlaceContainer>
+                <ColumnContainer>
+                    <TitleLabel>보관장소</TitleLabel>
+                    <InfoInput value={place} onChange={changePlace}/>
+                </ColumnContainer>
 
-                    <StaffContainer >
-                        <TitleLabel>책임자</TitleLabel>
-                        <StaffInputContainer >
-                            <StaffInput type="text" value={staff.name} onChange={changeStaff} onClick={() => setIsFocusStaffInput(true)} onBlur={() => setIsFocusStaffInput(false)} />
-                            {isFocusStaffInput &&
-                                <StaffSelectUl>
-                                    {staffList.map((staff, index) =>
-                                        <StaffLabel key={index} onMouseDown={() => setStaff(staff)}>{staff.name}</StaffLabel>
-                                    )}
-                                </StaffSelectUl>
-                            }
-                        </StaffInputContainer>
+                <ColumnContainer>
+                    <TitleLabel>책임자</TitleLabel>
+                    <StaffInputContainer>
+                        <StaffInfoInput value={staff.name}
+                                        onChange={changeStaff}
+                                        onClick={() => setIsFocusStaffInput(true)}
+                                        onBlur={() => setIsFocusStaffInput(false)}/>
+                        {isFocusStaffInput &&
+                            <StaffSelectUl>
+                                {staffList.map((staff, index) =>
+                                    <StaffNameLabel key={index}
+                                                    onMouseDown={() => setStaff(staff)}>{staff.name}</StaffNameLabel>
+                                )}
+                            </StaffSelectUl>
+                        }
+                    </StaffInputContainer>
 
-                    </StaffContainer>
+                </ColumnContainer>
 
-                    <DescriptionContainer>
-                        <TitleLabel>설명</TitleLabel>
-                        <DescriptionInput type="text" value={description}  onChange={changeDescription}/>
-                    </DescriptionContainer>
+                <DescriptionContainer>
+                    <TitleLabel>설명</TitleLabel>
+                    <DescriptionInput value={description} onChange={changeDescription}/>
+                </DescriptionContainer>
 
-                    <ImageContainer>
-                        <TitleLabel>첨부사진</TitleLabel>
-                        <ImageInfoContainer>
-                            <IamgeInfoLabel>{imageFile !== null ? imageFile.name :""
-                            }</IamgeInfoLabel>
-                            {imageFile===null ? <></> : <ExitBtn onClick={deleteImageFile} >X</ExitBtn>}
-                        </ImageInfoContainer>
-                        <IamgeAddContainer>
-                            <ImageAddButton src={AddImageImage} onClick={changeImageFile} />
-                            <input type="file"
+                <ColumnContainer>
+                    <TitleLabel>첨부사진</TitleLabel>
+                    <ImageInfoContainer>
+                        <ImageInfoLabel>{imageFile !== null ? imageFile.name : ""}</ImageInfoLabel>
+                        {imageFile === null ? <></> : <ExitBtn onClick={deleteImageFile}>X</ExitBtn>}
+                    </ImageInfoContainer>
+                    <ImageAddContainer>
+                        <ImageAddButton src={AddImageImage} onClick={changeImageFile}/>
+                        <input type="file"
                                name="image"
                                ref={imageInput}
                                accept='.png, .jpg,image/*'
                                onChange={handleChange}
-                               style={{ display: "none"}}/>
-                        </IamgeAddContainer>
-                    </ImageContainer>
+                               style={{display: "none"}}/>
+                    </ImageAddContainer>
+                </ColumnContainer>
 
-                    <AddButtonContainer>
-                        <ManageAddButton onClick={getImageUrl}>
-                            <ManageAddButtonImage src={SearchButtonImage} />
-                            {resourceInfo === null ? "대여 장비 추가" : "대여 장비 수정"}
-                        </ManageAddButton>
-                    </AddButtonContainer>
+                <AddButtonContainer>
+                    <ManageAddButton onClick={getImageUrl}>
+                        <ManageAddButtonImage src={SearchButtonImage}/>
+                        {resourceInfo === null ? "대여 장비 추가" : "대여 장비 수정"}
+                    </ManageAddButton>
+                </AddButtonContainer>
 
-            </WhiteContainer>
-       </RightContainer>
+            </MarginWhiteContainer>
+        </RightContainer>
     );
 }
 

@@ -1,37 +1,47 @@
-import React from 'react';
-import { AdminBookingAxios, BookingsAxios, OfficesAxios } from 'api/AxiosApi';
-import { useState, useEffect } from "react";
-import { useParams } from 'react-router-dom';
+import React, {useRef} from 'react';
+import {AdminBookingAxios, BookingsAxios, OfficesAxios} from 'api/AxiosApi';
+import {useState, useEffect} from "react";
+import {useParams} from 'react-router-dom';
 import Capsule from 'components/capsule/Capsule';
 
 import OfficeInfo from "components/card/OfficeInfo";
-import { MainTextContainer, SubTextContainer, NameSubTitleText, DetailSubTitleText } from 'components/officeBooking/SubTitleBar';
-import { StatusText, StatusCircle } from 'components/booking/StatusTag';
-import { BookingContentContainer, BookingTimeContainer, renderBookingTimeBar, BookingDateTextContainer, setBookingTime } from 'components/officeBooking/BookingTimeBar';
-import { BookingPurposeContainer, BookingCapsuleContainer } from 'components/officeBooking/BookingPurpose';
-import { findStatus } from 'constants/BookingStatus';
-import { BookingDateText } from './OfficeBooking';
-import { RightContainer, WhiteContainer, TitleText } from 'components/rightContainer/RightContainer';
-import { getToken } from 'utils/IsLoginUtil';
-import { basicError } from 'utils/ErrorHandlerUtil';
-import { Bar } from '../../myBookings/BookedList';
-import { StatusContainer } from 'components/booking/StatusTag';
-import { PurposeContainer } from 'components/officeBooking/BookingPurpose';
-
-var officeId = 1;
+import {
+    MainTextContainer,
+    SubTextContainer,
+    NameSubTitleText,
+    DetailSubTitleText
+} from 'components/officeBooking/SubTitleBar';
+import {StatusText, StatusCircle} from 'components/booking/StatusTag';
+import {
+    BookingContentContainer,
+    BookingTimeContainer,
+    renderBookingTimeBar,
+    BookingDateTextContainer,
+    setBookingTime
+} from 'components/officeBooking/BookingTimeBar';
+import {BookingPurposeContainer, BookingCapsuleContainer} from 'components/officeBooking/BookingPurpose';
+import {findStatus} from 'constants/BookingStatus';
+import {BookingDateText} from './OfficeBooking';
+import {RightContainer, WhiteContainer, TitleText} from 'components/rightContainer/RightContainer';
+import {getToken} from 'utils/IsLoginUtil';
+import {basicError} from 'utils/ErrorHandlerUtil';
+import {Bar} from '../../myBookings/BookedList';
+import {StatusContainer} from 'components/booking/StatusTag';
+import {PurposeContainer} from 'components/officeBooking/BookingPurpose';
 
 function OfficeBookingCheck(props) {
-    let { bookingId } = useParams();
+    let {bookingId} = useParams();
 
     const [officeInfo, setOfficeInfo] = useState([]);
     const [bookingInfo, setBookingDetail] = useState([]);
     const [bookingStatus, setStatus] = useState([]);
-    var [date, setDate] = useState("");
+    const date = useRef("");
+    const officeId = useRef("");
 
     const getBookingInfo = () => {
-        if (date.length == 0) {
+        if (date.current.length === 0) {
             const dateNow = new Date();
-            date = dateNow.toISOString().slice(0, 10);
+            date.current = dateNow.toISOString().slice(0, 10);
         }
 
         (props.isAdmin
@@ -48,12 +58,12 @@ function OfficeBookingCheck(props) {
             .then((Response) => {
                 setBookingDetail(Response.data.data)
                 setStatus(findStatus(Response.data.data.bookingStatus))
-                officeId = Response.data.data.officeId
-                getOfficeInfo(officeId)
+                officeId.current = Response.data.data.officeId
+                getOfficeInfo(officeId.current)
                 setBookingTime(Response.data.data.startTime, Response.data.data.endTime)
             })
-            .catch((Error)=>{ 
-                basicError(Error) 
+            .catch((Error) => {
+                basicError(Error)
                 console.log(Error)
                 window.alert("예약 정보를 불러올 수 없습니댜.")
                 window.history.back()
@@ -61,7 +71,7 @@ function OfficeBookingCheck(props) {
     };
 
     const getOfficeInfo = () => {
-        OfficesAxios.get(`/${officeId}`, {
+        OfficesAxios.get(`/${officeId.current}`, {
             headers: {
                 Authorization: getToken()
             }
@@ -69,8 +79,8 @@ function OfficeBookingCheck(props) {
             .then((Response) => {
                 setOfficeInfo(Response.data.data)
             })
-            .catch((Error)=>{ 
-                basicError(Error) 
+            .catch((Error) => {
+                basicError(Error)
                 console.log(Error)
                 window.alert("회의실 정보를 불러올 수 없습니댜.")
                 window.history.back()
@@ -84,52 +94,44 @@ function OfficeBookingCheck(props) {
 
     return (
         <RightContainer>
-            <TitleText>{props.isAdmin ? "회의실 예약 내역" : "예약 내역"}</TitleText>
+            <TitleText>회의실 예약 내역</TitleText>
 
-            <WhiteContainer style={{display:'inline'}}>
-                <Bar style={{position:'static'}}>
-                    <MainTextContainer>
+            <WhiteContainer>
+                <Bar space={true}>
+                    <div>
                         <NameSubTitleText>{officeInfo.name}</NameSubTitleText>
-                    </MainTextContainer>
-                    <SubTextContainer>
                         <DetailSubTitleText>{officeInfo.location}</DetailSubTitleText>
-                    </SubTextContainer>
-                    <StatusContainer style={{margin:'12px 12px 0 0 ', float:'right'}} isCheck={'true'} background={bookingStatus.background}>
-                        <StatusCircle color={bookingStatus.color} />
+                    </div>
+                    <StatusContainer style={{margin: '0'}} isCheck={'true'}
+                                     background={bookingStatus.background}>
+                        <StatusCircle color={bookingStatus.color}/>
                         <StatusText color={bookingStatus.color}>{bookingStatus.name}</StatusText>
                     </StatusContainer>
                 </Bar>
 
-                <OfficeInfo isDetailPage={true}
+                <OfficeInfo
+                    isDetailPage={true}
+                    isHidden={true}
                     key={officeInfo.name}
                     capacity={officeInfo.capacity}
                     facilityList={officeInfo.facilityList}
                     description={officeInfo.description}
                     imgUrl={officeInfo.imgUrl}
                 />
-                
 
                 <BookingContentContainer isCheck={'true'}>
-                    <BookingCapsuleContainer>
-                        <Capsule color="purple" text="예약일시" />
-                    </BookingCapsuleContainer>
-                    <BookingDateTextContainer>
+                        <Capsule color="purple" text="예약일시"/>
                         {getBookingDate(bookingInfo)}
-                    </BookingDateTextContainer>
                 </BookingContentContainer>
 
                 <BookingTimeContainer>
                     {renderBookingTimeBar('true')}
                 </BookingTimeContainer>
 
-
                 <BookingPurposeContainer>
-                    <BookingCapsuleContainer>
-                        <Capsule color="purple" text="예약목적" />
-                    </BookingCapsuleContainer>
-
+                    <Capsule color="purple" text="예약목적"/>
                     <PurposeContainer>
-                        {(bookingInfo.memo === null) 
+                        {(bookingInfo.memo === null || bookingInfo.memo === "")
                             ? '* 저장된 예약목적이 없습니다'
                             : bookingInfo.memo}
                     </PurposeContainer>
@@ -139,6 +141,7 @@ function OfficeBookingCheck(props) {
         </RightContainer>
     );
 }
+
 export default OfficeBookingCheck;
 
 function getBookingDate(info) {

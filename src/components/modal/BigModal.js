@@ -43,7 +43,6 @@ export const ExitBtn = styled.button`
   background: none;
   width: 40px;
   height: 40px;
-  font-family: NanumSquare_ac;
   font-size: 40px;
   border: none;
   color: #4C4C4C;
