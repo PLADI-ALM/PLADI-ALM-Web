@@ -25,6 +25,7 @@ export const Bar = styled.div`
   text-align: left;
   align-items: center;
   padding: 0 30px;
+  justify-content: ${props => props.space ? 'space-between' : null};
 `
 
 // 네이비 바 밑의 테이블의 컨테이너

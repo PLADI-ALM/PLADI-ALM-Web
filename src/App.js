@@ -16,7 +16,7 @@ import UserManage from 'pages/admin/user/UserManage';
 import ResourceManage from 'pages/admin/resource/ResourceManage';
 import ResourceManageAdd from "./pages/admin/resource/ResourceManageAdd";
 import ResourceManageDetail from 'pages/admin/resource/ResourceManageDetail';
-import OfficeManageDetail from 'pages/admin/office/OfficeBookingManageDetail';
+import OfficeManageDetail from 'pages/admin/office/OfficeManageDetail';
 
 function App() {
 
