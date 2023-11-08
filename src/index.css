@@ -19,8 +19,13 @@ a {
   color: #4c4c4c;
 }
 
-input, button, select, text {
+input, button, select, text, p, textarea {
   font-family: 'NanumSquare_ac';
+  outline: none;
+}
+
+textarea {
+  resize: none;
 }
 
 ::-webkit-scrollbar {

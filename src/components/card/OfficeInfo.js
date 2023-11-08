@@ -2,7 +2,18 @@ import React from "react";
 import styled from "styled-components"
 import DateIcon from '../../assets/images/selectOffice/date.png'
 import Capsule from "components/capsule/Capsule";
-import { Card, CardText, TitleContainer, NameText, DetailContainer, CardImage, InfoContainer, DescriptionContainer, DescriptionText } from "components/card/Card";
+import {
+    Card,
+    CardText,
+    TitleContainer,
+    NameText,
+    DetailContainer,
+    CardImage,
+    InfoContainer,
+    DescriptionContainer,
+    DescriptionText,
+    OfficeCardClick
+} from "components/card/Card";
 
 // 수용인원 컨테이너
 const OfficePeopleContainer = styled.div`
@@ -25,8 +36,8 @@ function openBookingPage(officeId) {
 
 function OfficeInfo(props) {
     return (
-        <Card onClick={() => (props.isDetailPage) ? {} : openBookingPage(props.officeId)}>
-            <TitleContainer hidden={props.hidden}>
+        <Card isHidden={props.isHidden} onClick={() => (props.isDetailPage) ? {} : openBookingPage(props.officeId)}>
+            <TitleContainer hidden={props.isHidden}>
                 <NameText href={"/officeBooking/"+props.officeId}>{props.name}</NameText>
                 <CardText>{props.location}</CardText>
             </TitleContainer>

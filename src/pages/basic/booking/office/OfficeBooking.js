@@ -5,26 +5,15 @@ import {useParams} from 'react-router-dom';
 import Capsule from 'components/capsule/Capsule';
 
 import OfficeInfo from "components/card/OfficeInfo";
-import {
-    MainTextContainer,
-    SelectedSubTitleText,
-    SubTextContainer,
-    UnselectedSubTitleText
-} from 'components/officeBooking/SubTitleBar';
-import {DatePicker} from 'components/searchBar/SearchBar';
+import {DetailSubTitleText, NameSubTitleText} from 'components/officeBooking/SubTitleBar';
 import {
     BookingContentContainer,
-    BookingDateTextContainer,
     BookingTimeContainer,
     renderBookingTimeBar,
     RequestButtonContainer,
     setBookingState
 } from 'components/officeBooking/BookingTimeBar';
-import {
-    BookingCapsuleContainer,
-    BookingPurposeContainer,
-    BookingPurposeTextFieldContainer
-} from 'components/officeBooking/BookingPurpose';
+import {BookingPurposeContainer} from 'components/officeBooking/BookingPurpose';
 import {RightContainer, TitleText, WhiteContainer} from 'components/rightContainer/RightContainer';
 import {basicError} from 'utils/ErrorHandlerUtil';
 import SmallButton from 'components/button/SmallButton';
@@ -36,36 +25,32 @@ var bookingDate = '';
 var startTimeStr = '';
 var endTimeStr = '';
 
+const DatePicker = styled.input.attrs({type: 'date'})`
+  color: #717171;
+  font-size: 20px;
+  border: none;
+`
+
 export const BookingDateText = styled.p`
-    margin: 6px 0 0 0;
-    color: #575757;
-    font-family: NanumSquare_ac;
-    font-size: 22px;
-    font-weight: 400;
-    line-height: 16px;
-    letter-spacing: 0em;
-    text-align: left;
+  margin: 6px 0 0 0;
+  color: #575757;
+  font-size: 22px;
+  text-align: left;
 `
 
 export const PurposeTextarea = styled.textarea`
-    width: 100%; 
-    padding: 6px 0 0 18px;
-    border-radius: 12px;
-    border-width:1;
-    border-style:solid;
-    border-color:black;
-    background-color: #ffffff;
-    font-family: NanumSquare_ac;
-    font-size: 20px;
-    font-weight: 400;
-    line-height: 25px;
-    letter-spacing: 0em;
-    text-align: left;
-    margin: 0 10px 0 10px;
+  width: 100%;
+  padding: 10px;
+  border-radius: 12px;
+  border-color: #717171;
+  font-size: 20px;
+  line-height: 30px;
+  text-align: left;
+  margin-right: 20px;
 `
 
 function OfficeBooking(props) {
-    let { officeId } = useParams();
+    let {officeId} = useParams();
 
     const [officeInfo, setOfficeInfo] = useState([]);   // 회의실 정보
     const [bookingInfo, setBookingDetail] = useState([]);   // 
@@ -78,7 +63,9 @@ function OfficeBooking(props) {
 
     // 달력 내 날짜가 바뀌는 경우 -> 예약일 변수 값 변경
     const changeDate = (e) => {
-        if (bookingDate === '') { bookingDate = new Date().toISOString().slice(0, 10) }
+        if (bookingDate === '') {
+            bookingDate = new Date().toISOString().slice(0, 10)
+        }
         setDate(e.target.value)
         bookingDate = e.target.value;
         getBookingTimeState()
@@ -95,10 +82,28 @@ function OfficeBooking(props) {
                 setBookingDetail(Response.data.data.bookedTimes)
                 setBookingState(Response.data.data.bookedTimes)
             })
-            .catch((Error)=>{ 
-                basicError(Error) 
+            .catch((Error) => {
+                basicError(Error)
                 console.log(Error)
                 window.alert("예약 현황을 불러오는데 실패하였습니다.")
+                window.history.back()
+            });
+    };
+
+    // 예약자 정보
+    const getBookingInfo = (date, time) => {
+        OfficesAxios.get(`/${officeId}/booking?date=${date}&time=${time}`, {
+            headers: {
+                Authorization: getToken()
+            }
+        })
+            .then((Response) => {
+                setBookingDetail(Response.data.data.bookedTimes)
+                setBookingState(Response.data.data.bookedTimes)
+            })
+            .catch((Error) => {
+                basicError(Error)
+                window.alert("예약 정보를 불러오는데 실패하였습니다.")
                 window.history.back()
             });
     };
@@ -113,8 +118,8 @@ function OfficeBooking(props) {
             .then((Response) => {
                 setOfficeInfo(Response.data.data)
             })
-            .catch((Error)=>{ 
-                basicError(Error) 
+            .catch((Error) => {
+                basicError(Error)
                 console.log(Error)
                 window.alert("회의실 정보를 불러올 수 없습니댜.")
                 window.history.back()
@@ -123,8 +128,10 @@ function OfficeBooking(props) {
 
     const requestBooking = () => {
         var bookingPurpose = document.getElementById("bookingPurpose").value;
-        if (endTimeStr === 24) { endTimeStr = 0 }
-    
+        if (endTimeStr === 24) {
+            endTimeStr = 0
+        }
+
         if (window.confirm("예약하시겠습니까?")) {
             OfficesAxios.post(`/${officeId}/booking`,
                 {
@@ -134,16 +141,19 @@ function OfficeBooking(props) {
                     memo: bookingPurpose
                 },
                 {
-                    headers: { Authorization: getToken() }
+                    headers: {Authorization: getToken()}
                 },
             )
                 .then(function (response) {
-                    if (response.data.status === '200') { alert('예약에 성공하였습니다!') }
-                    else { alert(response.data.message); }
+                    if (response.data.status === '200') {
+                        alert('예약에 성공하였습니다!')
+                    } else {
+                        alert(response.data.message);
+                    }
                     getBookingTimeState()
                 })
-                .catch((Error)=>{ 
-                    basicError(Error) 
+                .catch((Error) => {
+                    basicError(Error)
                     console.log(Error)
                     window.alert("예약에 실패하였습니다.")
                 });
@@ -160,35 +170,25 @@ function OfficeBooking(props) {
             <TitleText>회의실 예약</TitleText>
 
             <WhiteContainer>
-                <Bar />
-                <div style={{zIndex:1}}>
-                    <MainTextContainer>
-                        <SelectedSubTitleText>{officeInfo.name}</SelectedSubTitleText>
-                    </MainTextContainer>
-                    <SubTextContainer>
-                        <UnselectedSubTitleText>{officeInfo.location}</UnselectedSubTitleText>
-                    </SubTextContainer>
-                </div>
+                <Bar>
+                    <NameSubTitleText>{officeInfo.name}</NameSubTitleText>
+                    <DetailSubTitleText>{officeInfo.location}</DetailSubTitleText>
+                </Bar>
 
                 <OfficeInfo isDetailPage={true}
-                    hidden={props.isCheck}
-                    key={officeInfo.name}
-                    name={officeInfo.name}
-                    location={officeInfo.location}
-                    capacity={officeInfo.capacity}
-                    facilityList={officeInfo.facilityList}
-                    description={officeInfo.description}
-                    imgUrl={officeInfo.imgUrl}
+                            isHidden={true}
+                            key={officeInfo.name}
+                            name={officeInfo.name}
+                            location={officeInfo.location}
+                            capacity={officeInfo.capacity}
+                            facilityList={officeInfo.facilityList}
+                            description={officeInfo.description}
+                            imgUrl={officeInfo.imgUrl}
                 />
-                
 
-                <BookingContentContainer isCheck={'true'}>
-                    <BookingCapsuleContainer>
-                        <Capsule color="purple" text="예약일시" />
-                    </BookingCapsuleContainer>
-                    <BookingDateTextContainer>
-                        <DatePicker style={{padding: '5px 0 0 10px', fontSize: '21px', width: '160px'}} type="date" onChange={changeDate} value={bookingDate} />
-                    </BookingDateTextContainer>
+                <BookingContentContainer>
+                    <Capsule color="purple" text="예약일시"/>
+                    <DatePicker onChange={changeDate} value={bookingDate}/>
                 </BookingContentContainer>
 
                 <BookingTimeContainer>
@@ -196,39 +196,39 @@ function OfficeBooking(props) {
                 </BookingTimeContainer>
 
                 <BookingPurposeContainer>
-                    <BookingCapsuleContainer>
-                        <Capsule color="purple" text="예약목적" />
-                    </BookingCapsuleContainer>
-
-                    <BookingPurposeTextFieldContainer>
-                        <PurposeTextarea id='bookingPurpose'
-                            cols='135'
-                            rows='4'
-                            maxLength='100' />
-                    </BookingPurposeTextFieldContainer>
+                    <Capsule color="purple" text="예약목적"/>
+                    <PurposeTextarea id='bookingPurpose' maxLength='100'/>
                 </BookingPurposeContainer>
 
-
-                <RequestButtonContainer isCheck={props.isCheck}>
+                <RequestButtonContainer>
                     <SmallButton name={'예약'} click={requestBooking}></SmallButton>
                 </RequestButtonContainer>
-
 
             </WhiteContainer>
         </RightContainer>
     );
 }
+
 export default OfficeBooking;
 
-function setStartTimeStr(startTime) { startTimeStr = startTime }
-export { setStartTimeStr };
+function setStartTimeStr(startTime) {
+    startTimeStr = startTime
+}
 
-function setEndTimeStr(endTime) { endTimeStr = endTime }
-export { setEndTimeStr };
+export {setStartTimeStr};
+
+function setEndTimeStr(endTime) {
+    endTimeStr = endTime
+}
+
+export {setEndTimeStr};
 
 function getTimeStr(props) {
     var str = ''
-    if (props < 10) { str = '0' + props + ':00' }
-    else { str = props + ':00' }
+    if (props < 10) {
+        str = '0' + props + ':00'
+    } else {
+        str = props + ':00'
+    }
     return str
 }

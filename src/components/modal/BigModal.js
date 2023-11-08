@@ -61,6 +61,7 @@ export const AttrContainer = styled.div`
   display: flex;
   align-items: center;
   margin-bottom: 35px;
+  height: 40px;
 `
 
 export const AttrLabel = styled.div`

@@ -4,9 +4,9 @@ import {useParams} from 'react-router-dom';
 import Capsule from 'components/capsule/Capsule';
 import {
     MainTextContainer,
-    SelectedSubTitleText,
+    NameSubTitleText,
     SubTextContainer,
-    UnselectedSubTitleText
+    DetailSubTitleText
 } from 'components/officeBooking/SubTitleBar';
 import {
     BookingCapsuleContainer,
@@ -87,10 +87,10 @@ function ResourceBookingCheck(props) {
         <WhiteContainer style={{display: 'inline'}}>
             <Bar style={{position: 'static'}}>
                 <MainTextContainer>
-                    <SelectedSubTitleText>{resourceInfo.name}</SelectedSubTitleText>
+                    <NameSubTitleText>{resourceInfo.name}</NameSubTitleText>
                 </MainTextContainer>
                 <SubTextContainer>
-                    <UnselectedSubTitleText>{resourceInfo.category}</UnselectedSubTitleText>
+                    <DetailSubTitleText>{resourceInfo.category}</DetailSubTitleText>
                 </SubTextContainer>
                 <StatusContainer style={{margin: '10px 12px 0 0', float: 'right'}} isCheck={'true'}
                                  background={bookingStatus.background}>

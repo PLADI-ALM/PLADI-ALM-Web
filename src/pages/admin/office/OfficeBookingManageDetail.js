@@ -6,7 +6,7 @@ import Capsule from 'components/capsule/Capsule';
 import { basicError } from 'utils/ErrorHandlerUtil';
 import { Bar } from 'pages/basic/myBookings/BookedList';
 import { RightContainer, WhiteContainer,TitleText } from 'components/rightContainer/RightContainer';
-import { MainTextContainer, SubTextContainer, SelectedSubTitleText, UnselectedSubTitleText } from 'components/officeBooking/SubTitleBar';
+import { MainTextContainer, SubTextContainer, NameSubTitleText, DetailSubTitleText } from 'components/officeBooking/SubTitleBar';
 import { getToken } from 'utils/IsLoginUtil';
 import MoreButtonIcon from "../../../assets/images/button/triple_dot_icon.svg"
 import { MoreButton, OptionButton, OptionsView, InfoTable, InfoTableData } from '../resource/ResourceManageDetail';
@@ -83,10 +83,10 @@ function OfficeManageDetail() {
         <WhiteContainer style={{display:'inline'}}>
             <Bar style={{position:'static'}}>
                 <MainTextContainer>
-                    <SelectedSubTitleText>{officeInfo.name}</SelectedSubTitleText>
+                    <NameSubTitleText>{officeInfo.name}</NameSubTitleText>
                 </MainTextContainer>
                 <SubTextContainer>
-                    <UnselectedSubTitleText>{officeInfo.location}</UnselectedSubTitleText>
+                    <DetailSubTitleText>{officeInfo.location}</DetailSubTitleText>
                 </SubTextContainer>
                 <MoreButton onClick={() => { setOptionViewShowing(!isShowingOptions) }}> 
                     <img src={MoreButtonIcon} alt="더보기" />

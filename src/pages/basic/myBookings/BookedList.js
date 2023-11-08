@@ -7,25 +7,29 @@ import {getToken} from 'utils/IsLoginUtil';
 import {basicError} from 'utils/ErrorHandlerUtil';
 
 const TitleContainer = styled.div`
-    display: flex;
-    justify-content: space-between;
+  display: flex;
+  justify-content: space-between;
 `
 
 // 표 있는 페이지의 네이비 바
 export const Bar = styled.div`
-    border-radius: 12px;
-    height: 60px;
-    width: 100%;
-    background-color: #2A3042;
-    box-sizing: border-box;
-    position: sticky;
-    top: 0;
-    z-index: 1;
+  border-radius: 12px;
+  height: 60px;
+  width: 100%;
+  background-color: #2A3042;
+  box-sizing: border-box;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  display: flex;
+  text-align: left;
+  align-items: center;
+  padding: 0 30px;
 `
 
 // 네이비 바 밑의 테이블의 컨테이너
 export const TableContainer = styled.div`
-    overflow-y: scroll;
+  overflow-y: scroll;
 `
 
 export const BookedTable = styled.table`
@@ -37,20 +41,20 @@ export const BookedTable = styled.table`
 `
 
 export const BookedThead = styled.thead`
-    position: sticky;
-    top: 0;
-    border-radius: 12px;
-    height: 60px;
-    z-index: 2;
-    color: white;
+  position: sticky;
+  top: 0;
+  border-radius: 12px;
+  height: 60px;
+  z-index: 2;
+  color: white;
 `
 
 export const BookedLineTr = styled.tr`
-    color: #4c4c4c;
-    text-align: center;
-    height: 60px;
+  color: #4c4c4c;
+  text-align: center;
+  height: 60px;
   max-height: 60px;
-    border-bottom: #E1E0E2 solid 1px;
+  border-bottom: #E1E0E2 solid 1px;
 `
 
 export const NoLineTr = styled.tr`
@@ -71,7 +75,9 @@ function BookedList(props) {
                 Authorization: getToken()
             }
         })
-            .then((response) => { setBookingList(response.data.data.content) })
+            .then((response) => {
+                setBookingList(response.data.data.content)
+            })
             .catch((error) => {
                 basicError(error)
             })
@@ -87,7 +93,7 @@ function BookedList(props) {
                 <TitleText>{props.title}</TitleText>
             </TitleContainer>
             <WhiteContainer>
-                <Bar />
+                <Bar/>
                 <TableContainer>
                     <BookedTable>
                         <BookedThead>
@@ -99,20 +105,20 @@ function BookedList(props) {
                             </tr>
                         </BookedThead>
                         <tbody>
-                            {bookings.length === 0 ?
-                                <NoLineTr>
-                                    <td colSpan={4}>예약 내역이 없습니다.</td>
-                                </NoLineTr>
-                                : bookings.map((booking) =>
-                                    <BookedLine key={booking.id}
-                                        id={booking.id}
-                                        name={booking.name}
-                                        info={booking.detailInfo}
-                                        start={booking.startDateTime}
-                                        end={booking.endDateTime}
-                                        status={booking.status}
-                                        type={props.type}
-                                    />)}
+                        {bookings.length === 0 ?
+                            <NoLineTr>
+                                <td colSpan={4}>예약 내역이 없습니다.</td>
+                            </NoLineTr>
+                            : bookings.map((booking) =>
+                                <BookedLine key={booking.id}
+                                            id={booking.id}
+                                            name={booking.name}
+                                            info={booking.detailInfo}
+                                            start={booking.startDateTime}
+                                            end={booking.endDateTime}
+                                            status={booking.status}
+                                            type={props.type}
+                                />)}
                         </tbody>
                     </BookedTable>
                 </TableContainer>

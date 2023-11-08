@@ -70,7 +70,7 @@ function SelectOffice(props) {
 
     return (
         <RightContainer>
-            <TitleText>{props.title}</TitleText>
+            <TitleText>회의실 예약</TitleText>
             <SearchBarContainer>
                 <SearchTitleContainer>
                     <SearchTitleText>예약 가능 회의실 검색</SearchTitleText>
@@ -88,16 +88,17 @@ function SelectOffice(props) {
             </SearchBarContainer>
             <WhiteContainer>
                 <div className="cardList">
-                    {offices.length === 0 ? <NoCard>예약 가능한 회의실이 없습니다.</NoCard> : offices.map((office) => <OfficeInfo
-                        key={office.officeId}
-                        officeId={office.officeId}
-                        name={office.name}
-                        imgUrl={office.imgUrl}
-                        location={office.location}
-                        capacity={office.capacity}
-                        facilityList={office.facilityList}
-                        description={office.description}
-                    />)}
+                    {offices.length === 0 ? <NoCard>예약 가능한 회의실이 없습니다.</NoCard> : offices.map((office) =>
+                        <OfficeInfo
+                            key={office.officeId}
+                            officeId={office.officeId}
+                            name={office.name}
+                            imgUrl={office.imgUrl}
+                            location={office.location}
+                            capacity={office.capacity}
+                            facilityList={office.facilityList}
+                            description={office.description}
+                        />)}
                 </div>
             </WhiteContainer>
         </RightContainer>
