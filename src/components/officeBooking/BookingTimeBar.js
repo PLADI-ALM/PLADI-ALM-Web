@@ -18,9 +18,9 @@ let endT = -1;
 let bookedTimeList = [];
 
 export const BookingContentContainer = styled.div`
-  margin: 30px 0 20px 20px;
+  margin: 30px 0 30px 20px;
   display: flex;
-  align-items: center;
+  align-items: baseline;
 `
 
 export const BookingDateTextContainer = styled.div`
@@ -34,7 +34,7 @@ export const BookingTimeContainer = styled.div`
 `
 
 export const RequestButtonContainer = styled.div`
-  margin: 0 20px 20px 0;
+  margin: 20px;
   display: flex;
   justify-content: flex-end;
 `

@@ -103,9 +103,7 @@ function ResourceBookingCheck(props) {
                 imgUrl={resourceInfo.imgUrl}/>
 
             <BookingContentContainer>
-                <BookingCapsuleContainer>
-                    <Capsule color="purple" text="예약일시"/>
-                </BookingCapsuleContainer>
+                <Capsule color="purple" text="예약일시"/>
                 <div>
                     <BookingDateText>{bookingInfo.startDate || "시작일"}</BookingDateText>
                     <BookingDateText> ~ </BookingDateText>
@@ -114,9 +112,7 @@ function ResourceBookingCheck(props) {
             </BookingContentContainer>
 
             <BookingContentContainer isCheck={props.isCheck}>
-                <BookingCapsuleContainer>
-                    <Capsule color="purple" text="반납일자"/>
-                </BookingCapsuleContainer>
+                <Capsule color="purple" text="반납일자"/>
                 <BookingDateText>{getReturnDateStr(bookingInfo.returnDateTime)}</BookingDateText>
             </BookingContentContainer>
 

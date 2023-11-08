@@ -38,30 +38,22 @@ export const ContentContainer = styled.div`
 `
 
 export const BookingDateText = styled.text`
-  margin: 5px 0 0 0;
   padding-left: 10px;
   color: #575757;
-  background-color: ${props => props.isSelected !== 'true' ? 'red' : 'white'}
   font-size: 22px;
-  font-weight: 400;
-  letter-spacing: 0em;
   text-align: left;
 `
 
 export const PurposeTextarea = styled.textarea`
   width: 100%;
-  padding: 6px 0 0 18px;
+  padding: 10px;
   border-radius: 12px;
-  border-width: 1;
-  border-style: solid;
-  border-color: black;
-  background-color: #ffffff;
+  border: 1px solid #E6E6E6;
   font-size: 20px;
-  font-weight: 400;
   line-height: 25px;
-  letter-spacing: 0em;
   text-align: left;
-  margin: 0 10px;
+  margin: 0 20px 0 10px;
+  box-sizing: border-box;
 `
 
 export const BookingDateContainer = styled.div`
@@ -208,9 +200,7 @@ function ResourceBooking(props) {
                     imgUrl={resourceInfo.imgUrl}/>
 
                 <BookingContentContainer>
-                    <BookingCapsuleContainer>
-                        <Capsule color="purple" text="예약일시"/>
-                    </BookingCapsuleContainer>
+                    <Capsule color="purple" text="예약일시"/>
                     <DateContainer>
                         <BookingDateText>{start || "시작일"}</BookingDateText>
                         <BookingDateText> ~ </BookingDateText>
@@ -243,16 +233,8 @@ function ResourceBooking(props) {
                 </BookingContentContainer>
 
                 <BookingPurposeContainer>
-                    <BookingCapsuleContainer>
-                        <Capsule color="purple" text="예약목적"/>
-                    </BookingCapsuleContainer>
-
-                    <BookingPurposeTextFieldContainer>
-                        <PurposeTextarea id='bookingPurpose'
-                                         cols='135'
-                                         rows='4'
-                                         maxLength='100'/>
-                    </BookingPurposeTextFieldContainer>
+                    <Capsule color="purple" text="예약목적"/>
+                    <PurposeTextarea id='bookingPurpose' maxLength='100'/>
                 </BookingPurposeContainer>
 
 

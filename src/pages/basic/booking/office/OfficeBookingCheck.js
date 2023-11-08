@@ -119,20 +119,14 @@ function OfficeBookingCheck(props) {
                     imgUrl={officeInfo.imgUrl}
                 />
 
-
                 <BookingContentContainer isCheck={'true'}>
-                    <BookingCapsuleContainer>
                         <Capsule color="purple" text="예약일시"/>
-                    </BookingCapsuleContainer>
-                    <BookingDateTextContainer>
                         {getBookingDate(bookingInfo)}
-                    </BookingDateTextContainer>
                 </BookingContentContainer>
 
                 <BookingTimeContainer>
                     {renderBookingTimeBar('true')}
                 </BookingTimeContainer>
-
 
                 <BookingPurposeContainer>
                     <Capsule color="purple" text="예약목적"/>

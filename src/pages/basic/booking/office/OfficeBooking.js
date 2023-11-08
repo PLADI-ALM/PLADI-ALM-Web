@@ -32,7 +32,6 @@ const DatePicker = styled.input.attrs({type: 'date'})`
 `
 
 export const BookingDateText = styled.p`
-  margin: 6px 0 0 0;
   color: #575757;
   font-size: 22px;
   text-align: left;
@@ -42,7 +41,7 @@ export const PurposeTextarea = styled.textarea`
   width: 100%;
   padding: 10px;
   border-radius: 12px;
-  border-color: #717171;
+  border: 1px solid #E6E6E6;
   font-size: 20px;
   line-height: 30px;
   text-align: left;
