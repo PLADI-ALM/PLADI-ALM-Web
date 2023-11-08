@@ -2,6 +2,7 @@ import styled from "styled-components"
 
 export const BookingPurposeContainer = styled.div`
   margin-left: 20px;
+  margin-bottom: 20px;
   display: flex;
   align-items: flex-start;
 `
