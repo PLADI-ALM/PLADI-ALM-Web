@@ -1,13 +1,10 @@
-import React from "react";
-import { useState, useEffect } from "react";
-import axios from "axios";
-import { RightContainer, TitleText, WhiteContainer } from "components/rightContainer/RightContainer";
-import { Bar, BookedTable, BookedThead, TableContainer } from "../../basic/myBookings/BookedList";
-import ManageSearchBar from "components/searchBar/ManageSearchBar";
+import React, {useEffect, useState} from "react";
+import {RightContainer, TitleText, WhiteContainer} from "components/rightContainer/RightContainer";
+import {Bar, BookedTable, BookedThead, TableContainer} from "../../basic/myBookings/BookedList";
 import ResourceBookingManageCell from "./ResourceBookingManageCell";
-import { AdminBookingAxios } from "api/AxiosApi";
-import { getToken } from "utils/IsLoginUtil";
-import { basicError } from "utils/ErrorHandlerUtil";
+import {AdminBookingAxios} from "api/AxiosApi";
+import {getToken} from "utils/IsLoginUtil";
+import {basicError} from "utils/ErrorHandlerUtil";
 
 
 function ResourceBookingManage(props) {
@@ -32,7 +29,7 @@ function ResourceBookingManage(props) {
 
     return (
         <RightContainer>
-            <TitleText>{props.title}</TitleText>
+            <TitleText>장비 예약 관리</TitleText>
 
             <WhiteContainer>
                 <Bar />

@@ -1,19 +1,10 @@
-import React from "react";
-import { useState, useEffect } from "react";
-import { RightContainer, TitleText, WhiteContainer } from "components/rightContainer/RightContainer";
-import { Bar, BookedTable, BookedThead, TableContainer } from "../../basic/myBookings/BookedList";
+import React, {useEffect, useState} from "react";
+import {RightContainer, TitleText, WhiteContainer} from "components/rightContainer/RightContainer";
+import {Bar, BookedTable, BookedThead, TableContainer} from "../../basic/myBookings/BookedList";
 import OfficeBookingManageCell from "./OfficeBookingManageCell";
-import { AdminBookingAxios } from "api/AxiosApi";
-import styled from "styled-components";
-import RangeImage from "../../../assets/images/RangeArrow.svg"
-import { getToken } from "utils/IsLoginUtil";
-import { basicError } from 'utils/ErrorHandlerUtil';
-
-const RangeImg = styled.img`
-    width: 20px;
-    height: 20px;
-    margin-right: 20px;
-`
+import {AdminBookingAxios} from "api/AxiosApi";
+import {getToken} from "utils/IsLoginUtil";
+import {basicError} from 'utils/ErrorHandlerUtil';
 
 function OfficeBookingManage(props) {
 
@@ -33,15 +24,9 @@ function OfficeBookingManage(props) {
         .catch((error) => {basicError(error)})
     }
 
-    const changeSort = () => {
-        alert("Q")
-    }
-    
-
-
     return (
        <RightContainer>
-            <TitleText>{props.title}</TitleText>
+            <TitleText>회의실 예약 관리</TitleText>
 
             <WhiteContainer>
                 <Bar />
@@ -51,7 +36,7 @@ function OfficeBookingManage(props) {
                             <tr>
                                 <th width="15%">회의실명</th>
                                 <th width="10%">위치</th>
-                                <th width="20%"><RangeImg onClick={changeSort} src={RangeImage}/>예약일시</th>
+                                <th width="20%">예약일시</th>
                                 <th width="15%">예약자</th>
                                 <th width="15%">상태</th>
                                 <th width="15%">설정</th>
