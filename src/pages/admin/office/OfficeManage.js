@@ -37,7 +37,7 @@ function OfficeManage(props) {
 
     return (
        <RightContainer>
-            <TitleText>{props.title}</TitleText>
+            <TitleText>회의실 관리</TitleText>
             <ManageSearchBar selectOptions={null} buttonTitle="회의실 추가" onEnter={getSearchOffices} btnClick={moveToAdd}/>
 
             <WhiteContainer>

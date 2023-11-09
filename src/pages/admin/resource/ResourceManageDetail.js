@@ -169,7 +169,7 @@ function ResourceManageDetail() {
                         <tr style={{border: '1px solid #959494', height: '45px'}}>
                             <InfoTableData>{info.reservatorName} ({info.reservatorPhone})</InfoTableData>
                             <InfoTableData
-                                style={{fontWeight: 'bold'}}>{info.startDateTime} ~ {info.endDateTime}</InfoTableData>
+                                style={{fontWeight: 'bold'}}>{info.startDateTime} ~<br/>{info.endDateTime}</InfoTableData>
                             <InfoTableData>{info.goal}</InfoTableData>
                             <InfoTableData>{info.bookingStatus}</InfoTableData>
                         </tr>
