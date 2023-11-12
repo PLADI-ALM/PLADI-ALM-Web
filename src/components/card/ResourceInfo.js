@@ -19,13 +19,16 @@ const ResourceTitleContainer = styled.div`
     align-items: center;
 `
 
-function moveToDetail(resourceId) { 
-    window.location.href = "/resourceBooking/"+resourceId
+function moveToDetail(id, type) {
+    if (type === 'resource')
+        window.location.href = "/resourceBooking/"+id
+    else if (type === 'car')
+        window.location.href = "/carBooking/"+id
 }
 
 function ResourceInfo(props) {
     return (
-        <ResourceCardClick  onClick={() => moveToDetail(props.resourceId)}>
+        <ResourceCardClick  onClick={() => moveToDetail(props.id, props.type)}>
             <DetailContainer>
                 <ResourceCardImage src={props.imgUrl} />
 

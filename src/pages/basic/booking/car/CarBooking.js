@@ -3,30 +3,22 @@ import styled from "styled-components"
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import moment from 'moment';
-import {ResourcesAxios} from 'api/AxiosApi';
+import {CarsAxios, ResourcesAxios} from 'api/AxiosApi';
 import {useParams} from 'react-router-dom';
 import Capsule from 'components/capsule/Capsule';
 import {DetailSubTitleText, NameSubTitleText} from 'components/officeBooking/SubTitleBar';
 import {BookingPurposeContainer} from 'components/officeBooking/BookingPurpose';
 import {BookingContentContainer, RequestButtonContainer} from 'components/officeBooking/BookingTimeBar';
 import {RightContainer, TitleText, WhiteContainer} from 'components/rightContainer/RightContainer';
-import styles from "./CustomCalendar.css";
+import styles from "pages/basic/booking/resource/CustomCalendar.css";
 import {basicError} from 'utils/ErrorHandlerUtil';
 import SmallButton from 'components/button/SmallButton';
-import {Bar} from '../../myBookings/BookedList';
+import {Bar} from 'pages/basic/myBookings/BookedList';
 import {getToken} from 'utils/IsLoginUtil';
-import ResourceDetailInfo from "../../../../components/card/ResourceDetailInfo";
+import ResourceDetailInfo from "components/card/ResourceDetailInfo";
 
 var startDate = '';
 var endDate = '';
-
-export const ContentContainer = styled.div`
-  width: 90%;
-  border-radius: 12px;
-  background: #FFF;
-  box-shadow: 0px 4px 14px 0px rgba(0, 0, 0, 0.25);
-  margin-top: 20px;
-`
 
 export const BookingDateText = styled.text`
   padding-left: 10px;
@@ -57,23 +49,23 @@ export const DateContainer = styled.div`
 
 var currentMonth = moment(new Date()).format('YYYY-MM')
 
-function ResourceBooking(props) {
-    let {resourceId} = useParams();
+function CarBooking(props) {
+    let {carId} = useParams();
 
-    const [resourceInfo, setResourceInfo] = useState([]);
+    const [carInfo, setCarInfo] = useState([]);
     const [dates, setBookedDates] = useState([]);
     var [start, setStartDate] = useState();
     var [end, setEndDate] = useState();
     const [changed, setCurrentMonth] = useState();
 
-    const getResourceInfo = () => {
-        ResourcesAxios.get(`/${resourceId}`, {
+    const getCarInfo = () => {
+        CarsAxios.get(`/${carId}`, {
             headers: {
                 Authorization: getToken()
             }
         })
             .then((Response) => {
-                setResourceInfo(Response.data.data)
+                setCarInfo(Response.data.data)
             })
             .catch((Error) => {
                 basicError(Error)
@@ -85,7 +77,7 @@ function ResourceBooking(props) {
 
     const getBookedDates = () => {
         const params = {month: currentMonth};
-        ResourcesAxios.get(`/${resourceId}/booking-state`, {
+        ResourcesAxios.get(`/${carId}/booking-state`, {
             params, headers: {
                 Authorization: getToken()
             }
@@ -142,7 +134,7 @@ function ResourceBooking(props) {
         var bookingPurpose = document.getElementById("bookingPurpose").value;
 
         if (window.confirm("예약하시겠습니까?")) {
-            ResourcesAxios.post(`/${resourceId}`,
+            ResourcesAxios.post(`/${carId}`,
                 {
                     "endDate": endDate,
                     "memo": bookingPurpose,
@@ -163,14 +155,14 @@ function ResourceBooking(props) {
                 .catch((Error) => {
                     basicError(Error)
                     console.log(Error)
-                    window.alert("장비 예약에 실패하였습니다.")
+                    window.alert("차량 예약에 실패하였습니다.")
                     window.history.back()
                 });
         }
     }
 
     useEffect(() => {
-        getResourceInfo()
+        getCarInfo()
         getBookedDates()
     }, []);
 
@@ -180,15 +172,15 @@ function ResourceBooking(props) {
 
             <WhiteContainer>
                 <Bar>
-                    <NameSubTitleText>{resourceInfo.name}</NameSubTitleText>
-                    <DetailSubTitleText>{resourceInfo.location}</DetailSubTitleText>
+                    <NameSubTitleText>{carInfo.name}</NameSubTitleText>
+                    <DetailSubTitleText>{carInfo.location}</DetailSubTitleText>
                 </Bar>
 
                 <ResourceDetailInfo
-                    managerName={resourceInfo.responsibilityName}
-                    managerPhone={resourceInfo.responsibilityPhone}
-                    description={resourceInfo.description}
-                    imgUrl={resourceInfo.imgUrl}/>
+                    managerName={carInfo.responsibilityName}
+                    managerPhone={carInfo.responsibilityPhone}
+                    description={carInfo.description}
+                    imgUrl={carInfo.imgUrl}/>
 
                 <BookingContentContainer>
                     <Capsule color="purple" text="예약일시"/>
@@ -239,4 +231,4 @@ function ResourceBooking(props) {
     )
 }
 
-export default ResourceBooking;
+export default CarBooking;

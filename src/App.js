@@ -17,6 +17,8 @@ import ResourceManage from 'pages/admin/resource/ResourceManage';
 import ResourceManageAdd from "./pages/admin/resource/ResourceManageAdd";
 import ResourceManageDetail from 'pages/admin/resource/ResourceManageDetail';
 import OfficeManageDetail from 'pages/admin/office/OfficeManageDetail';
+import SelectCar from "./pages/basic/booking/car/SelectCar";
+import CarBooking from "./pages/basic/booking/car/CarBooking";
 
 function App() {
 
@@ -34,13 +36,15 @@ function App() {
                 <Route element={<SidebarLayout />}>
                     <Route path="/officeBooking" element={<SelectOffice/>} />
                     <Route path="/officeBooking/:officeId" element={<OfficeBooking />} />
+                    <Route path='/resourceBooking' element={<SelectResource />} />
+                    <Route path='/resourceBooking/:resourceId' element={<ResourceBooking />} />
+                    <Route path='/carBooking' element={<SelectCar />} />
+                    <Route path='/carBooking/:carId' element={<CarBooking />} />
                     <Route path="/my/bookings/offices" element={<BookedList title="회의실 예약 내역" type={"offices"} />} />
                     <Route path="/my/bookings/offices/:bookingId" element={<OfficeBookingCheck isAdmin={false} />} />
                     <Route path="/my/bookings/resources" element={<BookedList title="장비 예약 내역" type={"resources"} />} />
                     <Route path='/my/bookings/resources/:bookingId' element={<ResourceBookingCheck />} />
                     <Route path="/my/bookings/cars" element={<BookedList title="차량 예약 내역" type={"cars"} />} />
-                    <Route path='/resourceBooking' element={<SelectResource />} />
-                    <Route path='/resourceBooking/:resourceId' element={<ResourceBooking />} />
                     <Route path='/admin/offices' element={<OfficeManage />} />
                     <Route path='/admin/offices/:officeId' element={<OfficeManageDetail />} />
                     <Route path='/admin/officeBooking' element={<OfficeBookingManage />} />
