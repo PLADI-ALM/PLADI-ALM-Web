@@ -61,6 +61,7 @@ function App() {
                     <Route path='/admin/resourceBooking/:bookingId' element={<ResourceBookingCheck isAdmin={true} />} />
                     <Route path='/admin/cars' element={<CarManage />} />
                     <Route path='/admin/carBooking' element={<CarBookingManage/>} />
+                    <Route path='/admin/carBooking/:bookingId' element={<CarBookingCheck isAdmin={true} />} />
                     <Route path='/admin/users' element={<UserManage />} />
                 </Route>
             </Routes>

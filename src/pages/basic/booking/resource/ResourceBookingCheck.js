@@ -1,18 +1,9 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {AdminBookingAxios, BookingsAxios, ResourcesAxios} from 'api/AxiosApi';
 import {useParams} from 'react-router-dom';
 import Capsule from 'components/capsule/Capsule';
-import {
-    MainTextContainer,
-    NameSubTitleText,
-    SubTextContainer,
-    DetailSubTitleText
-} from 'components/officeBooking/SubTitleBar';
-import {
-    BookingCapsuleContainer,
-    BookingPurposeContainer,
-    PurposeContainer
-} from 'components/officeBooking/BookingPurpose';
+import {DetailSubTitleText, NameSubTitleText} from 'components/officeBooking/SubTitleBar';
+import {BookingPurposeContainer, PurposeContainer} from 'components/officeBooking/BookingPurpose';
 import {BookingContentContainer} from 'components/officeBooking/BookingTimeBar';
 import {StatusCircle, StatusContainer, StatusText} from 'components/booking/StatusTag';
 import {findStatus} from 'constants/BookingStatus';
@@ -20,8 +11,8 @@ import {RightContainer, TitleText, WhiteContainer} from 'components/rightContain
 import {BookingDateText} from './ResourceBooking';
 import {getToken} from 'utils/IsLoginUtil';
 import {basicError} from 'utils/ErrorHandlerUtil';
-import {Bar} from '../../myBookings/BookedList';
-import ResourceDetailInfo from "../../../../components/card/ResourceDetailInfo";
+import {Bar} from 'pages/basic/myBookings/BookedList';
+import ResourceDetailInfo from "components/card/ResourceDetailInfo";
 
 function ResourceBookingCheck(props) {
     let {bookingId} = useParams();
@@ -29,10 +20,9 @@ function ResourceBookingCheck(props) {
     const [resourceInfo, setResourceInfo] = useState([]);
     const [bookingInfo, setBookingDetail] = useState([]);
     const [bookingStatus, setStatus] = useState([]);
-    const resourceId = useRef("");
 
-    const getResourceInfo = () => {
-        ResourcesAxios.get(`/${resourceId.current}`,
+    const getResourceInfo = (resourceId) => {
+        ResourcesAxios.get(`/${resourceId}`,
             {
                 headers: {
                     Authorization: getToken()
@@ -64,8 +54,7 @@ function ResourceBookingCheck(props) {
             .then((Response) => {
                 setBookingDetail(Response.data.data)
                 setStatus(findStatus(Response.data.data.status))
-                resourceId.current = Response.data.data.resourceId
-                getResourceInfo(resourceId.current)
+                getResourceInfo(Response.data.data.resourceId)
             })
             .catch((Error) => {
                 basicError(Error)
@@ -76,7 +65,6 @@ function ResourceBookingCheck(props) {
     };
 
     useEffect(() => {
-        getResourceInfo();
         getBookingInfo();
     }, []);
 
@@ -86,8 +74,8 @@ function ResourceBookingCheck(props) {
         <WhiteContainer>
             <Bar space={true}>
                 <div>
-                    <NameSubTitleText>{resourceInfo.name}</NameSubTitleText>
-                    <DetailSubTitleText>{resourceInfo.category}</DetailSubTitleText>
+                    <NameSubTitleText>{resourceInfo.name}({resourceInfo.manufacture})</NameSubTitleText>
+                    <DetailSubTitleText>{resourceInfo.location}</DetailSubTitleText>
                 </div>
                 <StatusContainer style={{margin: '0'}} isCheck={'true'}
                                  background={bookingStatus.background}>
@@ -124,7 +112,6 @@ function ResourceBookingCheck(props) {
                         : bookingInfo.memo}
                 </PurposeContainer>
             </BookingPurposeContainer>
-
 
         </WhiteContainer>
     </RightContainer>

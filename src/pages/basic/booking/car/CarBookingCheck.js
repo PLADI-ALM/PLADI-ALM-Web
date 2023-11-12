@@ -1,5 +1,5 @@
-import React, {useEffect, useRef, useState} from 'react';
-import {AdminBookingAxios, BookingsAxios, ResourcesAxios} from 'api/AxiosApi';
+import React, {useEffect, useState} from 'react';
+import {AdminBookingAxios, BookingsAxios, CarsAxios} from 'api/AxiosApi';
 import {useParams} from 'react-router-dom';
 import Capsule from 'components/capsule/Capsule';
 import {DetailSubTitleText, NameSubTitleText} from 'components/officeBooking/SubTitleBar';
@@ -11,8 +11,8 @@ import {RightContainer, TitleText, WhiteContainer} from 'components/rightContain
 import {BookingDateText} from './CarBooking';
 import {getToken} from 'utils/IsLoginUtil';
 import {basicError} from 'utils/ErrorHandlerUtil';
-import {Bar} from '../../myBookings/BookedList';
-import ResourceDetailInfo from "../../../../components/card/ResourceDetailInfo";
+import {Bar} from 'pages/basic/myBookings/BookedList';
+import ResourceDetailInfo from "components/card/ResourceDetailInfo";
 
 function CarBookingCheck(props) {
     let {bookingId} = useParams();
@@ -20,10 +20,9 @@ function CarBookingCheck(props) {
     const [carInfo, setCarInfo] = useState([]);
     const [bookingInfo, setBookingDetail] = useState([]);
     const [bookingStatus, setStatus] = useState([]);
-    const carId = useRef("");
 
-    const getCarInfo = () => {
-        ResourcesAxios.get(`/${carId.current}`,
+    const getCarInfo = (carId) => {
+        CarsAxios.get(`/${carId}`,
             {
                 headers: {
                     Authorization: getToken()
@@ -35,7 +34,7 @@ function CarBookingCheck(props) {
             .catch((Error) => {
                 basicError(Error)
                 console.log(Error)
-                window.alert("장비 정보를 불러올 수 없습니댜.")
+                window.alert("차량 정보를 불러올 수 없습니댜.")
                 window.history.back()
             });
     };
@@ -55,8 +54,7 @@ function CarBookingCheck(props) {
             .then((Response) => {
                 setBookingDetail(Response.data.data)
                 setStatus(findStatus(Response.data.data.status))
-                carId.current = Response.data.data.carId
-                getCarInfo(carId.current)
+                getCarInfo(Response.data.data.carId)
             })
             .catch((Error) => {
                 basicError(Error)
@@ -67,7 +65,6 @@ function CarBookingCheck(props) {
     };
 
     useEffect(() => {
-        getCarInfo();
         getBookingInfo();
     }, []);
 
@@ -77,8 +74,8 @@ function CarBookingCheck(props) {
         <WhiteContainer>
             <Bar space={true}>
                 <div>
-                    <NameSubTitleText>{carInfo.name}</NameSubTitleText>
-                    <DetailSubTitleText>{carInfo.category}</DetailSubTitleText>
+                    <NameSubTitleText>{carInfo.name}{carInfo.manufacture}</NameSubTitleText>
+                    <DetailSubTitleText>{carInfo.location}</DetailSubTitleText>
                 </div>
                 <StatusContainer style={{margin: '0'}} isCheck={'true'}
                                  background={bookingStatus.background}>
