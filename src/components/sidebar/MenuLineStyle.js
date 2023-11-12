@@ -3,7 +3,7 @@ import {Link} from "react-router-dom";
 
 export const InactiveMenuLine = styled(Link)`
   padding: 3px 20px;
-  margin-bottom: 13px;
+  margin-bottom: 10px;
   cursor: pointer;
   display: flex;
   align-items: center;

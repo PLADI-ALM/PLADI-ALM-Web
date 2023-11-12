@@ -45,19 +45,21 @@ const SubMenus = styled.div`
     display: ${props => props.active ? 'block' : 'none'}
 `
 
-const MyBox = styled.div`
-    margin-bottom: 20px;
-`
-
 const MyInfo = styled.div`
     padding: 3px 0;
-    margin: 0 20px 18px 20px;
+    margin: 0 0 10px 20px;
     width: fit-content;
     display: flex;
     align-items: center;
     color: #717171;
     font-size: 20px;
     border-left: 5px solid white;
+`
+
+const ManageBtn = styled.div`
+  text-decoration: underline;
+  cursor: pointer;
+  margin-left: 10px;
 `
 
 const Logout = styled(MyInfo)`
@@ -67,8 +69,8 @@ const Logout = styled(MyInfo)`
 
 // 해당 상위 메뉴의 하위 메뉴 활성화 여부
 function useIsSubMenuActive(subMenuList) {
-    var currentPath = useLocation().pathname
-    for (var i = 0; i < subMenuList.length; i++) {
+    const currentPath = useLocation().pathname;
+    for (let i = 0; i < subMenuList.length; i++) {
         if (currentPath.startsWith(subMenuList[i].path))
             return true
     }
@@ -101,9 +103,8 @@ function Sidebar() {
     navigateToLogin()
 
     const [userName, setUserName] = useState("")
-    const [info, setInfo] = useState("")
 
-    // 이름, 직급
+    // 이름
     const getUserInfo = () => {
         UsersAxios.get("/position", {
             headers: {
@@ -112,7 +113,6 @@ function Sidebar() {
         })
             .then((response) => {
                 setUserName(response.data.data.name)
-                setInfo(response.data.data.position)
             })
             .catch((error) => {
                 basicError(error)
@@ -157,13 +157,13 @@ function Sidebar() {
 
             </div>
 
-            <MyBox>
+            <div>
                 {/* 사원 정보 */}
-                <MyInfo><Icon src={MyInfoIcon} />{userName} {info}</MyInfo>
+                <MyInfo><Icon src={MyInfoIcon} />{userName}<ManageBtn>관리</ManageBtn></MyInfo>
                 {/* 로그아웃 */}
                 <Logout onClick={logout}><Icon src={LogoutIcon} />로그아웃</Logout>
-            </MyBox>
-        </Container >
+            </div>
+        </Container>
     )
 }
 
