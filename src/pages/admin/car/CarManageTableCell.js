@@ -1,15 +1,15 @@
 import React from 'react';
-import { BookedLineTr } from '../../basic/myBookings/BookedList';
-import {Toggle} from "../../../components/toggle/Toggle";
+import {BookedLineTr} from 'pages/basic/myBookings/BookedList';
+import {Toggle} from "components/toggle/Toggle";
 import {Link} from "react-router-dom";
-import {AdminResourcesAxios} from "../../../api/AxiosApi";
-import {getToken} from "../../../utils/IsLoginUtil";
-import {basicError} from "../../../utils/ErrorHandlerUtil";
+import {AdminCarsAxios} from "api/AxiosApi";
+import {getToken} from "utils/IsLoginUtil";
+import {basicError} from "utils/ErrorHandlerUtil";
 
-function ResourceManageTableCell(props) {
+function CarManageTableCell(props) {
 
     const changeToggle = (isEnable) => {
-        AdminResourcesAxios.patch(`/${props.id}/activation`, null, {
+        AdminCarsAxios.patch(`/${props.id}/activation`, null, {
             headers: {
                 Authorization: getToken()
             }
@@ -21,9 +21,9 @@ function ResourceManageTableCell(props) {
 
     return (
         <BookedLineTr>
-            <td width="20%"><Link to={`/admin/resources/${props.id}`}>{props.name}</Link></td>
+            <td width="15%"><Link to={`/admin/cars/${props.id}`}>{props.name}</Link></td>
             <td width="10%">{props.manufacturer}</td>
-            <td width="15%">{props.location}</td>
+            <td width="10%">{props.location}</td>
             <td width="15%">{props.user}<br/>({props.userPhone})</td>
             <td width="30%">{props.description}</td>
             <td width="8%"><Toggle click={changeToggle} isEnable={props.isEnable}/></td>
@@ -31,4 +31,4 @@ function ResourceManageTableCell(props) {
     )
 }
 
-export default ResourceManageTableCell;
+export default CarManageTableCell;
