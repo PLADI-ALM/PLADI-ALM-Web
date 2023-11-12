@@ -2,7 +2,7 @@ import {RightContainer, TitleText, WhiteContainer} from "components/rightContain
 import SearchButtonImg from 'assets/images/Search.svg'
 import React, {useEffect, useRef, useState} from "react";
 import ResourceInfo from "components/card/ResourceInfo";
-import {ResourcesAxios} from "api/AxiosApi";
+import {CarsAxios} from "api/AxiosApi";
 import {basicError} from 'utils/ErrorHandlerUtil';
 import {getToken} from "utils/IsLoginUtil";
 import {NoCard} from "components/card/Card";
@@ -17,22 +17,22 @@ import {
     SearchTitleText
 } from "components/searchBar/SearchBar";
 
-function SelectResource(props) {
+function SelectCar(props) {
 
-    const [resourceList, setResourceList] = useState([]);
-    const resourceName = useRef("");
+    const [carList, setCarList] = useState([]);
+    const carName = useRef("");
     const [startDate, setStartDate] = useState("");
     const [endDate, setEndDate] = useState("");
     const [startTime, setStartTime] = useState("00:00");
     const [endTime, setEndTime] = useState("00:00");
 
     useEffect(() => {
-        searchResource();
+        searchCar();
     }, []);
 
-    const changeResourceName = (e) => {
-        resourceName.current = e.target.value
-        searchResource()
+    const changeCarName = (e) => {
+        carName.current = e.target.value
+        searchCar()
     }
 
     const changeStartDate = (e) => {
@@ -51,18 +51,18 @@ function SelectResource(props) {
         setEndTime(e.target.value)
     }
 
-    const searchResource = () => {
-        let url = `?resourceName=${resourceName.current}`;
+    const searchCar = () => {
+        let url = `?carName=${carName.current}`;
         if (startDate !== "" && endDate !== "")
-            url = `?resourceName=${resourceName.current}&startDate=${startDate} ${startTime}&endDate=${endDate} ${endTime}`;
-        ResourcesAxios.get(url,
+            url = `?carName=${carName.current}&startDate=${startDate} ${startTime}&endDate=${endDate} ${endTime}`;
+        CarsAxios.get(url,
             {
                 headers: {
                     Authorization: getToken()
                 }
             })
             .then((Response) => {
-                setResourceList(Response.data.data.content)
+                setCarList(Response.data.data.content)
             })
             .catch((error) => {
                 basicError(error)
@@ -71,13 +71,13 @@ function SelectResource(props) {
 
     return (
         <RightContainer>
-            <TitleText>장비 예약</TitleText>
+            <TitleText>차량 예약</TitleText>
             <SearchBarContainer>
                 <SearchTitleContainer>
-                    <SearchTitleText>예약 가능 장비 검색</SearchTitleText>
+                    <SearchTitleText>예약 가능 차량 검색</SearchTitleText>
                 </SearchTitleContainer>
 
-                <SearchTextInput placeholder="장비명 검색" onChange={changeResourceName}/>
+                <SearchTextInput placeholder="차량명 검색" onChange={changeCarName}/>
 
                 <SearchDateContainer>
                     <SearchDateInput value={startDate} onChange={changeStartDate}/>
@@ -88,25 +88,25 @@ function SelectResource(props) {
                 </SearchDateContainer>
 
                 <ImagePaddingButton image={SearchButtonImg} width={"40px"} height={"40px"} background={"#717171"}
-                                    click={searchResource}/>
+                                    click={searchCar}/>
             </SearchBarContainer>
 
             <WhiteContainer>
                 <div className="cardList">
-                    {resourceList.length === 0 ?
-                        <NoCard>예약 가능한 장비가 없습니다.</NoCard>
-                        : resourceList.map((resource) =>
-                            <ResourceInfo key={resource.resourceId}
-                                          id={resource.resourceId}
-                                          name={resource.name}
-                                          imgUrl={resource.imgUrl}
-                                          location={resource.location}
-                                          description={resource.description}
-                                          type='resource'/>)}
+                    {carList.length === 0 ?
+                        <NoCard>예약 가능한 차량이 없습니다.</NoCard>
+                        : carList.map((car) =>
+                            <ResourceInfo key={car.carId}
+                                          id={car.carId}
+                                          name={car.name}
+                                          imgUrl={car.imgUrl}
+                                          location={car.location}
+                                          description={car.description}
+                                          type='car'/>)}
                 </div>
             </WhiteContainer>
         </RightContainer>
     );
 }
 
-export default SelectResource;
+export default SelectCar;

@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {AdminBookingAxios, BookingsAxios, ResourcesAxios} from 'api/AxiosApi';
+import {AdminBookingAxios, BookingsAxios, CarsAxios} from 'api/AxiosApi';
 import {useParams} from 'react-router-dom';
 import Capsule from 'components/capsule/Capsule';
 import {DetailSubTitleText, NameSubTitleText} from 'components/officeBooking/SubTitleBar';
@@ -8,44 +8,44 @@ import {BookingContentContainer} from 'components/officeBooking/BookingTimeBar';
 import {StatusCircle, StatusContainer, StatusText} from 'components/booking/StatusTag';
 import {findStatus} from 'constants/BookingStatus';
 import {RightContainer, TitleText, WhiteContainer} from 'components/rightContainer/RightContainer';
-import {BookingDateText} from './ResourceBooking';
+import {BookingDateText} from './CarBooking';
 import {getToken} from 'utils/IsLoginUtil';
 import {basicError} from 'utils/ErrorHandlerUtil';
 import {Bar} from 'pages/basic/myBookings/BookedList';
 import ResourceDetailInfo from "components/card/ResourceDetailInfo";
 
-function ResourceBookingCheck(props) {
+function CarBookingCheck(props) {
     let {bookingId} = useParams();
 
-    const [resourceInfo, setResourceInfo] = useState([]);
+    const [carInfo, setCarInfo] = useState([]);
     const [bookingInfo, setBookingDetail] = useState([]);
     const [bookingStatus, setStatus] = useState([]);
 
-    const getResourceInfo = (resourceId) => {
-        ResourcesAxios.get(`/${resourceId}`,
+    const getCarInfo = (carId) => {
+        CarsAxios.get(`/${carId}`,
             {
                 headers: {
                     Authorization: getToken()
                 }
             })
             .then((Response) => {
-                setResourceInfo(Response.data.data)
+                setCarInfo(Response.data.data)
             })
             .catch((Error) => {
                 basicError(Error)
                 console.log(Error)
-                window.alert("장비 정보를 불러올 수 없습니댜.")
+                window.alert("차량 정보를 불러올 수 없습니댜.")
                 window.history.back()
             });
     };
     const getBookingInfo = () => {
         (props.isAdmin
-            ? AdminBookingAxios.get(`/resources/${bookingId}`, {
+            ? AdminBookingAxios.get(`/cars/${bookingId}`, {
                 headers: {
                     Authorization: getToken()
                 }
             })
-            : BookingsAxios.get(`/resources/${bookingId}`,
+            : BookingsAxios.get(`/cars/${bookingId}`,
                 {
                     headers: {
                         Authorization: getToken()
@@ -54,7 +54,7 @@ function ResourceBookingCheck(props) {
             .then((Response) => {
                 setBookingDetail(Response.data.data)
                 setStatus(findStatus(Response.data.data.status))
-                getResourceInfo(Response.data.data.resourceId)
+                getCarInfo(Response.data.data.carId)
             })
             .catch((Error) => {
                 basicError(Error)
@@ -69,13 +69,13 @@ function ResourceBookingCheck(props) {
     }, []);
 
     return <RightContainer>
-        <TitleText>장비 예약 내역</TitleText>
+        <TitleText>차량 예약 내역</TitleText>
 
         <WhiteContainer>
             <Bar space={true}>
                 <div>
-                    <NameSubTitleText>{resourceInfo.name}({resourceInfo.manufacture})</NameSubTitleText>
-                    <DetailSubTitleText>{resourceInfo.location}</DetailSubTitleText>
+                    <NameSubTitleText>{carInfo.name}{carInfo.manufacture}</NameSubTitleText>
+                    <DetailSubTitleText>{carInfo.location}</DetailSubTitleText>
                 </div>
                 <StatusContainer style={{margin: '0'}} isCheck={'true'}
                                  background={bookingStatus.background}>
@@ -85,10 +85,10 @@ function ResourceBookingCheck(props) {
             </Bar>
 
             <ResourceDetailInfo
-                managerName={resourceInfo.responsibilityName}
-                managerPhone={resourceInfo.responsibilityPhone}
-                description={resourceInfo.description}
-                imgUrl={resourceInfo.imgUrl}/>
+                managerName={carInfo.responsibilityName}
+                managerPhone={carInfo.responsibilityPhone}
+                description={carInfo.description}
+                imgUrl={carInfo.imgUrl}/>
 
             <BookingContentContainer>
                 <Capsule color="purple" text="예약일시"/>
@@ -117,7 +117,7 @@ function ResourceBookingCheck(props) {
     </RightContainer>
 }
 
-export default ResourceBookingCheck;
+export default CarBookingCheck;
 
 
 function getReturnDateStr(returnDateTime) {

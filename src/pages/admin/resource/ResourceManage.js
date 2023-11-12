@@ -49,8 +49,9 @@ function ResourceManage(props) {
                         <BookedThead>
                             <tr>
                                 <th width="20%">장비명</th>
-                                <th width="15%">보관장소</th>
-                                <th width="20%">책임자</th>
+                                <th width="10%">제조사</th>
+                                <th width="15%">현재위치</th>
+                                <th width="15%">책임자</th>
                                 <th width="30%">설명</th>
                                 <th width="8%"></th>
                             </tr>
