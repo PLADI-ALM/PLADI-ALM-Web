@@ -70,7 +70,7 @@ function CarBooking(props) {
             .catch((Error) => {
                 basicError(Error)
                 console.log(Error)
-                window.alert("장비 정보를 불러올 수 없습니댜.")
+                window.alert("차량 정보를 불러올 수 없습니댜.")
                 window.history.back()
             });
     };
@@ -168,7 +168,7 @@ function CarBooking(props) {
 
     return (
         <RightContainer>
-            <TitleText>장비 예약</TitleText>
+            <TitleText>차량 예약</TitleText>
 
             <WhiteContainer>
                 <Bar>
