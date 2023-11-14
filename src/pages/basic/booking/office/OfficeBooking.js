@@ -11,7 +11,8 @@ import {
     BookingTimeContainer,
     renderBookingTimeBar,
     RequestButtonContainer,
-    setBookingState
+    setBarBookingState,
+    setBarDate
 } from 'components/officeBooking/BookingTimeBar';
 import {BookingPurposeContainer} from 'components/officeBooking/BookingPurpose';
 import {RightContainer, TitleText, WhiteContainer} from 'components/rightContainer/RightContainer';
@@ -21,7 +22,7 @@ import {Bar} from '../../myBookings/BookedList';
 import {getToken} from 'utils/IsLoginUtil';
 import moment from 'moment';
 
-var bookingDate = '';
+var bookingDate = moment(new Date()).format("YYYY-MM-DD");
 var startTimeStr = '';
 var endTimeStr = '';
 
@@ -52,13 +53,8 @@ function OfficeBooking(props) {
     let {officeId} = useParams();
 
     const [officeInfo, setOfficeInfo] = useState([]);   // 회의실 정보
-    const [bookingInfo, setBookingDetail] = useState([]);   // 
-    var [date, setDate] = useState(""); // 예약날짜 변경
-
-    if (date.length === 0) {
-        date = moment(new Date()).format("YYYY-MM-DD")
-        bookingDate = date;
-    }
+    const [bookingState, setBookingState] = useState([]);
+    var [date, setDate] = useState(bookingDate); // 예약날짜 변경
 
     // 달력 내 날짜가 바뀌는 경우 -> 예약일 변수 값 변경
     const changeDate = (e) => {
@@ -68,6 +64,7 @@ function OfficeBooking(props) {
         setDate(e.target.value)
         bookingDate = e.target.value;
         getBookingTimeState()
+        setBarDate(e.target.value)
     }
 
     // 일자별 예약 현황 받아오기
@@ -78,31 +75,13 @@ function OfficeBooking(props) {
             }
         })
             .then((Response) => {
-                setBookingDetail(Response.data.data.bookedTimes)
                 setBookingState(Response.data.data.bookedTimes)
+                setBarBookingState(Response.data.data.bookedTimes)
             })
             .catch((Error) => {
                 basicError(Error)
                 console.log(Error)
                 window.alert("예약 현황을 불러오는데 실패하였습니다.")
-                window.history.back()
-            });
-    };
-
-    // 예약자 정보
-    const getBookingInfo = (date, time) => {
-        OfficesAxios.get(`/${officeId}/booking?date=${date}&time=${time}`, {
-            headers: {
-                Authorization: getToken()
-            }
-        })
-            .then((Response) => {
-                setBookingDetail(Response.data.data.bookedTimes)
-                setBookingState(Response.data.data.bookedTimes)
-            })
-            .catch((Error) => {
-                basicError(Error)
-                window.alert("예약 정보를 불러오는데 실패하였습니다.")
                 window.history.back()
             });
     };
@@ -210,20 +189,31 @@ function OfficeBooking(props) {
 
 export default OfficeBooking;
 
-function setStartTimeStr(startTime) {
+export function setStartTimeStr(startTime) {
     startTimeStr = startTime
 }
 
-export {setStartTimeStr};
-
-function setEndTimeStr(endTime) {
+export function setEndTimeStr(endTime) {
     endTimeStr = endTime
 }
 
-export {setEndTimeStr};
+// export function getBookingInfo(officeId, time) {
+//     OfficesAxios.get(`/${officeId}/booking?date=${bookingDate}&time=${time}`, {
+//         headers: {
+//             Authorization: getToken()
+//         }
+//     })
+//         .then((Response) => {
+//             setBarBookingInfo(Response.data.data)
+//         })
+//         .catch((Error) => {
+//             basicError(Error)
+//             window.alert("예약 정보를 불러오는데 실패하였습니다.")
+//         });
+// }
 
 function getTimeStr(props) {
-    var str = ''
+    let str = '';
     if (props < 10) {
         str = '0' + props + ':00'
     } else {

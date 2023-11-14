@@ -1,13 +1,15 @@
-import React from 'react';
+import React, {useRef} from 'react';
 import {useState} from 'react'
 import styled from "styled-components"
-import {setStartTimeStr, setEndTimeStr} from 'pages/basic/booking/office/OfficeBooking';
-import {BookingInfoModalView, BookingInfoText} from "../modal/BookingInfoModal";
+import {setStartTimeStr, setEndTimeStr, getBookingInfo} from 'pages/basic/booking/office/OfficeBooking';
+import {BookingInfoModal, BookingInfoModalView, BookingInfoText, BookingLastInfoText} from "../modal/BookingInfoModal";
 import {TimeList} from "../../constants/ToggleList";
 import {OfficesAxios} from "../../api/AxiosApi";
 import {getToken} from "../../utils/IsLoginUtil";
 import {basicError} from "../../utils/ErrorHandlerUtil";
 import {useParams} from "react-router-dom";
+import {UserModal} from "../../pages/admin/user/UserModal";
+import moment from "moment/moment";
 
 let bookingState = [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false,];
 
@@ -16,6 +18,7 @@ let selectedState = [false, false, false, false, false, false, false, false, fal
 let startT = -1;
 let endT = -1;
 let bookedTimeList = [];
+let date = moment(new Date()).format("YYYY-MM-DD");
 
 export const BookingContentContainer = styled.div`
   margin: 30px 0 30px 20px;
@@ -83,24 +86,41 @@ function getTimeBarItemBackColor(index, selected, isCheck) {
 const BookingTimeButtonItem = (index, isCheck) => {
     const [selectedCheckList, setSelectedCheckList] = useState([]);
     const [isSelected, setSelected] = useState(false);
+    const [isOpen, setIsOpen] = useState(false)
+    const [bookingInfo, setBookingInfo] = useState(false)
     const {officeId} = useParams();
 
-    const mouseOver = (e) => {
-        OfficesAxios.get(`/${officeId}`, {
+    const handleMouseEnter = (index) => {
+        OfficesAxios.get(`/${officeId}/booking?date=${date}&time=${TimeList[index]}`, {
             headers: {
                 Authorization: getToken()
             }
         })
             .then((Response) => {
-                // setOfficeInfo(Response.data.data)
+                const info = Response.data.data;
+                if (info === undefined) {
+                    setBookingInfo(null)
+                } else {
+                    setBookingInfo(Response.data.data)
+                    setIsOpen(true)
+                }
             })
             .catch((Error) => {
                 basicError(Error)
-                console.log(Error)
-                window.alert("회의실 정보를 불러올 수 없습니댜.")
-                window.history.back()
+                window.alert("예약 정보를 불러오는데 실패하였습니다.")
             });
-        // e.target.startTime
+    }
+
+    const handleMouseLeave = () => {
+        setIsOpen(false)
+    }
+
+    const handleModalMouseEnter = () => {
+        setIsOpen(true)
+    }
+
+    const handleModalMouseLeave = () => {
+        setIsOpen(false)
     }
 
     const onClick = (index) => {
@@ -158,24 +178,31 @@ const BookingTimeButtonItem = (index, isCheck) => {
         }
     }
 
-    return (<TimeButtonContainer>
+    return (
+        <TimeButtonContainer>
             <BookingTimeButton index={index} startTime={TimeList[index]} endTime={TimeList[index + 1]}
                                selected={selectedState[index]} isCheck={isCheck}
-                               onClick={() => isCheck ? {} : onClick(index)}/>
+                               onClick={() => isCheck ? {} : onClick(index)}
+                               onMouseOver={() => isCheck ? {} : handleMouseEnter(index)}
+                               onMouseOut={() => isCheck ? {} : handleMouseLeave()}/>
+            {isOpen && (
+                <BookingInfoModal info={bookingInfo}
+                                  onMouseOver={() => isCheck ? {} : handleModalMouseEnter()}
+                                  onMouseOut={() => isCheck ? {} : handleModalMouseLeave()}/>
+            )}
             <StartTimeTextContainer>{index}</StartTimeTextContainer>
             {index === 23 ? <EndTimeTextContainer>{index + 1}</EndTimeTextContainer> : null}
-        </TimeButtonContainer>)
+        </TimeButtonContainer>
+    )
 }
 
-function renderBookingTimeBar(isCheck) {
-    var items = [];
-    for (var i = 0; i < 24; i++) {
+export function renderBookingTimeBar(isCheck) {
+    const items = [];
+    for (let i = 0; i < 24; i++) {
         items.push(BookingTimeButtonItem(i, isCheck));
     }
     return items;
 }
-
-export {renderBookingTimeBar}
 
 function getIndexValue(timeStr) {
     var temp = timeStr.substr(0, 2);
@@ -186,7 +213,7 @@ function getIndexValue(timeStr) {
 }
 
 // 예약 현황 반영 관련
-function setBookingState(props) {
+export function setBarBookingState(props) {
     bookingState = Array.from({length: 24}, () => false);
     selectedState = Array.from({length: 24}, () => false);
     bookedTimeList = []
@@ -197,9 +224,11 @@ function setBookingState(props) {
     }
 }
 
-export {setBookingState}
+export function setBarDate(getDate) {
+    date = getDate;
+}
 
-function setBookingTime(startTime, endTime) {
+export function setBookingTime(startTime, endTime) {
     bookedTimeList.push([startTime, endTime])
     var start = getIndexValue(startTime)
     var end = getIndexValue(endTime)
@@ -207,9 +236,6 @@ function setBookingTime(startTime, endTime) {
         bookingState[i] = true;
     }
 }
-
-export {setBookingTime}
-
 
 // 예약 시간 관련
 function setStartEndTime(index) {
