@@ -20,6 +20,10 @@ const Select = styled.select`
   appearance: none;
 `
 
+const ManagerSelect = styled(Select)`
+  margin-right: 10px;
+`
+
 const NoBorderSelect = styled(Select)`
   border: none;
 `
@@ -48,6 +52,14 @@ export function DropBox(props) {
         <Select onChange={props.change} imgUrl={SelectArrow} height={props.height}>
             {props.items}
         </Select>
+    );
+}
+
+export function ManagerDropBox(props) {
+    return (
+        <ManagerSelect onChange={props.change} imgUrl={SelectArrow} height={props.height}>
+            {props.items}
+        </ManagerSelect>
     );
 }
 
