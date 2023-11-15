@@ -54,14 +54,14 @@ function CarManage(props) {
                         <tbody>
                             { cars.length === 0 ?
                             <NoLineTr>
-                                <td colSpan={5}>차량 내역이 없습니다.</td>
+                                <td colSpan={6}>차량 내역이 없습니다.</td>
                             </NoLineTr>
                             : cars.map((car) =>
                                 <CarManageTableCell
                                     key={car.carId}
                                     id={car.carId}
                                     name={car.name}
-                                    manufacturer={car.location}
+                                    manufacturer={car.manufacturer}
                                     location={car.location}
                                     user={car.responsibilityName}
                                     userPhone={car.responsibilityPhone}

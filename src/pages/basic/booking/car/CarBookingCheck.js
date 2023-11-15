@@ -54,7 +54,7 @@ function CarBookingCheck(props) {
             .then((Response) => {
                 setBookingDetail(Response.data.data)
                 setStatus(findStatus(Response.data.data.status))
-                getCarInfo(Response.data.data.carId)
+                getCarInfo(Response.data.data.id)
             })
             .catch((Error) => {
                 basicError(Error)
@@ -74,7 +74,7 @@ function CarBookingCheck(props) {
         <WhiteContainer>
             <Bar space={true}>
                 <div>
-                    <NameSubTitleText>{carInfo.name}{carInfo.manufacture}</NameSubTitleText>
+                    <NameSubTitleText>{carInfo.name}({carInfo.manufacturer})</NameSubTitleText>
                     <DetailSubTitleText>{carInfo.location}</DetailSubTitleText>
                 </div>
                 <StatusContainer style={{margin: '0'}} isCheck={'true'}

@@ -59,13 +59,14 @@ function ResourceManage(props) {
                         <tbody>
                             { resources.length === 0 ?
                             <NoLineTr>
-                                <td colSpan={5}>장비 내역이 없습니다.</td>
+                                <td colSpan={6}>장비 내역이 없습니다.</td>
                             </NoLineTr>
                             : resources.map((resource) =>
                                 <ResourceManageTableCell
                                     key={resource.resourceId}
                                     id={resource.resourceId}
                                     name={resource.name}
+                                    manufacturer={resource.manufacturer}
                                     location={resource.location}
                                     user={resource.responsibilityName}
                                     userPhone={resource.responsibilityPhone}
