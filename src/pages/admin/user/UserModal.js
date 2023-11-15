@@ -21,10 +21,13 @@ import {
     BasicRadioInput
 } from 'components/capsule/RoleCapsule';
 import BigSquareButton, {InputPurpleButton} from 'components/button/BigSquareButton';
+import {AffiliationList} from "../../../constants/ToggleList";
 
 export function UserModal(props) {
+    const [affiliationOptionList, setAffiliationOptionList] = useState([]);
     const [departmentOptionList, setDepartmentOptionList] = useState([]);
     const [currentRole, setCurrentRole] = useState("일반");
+    const currentAffiliation = useRef("");
     const currentDepartment = useRef("");
     const [userInfo, setUserInfo] = useState(null);
     let departments;
@@ -39,16 +42,21 @@ export function UserModal(props) {
                 .then((response) => {
                     setUserInfo(response.data.data)
                     currentDepartment.current = response.data.data.department
+                    currentAffiliation.current = response.data.data.affiliation
                     setCurrentRole(response.data.data.role)
-                    getDpNPsList();
+                    getDepartmentsList();
+                    getAffiliationsList();
                 })
                 .catch((error) => {
                     basicError(error)
                 })
-        } else getDpNPsList();
+        } else {
+            getDepartmentsList();
+            getAffiliationsList();
+        }
     }
 
-    function getDpNPsList() {
+    function getDepartmentsList() {
         AdminUsersAxios.get("/departments", {
             headers: {
                 Authorization: getToken()
@@ -65,6 +73,14 @@ export function UserModal(props) {
             })
     }
 
+    // 소속 드롭박스 초기 구성
+    function getAffiliationsList() {
+        setAffiliationOptionList(AffiliationList.map((affiliation) =>
+            (<option
+                selected={currentAffiliation.current === affiliation ? 'selected' : null}
+                value={affiliation}>{affiliation}</option>)))
+    }
+
     useEffect(() => {
         getUserInfo()
     }, [])
@@ -73,6 +89,12 @@ export function UserModal(props) {
         setCurrentRole(e.target.value);
     };
 
+    // 소속 선택 변경
+    const handleAffiliationChange = (e) => {
+        currentAffiliation.current = e.target.value
+    };
+
+    // 부서 선택 변경
     const handleDepartmentChange = (e) => {
         currentDepartment.current = e.target.value
     };
@@ -90,7 +112,9 @@ export function UserModal(props) {
         const inputEmail = e.target.email.value
         const inputPassword = e.target.password.value
         const inputPhone = e.target.phone.value
+        const inputAffiliation = e.target.affiliation.value
         const inputDepartment = e.target.department.value
+        const inputAsset = e.target.asset.value
         const inputRole = e.target.role.value
         // todo: 입력값 정규식 확인
 
@@ -99,7 +123,9 @@ export function UserModal(props) {
             email: inputEmail,
             password: inputPassword,
             phone: inputPhone,
+            affiliation: inputAffiliation,
             department: inputDepartment,
+            asserts: inputAsset,
             role: inputRole
         }, {
             headers: {
@@ -119,14 +145,18 @@ export function UserModal(props) {
         e.preventDefault()
         const inputName = e.target.name.value
         const inputPhone = e.target.phone.value
+        const inputAffiliation = e.target.affiliation.value
         const inputDepartment = e.target.department.value
+        const inputAsset = e.target.asset.value
         const inputRole = e.target.role.value
         // todo: 입력값 정규식 확인
 
         AdminUsersAxios.patch(`/${props.id}`, {
             name: inputName,
             phone: inputPhone,
+            affiliation: inputAffiliation,
             department: inputDepartment,
+            asserts: inputAsset,
             role: inputRole
         }, {
             headers: {
@@ -153,27 +183,30 @@ export function UserModal(props) {
                     <AttrContainer>
                         <AttrLabel>성명</AttrLabel>
                         <AttrInput type='text' name='name'
-                                   defaultValue={userInfo !== null ? userInfo.name : null}
-                        ></AttrInput>
+                                   defaultValue={userInfo !== null ? userInfo.name : null}/>
                     </AttrContainer>
                     <AttrContainer>
                         <AttrLabel>이메일</AttrLabel>
                         <AttrInput type='text' name='email'
                                    value={userInfo !== null ? userInfo.email : null}
-                                   disabled={userInfo !== null ? 'disabled' : null}
-                        ></AttrInput>
+                                   disabled={userInfo !== null ? 'disabled' : null}/>
                     </AttrContainer>
                     <AttrContainer>
                         <AttrLabel>비밀번호</AttrLabel>
                         <AttrInput type='text' name='password'
                                    value={userInfo !== null ? '⁕⁕⁕⁕⁕⁕⁕⁕⁕⁕⁕⁕⁕⁕⁕' : null}
-                                   disabled={userInfo !== null ? 'disabled' : null}></AttrInput>
+                                   disabled={userInfo !== null ? 'disabled' : null}/>
                     </AttrContainer>
                     <AttrContainer>
                         <AttrLabel>연락처</AttrLabel>
                         <AttrInput type='text' name='phone' onInput={autoHyphen} maxLength='13'
-                                   defaultValue={userInfo !== null ? userInfo.phone : null}
-                        ></AttrInput>
+                                   defaultValue={userInfo !== null ? userInfo.phone : null}/>
+                    </AttrContainer>
+                    <AttrContainer>
+                        <AttrLabel>소속</AttrLabel>
+                        <SelectToggleInModal name='affiliation' items={affiliationOptionList}
+                                             value={currentAffiliation.current}
+                                             onChange={handleAffiliationChange}/>
                     </AttrContainer>
                     <AttrContainer>
                         <AttrLabel>부서</AttrLabel>
@@ -181,6 +214,12 @@ export function UserModal(props) {
                                              value={currentDepartment.current}
                                              onChange={handleDepartmentChange}/>
                     </AttrContainer>
+                    <AttrContainer>
+                        <AttrLabel>부여자산</AttrLabel>
+                        <AttrInput type='text' name='asset'
+                                   defaultValue={userInfo !== null ? userInfo.asset : null}/>
+                    </AttrContainer>
+                    {/*<AttrContainer style={userInfo !== null ? {display: 'none'} : null}>*/}
                     <AttrContainer>
                         <AttrLabel>권한</AttrLabel>
                         <BasicRadioInput type="radio" id="basic"

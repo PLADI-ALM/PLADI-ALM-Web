@@ -2,8 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import SearchInputImage from "../../assets/images/SearchInput.svg"
 import SearchButtonImage from "../../assets/images/SearchPlus.svg"
-import {DropBox, ManagerDropBox} from "../capsule/DropBox";
-import {options} from "axios";
+import {ManagerDropBox} from "../capsule/DropBox";
 
 const Container = styled.div`
   background: none;
