@@ -24,6 +24,8 @@ export const ModalView = styled.div`
   background-color: #ffffff;
   padding: 30px 50px;
   box-sizing: border-box;
+  max-height: 98%;
+  overflow-y: scroll;
 `
 
 export const TitleContainer = styled.div`
@@ -31,7 +33,7 @@ export const TitleContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 35px;
+  margin-bottom: 20px;
 `
 
 export const ModalTitle = styled.h2`
@@ -59,7 +61,7 @@ export const AttrsForm = styled.form`
 export const AttrContainer = styled.div`
   display: flex;
   align-items: center;
-  margin-bottom: 35px;
+  margin-bottom: 25px;
   height: 40px;
 `
 
@@ -75,7 +77,6 @@ export const AttrInput = styled.input`
   border-radius: 8px;
   height: 40px;
   width: 280px;
-  font-family: NanumSquare_ac;
   font-size: 18px;
   color: #757575;
   padding: 0 10px;
