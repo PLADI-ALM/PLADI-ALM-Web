@@ -99,6 +99,7 @@ function SelectCar(props) {
                             <ResourceInfo key={car.carId}
                                           id={car.carId}
                                           name={car.name}
+                                          manufacturer={car.manufacturer}
                                           imgUrl={car.imgUrl}
                                           location={car.location}
                                           description={car.description}

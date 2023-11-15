@@ -99,6 +99,7 @@ function SelectResource(props) {
                             <ResourceInfo key={resource.resourceId}
                                           id={resource.resourceId}
                                           name={resource.name}
+                                          manufacturer={resource.manufacturer}
                                           imgUrl={resource.imgUrl}
                                           location={resource.location}
                                           description={resource.description}

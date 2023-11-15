@@ -34,7 +34,7 @@ function ResourceInfo(props) {
 
                 <InfoContainer>
                     <ResourceTitleContainer>
-                        <ResourceTitle>{props.name}</ResourceTitle>
+                        <ResourceTitle>{props.name}({props.manufacturer})</ResourceTitle>
                         <CardText>{props.location}</CardText>
                     </ResourceTitleContainer>
 

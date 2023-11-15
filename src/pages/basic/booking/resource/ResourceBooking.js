@@ -180,7 +180,7 @@ function ResourceBooking(props) {
 
             <WhiteContainer>
                 <Bar>
-                    <NameSubTitleText>{resourceInfo.name}</NameSubTitleText>
+                    <NameSubTitleText>{resourceInfo.name}({resourceInfo.manufacturer})</NameSubTitleText>
                     <DetailSubTitleText>{resourceInfo.location}</DetailSubTitleText>
                 </Bar>
 

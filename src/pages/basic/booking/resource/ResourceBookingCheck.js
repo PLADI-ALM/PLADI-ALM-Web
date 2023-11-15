@@ -54,7 +54,7 @@ function ResourceBookingCheck(props) {
             .then((Response) => {
                 setBookingDetail(Response.data.data)
                 setStatus(findStatus(Response.data.data.status))
-                getResourceInfo(Response.data.data.resourceId)
+                getResourceInfo(Response.data.data.id)
             })
             .catch((Error) => {
                 basicError(Error)
@@ -74,7 +74,7 @@ function ResourceBookingCheck(props) {
         <WhiteContainer>
             <Bar space={true}>
                 <div>
-                    <NameSubTitleText>{resourceInfo.name}({resourceInfo.manufacture})</NameSubTitleText>
+                    <NameSubTitleText>{resourceInfo.name}({resourceInfo.manufacturer})</NameSubTitleText>
                     <DetailSubTitleText>{resourceInfo.location}</DetailSubTitleText>
                 </div>
                 <StatusContainer style={{margin: '0'}} isCheck={'true'}

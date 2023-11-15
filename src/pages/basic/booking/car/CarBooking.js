@@ -172,7 +172,7 @@ function CarBooking(props) {
 
             <WhiteContainer>
                 <Bar>
-                    <NameSubTitleText>{carInfo.name}</NameSubTitleText>
+                    <NameSubTitleText>{carInfo.name}({carInfo.manufacturer})</NameSubTitleText>
                     <DetailSubTitleText>{carInfo.location}</DetailSubTitleText>
                 </Bar>
 
