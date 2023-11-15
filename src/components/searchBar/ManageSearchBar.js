@@ -2,7 +2,8 @@ import React from "react";
 import styled from "styled-components";
 import SearchInputImage from "../../assets/images/SearchInput.svg"
 import SearchButtonImage from "../../assets/images/SearchPlus.svg"
-import {DropBox} from "../capsule/DropBox";
+import {DropBox, ManagerDropBox} from "../capsule/DropBox";
+import {options} from "axios";
 
 const Container = styled.div`
   background: none;
@@ -11,7 +12,7 @@ const Container = styled.div`
   display: inline-flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 `
 
 const ManageSearchContainer = styled.div`
@@ -43,7 +44,6 @@ const ManageSearchText = styled.input`
 export const ManageAddButton = styled.button`
   height: 100%;
   padding: 10px 15px;
-  margin-left: 10px;
   border: none;
   border-radius: 8px;
   background: #8741CB;
@@ -71,6 +71,15 @@ function ManageSearchBar(props) {
         props.onEnter(e) // Enter 입력이 되면 클릭 이벤트 실행
     };
 
+    function makeDropBox() {
+        let dropBoxes = [];
+        if (props.selectOptions !== null)
+            props.selectOptions.forEach((option, index) =>
+                dropBoxes.push(<ManagerDropBox height={"40px"} items={option} change={props.onSelectedChange[index]}/>)
+            )
+        return dropBoxes
+    }
+
     return (
         <Container>
             <ManageSearchContainer>
@@ -78,8 +87,7 @@ function ManageSearchBar(props) {
                 <ManageSearchText onChange={handleOnKeyPress} placeholder="이름 검색"/>
             </ManageSearchContainer>
             {
-                props.selectOptions !== null ?
-                    <DropBox height={"40px"} items={props.selectOptions} change={props.onSelectedChange}/> : null
+                makeDropBox()
             }
             <ManageAddButton onClick={props.btnClick}>
                 <ManageAddButtonImage src={SearchButtonImage}/>

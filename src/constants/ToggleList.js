@@ -6,5 +6,9 @@ export const TimeList = [
 ]
 
 export const BookingCategoryList = [
-    "회의실", "장비"
+    "회의실", "장비", "차량"
+]
+
+export const AffiliationList = [
+    "플래디", "스튜디오아이", "피디룸"
 ]
