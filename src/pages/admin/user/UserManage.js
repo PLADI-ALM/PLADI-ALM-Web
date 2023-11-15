@@ -1,17 +1,18 @@
 import React, {useRef} from "react";
-import { useState, useEffect } from "react";
-import { RightContainer, TitleText, WhiteContainer } from "components/rightContainer/RightContainer";
+import {useState, useEffect} from "react";
+import {RightContainer, TitleText, WhiteContainer} from "components/rightContainer/RightContainer";
 import {Bar, BookedTable, BookedThead, NoLineTr, TableContainer} from "../../basic/myBookings/BookedList";
 import UserManageLine from "pages/admin/user/UserManageLine"
 import ManageSearchBar from "components/searchBar/ManageSearchBar";
-import { AdminUsersAxios } from "api/AxiosApi";
-import { basicError } from "utils/ErrorHandlerUtil";
-import { getToken } from "utils/IsLoginUtil";
-import { UserModal } from "./UserModal";
+import {AdminUsersAxios} from "api/AxiosApi";
+import {basicError} from "utils/ErrorHandlerUtil";
+import {getToken} from "utils/IsLoginUtil";
+import {UserModal} from "./UserModal";
 
 function UserManage(props) {
     const [isOpen, setIsOpen] = useState(false)
     const [users, setUserList] = useState([])
+    const [userNum, setUserNum] = useState(0)
     const [departmentOptionList, setDepartmentOptionList] = useState([]);
     const currentDepartment = useRef("");
     const currentSearchWord = useRef("");
@@ -24,7 +25,10 @@ function UserManage(props) {
                 Authorization: getToken()
             }
         })
-            .then((response) => { setUserList(response.data.data.content) })
+            .then((response) => {
+                setUserList(response.data.data.content);
+                setUserNum(response.data.data.size)
+            })
             .catch((error) => {
                 basicError(error)
             })
@@ -55,7 +59,7 @@ function UserManage(props) {
 
     useEffect(() => {
         getDpNPsList()
-    },[])
+    }, [])
 
     const searchUsers = (e) => {
         currentSearchWord.current = e.target.value
@@ -80,37 +84,41 @@ function UserManage(props) {
             }
             <TitleText>직원 관리</TitleText>
             <ManageSearchBar selectOptions={departmentOptionList} onSelectedChange={onSelectedChange}
-                             btnClick={openModalHandler} onEnter={searchUsers} buttonTitle="신규 직원 등록" />
+                             btnClick={openModalHandler} onEnter={searchUsers} buttonTitle="신규 직원 등록"/>
 
             <WhiteContainer>
-                <Bar />
+                <Bar/>
                 <TableContainer>
                     <BookedTable>
                         <BookedThead>
                             <tr>
-                                <th width="10%">성명</th>
+                                <th width="7%">성명</th>
                                 <th width="17%">이메일</th>
-                                <th width="15%">연락처</th>
+                                <th width="10%">연락처</th>
+                                <th width="10%">부여자산</th>
+                                <th width="10%">소속</th>
                                 <th width="10%">부서</th>
                                 <th width="5%">권한</th>
                                 <th width="3%"></th>
                             </tr>
                         </BookedThead>
                         <tbody>
-                            {users.length === 0 ?
-                                <NoLineTr>
-                                    <td colSpan={6}>직원이 없습니다.</td>
-                                </NoLineTr>
-                                : users.map((user) =>
-                                    <UserManageLine
-                                        key={user.id}
-                                        id={user.userId}
-                                        name={user.name}
-                                        email={user.email}
-                                        phone={user.phone}
-                                        department={user.department}
-                                        role={user.role}
-                                    />)}
+                        {users.length === 0 ?
+                            <NoLineTr>
+                                <td colSpan={8}>직원이 없습니다.</td>
+                            </NoLineTr>
+                            : users.map((user) =>
+                                <UserManageLine
+                                    key={user.userId}
+                                    id={user.userId}
+                                    name={user.name}
+                                    email={user.email}
+                                    asset={user.asserts}
+                                    phone={user.phone}
+                                    affiliation={user.affiliation}
+                                    department={user.department}
+                                    role={user.role}
+                                />)}
                         </tbody>
                     </BookedTable>
                 </TableContainer>
