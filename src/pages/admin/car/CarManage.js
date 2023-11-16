@@ -58,8 +58,8 @@ function CarManage(props) {
                             </NoLineTr>
                             : cars.map((car) =>
                                 <CarManageTableCell
-                                    key={car.carId}
-                                    id={car.carId}
+                                    key={car.id}
+                                    id={car.id}
                                     name={car.name}
                                     manufacturer={car.manufacturer}
                                     location={car.location}

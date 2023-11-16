@@ -63,8 +63,8 @@ function ResourceManage(props) {
                             </NoLineTr>
                             : resources.map((resource) =>
                                 <ResourceManageTableCell
-                                    key={resource.resourceId}
-                                    id={resource.resourceId}
+                                    key={resource.id}
+                                    id={resource.id}
                                     name={resource.name}
                                     manufacturer={resource.manufacturer}
                                     location={resource.location}
