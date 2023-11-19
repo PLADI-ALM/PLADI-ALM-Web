@@ -21,7 +21,7 @@ import {
     BasicRadioInput
 } from 'components/capsule/RoleCapsule';
 import BigSquareButton, {InputPurpleButton} from 'components/button/BigSquareButton';
-import {AffiliationList} from "../../constants/ToggleList";
+import {AffiliationList} from "constants/ToggleList";
 
 export function UserModal(props) {
     const [affiliationOptionList, setAffiliationOptionList] = useState([]);
@@ -261,6 +261,7 @@ export function UserModal(props) {
                         <SelectToggleInModal name='affiliation' items={affiliationOptionList}
                                              value={currentAffiliation.current}
                                              onChange={handleAffiliationChange}
+                                             height={'40px'}
                                              disabled={props.my}/>
                     </AttrContainer>
                     <AttrContainer>
@@ -268,6 +269,7 @@ export function UserModal(props) {
                         <SelectToggleInModal name='department' items={departmentOptionList}
                                              value={currentDepartment.current}
                                              onChange={handleDepartmentChange}
+                                             height={'40px'}
                                              disabled={props.my}/>
                     </AttrContainer>
                     <AttrContainer>

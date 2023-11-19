@@ -62,14 +62,19 @@ export const AttrContainer = styled.div`
   display: flex;
   align-items: center;
   margin-bottom: 25px;
-  height: 40px;
+  //height: 40px;
 `
 
 export const AttrLabel = styled.div`
   width: 120px;
   font-size: 20px;
   text-align: left;
-  line-height: 40px;
+`
+
+export const AttrLabelCheckbox = styled(AttrLabel)`
+  width: fit-content;
+  line-height: 20px;
+  font-size: 18px;
 `
 
 export const AttrInput = styled.input`
@@ -85,6 +90,24 @@ export const AttrInput = styled.input`
   &:disabled {
     color: #9E9E9E;
   }
+`
+
+export const AttrTextArea = styled.textarea`
+  border: 2px solid #E6E6E6;
+  border-radius: 8px;
+  height: 80px;
+  width: 280px;
+  font-size: 18px;
+  color: #757575;
+  padding: 10px;
+  outline: none;
+  box-sizing: border-box;
+`
+
+export const AttrInputCheckBox = styled(AttrInput)`
+  height: 20px;
+  width: 20px;
+  margin-right: 20px;
 `
 
 // 하단 버튼 컨테이너
