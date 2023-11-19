@@ -82,6 +82,9 @@ export const AttrInput = styled.input`
   padding: 0 10px;
   outline: none;
   box-sizing: border-box;
+  &:disabled {
+    color: #9E9E9E;
+  }
 `
 
 // 하단 버튼 컨테이너

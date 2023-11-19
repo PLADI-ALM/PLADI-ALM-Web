@@ -6,7 +6,7 @@ import ManageSearchBar from "components/searchBar/ManageSearchBar";
 import {AdminUsersAxios} from "api/AxiosApi";
 import {basicError} from "utils/ErrorHandlerUtil";
 import {getToken} from "utils/IsLoginUtil";
-import {UserModal} from "./UserModal";
+import {UserModal} from "../../../components/modal/UserModal";
 import {AffiliationList} from "../../../constants/ToggleList";
 import styled from "styled-components";
 

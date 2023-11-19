@@ -1,6 +1,6 @@
 import {SelectToggleInModal} from 'components/capsule/DropBox';
 import React, {useState, useEffect, useRef} from 'react';
-import {AdminUsersAxios} from 'api/AxiosApi';
+import {AdminUsersAxios, UsersAxios} from 'api/AxiosApi';
 import {getToken} from 'utils/IsLoginUtil';
 import {basicError} from 'utils/ErrorHandlerUtil';
 import {
@@ -21,7 +21,7 @@ import {
     BasicRadioInput
 } from 'components/capsule/RoleCapsule';
 import BigSquareButton, {InputPurpleButton} from 'components/button/BigSquareButton';
-import {AffiliationList} from "../../../constants/ToggleList";
+import {AffiliationList} from "../../constants/ToggleList";
 
 export function UserModal(props) {
     const [affiliationOptionList, setAffiliationOptionList] = useState([]);
@@ -32,7 +32,8 @@ export function UserModal(props) {
     const [userInfo, setUserInfo] = useState(null);
     let departments;
 
-    function getUserInfo() {
+    // 관리자 직원 정보 조회
+    function getUserInfoByAdmin() {
         if (props.id !== undefined) {
             AdminUsersAxios.get(`/${props.id}`, {
                 headers: {
@@ -56,6 +57,7 @@ export function UserModal(props) {
         }
     }
 
+    // 부서 목록 조회
     function getDepartmentsList() {
         AdminUsersAxios.get("/departments", {
             headers: {
@@ -81,8 +83,30 @@ export function UserModal(props) {
                 value={affiliation}>{affiliation}</option>)))
     }
 
+    // 내 정보 조회
+    function getMyInfo() {
+        UsersAxios.get("", {
+            headers: {
+                Authorization: getToken()
+            }
+        })
+            .then((response) => {
+                setUserInfo(response.data.data)
+                currentDepartment.current = response.data.data.department
+                currentAffiliation.current = response.data.data.affiliation
+                setDepartmentOptionList(<option value={currentDepartment.current}
+                                                selected>{currentDepartment.current}</option>)
+                setAffiliationOptionList(<option value={currentAffiliation.current}
+                                                 selected>{currentAffiliation.current}</option>)
+            })
+            .catch((error) => {
+                basicError(error)
+            })
+    }
+
     useEffect(() => {
-        getUserInfo()
+        if (props.my) getMyInfo()
+        else getUserInfoByAdmin()
     }, [])
 
     const handleRoleChange = (e) => {
@@ -106,6 +130,7 @@ export function UserModal(props) {
             .replace(/^(\d{2,3})(\d{3,4})(\d{4})$/, `$1-$2-$3`);
     }
 
+    // 관리자 직원 등록
     const registerUser = (e) => {
         e.preventDefault()
         const inputName = e.target.name.value
@@ -125,7 +150,7 @@ export function UserModal(props) {
             phone: inputPhone,
             affiliation: inputAffiliation,
             department: inputDepartment,
-            asserts: inputAsset,
+            assets: inputAsset,
             role: inputRole
         }, {
             headers: {
@@ -141,6 +166,7 @@ export function UserModal(props) {
             })
     };
 
+    // 관리자 직원 수정
     const editUser = (e) => {
         e.preventDefault()
         const inputName = e.target.name.value
@@ -156,7 +182,7 @@ export function UserModal(props) {
             phone: inputPhone,
             affiliation: inputAffiliation,
             department: inputDepartment,
-            asserts: inputAsset,
+            assets: inputAsset,
             role: inputRole
         }, {
             headers: {
@@ -172,6 +198,32 @@ export function UserModal(props) {
             })
     };
 
+    // 내 정보 수정
+    const editMyInfo = (e) => {
+        e.preventDefault()
+        const inputName = e.target.name.value
+        const inputPhone = e.target.phone.value
+        const inputAsset = e.target.asset.value
+        // todo: 입력값 정규식 확인
+
+        UsersAxios.patch("", {
+            name: inputName,
+            phone: inputPhone,
+            assets: inputAsset,
+        }, {
+            headers: {
+                Authorization: getToken()
+            }
+        })
+            .then((response) => {
+                alert("수정되었습니다.")
+                props.handler();
+            })
+            .catch((error) => {
+                basicError(error)
+            })
+    };
+
 
     return (
         <ModalBackdrop onClick={props.handler}>
@@ -179,7 +231,9 @@ export function UserModal(props) {
                 <TitleContainer>
                     <ModalTitle>{props.title}</ModalTitle>
                 </TitleContainer>
-                <AttrsForm method="post" id="register-user-form" onSubmit={userInfo !== null ? editUser : registerUser}>
+                <AttrsForm method="post" id="register-user-form"
+                           onSubmit={props.my ? editMyInfo :
+                               userInfo !== null ? editUser : registerUser}>
                     <AttrContainer>
                         <AttrLabel>성명</AttrLabel>
                         <AttrInput type='text' name='name'
@@ -189,13 +243,13 @@ export function UserModal(props) {
                         <AttrLabel>이메일</AttrLabel>
                         <AttrInput type='text' name='email'
                                    value={userInfo !== null ? userInfo.email : null}
-                                   disabled={userInfo !== null ? 'disabled' : null}/>
+                                   disabled={userInfo !== null}/>
                     </AttrContainer>
                     <AttrContainer>
                         <AttrLabel>비밀번호</AttrLabel>
                         <AttrInput type='text' name='password'
                                    value={userInfo !== null ? '⁕⁕⁕⁕⁕⁕⁕⁕⁕⁕⁕⁕⁕⁕⁕' : null}
-                                   disabled={userInfo !== null ? 'disabled' : null}/>
+                                   disabled={userInfo !== null}/>
                     </AttrContainer>
                     <AttrContainer>
                         <AttrLabel>연락처</AttrLabel>
@@ -206,21 +260,22 @@ export function UserModal(props) {
                         <AttrLabel>소속</AttrLabel>
                         <SelectToggleInModal name='affiliation' items={affiliationOptionList}
                                              value={currentAffiliation.current}
-                                             onChange={handleAffiliationChange}/>
+                                             onChange={handleAffiliationChange}
+                                             disabled={props.my}/>
                     </AttrContainer>
                     <AttrContainer>
                         <AttrLabel>부서</AttrLabel>
                         <SelectToggleInModal name='department' items={departmentOptionList}
                                              value={currentDepartment.current}
-                                             onChange={handleDepartmentChange}/>
+                                             onChange={handleDepartmentChange}
+                                             disabled={props.my}/>
                     </AttrContainer>
                     <AttrContainer>
                         <AttrLabel>부여자산</AttrLabel>
                         <AttrInput type='text' name='asset'
-                                   defaultValue={userInfo !== null ? userInfo.asset : null}/>
+                                   defaultValue={userInfo !== null ? userInfo.assets : null}/>
                     </AttrContainer>
-                    {/*<AttrContainer style={userInfo !== null ? {display: 'none'} : null}>*/}
-                    <AttrContainer>
+                    <AttrContainer style={props.my ? {display: 'none'} : null}>
                         <AttrLabel>권한</AttrLabel>
                         <BasicRadioInput type="radio" id="basic"
                                          name="role"

@@ -8,7 +8,7 @@ import {OfficesAxios} from "../../api/AxiosApi";
 import {getToken} from "../../utils/IsLoginUtil";
 import {basicError} from "../../utils/ErrorHandlerUtil";
 import {useParams} from "react-router-dom";
-import {UserModal} from "../../pages/admin/user/UserModal";
+import {UserModal} from "../modal/UserModal";
 import moment from "moment/moment";
 
 let bookingState = [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false,];
