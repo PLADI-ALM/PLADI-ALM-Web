@@ -102,7 +102,12 @@ function ResourceBookingManageCell(props) {
                         status === BOOKED ? bookingButton : cancelButton
                 }
                 {isOpen ?
-                    <ResourceReturnModal id={props.id} handler={openReturnModalHandler}/>
+                    <ResourceReturnModal id={props.id}
+                                         name={props.name}
+                                         info={props.location}
+                                         start={props.startDateTime}
+                                         end={props.endDateTime}
+                                         handler={openReturnModalHandler}/>
                     : null
                 }
             </td>

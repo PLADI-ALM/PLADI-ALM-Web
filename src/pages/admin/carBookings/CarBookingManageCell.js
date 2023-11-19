@@ -74,7 +74,12 @@ function CarBookingManageCell(props) {
                     status === BOOKED ? bookingButton : cancelButton
                 }
                 {isOpen ?
-                    <CarReturnModal id={props.id} handler={openReturnModalHandler}/>
+                    <CarReturnModal id={props.id}
+                                    name={props.name}
+                                    info={props.location}
+                                    start={props.startDateTime}
+                                    end={props.endDateTime}
+                                    handler={openReturnModalHandler}/>
                     : null
                 }
             </td>

@@ -1,6 +1,6 @@
 import React from 'react';
-import {AdminBookingAxios} from 'api/AxiosApi';
-import {getToken} from 'utils/IsLoginUtil';
+import {AdminBookingAxios, BookingsAxios} from 'api/AxiosApi';
+import {getToken, isManager} from 'utils/IsLoginUtil';
 import {basicError} from 'utils/ErrorHandlerUtil';
 import {
     AttrContainer,
@@ -27,21 +27,41 @@ export function ResourceReturnModal(props) {
         } else if (!isChecked) {
             alert("장비를 실제로 반납하시고 반납 처리해주세요.")
         } else {
-            AdminBookingAxios.patch(`/resources/${props.id}/return`, {
-                returnLocation: inputLocation,
-                remark: inputEtc
-            }, {
-                headers: {
-                    Authorization: getToken()
+            if (window.confirm(`${props.name}(${props.info}) ${props.start} ~ ${props.end}을(를) 반납하시겠습니까?`)) {
+                if (isManager()) { // 관리자 반납
+                    AdminBookingAxios.patch(`/resources/${props.id}/return`, {
+                        returnLocation: inputLocation,
+                        remark: inputEtc
+                    }, {
+                        headers: {
+                            Authorization: getToken()
+                        }
+                    })
+                        .then((response) => {
+                            alert("반납되었습니다.")
+                            window.location.reload();
+                        })
+                        .catch((error) => {
+                            basicError(error)
+                        })
+                } else { // 일반 사용자 반납
+                    BookingsAxios.patch(`/resources/${props.id}/return`, {
+                        returnLocation: inputLocation,
+                        remark: inputEtc
+                    }, {
+                        headers: {
+                            Authorization: getToken()
+                        }
+                    })
+                        .then((response) => {
+                            alert("반납되었습니다.")
+                            window.location.reload();
+                        })
+                        .catch((error) => {
+                            basicError(error)
+                        })
                 }
-            })
-                .then((response) => {
-                    alert("반납되었습니다.")
-                    window.location.reload();
-                })
-                .catch((error) => {
-                    basicError(error)
-                })
+            }
         }
     };
 
@@ -58,7 +78,7 @@ export function ResourceReturnModal(props) {
                     </AttrContainer>
                     <AttrContainer>
                         <AttrLabel>파손 및<br/>특이사항</AttrLabel>
-                        <AttrTextArea name='etc'/>
+                        <AttrTextArea name='etc' maxLength={100}/>
                     </AttrContainer>
                     <AttrContainer>
                         <AttrInputCheckBox type='checkbox' name='check'/>
