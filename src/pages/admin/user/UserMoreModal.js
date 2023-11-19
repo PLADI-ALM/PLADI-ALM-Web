@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {MenuText, MoreModalView, NormalDiv, RedDiv} from "../../../components/modal/MoreModal";
-import {UserModal} from "./UserModal";
+import {UserModal} from "../../../components/modal/UserModal";
 import {AdminUsersAxios} from "../../../api/AxiosApi";
 import {getToken} from "../../../utils/IsLoginUtil";
 import {basicError} from "../../../utils/ErrorHandlerUtil";

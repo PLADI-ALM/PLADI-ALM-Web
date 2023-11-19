@@ -18,6 +18,9 @@ const Select = styled.select`
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
+  &:disabled {
+    background: #FAFAFA;
+  }
 `
 
 const ManagerSelect = styled(Select)`

@@ -12,6 +12,7 @@ import { removeAllCookies } from 'utils/CookiesUtil';
 import { getToken, isManager, navigateToLogin } from 'utils/IsLoginUtil';
 import { UsersAxios } from 'api/AxiosApi';
 import { basicError } from 'utils/ErrorHandlerUtil';
+import {UserModal} from "../modal/UserModal";
 
 const Container = styled.div`
     width: 250px;
@@ -103,6 +104,11 @@ function Sidebar() {
     navigateToLogin()
 
     const [userName, setUserName] = useState("")
+    const [isOpen, setIsOpen] = useState(false)
+
+    const openModalHandler = () => {
+        setIsOpen(!isOpen)
+    }
 
     // 이름
     const getUserInfo = () => {
@@ -159,10 +165,14 @@ function Sidebar() {
 
             <div>
                 {/* 사원 정보 */}
-                <MyInfo><Icon src={MyInfoIcon} />{userName}<ManageBtn>관리</ManageBtn></MyInfo>
+                <MyInfo><Icon src={MyInfoIcon} />{userName}<ManageBtn onClick={openModalHandler}>관리</ManageBtn></MyInfo>
                 {/* 로그아웃 */}
                 <Logout onClick={logout}><Icon src={LogoutIcon} />로그아웃</Logout>
             </div>
+            {isOpen ?
+                <UserModal handler={openModalHandler} my={true} title={"내 정보 수정"}/>
+                : null
+            }
         </Container>
     )
 }
