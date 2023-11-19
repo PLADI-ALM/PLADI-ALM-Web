@@ -206,13 +206,15 @@ export function UserModal(props) {
                         <AttrLabel>소속</AttrLabel>
                         <SelectToggleInModal name='affiliation' items={affiliationOptionList}
                                              value={currentAffiliation.current}
-                                             onChange={handleAffiliationChange}/>
+                                             onChange={handleAffiliationChange}
+                                             height={'40px'}/>
                     </AttrContainer>
                     <AttrContainer>
                         <AttrLabel>부서</AttrLabel>
                         <SelectToggleInModal name='department' items={departmentOptionList}
                                              value={currentDepartment.current}
-                                             onChange={handleDepartmentChange}/>
+                                             onChange={handleDepartmentChange}
+                                             height={'40px'}/>
                     </AttrContainer>
                     <AttrContainer>
                         <AttrLabel>부여자산</AttrLabel>

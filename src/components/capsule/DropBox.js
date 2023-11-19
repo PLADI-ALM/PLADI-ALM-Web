@@ -30,7 +30,7 @@ const NoBorderSelect = styled(Select)`
 
 const ModalSelect = styled(Select)`
   width: 280px;
-  height: 100%;
+  height: ${props => props.height};
   border: 2px solid #E6E6E6;
   -webkit-appearance: none;
   -moz-appearance: none;
