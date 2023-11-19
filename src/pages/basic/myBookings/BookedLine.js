@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Link} from 'react-router-dom';
 import SmallButton from 'components/button/SmallButton';
 import {BOOKED, USING, WAITING, findStatus} from 'constants/BookingStatus';
@@ -7,7 +7,9 @@ import {BookedLineTr} from './BookedList';
 import {BookingCategoryList} from 'constants/Path';
 import {StatusText, StatusContainer, StatusCircle} from 'components/booking/StatusTag';
 import {basicError} from 'utils/ErrorHandlerUtil';
-import {getToken} from "../../../utils/IsLoginUtil";
+import {getToken} from "utils/IsLoginUtil";
+import {CarReturnModal} from "components/modal/CarReturnModal";
+import {ResourceReturnModal} from "components/modal/ResourceReturnModal";
 
 function cancelBooking(bookingId, name, info, start, end, type) {
     if (window.confirm(`${name}(${info}) ${start} ~ ${end}\n예약을 취소하시겠습니까?`)) {
@@ -30,6 +32,12 @@ function cancelBooking(bookingId, name, info, start, end, type) {
 
 function BookedLine(props) {
     const status = findStatus(props.status);
+    const [isOpen, setIsOpen] = useState(false)
+
+    const openReturnModalHandler = () => {
+        setIsOpen(!isOpen)
+    }
+
     return (
         <>
             <BookedLineTr>
@@ -54,9 +62,29 @@ function BookedLine(props) {
                             <td width="10%"><SmallButton click={() =>
                                 cancelBooking(props.id, props.name, props.info, props.start, props.end, props.type)}
                                                          name={'취소'}/></td>
-                            : null
+                            : (status === USING) ?
+                                <td width="10%"><SmallButton click={openReturnModalHandler}
+                                                             name={'반납'}/></td>
+                                : null
                 }
             </BookedLineTr>
+
+            {isOpen ?
+                props.type === BookingCategoryList[1] ?
+                    <ResourceReturnModal id={props.id}
+                                         name={props.name}
+                                         info={props.info}
+                                         start={props.start}
+                                         end={props.end}
+                                         handler={openReturnModalHandler}/>
+                    : <CarReturnModal id={props.id}
+                                      name={props.name}
+                                      info={props.info}
+                                      start={props.start}
+                                      end={props.end}
+                                      handler={openReturnModalHandler}/>
+                : null
+            }
         </>
     )
 }
