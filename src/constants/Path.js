@@ -18,7 +18,7 @@ export const BOOKING_MENUS = [
 export const MY_BOOKING_MENUS = [
     {name: '회의실 예약 내역', path: '/my/bookings/offices'},
     {name: '장비 예약 내역', path: '/my/bookings/resources'},
-    {name: '차량 내역 내역', path: '/my/bookings/cars'}
+    {name: '차량 예약 내역', path: '/my/bookings/cars'}
 ]
 
 export const MAIN_MENUS = [

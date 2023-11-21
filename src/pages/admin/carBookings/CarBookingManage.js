@@ -44,9 +44,9 @@ function CarBookingManage(props) {
                             </tr>
                         </BookedThead>
                         <tbody>
-                            {carBookings.map((carBooking, index) =>
+                            {carBookings.map(carBooking =>
                                 <CarBookingManageCell
-                                    key={index}
+                                    key={carBooking.id}
                                     id={carBooking.id}
                                     name={carBooking.name}
                                     location={carBooking.location}
