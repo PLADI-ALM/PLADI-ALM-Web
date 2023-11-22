@@ -46,8 +46,9 @@ export const TimeCard = styled.li`
     color: white;
   }
 `
+
 let currentDate = "";
-let currentTime = "";
+
 export function setDate(date) {
     currentDate = date
 }

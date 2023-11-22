@@ -103,9 +103,8 @@ function ResourceBooking(props) {
             })
             .catch((Error) => {
                 basicError(Error)
-                console.log(Error)
                 window.alert("예약 정보를 불러올 수 없습니댜.")
-                window.history.back()
+                // window.history.back()
             });
     }
 
@@ -114,11 +113,12 @@ function ResourceBooking(props) {
         setSelectedDate(dateFormat)
         setDate(dateFormat)
         if (startDate === "" || (startDate !== "" && endDate.current !== "" && endTime !== "") || startTime === "" || startDate > dateFormat) {
+            console.log('시작')
             setStartDate(dateFormat)
             endDate.current = ""
             setStartTime("")
             setEndTime("")
-        } else if ((endDate.current === "" && startDate <= dateFormat) || (endTime === "")) {
+        } else {
             endDate.current = dateFormat
             for (var i = 0; i < dates.length; i++) {
                 var temp = new Date(dates[i])
@@ -157,10 +157,12 @@ function ResourceBooking(props) {
     };
 
     const onActiveStartDateChange = (e) => {
-        const changed = moment(e.activeStartDate).format("YYYY-MM")
-        setCurrentMonth(changed)
-        currentMonth = changed
-        getBookedDates()
+        if (e.activeStartDate !== null) {
+            const changed = moment(e.activeStartDate).format("YYYY-MM")
+            setCurrentMonth(changed)
+            currentMonth = changed
+            getBookedDates()
+        }
     }
 
     const requestBookingResource = () => {
@@ -169,12 +171,9 @@ function ResourceBooking(props) {
         if (window.confirm("예약하시겠습니까?")) {
             ResourcesAxios.post(`/${resourceId}`,
                 {
-                    endDateTime: endDate.current + " " + endTime,
                     memo: bookingPurpose,
-                    startDateTime: startDate + " " + startTime
-                    // endDateTime: endDate.current + " " + parseInt(endTime.slice(0,2)),
-                    // memo: bookingPurpose,
-                    // startDateTime: startDate + " " + parseInt(startTime.slice(0,2))
+                    startDateTime: startDate + " " + startTime.slice(0, 2),
+                    endDateTime: endDate.current + " " + endTime.slice(0, 2)
                 },
                 {
                     headers: {Authorization: getToken()}
@@ -190,7 +189,6 @@ function ResourceBooking(props) {
                 })
                 .catch((Error) => {
                     basicError(Error)
-                    console.log(Error)
                     window.alert("장비 예약에 실패하였습니다.")
                 });
         }
@@ -221,22 +219,24 @@ function ResourceBooking(props) {
                     <Capsule color="purple" text="예약일시"/>
                     <DateContainer>
                         <BookingDateTimeContainer>
-                            <BookingDateText>{startDate || "----------"}</BookingDateText>
-                            <BookingDateText>{startTime || "-----"}</BookingDateText>
+                            <BookingDateText>{
+                                startDate !== "" && startTime !== "" ?
+                                    startDate + " " + startTime : "---------- -----"}</BookingDateText>
                             <BookingDateText> ~ </BookingDateText>
-                            <BookingDateText>{endDate.current || "----------"}</BookingDateText>
-                            <BookingDateText>{endTime || "-----"}</BookingDateText>
+                            <BookingDateText>{
+                                endDate.current !== "" && endTime !== "" ?
+                                    endDate.current + " " + endTime : "---------- -----"}</BookingDateText>
                         </BookingDateTimeContainer>
 
                         <BookingDateContainer
                             onMouseOver={(event) => {
                                 if (event.target.classList.contains("react-calendar__month-view__days__day")) {
-                                    // console.log("Day tile mouseover");
+
                                 }
                             }}>
                             <Calendar className={styles}
                                       onClickDay={changeDate}
-                                      // selectRange={true}
+                                      goToRangeStartOnSelect={false}
                                       value={[startDate, endDate.current]}
                                       formatDay={(locale, date) => moment(date).format("D")}
                                       minDate={new Date()}
@@ -256,9 +256,9 @@ function ResourceBooking(props) {
                                       onActiveStartDateChange={onActiveStartDateChange}
                             />
                             {
-                                ((startDate !== "" && startTime === "")|| (startDate !== "" && endDate.current !== "" && endTime === "")) ?
-                                    <TimeSelector resourceId={resourceId} click={clickTime}/> :
-                                    null
+                                startDate !== "" ?
+                                    <TimeSelector resourceId={resourceId} click={clickTime}/>
+                                    : null
                             }
 
                         </BookingDateContainer>
