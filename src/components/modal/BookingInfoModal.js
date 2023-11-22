@@ -18,6 +18,10 @@ export const BookingInfoModalView = styled.div`
   z-index: 3;
 `
 
+export const BookingInfosModalView = styled(BookingInfoModalView)`
+  
+`
+
 export const BookingInfoText = styled.span`
   font-size: 15px;
   margin-bottom: 10px;
@@ -28,12 +32,33 @@ export const BookingLastInfoText = styled(BookingInfoText)`
   margin-bottom: 0;
 `
 
+export const Line = styled.hr`
+  margin: 10px 0;
+  width: 100%;
+`
+
 export function BookingInfoModal(props) {
-    return(
+    return (
         <BookingInfoModalView onMouseOver={props.onMouseOver} onMouseOut={props.onMouseOut}>
             <BookingInfoText>{props.info.reservatorName}</BookingInfoText>
             <BookingInfoText>{props.info.department}</BookingInfoText>
             <BookingLastInfoText>{props.info.reservatorPhone}</BookingLastInfoText>
         </BookingInfoModalView>
+    )
+}
+
+export function BookingInfosModal(props) {
+    return (
+        <BookingInfosModalView onMouseOver={props.onMouseOver} onMouseOut={props.onMouseOut}>
+            {props.info.map((value, index) =>
+                <>
+                    <BookingInfoText>{value.start} ~ {value.end}</BookingInfoText>
+                    <BookingInfoText>{value.reservatorName}</BookingInfoText>
+                    <BookingInfoText>{value.department}</BookingInfoText>
+                    <BookingLastInfoText>{value.reservatorPhone}</BookingLastInfoText>
+                    {index < props.info.length - 1 ? <Line/> : null}
+                </>
+            )}
+        </BookingInfosModalView>
     )
 }

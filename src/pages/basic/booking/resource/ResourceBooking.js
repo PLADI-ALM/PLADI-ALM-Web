@@ -3,7 +3,7 @@ import styled from "styled-components"
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import moment from 'moment';
-import {ResourcesAxios} from 'api/AxiosApi';
+import {OfficesAxios, ResourcesAxios} from 'api/AxiosApi';
 import {useParams} from 'react-router-dom';
 import Capsule from 'components/capsule/Capsule';
 import {DetailSubTitleText, NameSubTitleText} from 'components/officeBooking/SubTitleBar';
@@ -18,6 +18,7 @@ import {getToken} from 'utils/IsLoginUtil';
 import ResourceDetailInfo from "components/card/ResourceDetailInfo";
 import {TimeList} from "constants/ToggleList";
 import {setDate, TimeSelector} from "../../../../components/resourceBooking/TimeSelector";
+import {BookingInfoModal, BookingInfosModal} from "../../../../components/modal/BookingInfoModal";
 
 export const BookingDateTimeContainer = styled.div`
   margin-left: 10px;
@@ -68,8 +69,32 @@ function ResourceBooking(props) {
     var [startDate, setStartDate] = useState("");
     var endDate = useRef("");
     var [startTime, setStartTime] = useState("");
+    // var endTime = useRef("");
     var [endTime, setEndTime] = useState("");
     const [changed, setCurrentMonth] = useState();
+    const [isOpen, setIsOpen] = useState(false)
+    const [bookingInfos, setBookingInfos] = useState(false)
+
+    // const handleMouseEnter = (index) => {
+    //     OfficesAxios.get(`/${resourceId}/booking?date=${date}&time=${TimeList[index]}`, {
+    //         headers: {
+    //             Authorization: getToken()
+    //         }
+    //     })
+    //         .then((Response) => {
+    //             const info = Response.data.data;
+    //             if (info === undefined) {
+    //                 setBookingInfo(null)
+    //             } else {
+    //                 setBookingInfo(Response.data.data)
+    //                 setIsOpen(true)
+    //             }
+    //         })
+    //         .catch((Error) => {
+    //             basicError(Error)
+    //             window.alert("예약 정보를 불러오는데 실패하였습니다.")
+    //         });
+    // }
 
     const getResourceInfo = () => {
         ResourcesAxios.get(`/${resourceId}`, {
@@ -118,6 +143,7 @@ function ResourceBooking(props) {
             endDate.current = ""
             setStartTime("")
             setEndTime("")
+            // endTime = ""
         } else {
             endDate.current = dateFormat
             for (var i = 0; i < dates.length; i++) {
@@ -138,7 +164,14 @@ function ResourceBooking(props) {
         if ((startDate !== "" && startTime === "") || (startDate !== "" && endDate.current === "")) {
             setStartTime(time)
         } else if (startDate !== "" && endDate.current !== "" && startTime !== "") {
+            // endTime = time
             setEndTime(time)
+            // console.log(startDate + " " + startTime)
+            // console.log(endDate.current + " " + endTime)
+            // if (new Date(startDate + " " + startTime) > new Date(endDate.current + " " + endTime)) {
+            //     alert('시작일시보다 종료일시가 더 앞에 있습니다.')
+            //     endTime = ""
+            // }
             // for (var i = 0; i < dates.length; i++) {
             //     var temp = new Date(dates[i])
             //     temp = moment(temp).format("YYYY-MM-DD")
@@ -199,6 +232,18 @@ function ResourceBooking(props) {
         getBookedDates()
     }, []);
 
+    const handleMouseLeave = () => {
+        setIsOpen(false)
+    }
+
+    const handleModalMouseEnter = () => {
+        setIsOpen(true)
+    }
+
+    const handleModalMouseLeave = () => {
+        setIsOpen(false)
+    }
+
     return (
         <RightContainer>
             <TitleText>장비 예약</TitleText>
@@ -230,8 +275,12 @@ function ResourceBooking(props) {
 
                         <BookingDateContainer
                             onMouseOver={(event) => {
+                                // console.log(event)
                                 if (event.target.classList.contains("react-calendar__month-view__days__day")) {
-
+                                }
+                            }}
+                            onMouseOut={(event) => {
+                                if (event.target.classList.contains("react-calendar__month-view__days__day")) {
                                 }
                             }}>
                             <Calendar className={styles}
@@ -260,7 +309,11 @@ function ResourceBooking(props) {
                                     <TimeSelector resourceId={resourceId} click={clickTime}/>
                                     : null
                             }
-
+                            {/*{isOpen && (*/}
+                            {/*    <BookingInfosModal info={bookingInfo}*/}
+                            {/*                      onMouseOver={() => handleModalMouseEnter()}*/}
+                            {/*                      onMouseOut={() => handleModalMouseLeave()}/>*/}
+                            {/*)}*/}
                         </BookingDateContainer>
                     </DateContainer>
                 </BookingContentContainer>
