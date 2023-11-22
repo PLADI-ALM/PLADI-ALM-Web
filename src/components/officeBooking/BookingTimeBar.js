@@ -1,14 +1,12 @@
-import React, {useRef} from 'react';
-import {useState} from 'react'
+import React, {useState} from 'react';
 import styled from "styled-components"
-import {setStartTimeStr, setEndTimeStr, getBookingInfo} from 'pages/basic/booking/office/OfficeBooking';
-import {BookingInfoModal, BookingInfoModalView, BookingInfoText, BookingLastInfoText} from "../modal/BookingInfoModal";
+import {setEndTimeStr, setStartTimeStr} from 'pages/basic/booking/office/OfficeBooking';
+import {BookingInfoModal} from "../modal/BookingInfoModal";
 import {TimeList} from "../../constants/ToggleList";
 import {OfficesAxios} from "../../api/AxiosApi";
 import {getToken} from "../../utils/IsLoginUtil";
 import {basicError} from "../../utils/ErrorHandlerUtil";
 import {useParams} from "react-router-dom";
-import {UserModal} from "../modal/UserModal";
 import moment from "moment/moment";
 
 let bookingState = [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false,];
