@@ -136,7 +136,7 @@ function UserManage(props) {
                                     id={user.userId}
                                     name={user.name}
                                     email={user.email}
-                                    asset={user.asserts}
+                                    asset={user.assets}
                                     phone={user.phone}
                                     affiliation={user.affiliation}
                                     department={user.department}
