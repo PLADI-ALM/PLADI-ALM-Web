@@ -266,7 +266,7 @@ function ResourceManageAdd(props) {
                 manufacturer: manufacturer,
                 location: place,
                 name: name,
-                imgKey: `resource/${imageUrl.imageKey}`,
+                imgKey: imageFile === null ? null : `resource/${imageUrl.imageKey}`,
             },
             {
                 headers: {
@@ -275,7 +275,7 @@ function ResourceManageAdd(props) {
             })
             .then((Response) => {
                 alert("장비 등록이 완료되었습니다.");
-                // window.location.href = `/admin/resources`
+                window.location.href = `/admin/resources`
             })
             .catch((error) => {
                 basicError(error)
