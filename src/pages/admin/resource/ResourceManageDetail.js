@@ -6,12 +6,7 @@ import Capsule from 'components/capsule/Capsule';
 import {basicError} from 'utils/ErrorHandlerUtil';
 import {Bar} from 'pages/basic/myBookings/BookedList';
 import {RightContainer, TitleText, WhiteContainer} from 'components/rightContainer/RightContainer';
-import {
-    MainTextContainer,
-    NameSubTitleText,
-    SubTextContainer,
-    DetailSubTitleText
-} from 'components/officeBooking/SubTitleBar';
+import {DetailSubTitleText, NameSubTitleText} from 'components/officeBooking/SubTitleBar';
 import {getToken} from 'utils/IsLoginUtil';
 import MoreButtonIcon from "../../../assets/images/button/triple_dot_icon.svg"
 import ResourceDetailInfo from "../../../components/card/ResourceDetailInfo";
@@ -91,7 +86,7 @@ function ResourceManageDetail() {
         })
             .then((Response) => {
                 console.log(Response.data.data)
-                setBookingsInfo(Response.data.data.resourcesLists)
+                setBookingsInfo(Response.data.data.productList)
             })
             .catch((Error) => {
                 basicError(Error)
@@ -170,7 +165,7 @@ function ResourceManageDetail() {
                             <InfoTableData>{info.reservatorName} ({info.reservatorPhone})</InfoTableData>
                             <InfoTableData
                                 style={{fontWeight: 'bold'}}>{info.startDateTime} ~<br/>{info.endDateTime}</InfoTableData>
-                            <InfoTableData>{info.goal}</InfoTableData>
+                            <InfoTableData>{info.memo}</InfoTableData>
                             <InfoTableData>{info.bookingStatus}</InfoTableData>
                         </tr>
                     )

@@ -1,23 +1,22 @@
 import React, {useEffect, useRef, useState} from "react";
 import styled from "styled-components";
-
 import {RightContainer, TitleText, WhiteContainer} from "components/rightContainer/RightContainer";
-import {Bar} from "../../basic/myBookings/BookedList";
 import {ManageAddButton, ManageAddButtonImage} from "components/searchBar/ManageSearchBar";
-
 import {getToken} from "utils/IsLoginUtil";
 import {basicError} from "utils/ErrorHandlerUtil";
 import {AdminResourcesAxios, ImageUrlAxios, ResourcesAxios, UsersAxios} from "api/AxiosApi";
-
-import AddImageImage from "../../../assets/images/AddImage.svg"
-import SearchButtonImage from "../../../assets/images/SearchPlus.svg"
-import {ExitBtn} from "../../../components/modal/BigModal";
+import SearchButtonImage from "assets/images/SearchPlus.svg"
+import EmptyImg from "assets/images/EmptyImg.svg"
+import {ExitBtn} from "components/modal/BigModal";
 import axios from "axios";
 import {useParams} from "react-router-dom";
 
 const MarginWhiteContainer = styled(WhiteContainer)`
-  padding: 50px;
+  padding: 40px;
   box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 `
 
 const ColumnContainer = styled.div`
@@ -28,10 +27,21 @@ const ColumnContainer = styled.div`
   margin-bottom: 40px;
 `
 
+const ShortColumnContainer = styled(ColumnContainer)`
+  width: 50%;
+`
+
+const ImgColumnContainer = styled(ShortColumnContainer)`
+  margin-bottom: 0;
+  height: 150px;
+  width: 300px;
+`
+
 const TitleLabel = styled.label`
   color: #8741CB;
-  font-size: 22px;
-  width: 130px;
+  font-size: 20px;
+  width: 100px;
+  min-width: 100px;
   text-align: left;
 `
 
@@ -45,7 +55,7 @@ const InfoInput = styled.input.attrs({type: 'text'})`
 `
 
 const StaffInputContainer = styled.div`
-  width: 30%;
+  width: 50%;
   height: 100%;
   display: block;
   z-index: 11;
@@ -73,6 +83,9 @@ const StaffNameLabel = styled.p`
   font-size: 20px;
   text-align: left;
   z-index: 4;
+  cursor: pointer;
+  margin: 10px 0;
+  width: fit-content;
 `
 
 const DescriptionContainer = styled(ColumnContainer)`
@@ -89,78 +102,91 @@ const DescriptionInput = styled.textarea`
 `
 
 const AddButtonContainer = styled.div`
-  width: 90%;
-  height: 50px;
+  width: 100%;
+  height: fit-content;
   display: flex;
   justify-content: flex-end;
-  align-items: center;
-  margin: -50px 80px 0 80px;
 `
 
 const ImageAddContainer = styled.div`
-  width: 112px;
+  width: 100px;
   height: 40px;
-  flex-shrink: 0;
-  margin-left: 52px;
+  margin-left: 10px;
 `
 
-const ImageAddButton = styled.img`
-  width: 100%;
+const ImageAddButton = styled.button`
+  min-width: 100px;
   height: 100%;
+  border-radius: 8px;
+  border: none;
+  filter: drop-shadow(0px 2px 2px rgba(0, 0, 0, 0.25));
+  font-size: 16px;
 `
 
 const ImageInfoContainer = styled.div`
-  width: 32%;
-  height: 40px;
+  width: 320px;
+  min-width: 320px;
+  height: 180px;
   border-radius: 8px;
   border: 2px solid #E6E6E6;
-  display: flex;
-  justify-content: space-between;
+  overflow: clip;
+  position: relative;
 `
 
-const ImageInfoLabel = styled.label`
-  font-size: 20px;
-  padding: 5px;
-  margin-left: 20px;
+const AbExitBtn = styled(ExitBtn)`
+  position: absolute;
+  top: 0;
+  right: 0;
+  color: #8741CB;
+`
+
+const PreviewImage = styled.img`
+  width: 320px;
+  height: 180px;
+  object-fit: contain;
 `
 
 function ResourceManageAdd(props) {
+    let {resourceId} = useParams();
 
-    let {resourceId} = useParams()
-    const [name, setName] = useState("");
-    const [place, setPlace] = useState("");
+    const initialValue = {
+        name: null,
+        manufacturer: null,
+        place: null,
+        description: null,
+    };
+    const [inputValues, setInputValues] = useState(initialValue);
+    const {name, manufacturer, place, description} = inputValues;	//비구조화 할당
     const [staff, setStaff] = useState({
-        userId: 1,
+        userId: null,
         name: ""
     });
     const [staffList, setStaffList] = useState([]);
-    const [description, setDescription] = useState("");
+    const [imageSrc, setImgSrc] = useState("");
     const [imageFile, setImageFile] = useState(null);
-    const [imageUrl, setImageUrl] = useState(null);
+    const [imageUrl, setImgUrl] = useState(null);
     const [isUpload, setIsUpload] = useState(false);
-
-
     const [isFocusStaffInput, setIsFocusStaffInput] = useState(false);
-
     const [resourceInfo, setResourceInfo] = useState(null)
+    const imageInput = useRef(null);
 
-    const changeName = (e) => {
-        setName(e.target.value);
-    };
-
-    const changePlace = (e) => {
-        setPlace(e.target.value);
-    };
+    const onChangeInput = event => {
+        const {value, name: inputName} = event.target;
+        setInputValues({...inputValues, [inputName]: value});
+    }
 
     const changeStaff = (e) => {
         setStaff({...staff, name: e.target.value});
     };
 
-    const changeDescription = (e) => {
-        setDescription(e.target.value)
+    const deleteStaff = (e) => {
+        if (e.key === 'Backspace')
+            setStaff({
+                ...staff,
+                name: "",
+                userId: null
+            });
     };
-
-    const imageInput = useRef(null);
 
     const changeImageFile = () => {
         imageInput.current.click();
@@ -168,60 +194,80 @@ function ResourceManageAdd(props) {
 
     const handleChange = (e) => {
         setImageFile(e.target.files[0])
+        const reader = new FileReader();
+        reader.readAsDataURL(e.target.files[0]);
+        reader.onloadend = () => {
+            setImgSrc(reader.result);
+        };
     };
 
     const deleteImageFile = () => {
         setImageFile(null);
+        setIsUpload(false);
+        imageInput.current.value = "";
+        setImgSrc("")
     };
 
+    // 이미지 람다 호출
     const getImageUrl = () => {
-        if (resourceInfo !== null) {
-            if (imageFile !== null) {
-                ImageUrlAxios.get(`?ext=${imageFile.type.split("/", 2)[1]}&dir=photo`)
-                    .then((Response) => {
-                        setImageUrl(Response.data);
-                    })
-                    .catch((error) => {
-                        console.log(error)
-                    });
-            } else {
-                editResource();
-            }
+        // todo: 검사 다 하기
+        if (staff.userId === null) {
+            alert("책임자를 선택해주세요.");
+            return;
+        }
+        if (imageFile !== null) { // 이미지 파일 선택했을 때
+            ImageUrlAxios.get(`?ext=${imageFile.type.split("/", 2)[1]}&dir=resource`)
+                .then((Response) => {
+                    setImgUrl(Response.data);
+                })
+                .catch((error) => {
+                    console.log(error)
+                });
         } else {
-            if (imageFile !== null) {
-                ImageUrlAxios.get(`?ext=${imageFile.type.split("/", 2)[1]}&dir=photo`)
-                    .then((Response) => {
-                        setImageUrl(Response.data);
-                    })
-                    .catch((error) => {
-                        console.log(error)
-                    });
+            if (resourceInfo !== null) { // 수정일 때
+                editResource();
             } else {
-                alert("이미지를 업로드해주세요.");
+                addResource();
             }
         }
     }
 
+    // s3에 이미지 업로드
     const uploadImage = () => {
-        const formData = new FormData();
-        formData.append("files", imageFile);
-
-        axios.put(imageUrl.presignedUrl, formData)
+        axios.put(imageUrl.presignedUrl, imageFile, {
+            headers: {
+                'Content-Type': 'multipart/form-data' // Content-Type 헤더 설정
+            }
+        })
             .then(function (rep) {
                 setIsUpload(true);
             })
             .catch(function (err) {
+                console.log(err)
                 alert("이미지 등록에 실패했습니다. 다시 시도해주세요.");
             });
     }
+
+    useEffect(() => {
+        if (imageUrl !== null && imageFile !== null)
+            uploadImage();
+    }, [imageUrl]);
+
+    useEffect(() => {
+        if (isUpload) {
+            if (resourceInfo !== null) editResource();
+            else addResource();
+        }
+    }, [isUpload]);
 
     const addResource = () => {
         AdminResourcesAxios.post(``, {
                 responsibility: staff.userId,
                 description: description,
+                manufacturer: manufacturer,
                 location: place,
                 name: name,
-                imgKey: imageUrl.imgKey,
+                imgKey: imageFile === null ? null : `resource/${imageUrl.imageKey}`,
             },
             {
                 headers: {
@@ -238,14 +284,13 @@ function ResourceManageAdd(props) {
     };
 
     const editResource = () => {
-
-
         AdminResourcesAxios.patch(`/${resourceId}`, {
                 responsibility: staff.userId,
                 description: description,
+                manufacturer: manufacturer,
                 location: place,
                 name: name,
-                imgKey: imageFile === null ? imageUrl : imageUrl.imgKey,
+                imgKey: imageFile === null ? imageUrl : `resource/${imageUrl.imageKey}`,
             },
             {
                 headers: {
@@ -261,6 +306,7 @@ function ResourceManageAdd(props) {
             });
     }
 
+    // 장비 기존 정보 호출
     const getResourceInfo = () => {
         ResourcesAxios.get(`/${resourceId}`, {
             headers: {
@@ -274,10 +320,14 @@ function ResourceManageAdd(props) {
                     name: Response.data.data.responsibilityName,
                     userId: Response.data.data.responsibilityId
                 });
-                setDescription(Response.data.data.description);
-                setPlace(Response.data.data.location);
-                setName(Response.data.data.name);
-                setImageUrl(Response.data.data.imgUrl)
+                setInputValues({
+                    ...inputValues,
+                    name: Response.data.data.name,
+                    manufacturer: Response.data.data.manufacturer,
+                    place: Response.data.data.location,
+                    description: Response.data.data.description
+                });
+                setImgUrl(Response.data.data.imgUrl);
             })
             .catch((Error) => {
                 basicError(Error)
@@ -286,8 +336,13 @@ function ResourceManageAdd(props) {
                 window.history.back()
             })
     }
+    useEffect(() => {
+        if (resourceId !== undefined) {
+            getResourceInfo();
+        }
+    }, [])
 
-
+    // 책임자 리스트 검색
     const getStaffList = () => {
         UsersAxios.get(`managers?name=${staff.name}`, {
             headers: {
@@ -295,43 +350,12 @@ function ResourceManageAdd(props) {
             }
         })
             .then((Response) => {
-                console.log(Response.data.data)
                 setStaffList(Response.data.data.responsibilityList);
             })
             .catch((error) => {
                 basicError(error)
             });
     };
-
-    useEffect(() => {
-        if (resourceId !== undefined) {
-            getResourceInfo();
-        }
-    }, [])
-
-    useEffect(() => {
-        if (resourceInfo !== null && imageFile === null) {
-            return;
-        }
-        if (imageUrl !== null) {
-            if (staff.userId === -1) {
-                alert("책임자를 선택해주세요.");
-            } else {
-                uploadImage();
-            }
-        }
-    }, [imageUrl]);
-
-    useEffect(() => {
-        if (isUpload) {
-            if (resourceInfo !== null) {
-                editResource();
-            } else {
-                addResource();
-            }
-        }
-    }, [isUpload]);
-
     useEffect(() => {
         getStaffList();
     }, [staff.name]);
@@ -341,21 +365,27 @@ function ResourceManageAdd(props) {
             <TitleText>{resourceInfo === null ? "장비 추가" : "장비 수정"}</TitleText>
 
             <MarginWhiteContainer>
-                <ColumnContainer>
+                <ShortColumnContainer>
                     <TitleLabel>장비명</TitleLabel>
-                    <InfoInput value={name} onChange={changeName}/>
-                </ColumnContainer>
+                    <InfoInput name='name' value={name} onChange={onChangeInput}/>
+                </ShortColumnContainer>
 
-                <ColumnContainer>
-                    <TitleLabel>보관장소</TitleLabel>
-                    <InfoInput value={place} onChange={changePlace}/>
-                </ColumnContainer>
+                <ShortColumnContainer>
+                    <TitleLabel>제조사</TitleLabel>
+                    <InfoInput name='manufacturer' value={manufacturer} onChange={onChangeInput}/>
+                </ShortColumnContainer>
 
-                <ColumnContainer>
+                <ShortColumnContainer>
+                    <TitleLabel>현재위치</TitleLabel>
+                    <InfoInput name='place' value={place} onChange={onChangeInput}/>
+                </ShortColumnContainer>
+
+                <ShortColumnContainer>
                     <TitleLabel>책임자</TitleLabel>
                     <StaffInputContainer>
                         <StaffInfoInput value={staff.name}
                                         onChange={changeStaff}
+                                        onKeyDown={deleteStaff}
                                         onClick={() => setIsFocusStaffInput(true)}
                                         onBlur={() => setIsFocusStaffInput(false)}/>
                         {isFocusStaffInput &&
@@ -367,35 +397,37 @@ function ResourceManageAdd(props) {
                             </StaffSelectUl>
                         }
                     </StaffInputContainer>
-
-                </ColumnContainer>
+                </ShortColumnContainer>
 
                 <DescriptionContainer>
                     <TitleLabel>설명</TitleLabel>
-                    <DescriptionInput value={description} onChange={changeDescription}/>
+                    <DescriptionInput name='description' value={description} onChange={onChangeInput}/>
                 </DescriptionContainer>
 
-                <ColumnContainer>
+                <ImgColumnContainer>
                     <TitleLabel>첨부사진</TitleLabel>
                     <ImageInfoContainer>
-                        <ImageInfoLabel>{imageFile !== null ? imageFile.name : ""}</ImageInfoLabel>
-                        {imageFile === null ? <></> : <ExitBtn onClick={deleteImageFile}>X</ExitBtn>}
+                        <PreviewImage
+                            src={imageUrl ? imageUrl : imageSrc ? imageSrc : EmptyImg}
+                            alt="첨부사진"
+                        />
+                        {imageFile !== null && <AbExitBtn onClick={deleteImageFile}>×</AbExitBtn>}
                     </ImageInfoContainer>
                     <ImageAddContainer>
-                        <ImageAddButton src={AddImageImage} onClick={changeImageFile}/>
+                        <ImageAddButton onClick={changeImageFile}>파일선택</ImageAddButton>
                         <input type="file"
                                name="image"
                                ref={imageInput}
-                               accept='.png, .jpg,image/*'
+                               accept='.png, .jpg, image/*'
                                onChange={handleChange}
                                style={{display: "none"}}/>
                     </ImageAddContainer>
-                </ColumnContainer>
+                </ImgColumnContainer>
 
                 <AddButtonContainer>
                     <ManageAddButton onClick={getImageUrl}>
                         <ManageAddButtonImage src={SearchButtonImage}/>
-                        {resourceInfo === null ? "대여 장비 추가" : "대여 장비 수정"}
+                        {resourceInfo === null ? "장비 추가" : "장비 수정"}
                     </ManageAddButton>
                 </AddButtonContainer>
 
