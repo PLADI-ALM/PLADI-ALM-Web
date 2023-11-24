@@ -143,6 +143,7 @@ const AbExitBtn = styled(ExitBtn)`
 const PreviewImage = styled.img`
   width: 320px;
   height: 180px;
+  object-fit: contain;
 `
 
 function ResourceManageAdd(props) {
@@ -407,7 +408,7 @@ function ResourceManageAdd(props) {
                     <TitleLabel>첨부사진</TitleLabel>
                     <ImageInfoContainer>
                         <PreviewImage
-                            src={imageSrc ? imageSrc : EmptyImg}
+                            src={imageUrl ? imageUrl : imageSrc ? imageSrc : EmptyImg}
                             alt="첨부사진"
                         />
                         {imageFile !== null && <AbExitBtn onClick={deleteImageFile}>×</AbExitBtn>}
