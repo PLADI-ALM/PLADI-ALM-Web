@@ -162,7 +162,7 @@ function ResourceManageAdd(props) {
         name: ""
     });
     const [staffList, setStaffList] = useState([]);
-    const [imageSrc, setImgSrc] = useState("");
+    const [imageSrc, setImgSrc] = useState(null);
     const [imageFile, setImageFile] = useState(null);
     const [imageUrl, setImgUrl] = useState(null);
     const [isUpload, setIsUpload] = useState(false);
@@ -205,7 +205,7 @@ function ResourceManageAdd(props) {
         setImageFile(null);
         setIsUpload(false);
         imageInput.current.value = "";
-        setImgSrc("")
+        setImgSrc(null)
     };
 
     // 이미지 람다 호출
@@ -408,10 +408,10 @@ function ResourceManageAdd(props) {
                     <TitleLabel>첨부사진</TitleLabel>
                     <ImageInfoContainer>
                         <PreviewImage
-                            src={imageUrl ? imageUrl : imageSrc ? imageSrc : EmptyImg}
+                            src={imageSrc ? imageSrc : EmptyImg}
                             alt="첨부사진"
                         />
-                        {imageFile !== null && <AbExitBtn onClick={deleteImageFile}>×</AbExitBtn>}
+                        {imageSrc !== null && <AbExitBtn onClick={deleteImageFile}>×</AbExitBtn>}
                     </ImageInfoContainer>
                     <ImageAddContainer>
                         <ImageAddButton onClick={changeImageFile}>파일선택</ImageAddButton>
