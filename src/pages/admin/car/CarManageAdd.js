@@ -162,7 +162,7 @@ function CarManageAdd(props) {
         name: ""
     });
     const [staffList, setStaffList] = useState([]);
-    const [imageSrc, setImgSrc] = useState("");
+    const [imageSrc, setImgSrc] = useState(null);
     const [imageFile, setImageFile] = useState(null);
     const [imageUrl, setImgUrl] = useState(null);
     const [isUpload, setIsUpload] = useState(false);
@@ -205,7 +205,7 @@ function CarManageAdd(props) {
         setImageFile(null);
         setIsUpload(false);
         imageInput.current.value = "";
-        setImgSrc("")
+        setImgSrc(null)
         setImgUrl(null)
     };
 
@@ -412,7 +412,7 @@ function CarManageAdd(props) {
                             src={imageSrc ? imageSrc : EmptyImg}
                             alt="첨부사진"
                         />
-                        {imageSrc !== "" && <AbExitBtn onClick={deleteImageFile}>×</AbExitBtn>}
+                        {imageSrc !== null && <AbExitBtn onClick={deleteImageFile}>×</AbExitBtn>}
                     </ImageInfoContainer>
                     <ImageAddContainer>
                         <ImageAddButton onClick={changeImageFile}>파일선택</ImageAddButton>
