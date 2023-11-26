@@ -19,3 +19,7 @@ export const BookingCategoryList = [
 export const AffiliationList = [
     "플래디", "스튜디오아이", "피디룸"
 ]
+
+export function findTimeIndex(time) {
+    return ResourceTimeList.indexOf(time)
+}

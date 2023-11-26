@@ -10,6 +10,7 @@ import EmptyImg from "assets/images/EmptyImg.svg"
 import {ExitBtn} from "components/modal/BigModal";
 import axios from "axios";
 import {useParams} from "react-router-dom";
+import {getImgKey} from "../../../utils/ImageUtil";
 
 const MarginWhiteContainer = styled(WhiteContainer)`
   padding: 40px;
@@ -206,6 +207,7 @@ function ResourceManageAdd(props) {
         setIsUpload(false);
         imageInput.current.value = "";
         setImgSrc(null)
+        setImgUrl(null)
     };
 
     // 이미지 람다 호출
@@ -290,7 +292,7 @@ function ResourceManageAdd(props) {
                 manufacturer: manufacturer,
                 location: place,
                 name: name,
-                imgKey: imageFile === null ? imageUrl : `resource/${imageUrl.imageKey}`,
+                imgKey: imageFile === null ? getImgKey(imageUrl) : `resource/${imageUrl.imageKey}`,
             },
             {
                 headers: {
@@ -328,6 +330,7 @@ function ResourceManageAdd(props) {
                     description: Response.data.data.description
                 });
                 setImgUrl(Response.data.data.imgUrl);
+                setImgSrc(Response.data.data.imgUrl);
             })
             .catch((Error) => {
                 basicError(Error)

@@ -21,7 +21,7 @@ let date = moment(new Date()).format("YYYY-MM-DD");
 export const BookingContentContainer = styled.div`
   margin: 30px 0 30px 20px;
   display: flex;
-  align-items: baseline;
+  //align-items: baseline;
 `
 
 export const BookingDateTextContainer = styled.div`

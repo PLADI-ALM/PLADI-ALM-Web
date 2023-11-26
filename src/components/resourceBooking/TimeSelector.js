@@ -1,9 +1,10 @@
 import styled from "styled-components"
 import React, {useEffect, useState} from "react";
-import {ResourceTimeList} from "../../constants/ToggleList";
+import {findTimeIndex, ResourceTimeList, TimeList} from "../../constants/ToggleList";
 import {ResourcesAxios} from "../../api/AxiosApi";
 import {getToken} from "../../utils/IsLoginUtil";
 import {basicError} from "../../utils/ErrorHandlerUtil";
+import {BookingInfosModal} from "../modal/BookingInfoModal";
 
 export const TimeContainer = styled.ul`
   margin-top: 10px;
@@ -55,6 +56,8 @@ export function setDate(date) {
 
 export function TimeSelector(props) {
     const [bookedTimes, setBookedTimes] = useState([]);
+    const [bookingInfos, setBookingInfos] = useState(false)
+    const [isOpen, setIsOpen] = useState(false)
 
     useEffect(() => {
         getResourceBookedDates(currentDate, props.resourceId)
@@ -70,6 +73,40 @@ export function TimeSelector(props) {
                 return true
         }
         return false
+    }
+
+    // 시간에 마우스 오버
+    const handleTimeMouseEnter = (time, date) => {
+        // ResourcesAxios.get(`/${props.resourceId}/booking?dateTime=${date} ${time.slice(0 ,2)}`, {
+        //     headers: {
+        //         Authorization: getToken()
+        //     }
+        // })
+        //     .then((Response) => {
+        //         const info = Response.data.data;
+        //         if (info === undefined) {
+        //             setBookingInfos(null)
+        //         } else {
+        //             setBookingInfos(Response.data.data)
+        //             setIsOpen(true)
+        //         }
+        //     })
+        //     .catch((Error) => {
+        //         basicError(Error)
+        //         window.alert("예약 정보를 불러오는데 실패하였습니다.")
+        //     });
+    }
+
+    const handleTimeMouseLeave = () => {
+        setIsOpen(false)
+    }
+
+    const handleModalMouseEnter = () => {
+        setIsOpen(true)
+    }
+
+    const handleModalMouseLeave = () => {
+        setIsOpen(false)
     }
 
     const getResourceBookedDates = (date, resourceId) => {
@@ -98,12 +135,22 @@ export function TimeSelector(props) {
             {
                 ResourceTimeList.map(function (time) {
                     if (isTimeMatch(time))
-                        return (<TimeCard className={'disabled'}>{time}</TimeCard>)
+                        return (<TimeCard
+                            onMouseOver={() => handleTimeMouseEnter(time, currentDate)}
+                            onMouseOut={() => handleTimeMouseLeave()}
+                            className={'disabled'}>{time}</TimeCard>)
                     else
                         return (<TimeCard onClick={() => clickHandler(time)}>{time}</TimeCard>)
                 })
             }
+            {isOpen && (
+                <BookingInfosModal
+                    info={bookingInfos}
+                    // x={x}
+                    // y={y}
+                    onMouseOver={() => handleModalMouseEnter()}
+                    onMouseOut={() => handleModalMouseLeave()}/>
+            )}
         </TimeContainer>
-    )
-        ;
+    );
 }
