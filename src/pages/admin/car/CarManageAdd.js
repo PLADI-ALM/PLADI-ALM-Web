@@ -206,6 +206,7 @@ function CarManageAdd(props) {
         setIsUpload(false);
         imageInput.current.value = "";
         setImgSrc("")
+        setImgUrl(null)
     };
 
     // 이미지 람다 호출
@@ -328,6 +329,7 @@ function CarManageAdd(props) {
                     description: Response.data.data.description
                 });
                 setImgUrl(Response.data.data.imgUrl);
+                setImgSrc(Response.data.data.imgUrl);
             })
             .catch((Error) => {
                 basicError(Error)
@@ -407,10 +409,10 @@ function CarManageAdd(props) {
                     <TitleLabel>첨부사진</TitleLabel>
                     <ImageInfoContainer>
                         <PreviewImage
-                            src={imageUrl ? imageUrl : imageSrc ? imageSrc : EmptyImg}
+                            src={imageSrc ? imageSrc : EmptyImg}
                             alt="첨부사진"
                         />
-                        {imageFile !== null && <AbExitBtn onClick={deleteImageFile}>×</AbExitBtn>}
+                        {imageSrc !== "" && <AbExitBtn onClick={deleteImageFile}>×</AbExitBtn>}
                     </ImageInfoContainer>
                     <ImageAddContainer>
                         <ImageAddButton onClick={changeImageFile}>파일선택</ImageAddButton>

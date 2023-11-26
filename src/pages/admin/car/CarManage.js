@@ -12,7 +12,7 @@ function CarManage(props) {
     const [cars, setCars] = useState([]);
 
     const getCars = (name) => {
-        AdminCarsAxios.get(`?keyword=${name}`, {
+        AdminCarsAxios.get(`?keyword=${name}&size=100`, {
             headers: {
                 Authorization: getToken()
             }
