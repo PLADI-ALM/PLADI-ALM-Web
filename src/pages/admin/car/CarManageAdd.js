@@ -10,6 +10,7 @@ import EmptyImg from "assets/images/EmptyImg.svg"
 import {ExitBtn} from "components/modal/BigModal";
 import axios from "axios";
 import {useParams} from "react-router-dom";
+import {getImgKey} from "../../../utils/ImageUtil";
 
 const MarginWhiteContainer = styled(WhiteContainer)`
   padding: 40px;
@@ -291,7 +292,7 @@ function CarManageAdd(props) {
                 manufacturer: manufacturer,
                 location: place,
                 name: name,
-                imgKey: imageFile === null ? imageUrl : `car/${imageUrl.imageKey}`,
+                imgKey: imageFile === null ? getImgKey(imageUrl) : `car/${imageUrl.imageKey}`,
             },
             {
                 headers: {

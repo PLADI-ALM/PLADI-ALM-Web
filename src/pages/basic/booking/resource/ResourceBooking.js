@@ -3,7 +3,7 @@ import styled from "styled-components"
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import moment from 'moment';
-import {OfficesAxios, ResourcesAxios} from 'api/AxiosApi';
+import {ResourcesAxios} from 'api/AxiosApi';
 import {useParams} from 'react-router-dom';
 import Capsule from 'components/capsule/Capsule';
 import {DetailSubTitleText, NameSubTitleText} from 'components/officeBooking/SubTitleBar';
@@ -16,9 +16,8 @@ import SmallButton from 'components/button/SmallButton';
 import {Bar} from 'pages/basic/myBookings/BookedList';
 import {getToken} from 'utils/IsLoginUtil';
 import ResourceDetailInfo from "components/card/ResourceDetailInfo";
-import {TimeList} from "constants/ToggleList";
-import {setDate, TimeSelector} from "../../../../components/resourceBooking/TimeSelector";
-import {BookingInfoModal, BookingInfosModal} from "../../../../components/modal/BookingInfoModal";
+import {setDate, TimeSelector} from "components/resourceBooking/TimeSelector";
+import {BookingInfosModal} from "components/modal/BookingInfoModal";
 
 export const BookingDateTimeContainer = styled.div`
   margin-left: 10px;
@@ -32,6 +31,7 @@ export const BookingDateText = styled.text`
   color: #575757;
   font-size: 22px;
   text-align: left;
+  line-height: 34px;
 `
 
 export const PurposeTextarea = styled.textarea`
@@ -56,9 +56,7 @@ export const DateContainer = styled.div`
   margin-left: 10px;
 `
 
-var currentMonth = moment(new Date()).format('YYYY-MM')
-// var startTime = "";
-// var endTime = "";
+let currentMonth = moment(new Date()).format('YYYY-MM');
 
 function ResourceBooking(props) {
     let {resourceId} = useParams();
@@ -74,27 +72,9 @@ function ResourceBooking(props) {
     const [changed, setCurrentMonth] = useState();
     const [isOpen, setIsOpen] = useState(false)
     const [bookingInfos, setBookingInfos] = useState(false)
-
-    // const handleMouseEnter = (index) => {
-    //     OfficesAxios.get(`/${resourceId}/booking?date=${date}&time=${TimeList[index]}`, {
-    //         headers: {
-    //             Authorization: getToken()
-    //         }
-    //     })
-    //         .then((Response) => {
-    //             const info = Response.data.data;
-    //             if (info === undefined) {
-    //                 setBookingInfo(null)
-    //             } else {
-    //                 setBookingInfo(Response.data.data)
-    //                 setIsOpen(true)
-    //             }
-    //         })
-    //         .catch((Error) => {
-    //             basicError(Error)
-    //             window.alert("예약 정보를 불러오는데 실패하였습니다.")
-    //         });
-    // }
+    const [x, setX] = useState(0);
+    const [y, setY] = useState(0);
+    const [clickedDate, setClickedDate] = useState(null);
 
     const getResourceInfo = () => {
         ResourcesAxios.get(`/${resourceId}`, {
@@ -143,7 +123,6 @@ function ResourceBooking(props) {
             endDate.current = ""
             setStartTime("")
             setEndTime("")
-            // endTime = ""
         } else {
             endDate.current = dateFormat
             for (var i = 0; i < dates.length; i++) {
@@ -164,30 +143,18 @@ function ResourceBooking(props) {
         if ((startDate !== "" && startTime === "") || (startDate !== "" && endDate.current === "")) {
             setStartTime(time)
         } else if (startDate !== "" && endDate.current !== "" && startTime !== "") {
-            // endTime = time
             setEndTime(time)
-            // console.log(startDate + " " + startTime)
-            // console.log(endDate.current + " " + endTime)
-            // if (new Date(startDate + " " + startTime) > new Date(endDate.current + " " + endTime)) {
-            //     alert('시작일시보다 종료일시가 더 앞에 있습니다.')
-            //     endTime = ""
-            // }
-            // for (var i = 0; i < dates.length; i++) {
-            //     var temp = new Date(dates[i])
-            //     temp = moment(temp).format("YYYY-MM-DD")
-            //
-            //     if (startDate <= temp && endDate >= temp) {
-            //         alert('예약된 일자를 포함한 날짜는 선택할 수 없습니다.')
-            //         startDate = '';
-            //         endDate = '';
-            //         setStartDate(startDate)
-            //         setEndDate(endDate)
-            //         window.location.reload()
-            //         return
-            //     }
-            // }
+            console.log(startDate + " " + startTime)
+            console.log(endDate.current + " " + endTime)
         }
     };
+
+    useEffect(() => {
+        if (endTime !== "" && new Date(startDate + " " + startTime) > new Date(endDate.current + " " + endTime)) {
+            alert('시작일시보다 종료일시가 더 앞에 있습니다.')
+            setEndTime("")
+        }
+    }, [endTime])
 
     const onActiveStartDateChange = (e) => {
         if (e.activeStartDate !== null) {
@@ -232,6 +199,46 @@ function ResourceBooking(props) {
         getBookedDates()
     }, []);
 
+    useEffect(() => {
+        if (clickedDate !== null)
+            handleDateMouseEnter(clickedDate)
+    }, [clickedDate])
+
+    function formatDate(dateString) {
+        // 한글 문자 제거
+        const cleanedDateString = dateString.replace(/[년월일]/g, '');
+        const originalDate = new Date(cleanedDateString);
+
+        // 월과 일을 가져와서 두 자리로 포맷팅
+        const month = ('0' + (originalDate.getMonth() + 1)).slice(-2);
+        const day = ('0' + originalDate.getDate()).slice(-2);
+
+        // 년-월-일 형식으로 조합
+        return `${originalDate.getFullYear()}-${month}-${day}`;
+    }
+
+    // 일자에 마우스 오버
+    const handleDateMouseEnter = (date) => {
+        ResourcesAxios.get(`/${resourceId}/booking-info?date=${date}`, {
+            headers: {
+                Authorization: getToken()
+            }
+        })
+            .then((Response) => {
+                const info = Response.data.data;
+                if (info === undefined) {
+                    setBookingInfos(null)
+                } else {
+                    setBookingInfos(Response.data.data)
+                    // setIsOpen(true)
+                }
+            })
+            .catch((Error) => {
+                basicError(Error)
+                window.alert("예약 정보를 불러오는데 실패하였습니다.")
+            });
+    }
+
     const handleMouseLeave = () => {
         setIsOpen(false)
     }
@@ -275,8 +282,11 @@ function ResourceBooking(props) {
 
                         <BookingDateContainer
                             onMouseOver={(event) => {
-                                // console.log(event)
                                 if (event.target.classList.contains("react-calendar__month-view__days__day")) {
+                                    console.log(event)
+                                    setX(event.clientX)
+                                    setY(event.clientY)
+                                    setClickedDate(formatDate(event.target.children[0].ariaLabel))
                                 }
                             }}
                             onMouseOut={(event) => {
@@ -309,13 +319,12 @@ function ResourceBooking(props) {
                                     <TimeSelector resourceId={resourceId} click={clickTime}/>
                                     : null
                             }
-                            {/*{isOpen && (*/}
-                            {/*    <BookingInfosModal info={bookingInfo}*/}
-                            {/*                      onMouseOver={() => handleModalMouseEnter()}*/}
-                            {/*                      onMouseOut={() => handleModalMouseLeave()}/>*/}
-                            {/*)}*/}
                         </BookingDateContainer>
                     </DateContainer>
+                    <BookingInfosModal
+                        info={bookingInfos}
+                        onMouseOver={() => handleModalMouseEnter()}
+                        onMouseOut={() => handleModalMouseLeave()}/>
                 </BookingContentContainer>
 
                 <BookingPurposeContainer>
