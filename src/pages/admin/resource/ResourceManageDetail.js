@@ -106,12 +106,11 @@ function ResourceManageDetail() {
                 .then((Response) => {
                     if (Response.data.status === 200) {
                         alert('장비을 성공적으로 삭제하였습니다.')
-                        window.history.back()
+                        window.location.href = `/admin/resources`
                     }
                 })
                 .catch((Error) => {
                     basicError(Error)
-                    console.log(Error)
                 })
             setOptionViewShowing(false)
         }

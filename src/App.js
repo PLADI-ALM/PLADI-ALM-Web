@@ -23,6 +23,7 @@ import CarBookingCheck from "./pages/basic/booking/car/CarBookingCheck";
 import CarManage from "./pages/admin/car/CarManage";
 import CarBookingManage from "./pages/admin/carBookings/CarBookingManage";
 import CarManageAdd from "./pages/admin/car/CarManageAdd";
+import CarManageDetail from "./pages/admin/car/CarManageDetail";
 
 function App() {
 
@@ -62,6 +63,7 @@ function App() {
                     <Route path='/admin/resourceBooking/:bookingId' element={<ResourceBookingCheck isAdmin={true} />} />
                     <Route path='/admin/cars' element={<CarManage />} />
                     <Route path='/admin/cars/add' element={<CarManageAdd />} />
+                    <Route path='/admin/cars/:carId' element={<CarManageDetail/>} />
                     <Route path='/admin/cars/edit/:carId' element={<CarManageAdd />} />
                     <Route path='/admin/carBooking' element={<CarBookingManage/>} />
                     <Route path='/admin/carBooking/:bookingId' element={<CarBookingCheck isAdmin={true} />} />

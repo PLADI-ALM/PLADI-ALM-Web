@@ -12,7 +12,7 @@ import AdminInactiveIcon from 'assets/images/sidebarIcon/AdminInactive.svg'
 export const BOOKING_MENUS = [
     {name: '회의실 예약', path: '/officeBooking'},
     {name: '장비 예약', path: '/resourceBooking'},
-    {name: '차량 내역', path: '/carBooking'}
+    {name: '차량 예약', path: '/carBooking'}
 ]
 
 export const MY_BOOKING_MENUS = [
