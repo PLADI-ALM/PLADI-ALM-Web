@@ -4,13 +4,14 @@ import {RightContainer, TitleText, WhiteContainer} from "components/rightContain
 import {ManageAddButton, ManageAddButtonImage} from "components/searchBar/ManageSearchBar";
 import {getToken} from "utils/IsLoginUtil";
 import {basicError} from "utils/ErrorHandlerUtil";
-import {AdminCarsAxios, CarsAxios, ImageUrlAxios, UsersAxios} from "api/AxiosApi";
+import {AdminOfficesAxios, ImageUrlAxios, OfficesAxios, UsersAxios} from "api/AxiosApi";
 import SearchButtonImage from "assets/images/SearchPlus.svg"
 import EmptyImg from "assets/images/EmptyImg.svg"
 import {ExitBtn} from "components/modal/BigModal";
 import axios from "axios";
 import {useParams} from "react-router-dom";
 import {getImgKey} from "../../../utils/ImageUtil";
+import FacilityCapsule from "../../../components/capsule/FacilityCapsule";
 
 const MarginWhiteContainer = styled(WhiteContainer)`
   padding: 40px;
@@ -30,6 +31,15 @@ const ColumnContainer = styled.div`
 
 const ShortColumnContainer = styled(ColumnContainer)`
   width: 50%;
+`
+
+const FacilityColumnContainer = styled(ShortColumnContainer)`
+  margin-bottom: 20px;
+`
+
+const FacilityListColumnContainer = styled(ColumnContainer)`
+  margin-bottom: 20px;
+  margin-left: 100px;
 `
 
 const ImgColumnContainer = styled(ShortColumnContainer)`
@@ -55,7 +65,7 @@ const InfoInput = styled.input.attrs({type: 'text'})`
   padding: 10px;
 `
 
-const StaffInputContainer = styled.div`
+const FacilityInputContainer = styled.div`
   width: 50%;
   height: 100%;
   display: block;
@@ -63,27 +73,32 @@ const StaffInputContainer = styled.div`
   background: white;
 `
 
-const StaffInfoInput = styled(InfoInput)`
+const FacilityTagContainer = styled.div`
+  display: flex;
+  overflow-x: scroll;
+`
+
+const FacilityInfoInput = styled(InfoInput)`
   width: 100%;
 `
 
-const StaffSelectUl = styled.div`
+const FacilitySelectUl = styled.div`
   width: 100%;
   max-height: 120px;
   overflow: scroll;
   border-radius: 0 0 8px 8px;
   border: 2px solid #E6E6E6;
   padding: 10px;
-  z-index: 3;
+  z-index: 10;
   background: white;
   margin-top: -5px;
 `
 
-const StaffNameLabel = styled.p`
+const FacilityNameLabel = styled.p`
   color: #4C4C4C;
   font-size: 20px;
   text-align: left;
-  z-index: 4;
+  z-index: 11;
   cursor: pointer;
   margin: 10px 0;
   width: fit-content;
@@ -147,28 +162,26 @@ const PreviewImage = styled.img`
   object-fit: contain;
 `
 
-function CarManageAdd(props) {
-    let {carId} = useParams();
+function OfficeManageAdd(props) {
+    let {officeId} = useParams();
 
     const initialValue = {
         name: null,
-        manufacturer: null,
         place: null,
+        capacity: null,
         description: null,
     };
     const [inputValues, setInputValues] = useState(initialValue);
-    const {name, capacity, place, description} = inputValues;	//비구조화 할당
-    const [staff, setStaff] = useState({
-        userId: null,
-        name: ""
-    });
-    const [staffList, setStaffList] = useState([]);
+    const {name, place, capacity, description} = inputValues;	//비구조화 할당
+    const [selectedfacilities, setSelectedfacilities] = useState([]);
+    const [facilityList, setFacilityList] = useState([]);
     const [imageSrc, setImgSrc] = useState(null);
     const [imageFile, setImageFile] = useState(null);
     const [imageUrl, setImgUrl] = useState(null);
     const [isUpload, setIsUpload] = useState(false);
-    const [isFocusStaffInput, setIsFocusStaffInput] = useState(false);
-    const [carInfo, setCarInfo] = useState(null)
+    const [isFocusFacilityInput, setIsFocusFacilityInput] = useState(false);
+    const [searchWord, setSearchWord] = useState("");
+    const [officeInfo, setOfficeInfo] = useState(null)
     const imageInput = useRef(null);
 
     const onChangeInput = event => {
@@ -176,18 +189,18 @@ function CarManageAdd(props) {
         setInputValues({...inputValues, [inputName]: value});
     }
 
-    const changeStaff = (e) => {
-        setStaff({...staff, name: e.target.value});
+    const changeSearchWord = (e) => {
+        setSearchWord(e.target.value);
     };
 
-    const deleteStaff = (e) => {
-        if (e.key === 'Backspace')
-            setStaff({
-                ...staff,
-                name: "",
-                userId: null
-            });
-    };
+    // const deleteStaff = (e) => {
+    //     if (e.key === 'Backspace')
+    //         setSelectedfacilities({
+    //             ...selectedfacilities,
+    //             name: "",
+    //             facilityId: null
+    //         });
+    // };
 
     const changeImageFile = () => {
         imageInput.current.click();
@@ -213,12 +226,8 @@ function CarManageAdd(props) {
     // 이미지 람다 호출
     const getImageUrl = () => {
         // todo: 검사 다 하기
-        if (staff.facilityId === null) {
-            alert("책임자를 선택해주세요.");
-            return;
-        }
         if (imageFile !== null) { // 이미지 파일 선택했을 때
-            ImageUrlAxios.get(`?ext=${imageFile.type.split("/", 2)[1]}&dir=car`)
+            ImageUrlAxios.get(`?ext=${imageFile.type.split("/", 2)[1]}&dir=office`)
                 .then((Response) => {
                     setImgUrl(Response.data);
                 })
@@ -226,10 +235,10 @@ function CarManageAdd(props) {
                     console.log(error)
                 });
         } else {
-            if (carInfo !== null) { // 수정일 때
-                editCar();
+            if (officeInfo !== null) { // 수정일 때
+                editOffice();
             } else {
-                addCar();
+                addOffice();
             }
         }
     }
@@ -257,19 +266,19 @@ function CarManageAdd(props) {
 
     useEffect(() => {
         if (isUpload) {
-            if (carInfo !== null) editCar();
-            else addCar();
+            if (officeInfo !== null) editOffice();
+            else addOffice();
         }
     }, [isUpload]);
 
-    const addCar = () => {
-        AdminCarsAxios.post(``, {
-                responsibility: staff.facilityId,
+    const addOffice = () => {
+        AdminOfficesAxios.post(``, {
+                facility: selectedfacilities,
                 description: description,
-                manufacturer: capacity,
+                capacity: capacity,
                 location: place,
                 name: name,
-                imgKey: imageFile === null ? null : `car/${imageUrl.imageKey}`,
+                imgKey: imageFile === null ? null : `office/${imageUrl.imageKey}`,
             },
             {
                 headers: {
@@ -277,22 +286,22 @@ function CarManageAdd(props) {
                 },
             })
             .then((Response) => {
-                alert("차량 등록이 완료되었습니다.");
-                window.location.href = `/admin/cars`
+                alert("회의실 등록이 완료되었습니다.");
+                window.location.href = `/admin/offices`
             })
             .catch((error) => {
                 basicError(error)
             });
     };
 
-    const editCar = () => {
-        AdminCarsAxios.patch(`/${carId}`, {
-                responsibility: staff.facilityId,
+    const editOffice = () => {
+        AdminOfficesAxios.patch(`/${officeId}`, {
+                facility: selectedfacilities,
                 description: description,
-                manufacturer: capacity,
+                capacity: capacity,
                 location: place,
                 name: name,
-                imgKey: imageFile === null ? getImgKey(imageUrl) : `car/${imageUrl.imageKey}`,
+                imgKey: imageFile === null ? getImgKey(imageUrl) : `office/${imageUrl.imageKey}`,
             },
             {
                 headers: {
@@ -300,32 +309,28 @@ function CarManageAdd(props) {
                 },
             })
             .then((Response) => {
-                alert("차량 수정이 완료되었습니다.");
-                window.location.href = `/admin/cars/${carId}`
+                alert("회의실 수정이 완료되었습니다.");
+                window.location.href = `/admin/offices/${officeId}`
             })
             .catch((error) => {
                 basicError(error)
             });
     }
 
-    // 차량 기존 정보 호출
-    const getCarInfo = () => {
-        CarsAxios.get(`/${carId}`, {
+    // 회의실 기존 정보 호출
+    const getOfficeInfo = () => {
+        OfficesAxios.get(`/${officeId}`, {
             headers: {
                 Authorization: getToken()
             }
         })
             .then((Response) => {
-                setCarInfo(Response.data.data);
-                setStaff({
-                    ...staff,
-                    name: Response.data.data.responsibilityName,
-                    userId: Response.data.data.responsibilityId
-                });
+                setOfficeInfo(Response.data.data);
+                setSelectedfacilities(Response.data.data.facilityList);
                 setInputValues({
                     ...inputValues,
                     name: Response.data.data.name,
-                    manufacturer: Response.data.data.manufacturer,
+                    capacity: Response.data.data.capacity,
                     place: Response.data.data.location,
                     description: Response.data.data.description
                 });
@@ -334,71 +339,101 @@ function CarManageAdd(props) {
             })
             .catch((Error) => {
                 basicError(Error)
-                window.alert("차량 정보를 불러올 수 없습니댜.")
+                console.log(Error)
+                window.alert("회의실 정보를 불러올 수 없습니댜.")
                 window.history.back()
             })
     }
     useEffect(() => {
-        if (carId !== undefined) {
-            getCarInfo();
+        if (officeId !== undefined) {
+            getOfficeInfo();
         }
     }, [])
 
     // 책임자 리스트 검색
-    const getStaffList = () => {
-        UsersAxios.get(`managers?name=${staff.name}`, {
+    const getFacilityList = () => {
+        AdminOfficesAxios.get(`facilities?name=${searchWord}`, {
             headers: {
                 Authorization: getToken()
             }
         })
             .then((Response) => {
-                setStaffList(Response.data.data.responsibilityList);
+                setFacilityList(Response.data.data);
             })
             .catch((error) => {
                 basicError(error)
             });
     };
+
+    const addFacilityToList = (newItem) => {
+        if (!selectedfacilities.includes(newItem))
+            setSelectedfacilities((prevList) => [...prevList, newItem]);
+    };
+
+    const deleteFacilityToList = (facility) => {
+        if (selectedfacilities.includes(facility))
+            setSelectedfacilities((prevList) => prevList.filter((item) => item !== facility));
+    };
+
     useEffect(() => {
-        getStaffList();
-    }, [staff.name]);
+        getFacilityList();
+    }, [searchWord]);
+
+    useEffect(() => {
+        setSearchWord("")
+        console.log(selectedfacilities)
+    }, [selectedfacilities]);
 
     return (
         <RightContainer>
-            <TitleText>{carInfo === null ? "차량 추가" : "차량 수정"}</TitleText>
+            <TitleText>{officeInfo === null ? "회의실 추가" : "회의실 수정"}</TitleText>
 
             <MarginWhiteContainer>
                 <ShortColumnContainer>
-                    <TitleLabel>차량명</TitleLabel>
+                    <TitleLabel>회의실명</TitleLabel>
                     <InfoInput name='name' value={name} onChange={onChangeInput}/>
                 </ShortColumnContainer>
 
                 <ShortColumnContainer>
-                    <TitleLabel>제조사</TitleLabel>
-                    <InfoInput name='manufacturer' value={capacity} onChange={onChangeInput}/>
-                </ShortColumnContainer>
-
-                <ShortColumnContainer>
-                    <TitleLabel>현재위치</TitleLabel>
+                    <TitleLabel>위치</TitleLabel>
                     <InfoInput name='place' value={place} onChange={onChangeInput}/>
                 </ShortColumnContainer>
 
-                <ShortColumnContainer>
-                    <TitleLabel>책임자</TitleLabel>
-                    <StaffInputContainer>
-                        <StaffInfoInput value={staff.name}
-                                        onChange={changeStaff}
-                                        onKeyDown={deleteStaff}
-                                        onClick={() => setIsFocusStaffInput(true)}
-                                        onBlur={() => setIsFocusStaffInput(false)}/>
-                        {isFocusStaffInput &&
-                            <StaffSelectUl>
-                                {staffList.map((staff, index) =>
-                                    <StaffNameLabel key={index}
-                                                    onMouseDown={() => setStaff(staff)}>{staff.name}</StaffNameLabel>
+                <FacilityColumnContainer>
+                    <TitleLabel>시설</TitleLabel>
+                    <FacilityInputContainer>
+                        <FacilityInfoInput value={searchWord}
+                                           onChange={changeSearchWord}
+                                           onClick={() => setIsFocusFacilityInput(true)}
+                                           onBlur={() => setIsFocusFacilityInput(false)}/>
+                        {isFocusFacilityInput &&
+                            <FacilitySelectUl>
+                                {
+                                    facilityList.length === 0 ? <FacilityNameLabel
+                                            onMouseDown={() => addFacilityToList(searchWord)}>'{searchWord}' 추가하기</FacilityNameLabel> :
+                                    facilityList.map((facility, index) =>
+                                    <FacilityNameLabel key={index}
+                                                       onMouseDown={() => addFacilityToList(facility)}>{facility}</FacilityNameLabel>
                                 )}
-                            </StaffSelectUl>
+                            </FacilitySelectUl>
                         }
-                    </StaffInputContainer>
+                    </FacilityInputContainer>
+                </FacilityColumnContainer>
+                {
+                    selectedfacilities &&
+                    <FacilityListColumnContainer>
+                        <FacilityTagContainer>
+                            {
+                                selectedfacilities.map((facility, index) =>
+                                    <FacilityCapsule text={facility} click={() => deleteFacilityToList(facility)}/>
+                                )}
+                        </FacilityTagContainer>
+                    </FacilityListColumnContainer>
+                }
+
+                <ShortColumnContainer>
+                    <TitleLabel>수용인원</TitleLabel>
+                    <InfoInput name='capacity' value={capacity} onChange={onChangeInput}/>
                 </ShortColumnContainer>
 
                 <DescriptionContainer>
@@ -429,13 +464,14 @@ function CarManageAdd(props) {
                 <AddButtonContainer>
                     <ManageAddButton onClick={getImageUrl}>
                         <ManageAddButtonImage src={SearchButtonImage}/>
-                        {carInfo === null ? "차량 추가" : "차량 수정"}
+                        {officeInfo === null ? "회의실 추가" : "회의실 수정"}
                     </ManageAddButton>
                 </AddButtonContainer>
 
             </MarginWhiteContainer>
         </RightContainer>
-    );
+    )
+        ;
 }
 
-export default CarManageAdd;
+export default OfficeManageAdd;
