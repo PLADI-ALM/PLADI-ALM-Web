@@ -193,15 +193,6 @@ function OfficeManageAdd(props) {
         setSearchWord(e.target.value);
     };
 
-    // const deleteStaff = (e) => {
-    //     if (e.key === 'Backspace')
-    //         setSelectedfacilities({
-    //             ...selectedfacilities,
-    //             name: "",
-    //             facilityId: null
-    //         });
-    // };
-
     const changeImageFile = () => {
         imageInput.current.click();
     };
