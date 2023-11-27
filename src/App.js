@@ -2,6 +2,7 @@ import 'App.css';
 import {Outlet, Route, Routes} from 'react-router-dom';
 import Sidebar from 'components/sidebar/Sidebar';
 import Login from 'pages/basic/user/Login';
+import ResetPassword from 'pages/basic/user/ResetPassword';
 import SelectOffice from 'pages/basic/booking/office/SelectOffice';
 import BookedList from 'pages/basic/myBookings/BookedList';
 import OfficeBooking from 'pages/basic/booking/office/OfficeBooking';
@@ -38,6 +39,7 @@ function App() {
         <div className="App">
             <Routes>
                 <Route path="/" element={<Login />} />
+                <Route path="/resetPassword" element={<ResetPassword />} />
                 <Route element={<SidebarLayout />}>
                     <Route path="/officeBooking" element={<SelectOffice/>} />
                     <Route path="/officeBooking/:officeId" element={<OfficeBooking />} />
