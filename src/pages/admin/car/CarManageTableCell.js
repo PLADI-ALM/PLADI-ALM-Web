@@ -16,7 +16,6 @@ function CarManageTableCell(props) {
         })
             .then((Response) => {  })
             .catch((error) => {basicError(error)})
-        console.log(isEnable)
     }
 
     return (

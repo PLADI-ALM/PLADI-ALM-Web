@@ -19,7 +19,7 @@ export const BookingInfoModalView = styled.div`
   z-index: 3;
 `
 
-export const BookingInfosModalView = styled(BookingInfoModalView)`
+export const BookingProductInfosModalView = styled(BookingInfoModalView)`
   max-height: 300px;
   position: relative;
   z-index: initial;
@@ -27,6 +27,15 @@ export const BookingInfosModalView = styled(BookingInfoModalView)`
   margin-top: initial;
   overflow-y: scroll;
 `
+
+// export const BookingProductInfoModalView = styled(BookingProductInfosModalView)`
+//   max-height: 300px;
+//   position: relative;
+//   z-index: initial;
+//   margin-left: 50px;
+//   margin-top: initial;
+//   overflow-y: scroll;
+// `
 
 export const BookingInfoText = styled.span`
   font-size: 15px;
@@ -53,10 +62,10 @@ export function BookingInfoModal(props) {
     )
 }
 
-export function BookingInfosModal(props) {
+export function BookingProductInfosModal(props) {
     return (
-        <BookingInfosModalView x={props.x} y={props.y} onMouseOver={props.onMouseOver} onMouseOut={props.onMouseOut}>
-            {props.info && props.info.map((value, index) =>
+        <BookingProductInfosModalView>
+            {props.info && Array.isArray(props.info) ? props.info.map((value, index) =>
                 <>
                     <BookingInfoText>{value.startDateTime} ~ {value.endDateTime}</BookingInfoText>
                     <BookingInfoText>{value.reservatorName}</BookingInfoText>
@@ -64,7 +73,25 @@ export function BookingInfosModal(props) {
                     <BookingLastInfoText>{value.reservatorPhone}</BookingLastInfoText>
                     {index < props.info.length - 1 ? <Line/> : null}
                 </>
-            )}
-        </BookingInfosModalView>
+            ) :
+                <>
+                    <BookingInfoText>{props.info.startDateTime} ~ {props.info.endDateTime}</BookingInfoText>
+                    <BookingInfoText>{props.info.reservatorName}</BookingInfoText>
+                    <BookingInfoText>{props.info.reservatorDepartment}</BookingInfoText>
+                    <BookingLastInfoText>{props.info.reservatorPhone}</BookingLastInfoText>
+                </>
+            }
+        </BookingProductInfosModalView>
+    )
+}
+
+export function BookingProductInfoModal(props) {
+    return (
+        <BookingInfoModalView onMouseOver={props.onMouseOver} onMouseOut={props.onMouseOut}>
+            <BookingInfoText>{props.info.startDateTime} ~ {props.info.endDateTime}</BookingInfoText>
+            <BookingInfoText>{props.info.reservatorName}</BookingInfoText>
+            <BookingInfoText>{props.info.reservatorDepartment}</BookingInfoText>
+            <BookingLastInfoText>{props.info.reservatorPhone}</BookingLastInfoText>
+        </BookingInfoModalView>
     )
 }
