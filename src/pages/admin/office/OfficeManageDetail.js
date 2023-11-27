@@ -99,6 +99,7 @@ function OfficeManageDetail() {
                 }}/>
                 <OptionsView isShowing={isShowingOptions}>
                     <OptionButton onClick={() => {
+                        window.location.href = `/admin/offices/${officeId}/edit`
                     }}>수정</OptionButton>
                     <OptionButton isDelete={true} onClick={deleteResource}>삭제</OptionButton>
                 </OptionsView>

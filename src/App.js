@@ -24,6 +24,7 @@ import CarManage from "./pages/admin/car/CarManage";
 import CarBookingManage from "./pages/admin/carBookings/CarBookingManage";
 import CarManageAdd from "./pages/admin/car/CarManageAdd";
 import CarManageDetail from "./pages/admin/car/CarManageDetail";
+import OfficeManageAdd from "./pages/admin/office/OfficeManageAdd";
 
 function App() {
 
@@ -52,6 +53,8 @@ function App() {
                     <Route path="/my/bookings/cars" element={<BookedList title="차량 예약 내역" type={"cars"} />} />
                     <Route path='/my/bookings/cars/:bookingId' element={<CarBookingCheck />} />
                     <Route path='/admin/offices' element={<OfficeManage />} />
+                    <Route path='/admin/offices/add' element={<OfficeManageAdd />} />
+                    <Route path='/admin/offices/:officeId/edit' element={<OfficeManageAdd />} />
                     <Route path='/admin/offices/:officeId' element={<OfficeManageDetail />} />
                     <Route path='/admin/officeBooking' element={<OfficeBookingManage />} />
                     <Route path='/admin/officeBooking/:bookingId' element={<OfficeBookingCheck isAdmin={true} />} />
