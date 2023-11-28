@@ -111,7 +111,7 @@ function Login() {
                 <LoginInput type={"password"} id="inputPw" placeholder={"비밀번호"} name="password" />
                 <LoginBtn className="submitBtn" id="submitBtn" type="submit" value="로그인" />
             </LoginForm>
-            <PWReset to={"/resetPassword"}>비밀번호 재설정</PWReset>
+            <PWReset to={"/email"}>비밀번호 재설정</PWReset>
         </Container>
     )
 }
