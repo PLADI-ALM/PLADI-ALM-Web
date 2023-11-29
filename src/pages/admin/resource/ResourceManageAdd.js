@@ -157,7 +157,7 @@ function ResourceManageAdd(props) {
         description: null,
     };
     const [inputValues, setInputValues] = useState(initialValue);
-    const {name, capacity, place, description} = inputValues;	//비구조화 할당
+    const {name, manufacturer, place, description} = inputValues;	//비구조화 할당
     const [staff, setStaff] = useState({
         userId: null,
         name: ""
@@ -213,7 +213,7 @@ function ResourceManageAdd(props) {
     // 이미지 람다 호출
     const getImageUrl = () => {
         // todo: 검사 다 하기
-        if (staff.facilityId === null) {
+        if (staff.userId === null) {
             alert("책임자를 선택해주세요.");
             return;
         }
@@ -264,9 +264,9 @@ function ResourceManageAdd(props) {
 
     const addResource = () => {
         AdminResourcesAxios.post(``, {
-                responsibility: staff.facilityId,
+                responsibility: staff.userId,
                 description: description,
-                manufacturer: capacity,
+                manufacturer: manufacturer,
                 location: place,
                 name: name,
                 imgKey: imageFile === null ? null : `resource/${imageUrl.imageKey}`,
@@ -287,9 +287,9 @@ function ResourceManageAdd(props) {
 
     const editResource = () => {
         AdminResourcesAxios.patch(`/${resourceId}`, {
-                responsibility: staff.facilityId,
+                responsibility: staff.userId,
                 description: description,
-                manufacturer: capacity,
+                manufacturer: manufacturer,
                 location: place,
                 name: name,
                 imgKey: imageFile === null ? getImgKey(imageUrl) : `resource/${imageUrl.imageKey}`,
@@ -334,8 +334,6 @@ function ResourceManageAdd(props) {
             })
             .catch((Error) => {
                 basicError(Error)
-                console.log(Error)
-                window.alert("장비 정보를 불러올 수 없습니댜.")
                 window.history.back()
             })
     }
@@ -375,7 +373,7 @@ function ResourceManageAdd(props) {
 
                 <ShortColumnContainer>
                     <TitleLabel>제조사</TitleLabel>
-                    <InfoInput name='manufacturer' value={capacity} onChange={onChangeInput}/>
+                    <InfoInput name='manufacturer' value={manufacturer} onChange={onChangeInput}/>
                 </ShortColumnContainer>
 
                 <ShortColumnContainer>

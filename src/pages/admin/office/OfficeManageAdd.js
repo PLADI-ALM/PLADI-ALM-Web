@@ -330,8 +330,6 @@ function OfficeManageAdd(props) {
             })
             .catch((Error) => {
                 basicError(Error)
-                console.log(Error)
-                window.alert("회의실 정보를 불러올 수 없습니댜.")
                 window.history.back()
             })
     }
