@@ -84,15 +84,16 @@ function useIsMenuActive(path) {
 }
 
 function logout() {
+    const token = getToken()
+    removeAllCookies()
 
     UsersAxios.post("/logout", null, {
         headers: {
-            Authorization: getToken()
+            Authorization: token
         }
     })
         .then((response) => {
-            removeAllCookies()
-            navigateToLogin()
+            window.location.replace('/')
         })
         .catch((error) => {
             basicError(error)
@@ -156,7 +157,6 @@ function Sidebar() {
                     {MAIN_MENUS[1].subMenus.map(sub => { return (<SubMenu path={sub.path} name={sub.name} />) })}
                 </SubMenus>
                 <MainMenu info={MAIN_MENUS[2]} active={useIsMenuActive(MAIN_MENUS[2].path)} />
-                <MainMenu info={MAIN_MENUS[3]} active={useIsMenuActive(MAIN_MENUS[3].path)} />
 
                 {/* 관리자 메뉴 */}
                 {isManager() ? managerMenus : null}

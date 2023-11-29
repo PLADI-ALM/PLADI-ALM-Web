@@ -4,8 +4,6 @@ import MyBookingActiveIcon from 'assets/images/sidebarIcon/MyBookingActive.svg'
 import MyBookingInactiveIcon from 'assets/images/sidebarIcon/MyBookingInactive.svg'
 import EquipmentActiveIcon from 'assets/images/sidebarIcon/EquipmentActive.svg'
 import EquipmentInactiveIcon from 'assets/images/sidebarIcon/EquipmentInactive.svg'
-import ArchivingActiveIcon from 'assets/images/sidebarIcon/ArchivingActive.svg'
-import ArchivingInactiveIcon from 'assets/images/sidebarIcon/ArchivingInactive.svg'
 import AdminActiveIcon from 'assets/images/sidebarIcon/AdminActive.svg'
 import AdminInactiveIcon from 'assets/images/sidebarIcon/AdminInactive.svg'
 
@@ -29,8 +27,7 @@ export const MAIN_MENUS = [
         subMenus: MY_BOOKING_MENUS,
         icons: [MyBookingActiveIcon, MyBookingInactiveIcon]
     },
-    {name: '비품 내역', path: '/equipments', subMenus: null, icons: [EquipmentActiveIcon, EquipmentInactiveIcon]},
-    {name: '자료 아카이빙', path: '/archiving', subMenus: null, icons: [ArchivingActiveIcon, ArchivingInactiveIcon]}
+    {name: '비품 내역', path: '/equipments', subMenus: null, icons: [EquipmentActiveIcon, EquipmentInactiveIcon]}
 ]
 
 export const ADMIN_MENUS = [
