@@ -11,10 +11,9 @@ import SearchButtonImage from "../../../assets/images/SearchPlus.svg";
 import {ManageAddButton, ManageAddButtonImage} from "../../../components/searchBar/ManageSearchBar";
 
 const CardList = styled.div`
-  width: 100%;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(calc(33.33% - 15px), 1fr));
+  grid-gap: 15px;
 `
 
 const Container = styled(WhiteContainer)`
@@ -55,13 +54,17 @@ function EquipmentList(props) {
         searchEquipment();
     }, []);
 
+    const moveToAdd = () => {
+        window.location.href = `/equipments/add`
+    }
+
 
     return (
         <RightContainer>
             <TitleText>비품 내역</TitleText>
             <SearchBarContainer>
                 <SearchTextInputNoMargin placeholder="비품명 검색" onChange={changeSearchWord} onKeyUp={enterSearchWord}/>
-                <ManageAddButton onClick={props.btnClick}>
+                <ManageAddButton onClick={moveToAdd}>
                     <ManageAddButtonImage src={SearchButtonImage}/>
                     신규 비품 추가
                 </ManageAddButton>

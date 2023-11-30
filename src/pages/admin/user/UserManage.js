@@ -25,7 +25,6 @@ function UserManage(props) {
     const currentAffiliation = useRef("");
     const currentDepartment = useRef("");
     const currentSearchWord = useRef("");
-    let departments;
 
     // 유저 목록 조회
     const getUserList = (word, affiliation, department) => {
@@ -51,7 +50,7 @@ function UserManage(props) {
             }
         })
             .then((response) => {
-                departments = response.data.data.departmentList
+                let departments = response.data.data.departmentList
                 if (departmentOptionList.length === 0) {
                     departmentOptionList.push(<option value="">부서</option>)
                     departments.map((department) =>

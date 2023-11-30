@@ -25,6 +25,7 @@ const Select = styled.select`
 
 const ManagerSelect = styled(Select)`
   margin-right: 10px;
+  border: ${props => props.color ? `2px solid ${props.color}` : '1px solid #717171'};
 `
 
 const NoBorderSelect = styled(Select)`
@@ -52,15 +53,7 @@ export function SelectToggleInModal(props) {
 
 export function DropBox(props) {
     return (
-        <Select onChange={props.change} imgUrl={SelectArrow} height={props.height}>
-            {props.items}
-        </Select>
-    );
-}
-
-export function ManagerDropBox(props) {
-    return (
-        <ManagerSelect onChange={props.change} imgUrl={SelectArrow} height={props.height}>
+        <ManagerSelect name={props.name} onChange={props.change} imgUrl={SelectArrow} height={props.height} color={props.color}>
             {props.items}
         </ManagerSelect>
     );

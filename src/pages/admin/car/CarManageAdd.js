@@ -217,7 +217,7 @@ function CarManageAdd(props) {
             alert("책임자를 선택해주세요.");
             return;
         }
-        if (imageFile !== null) { // 이미지 파일 선택했을 때
+        if (imageFile !== null && !isUpload) { // 이미지 파일 선택했을 때
             ImageUrlAxios.get(`?ext=${imageFile.type.split("/", 2)[1]}&dir=car`)
                 .then((Response) => {
                     setImgUrl(Response.data);

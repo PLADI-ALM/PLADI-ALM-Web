@@ -4,13 +4,14 @@ import {RightContainer, TitleText, WhiteContainer} from "components/rightContain
 import {ManageAddButton, ManageAddButtonImage} from "components/searchBar/ManageSearchBar";
 import {getToken} from "utils/IsLoginUtil";
 import {basicError} from "utils/ErrorHandlerUtil";
-import {AdminResourcesAxios, ImageUrlAxios, ResourcesAxios, UsersAxios} from "api/AxiosApi";
+import {EquipmentsAxios, ImageUrlAxios} from "api/AxiosApi";
 import SearchButtonImage from "assets/images/SearchPlus.svg"
 import EmptyImg from "assets/images/EmptyImg.svg"
 import {ExitBtn} from "components/modal/BigModal";
 import axios from "axios";
 import {useParams} from "react-router-dom";
-import {getImgKey} from "../../../utils/ImageUtil";
+import {getImgKey} from "utils/ImageUtil";
+import {DropBox} from "components/capsule/DropBox";
 
 const MarginWhiteContainer = styled(WhiteContainer)`
   padding: 40px;
@@ -53,40 +54,6 @@ const InfoInput = styled.input.attrs({type: 'text'})`
   border: 2px solid #E6E6E6;
   font-size: 20px;
   padding: 10px;
-`
-
-const StaffInputContainer = styled.div`
-  width: 50%;
-  height: 100%;
-  display: block;
-  z-index: 11;
-  background: white;
-`
-
-const StaffInfoInput = styled(InfoInput)`
-  width: 100%;
-`
-
-const StaffSelectUl = styled.div`
-  width: 100%;
-  max-height: 120px;
-  overflow: scroll;
-  border-radius: 0 0 8px 8px;
-  border: 2px solid #E6E6E6;
-  padding: 10px;
-  z-index: 3;
-  background: white;
-  margin-top: -5px;
-`
-
-const StaffNameLabel = styled.p`
-  color: #4C4C4C;
-  font-size: 20px;
-  text-align: left;
-  z-index: 4;
-  cursor: pointer;
-  margin: 10px 0;
-  width: fit-content;
 `
 
 const DescriptionContainer = styled(ColumnContainer)`
@@ -147,47 +114,30 @@ const PreviewImage = styled.img`
   object-fit: contain;
 `
 
-function ResourceManageAdd(props) {
-    let {resourceId} = useParams();
+function EquipmentManageAdd(props) {
+    let {equipmentId} = useParams();
 
     const initialValue = {
         name: null,
-        manufacturer: null,
+        quantity: null,
         place: null,
         description: null,
+        category: null
     };
     const [inputValues, setInputValues] = useState(initialValue);
-    const {name, manufacturer, place, description} = inputValues;	//비구조화 할당
-    const [staff, setStaff] = useState({
-        userId: null,
-        name: ""
-    });
-    const [staffList, setStaffList] = useState([]);
+    const {name, quantity, place, description, category} = inputValues;
+    const [categoryOptionList, setCategoryOptionList] = useState([]);
     const [imageSrc, setImgSrc] = useState(null);
     const [imageFile, setImageFile] = useState(null);
     const [imageUrl, setImgUrl] = useState(null);
     const [isUpload, setIsUpload] = useState(false);
-    const [isFocusStaffInput, setIsFocusStaffInput] = useState(false);
-    const [resourceInfo, setResourceInfo] = useState(null)
+    const [equipmentInfo, setEquipmentInfo] = useState(null)
     const imageInput = useRef(null);
 
     const onChangeInput = event => {
         const {value, name: inputName} = event.target;
         setInputValues({...inputValues, [inputName]: value});
     }
-
-    const changeStaff = (e) => {
-        setStaff({...staff, name: e.target.value});
-    };
-
-    const deleteStaff = (e) => {
-        if (e.key === 'Backspace')
-            setStaff({
-                ...staff,
-                name: "",
-                userId: null
-            });
-    };
 
     const changeImageFile = () => {
         imageInput.current.click();
@@ -202,6 +152,59 @@ function ResourceManageAdd(props) {
         };
     };
 
+    // 비품 기존 정보 호출
+    const getEquipmentInfo = () => {
+        EquipmentsAxios.get(`/${equipmentId}`, {
+            headers: {
+                Authorization: getToken()
+            }
+        })
+            .then((Response) => {
+                setEquipmentInfo(Response.data.data);
+                setInputValues({
+                    ...inputValues,
+                    name: Response.data.data.name,
+                    quantity: Response.data.data.quantity,
+                    category: Response.data.data.category,
+                    place: Response.data.data.location,
+                    description: Response.data.data.description
+                });
+                setImgUrl(Response.data.data.imgUrl);
+                setImgSrc(Response.data.data.imgUrl);
+            })
+            .catch((Error) => {
+                basicError(Error)
+                window.history.back()
+            })
+    }
+    useEffect(() => {
+        getCategoryList();
+        if (equipmentId !== undefined) {
+            getEquipmentInfo();
+        }
+    }, [])
+
+    // 카테고리 리스트 검색
+    const getCategoryList = () => {
+        EquipmentsAxios.get(`categories`, {
+            headers: {
+                Authorization: getToken()
+            }
+        })
+            .then((Response) => {
+                let categories = Response.data.data.categoryNames
+                if (categoryOptionList.length === 0) {
+                    setCategoryOptionList((prevList) => [...prevList, <option value="">선택</option>])
+                    categories.map((category) =>
+                        setCategoryOptionList((prevList) => [...prevList,
+                            <option value={category}>{category}</option>]))
+                }
+            })
+            .catch((error) => {
+                basicError(error)
+            });
+    };
+
     const deleteImageFile = () => {
         setImageFile(null);
         setIsUpload(false);
@@ -213,12 +216,8 @@ function ResourceManageAdd(props) {
     // 이미지 람다 호출
     const getImageUrl = () => {
         // todo: 검사 다 하기
-        if (staff.userId === null) {
-            alert("책임자를 선택해주세요.");
-            return;
-        }
         if (imageFile !== null && !isUpload) { // 이미지 파일 선택했을 때
-            ImageUrlAxios.get(`?ext=${imageFile.type.split("/", 2)[1]}&dir=resource`)
+            ImageUrlAxios.get(`?ext=${imageFile.type.split("/", 2)[1]}&dir=equipment`)
                 .then((Response) => {
                     setImgUrl(Response.data);
                 })
@@ -226,10 +225,10 @@ function ResourceManageAdd(props) {
                     console.log(error)
                 });
         } else {
-            if (resourceInfo !== null) { // 수정일 때
-                editResource();
+            if (equipmentInfo !== null) { // 수정일 때
+                editEquipment();
             } else {
-                addResource();
+                addEquipment();
             }
         }
     }
@@ -257,19 +256,19 @@ function ResourceManageAdd(props) {
 
     useEffect(() => {
         if (isUpload) {
-            if (resourceInfo !== null) editResource();
-            else addResource();
+            if (equipmentInfo !== null) editEquipment();
+            else addEquipment();
         }
     }, [isUpload]);
 
-    const addResource = () => {
-        AdminResourcesAxios.post(``, {
-                responsibility: staff.userId,
+    const addEquipment = () => {
+        EquipmentsAxios.post(``, {
+                category: category,
                 description: description,
-                manufacturer: manufacturer,
+                quantity: quantity,
                 location: place,
                 name: name,
-                imgKey: imageFile === null ? null : `resource/${imageUrl.imageKey}`,
+                imgKey: imageFile === null ? null : `equipment/${imageUrl.imageKey}`,
             },
             {
                 headers: {
@@ -277,22 +276,22 @@ function ResourceManageAdd(props) {
                 },
             })
             .then((Response) => {
-                alert("장비 등록이 완료되었습니다.");
-                window.location.href = `/admin/resources`
+                alert("비품 등록이 완료되었습니다.");
+                window.location.href = `/equipments`
             })
             .catch((error) => {
                 basicError(error)
             });
     };
 
-    const editResource = () => {
-        AdminResourcesAxios.patch(`/${resourceId}`, {
-                responsibility: staff.userId,
+    const editEquipment = () => {
+        EquipmentsAxios.patch(`/${equipmentId}`, {
+                category: category,
                 description: description,
-                manufacturer: manufacturer,
+                quantity: quantity,
                 location: place,
                 name: name,
-                imgKey: imageFile === null ? getImgKey(imageUrl) : `resource/${imageUrl.imageKey}`,
+                imgKey: imageFile === null ? getImgKey(imageUrl) : `equipment/${imageUrl.imageKey}`,
             },
             {
                 headers: {
@@ -300,104 +299,37 @@ function ResourceManageAdd(props) {
                 },
             })
             .then((Response) => {
-                alert("장비 수정이 완료되었습니다.");
-                window.location.href = `/admin/resources/${resourceId}`
+                alert("비품 수정이 완료되었습니다.");
+                window.location.href = `/equipments`
             })
             .catch((error) => {
                 basicError(error)
             });
     }
-
-    // 장비 기존 정보 호출
-    const getResourceInfo = () => {
-        ResourcesAxios.get(`/${resourceId}`, {
-            headers: {
-                Authorization: getToken()
-            }
-        })
-            .then((Response) => {
-                setResourceInfo(Response.data.data);
-                setStaff({
-                    ...staff,
-                    name: Response.data.data.responsibilityName,
-                    userId: Response.data.data.responsibilityId
-                });
-                setInputValues({
-                    ...inputValues,
-                    name: Response.data.data.name,
-                    manufacturer: Response.data.data.manufacturer,
-                    place: Response.data.data.location,
-                    description: Response.data.data.description
-                });
-                setImgUrl(Response.data.data.imgUrl);
-                setImgSrc(Response.data.data.imgUrl);
-            })
-            .catch((Error) => {
-                basicError(Error)
-                window.history.back()
-            })
-    }
-    useEffect(() => {
-        if (resourceId !== undefined) {
-            getResourceInfo();
-        }
-    }, [])
-
-    // 책임자 리스트 검색
-    const getStaffList = () => {
-        UsersAxios.get(`managers?name=${staff.name}`, {
-            headers: {
-                Authorization: getToken()
-            }
-        })
-            .then((Response) => {
-                setStaffList(Response.data.data.responsibilityList);
-            })
-            .catch((error) => {
-                basicError(error)
-            });
-    };
-    useEffect(() => {
-        getStaffList();
-    }, [staff.name]);
 
     return (
         <RightContainer>
-            <TitleText>{resourceInfo === null ? "장비 추가" : "장비 수정"}</TitleText>
+            <TitleText>{equipmentInfo === null ? "비품 추가" : "비품 수정"}</TitleText>
 
             <MarginWhiteContainer>
                 <ShortColumnContainer>
-                    <TitleLabel>장비명</TitleLabel>
+                    <TitleLabel>비품명</TitleLabel>
                     <InfoInput name='name' value={name} onChange={onChangeInput}/>
                 </ShortColumnContainer>
 
                 <ShortColumnContainer>
-                    <TitleLabel>제조사</TitleLabel>
-                    <InfoInput name='manufacturer' value={manufacturer} onChange={onChangeInput}/>
+                    <TitleLabel>수량</TitleLabel>
+                    <InfoInput name='quantity' value={quantity} onChange={onChangeInput}/>
                 </ShortColumnContainer>
 
                 <ShortColumnContainer>
-                    <TitleLabel>현재위치</TitleLabel>
+                    <TitleLabel>보관장소</TitleLabel>
                     <InfoInput name='place' value={place} onChange={onChangeInput}/>
                 </ShortColumnContainer>
 
                 <ShortColumnContainer>
-                    <TitleLabel>책임자</TitleLabel>
-                    <StaffInputContainer>
-                        <StaffInfoInput value={staff.name}
-                                        onChange={changeStaff}
-                                        onKeyDown={deleteStaff}
-                                        onClick={() => setIsFocusStaffInput(true)}
-                                        onBlur={() => setIsFocusStaffInput(false)}/>
-                        {isFocusStaffInput &&
-                            <StaffSelectUl>
-                                {staffList.map((staff, index) =>
-                                    <StaffNameLabel key={index}
-                                                    onMouseDown={() => setStaff(staff)}>{staff.name}</StaffNameLabel>
-                                )}
-                            </StaffSelectUl>
-                        }
-                    </StaffInputContainer>
+                    <TitleLabel>카테고리</TitleLabel>
+                    <DropBox name='category' height={"40px"} items={categoryOptionList} change={onChangeInput} color={'#E6E6E6'}/>
                 </ShortColumnContainer>
 
                 <DescriptionContainer>
@@ -428,7 +360,7 @@ function ResourceManageAdd(props) {
                 <AddButtonContainer>
                     <ManageAddButton onClick={getImageUrl}>
                         <ManageAddButtonImage src={SearchButtonImage}/>
-                        {resourceInfo === null ? "장비 추가" : "장비 수정"}
+                        {equipmentInfo === null ? "비품 추가" : "비품 수정"}
                     </ManageAddButton>
                 </AddButtonContainer>
 
@@ -437,4 +369,4 @@ function ResourceManageAdd(props) {
     );
 }
 
-export default ResourceManageAdd;
+export default EquipmentManageAdd;

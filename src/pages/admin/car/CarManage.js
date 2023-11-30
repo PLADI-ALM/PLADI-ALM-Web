@@ -17,8 +17,12 @@ function CarManage(props) {
                 Authorization: getToken()
             }
         })
-        .then((Response) => { setCars(Response.data.data.content) })
-        .catch((error) => {basicError(error)})
+            .then((Response) => {
+                setCars(Response.data.data.content)
+            })
+            .catch((error) => {
+                basicError(error)
+            })
     };
 
     const searchCars = (e) => {
@@ -29,16 +33,16 @@ function CarManage(props) {
         getCars("");
     }, [])
 
-      const moveToAdd = () => {
+    const moveToAdd = () => {
         window.location.href = `/admin/cars/add`
     }
 
     return (
-       <RightContainer>
+        <RightContainer>
             <TitleText>차량 관리</TitleText>
             <ManageSearchBar selectOptions={null} buttonTitle="차량 추가" onEnter={searchCars} btnClick={moveToAdd}/>
             <WhiteContainer>
-                <Bar />
+                <Bar/>
                 <TableContainer>
                     <BookedTable>
                         <BookedThead>
@@ -52,7 +56,7 @@ function CarManage(props) {
                             </tr>
                         </BookedThead>
                         <tbody>
-                            { cars.length === 0 ?
+                        {cars.length === 0 ?
                             <NoLineTr>
                                 <td colSpan={6}>차량 내역이 없습니다.</td>
                             </NoLineTr>
@@ -73,7 +77,7 @@ function CarManage(props) {
                     </BookedTable>
                 </TableContainer>
             </WhiteContainer>
-       </RightContainer>
+        </RightContainer>
     );
 }
 
