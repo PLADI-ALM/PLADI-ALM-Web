@@ -19,6 +19,16 @@ const WhiteCapsule = styled(PurpleCapsule)`
     color: #A263DE;
 `
 
+const MiniPurpleCapsule = styled(PurpleCapsule)`
+  font-size: 15px;
+  padding: 5px 10px;
+`
+
+const MiniWhiteCapsule = styled(WhiteCapsule)`
+  font-size: 15px;
+  padding: 5px 10px;
+`
+
 function Capsule(props) {
     return (
         <>
@@ -30,3 +40,13 @@ function Capsule(props) {
 }
 
 export default Capsule;
+
+export function MiniCapsule(props) {
+    return (
+        <>
+            {props.color === "white" ?
+                <MiniWhiteCapsule>{props.text}</MiniWhiteCapsule> :
+                <MiniPurpleCapsule>{props.text}</MiniPurpleCapsule>}
+        </>
+    );
+}

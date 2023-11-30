@@ -27,6 +27,7 @@ export const ResourceCardClick = styled(ResourceCard)`
 export const CardText = styled.text`
   color: #575757;
   font-size: 18px;
+  text-align: left;
 `
 
 export const ResourceTitle = styled.text`
@@ -112,4 +113,5 @@ export const RightDescriptionText = styled(CardText)`
 export const NoCard = styled.label`
   padding: 30px;
   display: block;
+  margin: auto;
 `

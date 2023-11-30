@@ -42,9 +42,13 @@ export const SearchTextInput = styled.input.attrs({type: 'text'})`
   border: none;
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
   background: #FFF;
-  padding-left: 10px;
+  padding-left: 15px;
   margin: 0 10px;
   box-sizing: border-box;
+`
+
+export const SearchTextInputNoMargin = styled(SearchTextInput)`
+  margin-left: 0;
 `
 
 export const SearchDateContainer = styled.div`
@@ -57,24 +61,10 @@ export const SearchDateContainer = styled.div`
   align-items: center;
   margin-right: 10px;
 `
+
 export const SearchDateInput = styled.input.attrs({type: 'date'})`
   background: none;
   font-size: 18px;
   padding: 0 10px;
   border: none;
 `
-
-function SearchBar(props) {
-    return (
-        <SearchBarContainer>
-        {/*//     <TitleText>예약 가능한 회의실 검색</TitleText>*/}
-        {/*//     <DatePicker type="date" onChange={props.changeDate} value={props.value} />*/}
-        {/*//     <DropBox items={timeOptionList} change={props.changeStart} />*/}
-        {/*//     ~*/}
-        {/*//     <DropBox items={timeOptionList} change={props.changeEnd} />*/}
-        {/*//     <ImagePaddingButton image={SearchButtonImg} width={"30px"} height={"30px"} click={props.search} />*/}
-        </SearchBarContainer>
-    );
-}
-
-export default SearchBar;

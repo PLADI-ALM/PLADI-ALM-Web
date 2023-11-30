@@ -1,18 +1,16 @@
 import React from "react";
 import styled from "styled-components"
-import DateIcon from '../../assets/images/selectOffice/date.png'
 import Capsule from "components/capsule/Capsule";
 import {
     Card,
-    CardText,
-    TitleContainer,
-    NameText,
-    DetailContainer,
     CardImage,
-    InfoContainer,
+    CardText,
     DescriptionContainer,
     DescriptionText,
-    OfficeCardClick
+    DetailContainer,
+    InfoContainer,
+    NameText,
+    TitleContainer
 } from "components/card/Card";
 
 // 수용인원 컨테이너

@@ -8,7 +8,7 @@ import {Bar} from 'pages/basic/myBookings/BookedList';
 import {RightContainer, TitleText, WhiteContainer} from 'components/rightContainer/RightContainer';
 import {DetailSubTitleText, NameSubTitleText} from 'components/officeBooking/SubTitleBar';
 import {getToken} from 'utils/IsLoginUtil';
-import MoreButtonIcon from "../../../assets/images/button/triple_dot_icon.svg"
+import MoreButtonIcon from "../../../assets/images/triple_dot_icon.svg"
 import ResourceDetailInfo from "../../../components/card/ResourceDetailInfo";
 import ImageFullButton from "../../../components/button/ImageFullButton";
 
