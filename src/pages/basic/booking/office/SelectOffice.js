@@ -3,12 +3,11 @@ import OfficeInfo from "components/card/OfficeInfo";
 import {RightContainer, TitleText, WhiteContainer} from "components/rightContainer/RightContainer";
 import {OfficesAxios} from "api/AxiosApi";
 import {basicError} from 'utils/ErrorHandlerUtil';
-import SearchButtonImg from "../../../../assets/images/Search.svg";
-import {DropBox, TimeDropBox} from "../../../../components/capsule/DropBox";
-import {TimeList} from "../../../../constants/ToggleList";
-import {getToken} from "../../../../utils/IsLoginUtil";
-import {NoCard} from "../../../../components/card/Card";
-import ImagePaddingButton from "../../../../components/button/ImagePaddingButton";
+import SearchButtonImg from "assets/images/Search.svg";
+import {TimeDropBox} from "components/capsule/DropBox";
+import {getToken} from "utils/IsLoginUtil";
+import {NoCard} from "components/card/Card";
+import ImagePaddingButton from "components/button/ImagePaddingButton";
 import {
     SearchBarContainer,
     SearchDateContainer,
@@ -16,7 +15,7 @@ import {
     SearchTextInput,
     SearchTitleContainer,
     SearchTitleText
-} from "../../../../components/searchBar/SearchBar";
+} from "components/searchBar/SearchBar";
 
 function SelectOffice(props) {
     const [offices, setOffices] = useState([]);
