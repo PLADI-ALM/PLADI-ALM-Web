@@ -217,7 +217,7 @@ function OfficeManageAdd(props) {
     // 이미지 람다 호출
     const getImageUrl = () => {
         // todo: 검사 다 하기
-        if (imageFile !== null) { // 이미지 파일 선택했을 때
+        if (imageFile !== null && !isUpload) { // 이미지 파일 선택했을 때 && 업로드 안했을 때
             ImageUrlAxios.get(`?ext=${imageFile.type.split("/", 2)[1]}&dir=office`)
                 .then((Response) => {
                     setImgUrl(Response.data);

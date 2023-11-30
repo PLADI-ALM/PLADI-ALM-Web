@@ -28,6 +28,7 @@ import CarManageAdd from "./pages/admin/car/CarManageAdd";
 import CarManageDetail from "./pages/admin/car/CarManageDetail";
 import OfficeManageAdd from "./pages/admin/office/OfficeManageAdd";
 import EquipmentList from "./pages/basic/equipment/EquipmentList";
+import EquipmentAdd from "./pages/basic/equipment/EquipmentAdd";
 
 function App() {
 
@@ -58,6 +59,8 @@ function App() {
                     <Route path="/my/bookings/cars" element={<BookedList title="차량 예약 내역" type={"cars"} />} />
                     <Route path='/my/bookings/cars/:bookingId' element={<CarBookingCheck />} />
                     <Route path='/equipments' element={<EquipmentList />} />
+                    <Route path='/equipments/add' element={<EquipmentAdd />} />
+                    <Route path='/equipments/:equipmentId/edit' element={<EquipmentAdd />} />
                     <Route path='/admin/offices' element={<OfficeManage />} />
                     <Route path='/admin/offices/add' element={<OfficeManageAdd />} />
                     <Route path='/admin/offices/:officeId/edit' element={<OfficeManageAdd />} />

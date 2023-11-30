@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import SearchInputImage from "../../assets/images/SearchInput.svg"
 import SearchButtonImage from "../../assets/images/SearchPlus.svg"
-import {ManagerDropBox} from "../capsule/DropBox";
+import {DropBox} from "../capsule/DropBox";
 
 const Container = styled.div`
   background: none;
@@ -74,7 +74,7 @@ function ManageSearchBar(props) {
         let dropBoxes = [];
         if (props.selectOptions !== null)
             props.selectOptions.forEach((option, index) =>
-                dropBoxes.push(<ManagerDropBox height={"40px"} items={option} change={props.onSelectedChange[index]}/>)
+                dropBoxes.push(<DropBox height={"40px"} items={option} change={props.onSelectedChange[index]}/>)
             )
         return dropBoxes
     }

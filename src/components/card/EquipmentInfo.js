@@ -11,13 +11,11 @@ import EmptyImg from "assets/images/EmptyImg.svg"
 // 카드 박스
 export const Card = styled.div`
   height: 350px;
-  width: calc(33.33% - 15px);
   background: white;
   border-radius: 8px;
   border: 1px solid #E6E6E6;
   box-sizing: border-box;
   padding: 15px;
-  margin: 0 0 15px 0;
 `
 
 // 상단줄 컨테이너
