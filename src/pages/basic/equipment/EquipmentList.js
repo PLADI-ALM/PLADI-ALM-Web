@@ -70,21 +70,22 @@ function EquipmentList(props) {
                 </ManageAddButton>
             </SearchBarContainer>
             <Container>
-                <CardList className="cardList">
-                    {equipments.length === 0 ? <NoCard>비품 내역이 없습니다.</NoCard> : equipments.map((equipment) =>
-                        <EquipmentInfo
-                            key={equipment.equipmentId}
-                            equipmentId={equipment.equipmentId}
-                            name={equipment.name}
-                            imgUrl={equipment.imgUrl}
-                            location={equipment.location}
-                            keeper={equipment.keeper}
-                            contact={equipment.contact}
-                            quantity={equipment.quantity}
-                            category={equipment.category}
-                            description={equipment.description}
-                        />)}
-                </CardList>
+                {equipments.length === 0 ? <NoCard>비품 내역이 없습니다.</NoCard> :
+                    <CardList className="cardList">
+                        {equipments.map((equipment) =>
+                            <EquipmentInfo
+                                key={equipment.equipmentId}
+                                equipmentId={equipment.equipmentId}
+                                name={equipment.name}
+                                imgUrl={equipment.imgUrl}
+                                location={equipment.location}
+                                keeper={equipment.keeper}
+                                contact={equipment.contact}
+                                quantity={equipment.quantity}
+                                category={equipment.category}
+                                description={equipment.description}
+                            />)}
+                    </CardList>}
             </Container>
         </RightContainer>
     );

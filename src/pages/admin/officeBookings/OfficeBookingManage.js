@@ -1,10 +1,11 @@
 import React, {useEffect, useState} from "react";
 import {RightContainer, TitleText, WhiteContainer} from "components/rightContainer/RightContainer";
-import {Bar, BookedTable, BookedThead, TableContainer} from "../../basic/myBookings/BookedList";
+import {Bar, BookedTable, BookedThead, NoLineTr, TableContainer} from "../../basic/myBookings/BookedList";
 import OfficeBookingManageCell from "./OfficeBookingManageCell";
 import {AdminBookingAxios} from "api/AxiosApi";
 import {getToken} from "utils/IsLoginUtil";
 import {basicError} from 'utils/ErrorHandlerUtil';
+import {NoCard} from "../../../components/card/Card";
 
 function OfficeBookingManage(props) {
 
@@ -43,7 +44,11 @@ function OfficeBookingManage(props) {
                             </tr>
                         </BookedThead>
                         <tbody>
-                            {bookingOffices.map((bookingOffice, index) => 
+                            {bookingOffices.length === 0 ?
+                                <NoLineTr>
+                                    <td colSpan={6}>예약 내역이 없습니다.</td>
+                                </NoLineTr> :
+                                bookingOffices.map((bookingOffice, index) =>
                                 <OfficeBookingManageCell 
                                     key={index} 
                                     id={bookingOffice.id}

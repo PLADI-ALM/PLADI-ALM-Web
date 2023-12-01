@@ -7,6 +7,7 @@ import MyInfoIcon from "assets/images/sidebarIcon/MyInfoIcon.svg"
 import LocationIcon from "assets/images/Location.svg"
 import MoreIcon from "assets/images/triple_dot_icon_black.svg";
 import EmptyImg from "assets/images/EmptyImg.svg"
+import {EquipmentMoreModal} from "../modal/EquipmentMoreModal";
 
 // 카드 박스
 export const Card = styled.div`
@@ -16,6 +17,7 @@ export const Card = styled.div`
   border: 1px solid #E6E6E6;
   box-sizing: border-box;
   padding: 15px;
+  position: relative;
 `
 
 // 상단줄 컨테이너
@@ -24,11 +26,13 @@ const TopContainer = styled.div`
   align-items: center;
   justify-content: space-between;
   margin-bottom: 10px;
+  position: relative;
 `
 
 const TopGatherContainer = styled.div`
   display: flex;
   align-items: center;
+  position: relative;
 `
 
 // 비품명 컨테이너
@@ -79,6 +83,10 @@ function EquipmentInfo(props) {
                 <TopGatherContainer>
                     <MiniCapsule color="purple" text={props.category}/>
                     <MoreBtn src={MoreIcon} onClick={openMoreModalHandler}/>
+                    {
+                        isOpen &&
+                        <EquipmentMoreModal id={props.equipmentId}/>
+                    }
                 </TopGatherContainer>
             </TopContainer>
 

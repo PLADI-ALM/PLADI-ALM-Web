@@ -9,8 +9,6 @@ export const MoreModalView = styled.div`
   display: flex;
   align-items: center;
   flex-direction: column;
-  position: absolute;
-  right: 3%;
   border-radius: 10px;
   background-color: #ffffff;
   box-sizing: border-box;
@@ -19,12 +17,22 @@ export const MoreModalView = styled.div`
   padding: 0 5px;
 `
 
+export const UserMoreModalView = styled(MoreModalView)`
+  position: absolute;
+  right: 3%;
+`
+
+export const EquipmentMoreModalView = styled(MoreModalView)`
+  position: absolute;
+  right: 3%;
+  top: 30px;
+`
+
 export const NormalDiv = styled.div`
   display: flex;
   align-items: center;
   padding: 10px;
   color: #545F71;
-  
 `
 
 export const RedDiv = styled(NormalDiv)`
