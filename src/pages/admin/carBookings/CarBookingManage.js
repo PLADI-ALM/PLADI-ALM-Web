@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {RightContainer, TitleText, WhiteContainer} from "components/rightContainer/RightContainer";
-import {Bar, BookedTable, BookedThead, TableContainer} from "../../basic/myBookings/BookedList";
+import {Bar, BookedTable, BookedThead, NoLineTr, TableContainer} from "../../basic/myBookings/BookedList";
 import CarBookingManageCell from "./CarBookingManageCell";
 import {AdminBookingAxios} from "api/AxiosApi";
 import {getToken} from "utils/IsLoginUtil";
@@ -44,7 +44,11 @@ function CarBookingManage(props) {
                             </tr>
                         </BookedThead>
                         <tbody>
-                            {carBookings.map(carBooking =>
+                            {carBookings.length === 0 ?
+                                <NoLineTr>
+                                    <td colSpan={6}>예약 내역이 없습니다.</td>
+                                </NoLineTr> :
+                                carBookings.map(carBooking =>
                                 <CarBookingManageCell
                                     key={carBooking.id}
                                     id={carBooking.id}

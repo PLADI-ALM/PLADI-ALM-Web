@@ -1,9 +1,9 @@
 import React, {useState} from 'react';
-import {MenuText, MoreModalView, NormalDiv, RedDiv} from "../../../components/modal/MoreModal";
-import {UserModal} from "../../../components/modal/UserModal";
-import {AdminUsersAxios} from "../../../api/AxiosApi";
-import {getToken} from "../../../utils/IsLoginUtil";
-import {basicError} from "../../../utils/ErrorHandlerUtil";
+import {MenuText, NormalDiv, RedDiv, UserMoreModalView} from "./MoreModal";
+import {UserModal} from "./UserModal";
+import {AdminUsersAxios} from "../../api/AxiosApi";
+import {getToken} from "../../utils/IsLoginUtil";
+import {basicError} from "../../utils/ErrorHandlerUtil";
 
 export function UserMoreModal(props) {
     const [isOpen, setIsOpen] = useState(false)
@@ -33,14 +33,14 @@ export function UserMoreModal(props) {
 
     return (
         <>
-            <MoreModalView onClick={(e) => e.stopPropagation()}>
+            <UserMoreModalView onClick={(e) => e.stopPropagation()}>
                 <NormalDiv>
                     <MenuText onClick={editUser}>정보 수정</MenuText>
                 </NormalDiv>
                 <RedDiv>
                     <MenuText onClick={deleteUser}>탈퇴 처리</MenuText>
                 </RedDiv>
-            </MoreModalView>
+            </UserMoreModalView>
             {isOpen ?
                 <UserModal id={props.id} handler={openModalHandler} title={"직원 정보 수정"}/>
                 : null

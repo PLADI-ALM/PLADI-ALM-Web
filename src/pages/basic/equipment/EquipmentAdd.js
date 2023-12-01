@@ -11,7 +11,7 @@ import {ExitBtn} from "components/modal/BigModal";
 import axios from "axios";
 import {useParams} from "react-router-dom";
 import {getImgKey} from "utils/ImageUtil";
-import {DropBox} from "components/capsule/DropBox";
+import {DropBox, SelectToggleInModal} from "components/capsule/DropBox";
 
 const MarginWhiteContainer = styled(WhiteContainer)`
   padding: 40px;
@@ -178,11 +178,16 @@ function EquipmentManageAdd(props) {
             })
     }
     useEffect(() => {
-        getCategoryList();
         if (equipmentId !== undefined) {
             getEquipmentInfo();
+        } else {
+            getCategoryList();
         }
     }, [])
+    useEffect(() => {
+        if (category != null)
+            getCategoryList();
+    }, [category])
 
     // 카테고리 리스트 검색
     const getCategoryList = () => {
@@ -195,9 +200,10 @@ function EquipmentManageAdd(props) {
                 let categories = Response.data.data.categoryNames
                 if (categoryOptionList.length === 0) {
                     setCategoryOptionList((prevList) => [...prevList, <option value="">선택</option>])
-                    categories.map((category) =>
+                    categories.map((c) =>
                         setCategoryOptionList((prevList) => [...prevList,
-                            <option value={category}>{category}</option>]))
+                            <option selected={category === c ? 'selected' : null} value={c}>{c}</option>])
+                    )
                 }
             })
             .catch((error) => {
@@ -329,7 +335,11 @@ function EquipmentManageAdd(props) {
 
                 <ShortColumnContainer>
                     <TitleLabel>카테고리</TitleLabel>
-                    <DropBox name='category' height={"40px"} items={categoryOptionList} change={onChangeInput} color={'#E6E6E6'}/>
+                    <SelectToggleInModal name='category'
+                                         height={"40px"}
+                                         items={categoryOptionList}
+                                         change={onChangeInput}
+                                         value={category}/>
                 </ShortColumnContainer>
 
                 <DescriptionContainer>

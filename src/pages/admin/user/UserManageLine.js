@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {BookedLineTr} from 'pages/basic/myBookings/BookedList';
 import {RoleCapsule} from 'components/capsule/RoleCapsule';
 import MoreIcon from 'assets/images/moreIcon.svg'
-import {UserMoreModal} from "./UserMoreModal";
+import {UserMoreModal} from "../../../components/modal/UserMoreModal";
 import {MoreBtn} from "../../../components/modal/MoreModal";
 
 

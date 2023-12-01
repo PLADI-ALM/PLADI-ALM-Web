@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {RightContainer, TitleText, WhiteContainer} from "components/rightContainer/RightContainer";
-import {Bar, BookedTable, BookedThead, TableContainer} from "../../basic/myBookings/BookedList";
+import {Bar, BookedTable, BookedThead, NoLineTr, TableContainer} from "../../basic/myBookings/BookedList";
 import ResourceBookingManageCell from "./ResourceBookingManageCell";
 import {AdminBookingAxios} from "api/AxiosApi";
 import {getToken} from "utils/IsLoginUtil";
@@ -46,7 +46,11 @@ function ResourceBookingManage(props) {
                             </tr>
                         </BookedThead>
                         <tbody>
-                            {bookingResources.map((bookingResource, index) => 
+                            {bookingResources.length === 0 ?
+                                <NoLineTr>
+                                    <td colSpan={6}>예약 내역이 없습니다.</td>
+                                </NoLineTr> :
+                                bookingResources.map((bookingResource, index) =>
                                 <ResourceBookingManageCell
                                     key={index}
                                     id={bookingResource.id}
