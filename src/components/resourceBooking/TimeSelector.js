@@ -1,7 +1,7 @@
 import styled from "styled-components"
 import React, {useEffect, useState} from "react";
 import {ResourceTimeList} from "../../constants/ToggleList";
-import {ResourcesAxios} from "../../api/AxiosApi";
+import {CarsAxios, ResourcesAxios} from "../../api/AxiosApi";
 import {getToken} from "../../utils/IsLoginUtil";
 import {basicError} from "../../utils/ErrorHandlerUtil";
 
@@ -35,7 +35,7 @@ export const TimeCard = styled.li`
     background: #BDBDBD;
     cursor: default;
   }
-  
+
   &.disabled:hover {
     background: #BDBDBD;
     color: #4c4c4c;
@@ -57,7 +57,10 @@ export function TimeSelector(props) {
     const [bookedTimes, setBookedTimes] = useState([]);
 
     useEffect(() => {
-        getResourceBookedDates(currentDate, props.resourceId)
+        if (props.resourceId)
+            getResourceBookedDates(currentDate, props.resourceId)
+        else if (props.carId)
+            getCarBookedDates(currentDate, props.carId)
     }, [currentDate]);
 
     const clickHandler = (time) => {
@@ -93,6 +96,27 @@ export function TimeSelector(props) {
             });
     }
 
+    const getCarBookedDates = (date, carId) => {
+        const params = {date: date};
+        CarsAxios.get(`/${carId}/booking-time`, {
+            params, headers: {
+                Authorization: getToken()
+            }
+        })
+            .then((Response) => {
+                var temp = [];
+                Response.data.data.map(function (time) {
+                    temp.push(time)
+                })
+                setBookedTimes(temp)
+            })
+            .catch((Error) => {
+                basicError(Error)
+                window.alert("예약 정보를 불러올 수 없습니댜.")
+                window.history.back()
+            });
+    }
+
     return (
         <TimeContainer>
             {
@@ -102,7 +126,8 @@ export function TimeSelector(props) {
                             onMouseOver={() => props.onMouseOver(time, currentDate)}
                             className={'disabled'}>{time}</TimeCard>)
                     else
-                        return (<TimeCard onClick={() => clickHandler(time)}>{time}</TimeCard>)
+                        return (<TimeCard onClick={() => clickHandler(time)}
+                                          onMouseOver={() => props.onMouseOver(time, null)}>{time}</TimeCard>)
                 })
             }
         </TimeContainer>

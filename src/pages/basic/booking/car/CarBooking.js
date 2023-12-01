@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import styled from "styled-components"
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
@@ -16,15 +16,22 @@ import SmallButton from 'components/button/SmallButton';
 import {Bar} from 'pages/basic/myBookings/BookedList';
 import {getToken} from 'utils/IsLoginUtil';
 import ResourceDetailInfo from "components/card/ResourceDetailInfo";
+import {setDate, TimeSelector} from "components/resourceBooking/TimeSelector";
+import {BookingProductInfosModal} from "components/modal/BookingInfoModal";
 
-var startDate = '';
-var endDate = '';
+export const BookingDateTimeContainer = styled.div`
+  margin-left: 10px;
+  color: #575757;
+  font-size: 22px;
+  text-align: left;
+`
 
 export const BookingDateText = styled.text`
   padding-left: 10px;
   color: #575757;
   font-size: 22px;
   text-align: left;
+  line-height: 34px;
 `
 
 export const PurposeTextarea = styled.textarea`
@@ -40,23 +47,31 @@ export const PurposeTextarea = styled.textarea`
 `
 
 export const BookingDateContainer = styled.div`
-  padding-top: 7%;
+  margin-top: 15px;
+  display: flex;
+  height: 250px;
 `
 
 export const DateContainer = styled.div`
-  padding-left: 1%;
+  margin-left: 10px;
 `
 
-var currentMonth = moment(new Date()).format('YYYY-MM')
+let currentMonth = moment(new Date()).format('YYYY-MM');
 
 function CarBooking(props) {
     let {carId} = useParams();
 
     const [carInfo, setCarInfo] = useState([]);
     const [dates, setBookedDates] = useState([]);
-    var [start, setStartDate] = useState();
-    var [end, setEndDate] = useState();
+    const [selectedDate, setSelectedDate] = useState("");
+    var [startDate, setStartDate] = useState("");
+    var endDate = useRef("");
+    var [startTime, setStartTime] = useState("");
+    var [endTime, setEndTime] = useState("");
     const [changed, setCurrentMonth] = useState();
+    const [isOpen, setIsOpen] = useState(false)
+    const [bookingInfos, setBookingInfos] = useState([])
+    const [clickedDate, setClickedDate] = useState(null);
 
     const getCarInfo = () => {
         CarsAxios.get(`/${carId}`, {
@@ -69,15 +84,13 @@ function CarBooking(props) {
             })
             .catch((Error) => {
                 basicError(Error)
-                console.log(Error)
-                window.alert("차량 정보를 불러올 수 없습니댜.")
                 window.history.back()
             });
     };
 
     const getBookedDates = () => {
         const params = {month: currentMonth};
-        ResourcesAxios.get(`/${carId}/booking-state`, {
+        CarsAxios.get(`/${carId}/booking-state`, {
             params, headers: {
                 Authorization: getToken()
             }
@@ -91,72 +104,79 @@ function CarBooking(props) {
             })
             .catch((Error) => {
                 basicError(Error)
-                console.log(Error)
-                window.alert("예약 정보를 불러올 수 없습니댜.")
                 window.history.back()
             });
     }
 
-    const changeDate = e => {
-        const startDateFormat = moment(e[0]).format("YYYY-MM-DD");
-        const endDateFormat = moment(e[1]).format("YYYY-MM-DD");
+    const changeDate = (value) => {
+        const dateFormat = moment(value).format("YYYY-MM-DD");
+        setSelectedDate(dateFormat)
+        setDate(dateFormat)
+        if (startDate === "" || (startDate !== "" && endDate.current !== "" && endTime !== "") || startTime === "" || startDate > dateFormat) {
+            setStartDate(dateFormat)
+            endDate.current = ""
+            setStartTime("")
+            setEndTime("")
+        } else {
+            endDate.current = dateFormat
+            for (var i = 0; i < dates.length; i++) {
+                var temp = new Date(dates[i])
+                temp = moment(temp).format("YYYY-MM-DD")
 
-        setStartDate(startDateFormat)
-        setEndDate(endDateFormat)
-
-        startDate = startDateFormat
-        endDate = endDateFormat
-
-        for (var i = 0; i < dates.length; i++) {
-            var temp = new Date(dates[i])
-            temp = moment(temp).format("YYYY-MM-DD")
-
-            if (startDateFormat <= temp && endDateFormat >= temp) {
-                alert('예약된 일자를 포함한 날짜는 선택할 수 없습니다.')
-                startDate = '';
-                endDate = '';
-                setStartDate(startDate)
-                setEndDate(endDate)
-                window.location.reload()
-                return
+                if (startDate <= temp && endDate.current >= temp) {
+                    alert('예약된 일자를 포함한 날짜는 선택할 수 없습니다.')
+                    setStartDate("")
+                    endDate.current = ""
+                    return
+                }
             }
         }
     };
 
+    const clickTime = (time) => {
+        if ((startDate !== "" && startTime === "") || (startDate !== "" && endDate.current === "")) {
+            setStartTime(time)
+        } else if (startDate !== "" && endDate.current !== "" && startTime !== "") {
+            setEndTime(time)
+        }
+    };
+
+    useEffect(() => {
+        if (endTime !== "" && new Date(startDate + " " + startTime) > new Date(endDate.current + " " + endTime)) {
+            alert('시작일시보다 종료일시가 더 앞에 있습니다.')
+            setEndTime("")
+        }
+    }, [endTime])
+
     const onActiveStartDateChange = (e) => {
-        const changed = moment(e.activeStartDate).format("YYYY-MM")
-        setCurrentMonth(changed)
-        currentMonth = changed
-        getBookedDates()
+        if (e.activeStartDate !== null) {
+            const changed = moment(e.activeStartDate).format("YYYY-MM")
+            setCurrentMonth(changed)
+            currentMonth = changed
+            getBookedDates()
+        }
     }
 
     const requestBookingResource = () => {
         var bookingPurpose = document.getElementById("bookingPurpose").value;
 
         if (window.confirm("예약하시겠습니까?")) {
-            ResourcesAxios.post(`/${carId}`,
+            CarsAxios.post(`/${carId}`,
                 {
-                    "endDate": endDate,
-                    "memo": bookingPurpose,
-                    "startDate": startDate
+                    memo: bookingPurpose,
+                    startDateTime: startDate + " " + startTime.slice(0, 2),
+                    endDateTime: endDate.current + " " + endTime.slice(0, 2)
                 },
                 {
                     headers: {Authorization: getToken()}
                 },
             )
                 .then(function (response) {
-                    if (response.data.status === '200') {
-                        alert('예약에 성공하였습니다!')
-                    } else {
-                        alert(response.data.message);
-                    }
+                    alert('예약에 성공하였습니다!')
                     window.location.reload()
                 })
                 .catch((Error) => {
                     basicError(Error)
-                    console.log(Error)
-                    window.alert("차량 예약에 실패하였습니다.")
-                    window.history.back()
                 });
         }
     }
@@ -165,6 +185,80 @@ function CarBooking(props) {
         getCarInfo()
         getBookedDates()
     }, []);
+
+    useEffect(() => {
+        if (clickedDate !== null)
+            handleDateMouseEnter(clickedDate)
+    }, [clickedDate])
+
+    function formatDate(dateString) {
+        // 한글 문자 제거
+        const cleanedDateString = dateString.replace(/[년월일]/g, '');
+        const originalDate = new Date(cleanedDateString);
+
+        // 월과 일을 가져와서 두 자리로 포맷팅
+        const month = ('0' + (originalDate.getMonth() + 1)).slice(-2);
+        const day = ('0' + originalDate.getDate()).slice(-2);
+
+        // 년-월-일 형식으로 조합
+        return `${originalDate.getFullYear()}-${month}-${day}`;
+    }
+
+    // 일자에 마우스 오버
+    const handleDateMouseEnter = (date) => {
+        CarsAxios.get(`/${carId}/booking-info?date=${date}`, {
+            headers: {
+                Authorization: getToken()
+            }
+        })
+            .then((Response) => {
+                const info = Response.data.data;
+                if (info === undefined) {
+                    setBookingInfos(null)
+                    setIsOpen(false)
+                } else {
+                    if (info.length === 0) {
+                        setIsOpen(false)
+                        setBookingInfos(null)
+                    } else {
+                        setIsOpen(true)
+                        setBookingInfos(info)
+                    }
+                }
+            })
+            .catch((Error) => {
+                basicError(Error)
+            });
+    }
+
+    // 시간에 마우스 오버
+    const handleTimeMouseEnter = (time, date) => {
+        if (date === null) {
+            setBookingInfos(null)
+            setIsOpen(false)
+            return
+        }
+        CarsAxios.get(`/${carId}/booking?dateTime=${date} ${time.slice(0, 2)}`, {
+            headers: {
+                Authorization: getToken()
+            }
+        })
+            .then((Response) => {
+                const info = Response.data.data;
+                if (info === []) {
+                    setBookingInfos(null)
+                    setIsOpen(false)
+                } else {
+                    setBookingInfos(info)
+                    setIsOpen(true)
+                }
+            })
+            .catch((Error) => {
+                setBookingInfos(null)
+                setIsOpen(false)
+                basicError(Error)
+            });
+    }
 
     return (
         <RightContainer>
@@ -185,14 +279,26 @@ function CarBooking(props) {
                 <BookingContentContainer>
                     <Capsule color="purple" text="예약일시"/>
                     <DateContainer>
-                        <BookingDateText>{start || "시작일"}</BookingDateText>
-                        <BookingDateText> ~ </BookingDateText>
-                        <BookingDateText>{end || "마감일"}</BookingDateText>
+                        <BookingDateTimeContainer>
+                            <BookingDateText>{
+                                startDate !== "" && startTime !== "" ?
+                                    startDate + " " + startTime : "---------- -----"}</BookingDateText>
+                            <BookingDateText> ~ </BookingDateText>
+                            <BookingDateText>{
+                                endDate.current !== "" && endTime !== "" ?
+                                    endDate.current + " " + endTime : "---------- -----"}</BookingDateText>
+                        </BookingDateTimeContainer>
 
-                        <BookingDateContainer>
+                        <BookingDateContainer
+                            onMouseOver={(event) => {
+                                if (event.target.classList.contains("react-calendar__month-view__days__day")) {
+                                    setClickedDate(formatDate(event.target.children[0].ariaLabel))
+                                }
+                            }}>
                             <Calendar className={styles}
-                                      onChange={changeDate}
-                                      selectRange={true}
+                                      onClickDay={changeDate}
+                                      goToRangeStartOnSelect={false}
+                                      value={[startDate, endDate.current]}
                                       formatDay={(locale, date) => moment(date).format("D")}
                                       minDate={new Date()}
                                       showNeighboringMonth={false}
@@ -209,10 +315,19 @@ function CarBooking(props) {
                                               date.getDate() === disabledDate.getDate()
                                           )}
                                       onActiveStartDateChange={onActiveStartDateChange}
-
                             />
+                            {
+                                startDate !== "" ?
+                                    <TimeSelector carId={carId} click={clickTime}
+                                                  onMouseOver={handleTimeMouseEnter}/>
+                                    : null
+                            }
                         </BookingDateContainer>
                     </DateContainer>
+                    {
+                        isOpen &&
+                        <BookingProductInfosModal info={bookingInfos}/>
+                    }
                 </BookingContentContainer>
 
                 <BookingPurposeContainer>
@@ -220,11 +335,9 @@ function CarBooking(props) {
                     <PurposeTextarea id='bookingPurpose' maxLength='100'/>
                 </BookingPurposeContainer>
 
-
                 <RequestButtonContainer isCheck={props.isCheck}>
                     <SmallButton name={'예약'} click={requestBookingResource}></SmallButton>
                 </RequestButtonContainer>
-
 
             </WhiteContainer>
         </RightContainer>
