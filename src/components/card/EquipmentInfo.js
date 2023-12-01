@@ -74,7 +74,7 @@ function EquipmentInfo(props) {
             <TopContainer>
                 <TopGatherContainer>
                     <EquipmentNameContainer>{props.name}</EquipmentNameContainer>
-                    <CardText>{props.quantity}개</CardText>
+                    <CardText>{props.quantity}</CardText>
                 </TopGatherContainer>
                 <TopGatherContainer>
                     <MiniCapsule color="purple" text={props.category}/>
