@@ -57,8 +57,7 @@ function EquipmentList(props) {
     const moveToAdd = () => {
         window.location.href = `/equipments/add`
     }
-
-
+    
     return (
         <RightContainer>
             <TitleText>비품 내역</TitleText>

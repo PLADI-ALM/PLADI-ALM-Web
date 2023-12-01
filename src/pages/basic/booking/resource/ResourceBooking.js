@@ -240,6 +240,11 @@ function ResourceBooking(props) {
 
     // 시간에 마우스 오버
     const handleTimeMouseEnter = (time, date) => {
+        if (date === null) {
+            setBookingInfos(null)
+            setIsOpen(false)
+            return
+        }
         ResourcesAxios.get(`/${resourceId}/booking?dateTime=${date} ${time.slice(0, 2)}`, {
             headers: {
                 Authorization: getToken()
@@ -247,7 +252,7 @@ function ResourceBooking(props) {
         })
             .then((Response) => {
                 const info = Response.data.data;
-                if (info === undefined) {
+                if (info === []) {
                     setBookingInfos(null)
                     setIsOpen(false)
                 } else {
@@ -256,6 +261,8 @@ function ResourceBooking(props) {
                 }
             })
             .catch((Error) => {
+                setBookingInfos(null)
+                setIsOpen(false)
                 basicError(Error)
             });
     }
