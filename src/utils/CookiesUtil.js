@@ -20,4 +20,6 @@ export const removeAllCookies = () => {
     Object.keys(cookieKeys).forEach(key => {
         cookies.remove(key)
     })
+
+    window.location.replace('/')
 }
