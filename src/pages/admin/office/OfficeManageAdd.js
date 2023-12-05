@@ -339,7 +339,7 @@ function OfficeManageAdd(props) {
         }
     }, [])
 
-    // 책임자 리스트 검색
+    // 시설 리스트 검색
     const getFacilityList = () => {
         AdminOfficesAxios.get(`facilities?name=${searchWord}`, {
             headers: {

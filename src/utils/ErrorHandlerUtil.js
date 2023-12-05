@@ -1,4 +1,5 @@
 import { removeTokenAndNavigate, isLogin } from "utils/IsLoginUtil"
+import {removeAllCookies} from "./CookiesUtil";
 
 // 일반 예외처리
 export function basicError(error) {
@@ -12,8 +13,7 @@ export function basicError(error) {
 
             // 토큰에러인 경우 쿠키 삭제 (토큰 에러를 두번 alert 하지 않기 위해 토큰 존재 여부 판단)
             if (String(error.response.data.code).startsWith('T')) {
-                alert(errMsg)
-                removeTokenAndNavigate()
+                removeAllCookies()
             }
         } else {
             console.log(error)
@@ -37,8 +37,7 @@ export function notLogInError(error) {
 
             // 토큰에러인 경우 쿠키 삭제 (토큰 에러를 두번 alert 하지 않기 위해 토큰 존재 여부 판단)
             if (String(error.response.data.code).startsWith('T') && isLogin()) {
-                alert(errMsg)
-                removeTokenAndNavigate()
+                removeAllCookies()
             }
         } else {
             console.log(error)

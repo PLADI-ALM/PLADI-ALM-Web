@@ -50,7 +50,7 @@ function SelectOffice(props) {
     const searchOffice = () => {
         let url = `?facilityName=${facilityName.current}`
         if (date !== "")
-            url = `?facilityName=${facilityName.current}&date=${date}&startTime=${startTime}&endTime=${endTime}`
+            url = `?facilityName=${facilityName.current}&date=${date}&startTime=${startTime}&endTime=${endTime}&size=200`
         OfficesAxios.get(url, {
             headers: {
                 Authorization: getToken()
