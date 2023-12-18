@@ -1,6 +1,7 @@
 # (주)플래디 사내 관리 페이지 Web
 <br>
-![7](https://github.com/PLADI-ALM/PLADI-ALM-Web/assets/62008784/13ca8486-13cb-4d09-8668-c3221f6b06b6)
+
+![image](https://github.com/PLADI-ALM/PLADI-ALM-Web/assets/62008784/0ecb70cf-fcae-461e-8dcd-d2d612fee0e3)
 
 ## Tech Stack
 ### Web
