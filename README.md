@@ -12,8 +12,8 @@
 <img src="https://img.shields.io/badge/npm-CB3837?style=for-the-badge&logo=npm&logoColor=white"> 
 
 ### Deploy
-<img src="https://img.shields.io/badge/Github Actions-2088FF?style=for-the-badge&logo=githubactions&logoColor=white"> <img src="https://img.shields.io/badge/S3-569A31?style=for-the-badge&logo=amazons3&logoColor=white"/> <img src="https://img.shields.io/badge/CloudFront-8C4FFF?style=for-the-badge&logoColor=white"/>
-<img src="https://img.shields.io/badge/Route53-8C4FFF?style=for-the-badge&logo=amazonroute53&logoColor=white"/>
+<img src="https://img.shields.io/badge/Github Actions-2088FF?style=for-the-badge&logo=githubactions&logoColor=white"> <img src="https://img.shields.io/badge/AWS S3-569A31?style=for-the-badge&logo=amazons3&logoColor=white"/> <img src="https://img.shields.io/badge/AWS CloudFront-8C4FFF?style=for-the-badge&logoColor=white"/>
+<img src="https://img.shields.io/badge/AWS Route53-8C4FFF?style=for-the-badge&logo=amazonroute53&logoColor=white"/>
 
 ### Develop Tool
 <img src="https://img.shields.io/badge/vscode-007ACC?style=for-the-badge&logo=visualstudiocode&logoColor=white"> <img src="https://img.shields.io/badge/InteliJ-0071C5?style=for-the-badge&logo=intellijidea&logoColor=white">
